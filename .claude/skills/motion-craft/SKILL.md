@@ -36,6 +36,17 @@ description: Standardy motion/WebGL — GSAP+Lenis+R3F, higiena pinów, wydajno�
   widoku — zweryfikowane w źródłach postprocessing/drei). „Bloom" robimy fake'iem: glow-quad
   (2 gaussy, additive) + hot-center w shaderze punktów.
 
+## Kalibracja scrubów (nowe — obowiązkowe budżety)
+- Zmiana stanu w sekcji pinowanej: ≥ 90vh scrolla na stan + snap do stanów
+  (snap: {snapTo: 'labels', duration:.4, ease:'power2.inOut'}).
+- Wejścia sekcji: start 'top 78%', once:true dla counterów/reveali jednorazowych.
+- Countery: wartość bindowana do progresu scrubu + twardy snap do wartości końcowej
+  (żadnych "—6+58" w połowie); nigdy timer równolegle do scrubu.
+- Sekwencje time-based wewnątrz stanu (typing, skan): startują dopiero gdy stan aktywny ≥ 200 ms,
+  reset przy wyjściu ze stanu; ŻADEN frame demo nie może być pusty — skeleton shimmer do czasu
+  treści.
+- Scrub: 0.8–1.0. Po każdej zmianie pinów: przebieg testowy Playwright (patrz Faza 3).
+
 ## Reduced motion + mobile
 - `prefers-reduced-motion`: bez pinów/parallax/particles (poster), zostają fade'y.
 - Mobile: particles −60%, bez mouse-reactivity, piny → wersje pionowe, custom cursor OFF.

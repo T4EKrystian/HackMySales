@@ -44,6 +44,36 @@ description: Design DNA landinga HackMySales — tokeny powierzchni, typografia 
 - Zero bibliotecznych ikon (Lucide itp.). Tylko własne mikro-glify 1.5px stroke, gdy niezbędne.
 - Reguła Chanel: przed zamknięciem sekcji usuń jeden ornament.
 
+## Chat authenticity (nowe)
+- Demo rozmów renderujemy w skinach wzorowanych na realnych komunikatorach (onsite/messenger/
+  instagram/e-mail). Wzorce UX kanału: bąble+ogonki, avatar, timestamp, read receipts, typing dots,
+  quick replies, divider "Dzisiaj", status "Aktywna teraz". BEZ logotypów kanałów wewnątrz mockupu
+  rozmowy (nazwa kanału tylko w labelu/tabie) — ewokujemy wzorzec, nie podszywamy się.
+- Persona: rozmowy prowadzi doradczyni z imieniem i zdjęciem (patrz Asety) + mała plakietka "AI"
+  w headerze (spójność z FAQ "Czy klienci wiedzą, że rozmawiają z AI?"). Bot: zero emoji,
+  zero wykrzykników. KLIENT może pisać naturalnie: literówki, mała litera, max 1 emoji — to
+  uwiarygadnia demo.
+- Rytm pisania: 40–70 ms/znak + pauza 250–400 ms po interpunkcji; typing indicator 600–900 ms
+  przed odpowiedzią bota.
+
+## Fotografia produktowa (nowe)
+- ZAKAZ inicjałów/ilustracji tam, gdzie klient spodziewa się zdjęcia produktu. Używamy realnych
+  fotografii (packshoty, neutralne tło) z Pexels/Unsplash (licencje: użycie komercyjne bez atrybucji).
+- Spójny grade dla wszystkich: crop 1:1, delikatna desaturacja −8%, wspólna temperatura, winieta 3%.
+  Format: /public/products/<slug>.webp 800×800 q80 + wariant 112px na thumby. Manifest products.json
+  (slug, nazwa, cena, alt).
+- Portret doradczyni: przyjazny headshot, neutralne tło, crop kołowy 96px; ta sama osoba w CAŁYM
+  serwisie.
+
+## Particles doctrine (nowe)
+- Jedno globalne ambient field na fixed canvasie przez CAŁĄ stronę: 300–500 pkt (desktop),
+  rozmiar 1–2 px, opacity ≤ .35, kolor akcent-dim, powolny dryf (bez kierunku „śledzenia").
+- Modulacje per sekcja przez uniformy sterowane scrollem (gęstość/tinta/zachowanie), niżej mapa.
+- Strefy wyłączenia: pod kolumnami tekstu gęstość −70% (maska radialna od content-boxów) —
+  cząstki są TŁEM, nigdy nie konkurują z czytaniem.
+- ZAKAZ: cursor-trail (cząstki podążające za kursorem), bursty na klik, konfetti. Reakcja na mysz
+  WYŁĄCZNIE w hero (subtelna repulsja rdzenia) — reszta strony ignoruje kursor.
+
 ## Znak
 - Kanon: dymek czatu + 3 słupki (brand.md) — NIE redesignować w ramach polish passów.
 - Favicon = uproszczony wariant znaku; kolory zawsze hardcoded hex (favicon nie widzi CSS strony).

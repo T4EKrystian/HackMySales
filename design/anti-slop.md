@@ -12,8 +12,10 @@ Bramka jakości. Przed oddaniem każdej sekcji przejdź listę. Jedno „tak” 
 - Copy-frazesy: „Odkryj moc AI”, „Wynieś sprzedaż na wyższy poziom”, „W dzisiejszych czasach…”, „Rewolucja w e-commerce”. Pełna lista: `content/copy-pl.md` §14.
 - Wszystko idealnie wycentrowane, każda sekcja: nagłówek-środek + 3 karty. Monotonia rytmu = AI.
 - `border-radius` inny w każdym elemencie; cienie w 5 wariantach; 4 odcienie niebieskiego „na oko” zamiast tokenów.
-- Zdjęcia ludzi ze stocka („uśmiechnięta kobieta ze słuchawką”).
-- Fikcyjne opinie klientów, wymyślone loga firm, gwiazdki 4.9 bez źródła. Placeholder ≠ kłamstwo: sekcje na dowody zostają ukryte, dopóki nie będzie prawdziwych danych.
+- Zdjęcia ludzi ze stocka („uśmiechnięta kobieta ze słuchawką”). *Wyjątek (v5, decyzja klienta):
+  avatar PERSONY AI w mockupach rozmów — zawsze z plakietką „AI” przy imieniu, ta sama twarz
+  w całym serwisie, nigdy jako „opinia klienta”/zdjęcie zespołu.*
+- Fikcyjne opinie klientów, wymyślone loga firm, gwiazdki 4.9 bez źródła. Placeholder ≠ kłamstwo: sekcje na dowody zostają ukryte, dopóki nie będzie prawdziwych danych. *Doprecyzowanie (v5): REALNE monochromatyczne logotypy platform z listy integracji (deck §7) są dozwolone i wskazane (nominative use) — zakaz dotyczy zmyślonych „klientów”.*
 - Lorem ipsum w jakiejkolwiek formie.
 
 ## WYMAGANE (to buduje wrażenie „ręcznej roboty”)

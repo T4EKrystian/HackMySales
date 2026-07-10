@@ -471,6 +471,7 @@ Lockup logo + tagline: AI CHATBOT & RECOMMENDATIONS THAT INCREASE SALES
 ## 14. Słowa zakazane w całym serwisie
 
 rewolucyjny, przełomowy, innowacyjny, magia/magiczny, odkryj moc, wynieś na wyższy poziom, supercharge, game-changer, ekosystem, synergia, „w dzisiejszych czasach”, „szybko zmieniający się świat”. Zero emoji. Zero wykrzykników (wyjątek: max 1 na stronę, w microcopy sukcesu).
+*Przypis (v5, hms-design-dna „Chat authenticity”): w bąblach KLIENTA w demach rozmów dozwolone jest naturalne pisanie (literówki, mała litera, max 1 emoji) — zakaz emoji/entuzjazmu obowiązuje bota i cały głos marki bez zmian. Obecne scenariusze §1/§3c emoji nie mają i nie dostają.*
 
 ### Rozszerzenie 2026-07-10 — tiki AI (struktury zakazane)
 
