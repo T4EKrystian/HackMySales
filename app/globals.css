@@ -278,7 +278,7 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.fade-in-panel { animation: fade-up-in 300ms var(--ease-out); }
+.fade-in-panel { animation: fade-up-in 240ms var(--ease-out); } /* V6: crossfade ≤250 ms */
 .fade-in-fast { animation: fade-up-in 220ms var(--ease-out); }
 @media (prefers-reduced-motion: reduce) {
   .fade-in-panel, .fade-in-fast { animation: none; }

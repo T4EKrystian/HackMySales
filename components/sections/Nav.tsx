@@ -37,6 +37,27 @@ export function Nav() {
     });
   }, []);
 
+  // Active-section indicator (V6-F5.1): IO po sekcjach z id — podkreślenie linku
+  const [activeId, setActiveId] = useState("");
+  useEffect(() => {
+    const ids = t.links.map((l) => l.href.slice(1));
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    if (!els.length) return;
+    // mapa stanów WSZYSTKICH obserwowanych — między kotwicami wskaźnik gaśnie
+    // (pojedynczy batch IO nie niesie pełnego obrazu; bez mapy „zamarzał")
+    const state = new Map<string, boolean>(ids.map((id) => [id, false]));
+    const io = new IntersectionObserver(
+      (ents) => {
+        ents.forEach((e) => state.set(e.target.id, e.isIntersecting));
+        const current = ids.find((id) => state.get(id));
+        setActiveId(current ?? "");
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [t.links]);
+
   // Scramble-hover linków + magnetic CTA (tylko desktop z myszą)
   useGSAP(
     () => {
@@ -137,11 +158,21 @@ export function Nav() {
         </a>
 
         <nav aria-label="Główna" className="hidden items-center gap-8 md:flex">
-          {t.links.map((l) => (
-            <a key={l.href} href={l.href} className="nav-link text-sm text-sub hover:text-ink">
-              <span className="nav-scramble">{l.label}</span>
-            </a>
-          ))}
+          {t.links.map((l) => {
+            const isActive = activeId === l.href.slice(1);
+            return (
+              <a
+                key={l.href}
+                href={l.href}
+                aria-current={isActive ? "true" : undefined}
+                className={`nav-link relative text-sm transition-colors duration-150 hover:text-ink after:absolute after:-bottom-1.5 after:left-0 after:h-px after:bg-blue after:transition-[width] after:duration-200 ${
+                  isActive ? "text-ink after:w-full" : "text-sub after:w-0"
+                }`}
+              >
+                <span className="nav-scramble">{l.label}</span>
+              </a>
+            );
+          })}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">

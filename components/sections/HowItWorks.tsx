@@ -116,6 +116,14 @@ export function HowItWorks() {
         const dots = gsap.utils.toArray<HTMLElement>(".how-progress-dot", root);
         if (!stage || !track || panels.length < 3) return;
 
+        // Krok 01: treść gra RAZ, time-based, przy wejściu w pin — stan spoczynku s0
+        // (snap!) to KOMPLETNA karta. Scrub-bound start zostawiał na snapie pustą ramkę,
+        // a chip „zainstalowano" (at+1.6) wypadał, gdy panel 01 już wyjeżdżał.
+        const p0 = gsap.timeline({ paused: true });
+        gsap.set(panels[0].querySelectorAll(".how-code-ok"), { autoAlpha: 0 });
+        animatePanelContent(p0, panels[0], 0);
+        let p0played = false;
+
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: {
@@ -126,6 +134,12 @@ export function HowItWorks() {
             end: "+=280%",
             scrub: 0.8,
             snap: { snapTo: "labels", duration: 0.4, ease: "power2.inOut" },
+            onToggle(self) {
+              if (self.isActive && !p0played) {
+                p0played = true;
+                p0.play();
+              }
+            },
             onUpdate(self) {
               const idx = Math.min(2, Math.floor(self.progress * 3));
               dots.forEach((d, i) => d.setAttribute("data-active", String(i <= idx)));
@@ -135,7 +149,10 @@ export function HowItWorks() {
 
         tl.to(track, { xPercent: -66.666, duration: 3 }, 0);
         if (fill) tl.fromTo(fill, { scaleX: 0 }, { scaleX: 1, duration: 3, transformOrigin: "left" }, 0);
-        panels.forEach((p, i) => animatePanelContent(tl, p, i * 1.0 + 0.25));
+        // Kroki 02/03: okna scrubu domknięte PRZED etykietą spoczynku (s1=1.5, s2=3) —
+        // na snapie karta zawsze pełna, nigdy w połowie odsłonięta.
+        animatePanelContent(tl, panels[1], 0.7);
+        animatePanelContent(tl, panels[2], 2.3);
         // stany krok 1/2/3 = track w pozycjach 0 / −33% / −66% (spójnie z dawnym snapTo [0,.5,1])
         tl.addLabel("s0", 0).addLabel("s1", 1.5).addLabel("s2", 3);
       });

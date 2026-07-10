@@ -98,9 +98,10 @@ export function FinalCta() {
   return (
     <section ref={ref} id="demo" className="relative overflow-hidden">
       <div className="glow-bg absolute inset-x-0 bottom-0 h-full rotate-180" aria-hidden="true" />
-      {/* Scena `converge` — cząstki zbiegają się ku centrum sekcji */}
-      {/* środek sceny = strefa formularza (cząstki zbiegają się KU inputowi) */}
-      <div ref={glRef} aria-hidden="true" className="pointer-events-none absolute inset-x-[-10%] top-[22%] bottom-[-30%]" />
+      {/* Scena `converge` — cząstki zbiegają się w płaską elipsę („lądowisko")
+          PONIŻEJ microcopy: pas przesunięty w pustą strefę dołu sekcji, żeby
+          elipsa nie przecinała tekstu (v6r-20/21: kolizja z „Odpowiadamy…"). */}
+      <div ref={glRef} aria-hidden="true" className="pointer-events-none absolute inset-x-[-10%] top-[34%] bottom-[-42%]" />
 
       <Container className="relative max-w-[760px] py-28 text-center md:py-40">
         <h2

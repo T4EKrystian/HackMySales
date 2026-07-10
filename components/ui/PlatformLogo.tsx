@@ -41,7 +41,8 @@ export function PlatformLogo({
           <path d={path} />
         </svg>
       )}
-      <span className="font-display font-semibold tracking-tight">{name}</span>
+      {/* wordmark w Inter (font body) — „czysty wordmark, nie pseudo-logo" (V6-F5.4) */}
+      <span className="font-sans font-medium tracking-tight">{name}</span>
     </span>
   );
 }
