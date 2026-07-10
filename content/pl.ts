@@ -578,6 +578,10 @@ const raw = {
       },
     ],
     note: "Bez karty na start. Przekroczysz limit rozmów? Nic nie wyłączamy — dogadamy plan.",
+    // §9b — progressive disclosure
+    moreLabel: "Pełne porównanie",
+    lessLabel: "Zwiń",
+    visibleRows: 5,
   },
 
   faq: {
@@ -640,6 +644,11 @@ const raw = {
       server: "Coś poszło nie tak po naszej stronie. Spróbuj za chwilę albo napisz: kontakt@hackmysales.pl.",
     },
     success: "Jest! Sprawdzimy Twój sklep i odezwiemy się w 1 dzień roboczy.",
+    // §11b — sekwencja po adresie (teatr bez kłamstwa)
+    scan: {
+      accepted: "adres przyjęty:",
+      steps: ["przygotujemy demo z Twoim katalogiem", "zostaw e-mail — odezwiemy się w 1 dzień roboczy"],
+    },
   },
 
   footer: {

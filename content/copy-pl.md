@@ -367,6 +367,13 @@ badge „Dane w UE · RODO”. Prawa: podgląd czatu, który zmienia odpowiedź 
 CTA w każdej karcie: `Testuj 14 dni za darmo` (Start/Growth) · `Porozmawiajmy` (Scale)
 **Dopisek:** Bez karty na start. Przekroczysz limit rozmów? Nic nie wyłączamy — dogadamy plan.
 
+### 9b. Forma v3 cennika
+
+Karty: spotlight + lift na hover; plan polecany z border-beam (świetlik po obrysie).
+Progressive disclosure: widocznych 5 pierwszych pozycji, reszta pod `Pełne porównanie` / `Zwiń`.
+Przełącznika Miesięcznie/Rocznie NIE budujemy — deck nie definiuje cen rocznych (uczciwość > ozdoba);
+wraca na stół razem z prawdziwym cennikiem.
+
 ---
 
 ## 10. FAQ
@@ -418,6 +425,14 @@ Tak: ton, zakres tematów, zasady rabatowania, produkty wykluczone z rekomendacj
 
 Formularz: `Adres Twojego sklepu` (placeholder: twojsklep.pl) · `Twój e-mail` · przycisk `Umów demo`
 **Pod formularzem:** Odpowiadamy w 1 dzień roboczy. Bez spamu, bez „sekwencji sprzedażowych”.
+
+### 11b. Sekwencja po podaniu adresu (v3 — teatr bez kłamstwa)
+
+Po walidacji adresu (~2 s, lokalnie; w tle cząstki rdzenia zbiegają się ku formularzowi):
+- „✓ adres przyjęty: [domena]” *(echo tego, co wpisał użytkownik — zero udawanej detekcji)*
+- „→ przygotujemy demo z Twoim katalogiem” *(1:1 z leadu §11)*
+- „→ zostaw e-mail — odezwiemy się w 1 dzień roboczy” *(1:1 z dopisku §11)*
+Potem odsłania się pole e-mail. Reduced-motion / brak JS: klasyczny formularz z dwoma polami od razu.
 
 ---
 

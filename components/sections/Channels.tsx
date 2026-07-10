@@ -119,8 +119,9 @@ export function Channels() {
     );
   };
 
+  // bez bg-surface — mini-rdzeń rysuje się na globalnym canvasie pod treścią
   return (
-    <section ref={scope} id="kanaly" className="section-pad bg-surface">
+    <section ref={scope} id="kanaly" className="section-pad">
       <Container>
         <div ref={headRef}>
           <SectionLabel num="05">{t.label}</SectionLabel>

@@ -1,14 +1,125 @@
 "use client";
 
-import { Check, Minus } from "lucide-react";
+import { useRef, useState } from "react";
+import { Check, ChevronDown, Minus } from "lucide-react";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { useReveal } from "@/lib/motion";
 
+/** Cennik v3 (copy §9 + §9b): spotlight + lift na hover, border-beam na planie
+ *  polecanym, progressive disclosure featureów (5 + „Pełne porównanie").
+ *  Bez przełącznika rocznego — deck nie definiuje cen rocznych. */
+
+function PlanCard({
+  plan,
+  expanded,
+  onToggle,
+}: {
+  plan: (typeof pl.pricing.plans)[number];
+  expanded: boolean;
+  onToggle: () => void;
+}) {
+  const t = pl.pricing;
+  const ref = useRef<HTMLDivElement>(null);
+
+  const onMove = (e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--spot-x", `${(((e.clientX - r.left) / r.width) * 100).toFixed(1)}%`);
+    el.style.setProperty("--spot-y", `${(((e.clientY - r.top) / r.height) * 100).toFixed(1)}%`);
+    el.style.setProperty("--spot-o", "1");
+  };
+  const onLeave = () => ref.current?.style.setProperty("--spot-o", "0");
+
+  const featureRow = (label: string, i: number) => {
+    const val = plan.features[i];
+    const off = val === "no";
+    return (
+      <li key={label} className={`flex items-center justify-between gap-3 text-sm ${off ? "text-mute" : "text-sub"}`}>
+        <span className="flex items-center gap-2.5">
+          {off ? (
+            <Minus size={15} strokeWidth={1.75} className="shrink-0 text-mute" aria-hidden="true" />
+          ) : (
+            <Check size={15} strokeWidth={2} className="shrink-0 text-blue" aria-hidden="true" />
+          )}
+          {label}
+          {off && <span className="sr-only">— niedostępne w tym planie</span>}
+        </span>
+        {val !== "yes" && val !== "no" && <span className="num shrink-0 text-xs text-ink">{val}</span>}
+      </li>
+    );
+  };
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      className={`js-reveal spot-card relative rounded-[var(--radius-lg)] border bg-card p-8 transition-transform duration-300 hover:-translate-y-1 ${
+        plan.featured ? "border-beam border-blue shadow-cta lg:-mt-3 lg:mb-3" : "border-hairline"
+      }`}
+      style={{ transitionTimingFunction: "var(--ease-out)" }}
+    >
+      {"badge" in plan && plan.badge && (
+        <p className="absolute -top-3 left-8 z-10 rounded-full bg-blue px-3 py-1 text-xs font-medium text-onblue">
+          {plan.badge}
+        </p>
+      )}
+      <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{plan.name}</h3>
+      <p className="mt-4 text-ink">
+        <span
+          className={
+            plan.period ? "num text-3xl font-bold tracking-tight" : "font-display text-2xl font-semibold tracking-tight"
+          }
+        >
+          {plan.price}
+        </span>
+        {plan.period && <span className="num text-base text-sub">{plan.period}</span>}
+      </p>
+      <p className="mt-1 text-sm text-mute">{plan.audience}</p>
+
+      <ul className="mt-7 flex flex-col gap-3 border-t border-hairline pt-7">
+        {t.featureLabels.slice(0, t.visibleRows).map((label, i) => featureRow(label, i))}
+      </ul>
+
+      {/* Pełne porównanie — progressive disclosure (§9b) */}
+      <div
+        className="grid transition-[grid-template-rows] duration-300"
+        style={{ gridTemplateRows: expanded ? "1fr" : "0fr", transitionTimingFunction: "var(--ease-out)" }}
+      >
+        <div className="overflow-hidden">
+          <ul className="flex flex-col gap-3 pt-3">
+            {t.featureLabels.slice(t.visibleRows).map((label, i) => featureRow(label, i + t.visibleRows))}
+          </ul>
+        </div>
+      </div>
+      <button
+        onClick={onToggle}
+        aria-expanded={expanded}
+        className="mt-4 flex items-center gap-1.5 text-xs font-medium text-mute transition-colors duration-150 hover:text-sub"
+      >
+        {expanded ? t.lessLabel : t.moreLabel}
+        <ChevronDown
+          size={13}
+          strokeWidth={2}
+          aria-hidden="true"
+          className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      <Button href="#demo" variant={plan.featured ? "primary" : "ghost"} size="md" className="mt-6 w-full">
+        {plan.cta}
+      </Button>
+    </div>
+  );
+}
+
 export function Pricing() {
   const t = pl.pricing;
   const ref = useReveal<HTMLElement>(0.08);
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <section ref={ref} id="cennik" className="section-pad bg-surface">
@@ -21,58 +132,7 @@ export function Pricing() {
 
         <div className="mt-14 grid items-start gap-5 lg:grid-cols-3">
           {t.plans.map((plan) => (
-            <div
-              key={plan.name}
-              className={`js-reveal relative rounded-[var(--radius-lg)] border bg-card p-8 ${
-                plan.featured ? "border-blue shadow-cta lg:-mt-3 lg:mb-3" : "border-hairline"
-              }`}
-            >
-              {"badge" in plan && plan.badge && (
-                <p className="absolute -top-3 left-8 rounded-full bg-blue px-3 py-1 text-xs font-medium text-onblue">
-                  {plan.badge}
-                </p>
-              )}
-              <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{plan.name}</h3>
-              <p className="mt-4 text-ink">
-                {plan.price.startsWith("[") ? (
-                  <span className="num text-3xl font-bold tracking-tight">{plan.price}</span>
-                ) : (
-                  <span className="font-display text-2xl font-semibold tracking-tight">{plan.price}</span>
-                )}
-                {plan.period && <span className="num text-base text-sub">{plan.period}</span>}
-              </p>
-              <p className="mt-1 text-sm text-mute">{plan.audience}</p>
-
-              <ul className="mt-7 flex flex-col gap-3 border-t border-hairline pt-7">
-                {t.featureLabels.map((label, i) => {
-                  const val = plan.features[i];
-                  const off = val === "no";
-                  return (
-                    <li key={label} className={`flex items-center justify-between gap-3 text-sm ${off ? "text-mute" : "text-sub"}`}>
-                      <span className="flex items-center gap-2.5">
-                        {off ? (
-                          <Minus size={15} strokeWidth={1.75} className="shrink-0 text-mute" aria-hidden="true" />
-                        ) : (
-                          <Check size={15} strokeWidth={2} className="shrink-0 text-blue" aria-hidden="true" />
-                        )}
-                        {label}
-                        {off && <span className="sr-only">— niedostępne w tym planie</span>}
-                      </span>
-                      {val !== "yes" && val !== "no" && <span className="num shrink-0 text-xs text-ink">{val}</span>}
-                    </li>
-                  );
-                })}
-              </ul>
-
-              <Button
-                href="#demo"
-                variant={plan.featured ? "primary" : "ghost"}
-                size="md"
-                className="mt-8 w-full"
-              >
-                {plan.cta}
-              </Button>
-            </div>
+            <PlanCard key={plan.name} plan={plan} expanded={expanded} onToggle={() => setExpanded((v) => !v)} />
           ))}
         </div>
 
