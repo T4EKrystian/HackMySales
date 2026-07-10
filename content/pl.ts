@@ -148,15 +148,15 @@ const raw = {
     items: [
       {
         title: "Czat, który doradza jak handlowiec",
-        body: "Nie skrypt. Nie drzewko „wybierz 1, 2 lub 3”. AI zna cały Twój katalog, stany magazynowe, cenniki, czasy dostaw i politykę zwrotów — i prowadzi klienta do koszyka jak najlepszy sprzedawca na sali. Dopyta, porówna, rozwieje wątpliwość, dorzuci kask do roweru.",
+        body: "Nie drzewko „wybierz 1, 2 lub 3”. AI zna cały katalog, stany i ceny — prowadzi klienta do koszyka, a do roweru dorzuci kask.",
       },
       {
         title: "Wyszukiwarka, która rozumie polski",
-        body: "„cos cieplego dla 5latka na narty do 200zl” — literówki, odmiana przez przypadki, potoczne nazwy, intencja. Klient pisze po swojemu, wyszukiwarka i tak wie, o co chodzi. Koniec z „brak wyników” przy pełnym magazynie.",
+        body: "„cos cieplego dla 5latka na narty do 200zl” — klient pisze po swojemu, wyszukiwarka i tak wie, o co chodzi. Koniec z „brak wyników” przy pełnym magazynie.",
       },
       {
         title: "Rekomendacje z głową do interesów",
-        body: "Podpowiada to, co klient naprawdę chce kupić — a kiedy kilka produktów pasuje tak samo, promuje ten z lepszą marżą. Dosprzedaż na karcie produktu, w koszyku i w rozmowie. Twoja księgowa zauważy różnicę.",
+        body: "Podpowiada to, co klient naprawdę chce kupić — a kiedy kilka produktów pasuje tak samo, promuje ten z lepszą marżą. Twoja księgowa zauważy różnicę.",
       },
     ],
     // Panele demo (żywe UI — treści robocze interfejsu, nie copy marketingowe)

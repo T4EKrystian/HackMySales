@@ -78,13 +78,13 @@ Mobile: hamburger, pełnoekranowe menu.
 *(Sekcja przypinana — panele przełączają się podczas scrollu, spec: `design/motion.md` §4)*
 
 **Filar 1 — Czat, który doradza jak handlowiec**
-Nie skrypt. Nie drzewko „wybierz 1, 2 lub 3”. AI zna cały Twój katalog, stany magazynowe, cenniki, czasy dostaw i politykę zwrotów — i prowadzi klienta do koszyka jak najlepszy sprzedawca na sali. Dopyta, porówna, rozwieje wątpliwość, dorzuci kask do roweru.
+Nie drzewko „wybierz 1, 2 lub 3”. AI zna cały katalog, stany i ceny — prowadzi klienta do koszyka, a do roweru dorzuci kask.
 
 **Filar 2 — Wyszukiwarka, która rozumie polski**
-„cos cieplego dla 5latka na narty do 200zl” — literówki, odmiana przez przypadki, potoczne nazwy, intencja. Klient pisze po swojemu, wyszukiwarka i tak wie, o co chodzi. Koniec z „brak wyników” przy pełnym magazynie.
+„cos cieplego dla 5latka na narty do 200zl” — klient pisze po swojemu, wyszukiwarka i tak wie, o co chodzi. Koniec z „brak wyników” przy pełnym magazynie.
 
 **Filar 3 — Rekomendacje z głową do interesów**
-Podpowiada to, co klient naprawdę chce kupić — a kiedy kilka produktów pasuje tak samo, promuje ten z lepszą marżą. Dosprzedaż na karcie produktu, w koszyku i w rozmowie. Twoja księgowa zauważy różnicę.
+Podpowiada to, co klient naprawdę chce kupić — a kiedy kilka produktów pasuje tak samo, promuje ten z lepszą marżą. Twoja księgowa zauważy różnicę.
 
 ---
 
@@ -353,4 +353,5 @@ Blok body: 15–25 słów (twardy limit 35, powyżej tylko z twardą liczbą). N
 
 ## 15. Changelog copy
 
+- **2026-07-10 · §3 Filary** — Filar 1: 45 słów → 23 („Nie skrypt.” out — jedna negacja wystarczy; wyliczenie 5 pozycji → „katalog, stany i ceny”; „jak najlepszy sprzedawca na sali” out — chwyt „handlowca” zostaje w hero i tytule filaru; triada „Dopyta, porówna, rozwieje…” out, kask zostaje jako jedyny konkret). Filar 2: 37 → 26 (meta-wyliczenie „literówki, odmiana…” out — cytat klienta już to POKAZUJE). Filar 3: 32 → 24 (mini-triada „na karcie, w koszyku i w rozmowie” out — „Twoja księgowa zauważy różnicę.” zamyka bez rozbiegu).
 - **2026-07-10 · §4 Kopalnie złota** — label „NIE KOLEJNY CZATBOT” → „KOPALNIE ZŁOTA” i nowy H2 „Sprzedawca to dopiero początek.” (dubel kontrastu czatbotowego z §4b — slot należy do „Czatbot z FAQ to nie handlowiec.”). Radar/Ratownik/Autopilot/Raport skrócone ze ścian ~40 słów do ≤27: triady i pytania retoryczne wycięte, „pieniądze leżące na stole” usunięte (kalka EN + dubel z kalkulatorem §6), karta Raportu bez własnych liczb (jedno źródło liczb: e-mail obok) i bez kawy (kawa zostaje w §5b). Panel przychodów: jeden kontrast zamiast dwóch. Cel: gęstość 15–25 słów, zero tików AI, korzyść właściciela w każdej karcie.
