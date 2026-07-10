@@ -4,6 +4,7 @@
  *  produkcją śledzi PLACEHOLDERS.md (w decku nawiasy zostają jako oznaczenie edytorskie). */
 
 import { deepNbsp } from "@/lib/typography";
+import { demo } from "@/content/demo-data";
 
 const raw = {
   nav: {
@@ -165,17 +166,17 @@ const raw = {
     h2: "Twój sklep traci klientów po cichu.",
     cards: [
       {
-        value: 98,
+        value: demo.problem.unanswered,
         suffix: "%",
         text: "tylu odwiedzających wychodzi bez zakupu. Nie dlatego, że nie chcą kupić — nikt im nie pomógł wybrać.",
       },
       {
-        value: 70,
+        value: demo.problem.nightShare,
         suffix: "%",
         text: "tyle pytań do obsługi to w kółko to samo: „gdzie moja paczka?”, „jaki rozmiar?”, „czy zdąży przed piątkiem?”.",
       },
       {
-        value: 16,
+        value: demo.problem.wismoShare,
         suffix: " godzin na dobę",
         text: "tyle czasu Twój sklep milczy, kiedy obsługa nie pracuje. Klienci kupują o 22:40. Pytają o 23:15. Odpowiedź dostają jutro — często już po zakupie u konkurencji.",
       },
@@ -322,7 +323,7 @@ const raw = {
       title: "Panel przychodów",
       body: "Każda rozmowa spięta z zamówieniem: bot zarobił w tym miesiącu 47 218 zł. Widzisz kasę, nie wykres „zaangażowania”.",
       panelTitle: "Przychód z rozmów — ten miesiąc",
-      panelAmount: 47218,
+      panelAmount: demo.revenueMonth,
       panelCaption: "przypisane do zamówień · dane demo",
       bars: [34, 52, 41, 68, 57, 82, 74],
     },
@@ -435,10 +436,10 @@ const raw = {
     h2: "Poranek z HackMySales: kawa i jeden rzut oka.",
     lead: "To ten sam panel, który dostajesz w portalu klienta. Wszystko, co bot zrobił bez Ciebie — w jednym widoku.",
     kpis: [
-      { label: "Przychód z rozmów — dziś", value: 2340, unit: "zł" },
-      { label: "Rozmowy", value: 86, unit: "" },
-      { label: "Uratowane koszyki", value: 7, unit: "" },
-      { label: "Przekazane zespołowi", value: 2, unit: "" },
+      { label: "Przychód z rozmów — dziś", value: demo.morning.revenueToday, unit: "zł" },
+      { label: "Rozmowy", value: demo.morning.convos, unit: "" },
+      { label: "Uratowane koszyki", value: demo.morning.savedCarts, unit: "" },
+      { label: "Przekazane zespołowi", value: demo.morning.handovers, unit: "" },
     ],
     chartTitle: "Przychód z rozmów — 14 dni",
     chartBars: [22, 35, 28, 44, 38, 52, 47, 60, 41, 56, 63, 58, 72, 68],
@@ -461,18 +462,18 @@ const raw = {
     label: "POLICZALNOŚĆ",
     h2: "Nie wierz nam. Policz.",
     counters: [
-      { prefix: "+", value: 18, suffix: "%", label: "konwersji u klientów po 3 miesiącach" },
-      { prefix: "+", value: 23, suffix: "%", label: "średniej wartości koszyka (AOV)" },
-      { prefix: "−", value: 64, suffix: "%", label: "zapytań „gdzie moja paczka” do obsługi" },
+      { prefix: "+", value: demo.counters.conv, suffix: "%", label: "konwersji u klientów po 3 miesiącach" },
+      { prefix: "+", value: demo.counters.aov, suffix: "%", label: "średniej wartości koszyka (AOV)" },
+      { prefix: "−", value: demo.counters.wismo, suffix: "%", label: "zapytań „gdzie moja paczka” do obsługi" },
       { static: "24/7", label: "godziny pracy czatu, wyszukiwarki i rekomendacji" },
     ],
     countersCaption: "Wartości poglądowe. Twoje liczby policzymy na demo.",
     night: {
       title: "Kiedy spałeś, bot…",
       stats: [
-        { value: 34, unit: "", label: "rozmowy obsłużone" },
-        { value: 6840, unit: "zł", label: "sprzedaż w nocy" },
-        { value: 21, unit: "", label: "ticketów mniej" },
+        { value: demo.night.convos, unit: "", label: "rozmowy obsłużone" },
+        { value: demo.night.sale, unit: "zł", label: "sprzedaż w nocy" },
+        { value: demo.night.tickets, unit: "", label: "ticketów mniej" },
       ],
       caption: "przykładowa noc · dane demo",
     },
@@ -491,10 +492,10 @@ const raw = {
         "+0,5 p.p. konwersji i +10% AOV — wartości poglądowe dla makiety. Kalkulator liczy wyłącznie w Twojej przeglądarce, nic nie wysyłamy.",
       cta: "Sprawdź to na swoim sklepie",
       // §6b — mnożnik ROI (dane demo: koszt = plan Growth, rejestr PLACEHOLDERS)
-      costMonthly: 1299,
+      costMonthly: demo.calc.costMonthly,
       roiCaption: "tyle razy zwraca się plan Growth przy tych liczbach",
       costTick: "koszt planu Growth",
-      glowThreshold: 10000,
+      glowThreshold: demo.calc.glowThreshold,
       methodLabel: "jak to liczymy",
       methodText:
         "Odzysk to różnica między przychodem dziś a przychodem przy +0,5 p.p. konwersji i +10% AOV — założenia poglądowe makiety. Mnożnik porównuje roczny odzysk z rocznym kosztem planu Growth; wszystko liczy się w Twojej przeglądarce, nic nie wysyłamy.",
@@ -584,8 +585,8 @@ const raw = {
       {
         name: "Start",
         price: "499 zł",
-        priceMonthly: 499,
-        priceYearly: 399,
+        priceMonthly: demo.prices.starter.monthly,
+        priceYearly: demo.prices.starter.yearly,
         period: "/mc",
         audience: "do 10 tys. wizyt/mc",
         features: ["yes", "yes", "yes", "1 000", "no", "no", "no", "no", "no"],
@@ -596,8 +597,8 @@ const raw = {
         name: "Growth",
         badge: "najczęściej wybierany",
         price: "1 299 zł",
-        priceMonthly: 1299,
-        priceYearly: 1039,
+        priceMonthly: demo.prices.growth.monthly,
+        priceYearly: demo.prices.growth.yearly,
         period: "/mc",
         audience: "do 100 tys. wizyt/mc",
         features: ["yes", "yes", "yes", "5 000", "yes", "yes", "yes", "yes", "no"],

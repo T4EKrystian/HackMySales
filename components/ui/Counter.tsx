@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP, NO_REDUCE } from "@/lib/motion";
+import { gsap, useGSAP, NO_REDUCE, EASE } from "@/lib/motion";
 import { fmtIntPl } from "@/lib/typography";
 
 type CounterProps = {
@@ -11,14 +11,16 @@ type CounterProps = {
   className?: string;
   /** formatowanie pl-PL z separatorem tysięcy (spacja nierozdzielająca) */
   format?: boolean;
+  /** once (default): count-up 1,2 s raz przy wejściu — karty/statystyki
+   *  (mid-scrub na screenshotach mylił audyt: „36 031 vs 47 218").
+   *  scrub: wartość bindowana do scrolla + twardy snap — wyłącznie narracyjne piny. */
+  mode?: "once" | "scrub";
 };
 
-/** Licznik v2 (motion-craft „Kalibracja scrubów"): wartość BINDOWANA do progresu
- *  scrollu (scrub .8, okno top 85%→55%) + twardy snap do wartości końcowej po
- *  opuszczeniu okna — żadnych wartości pośrednich po wyjściu, żadnego timera.
- *  Prefiks/sufiks w OSOBNYCH spanach (koniec z „−6+58" przy sklejaniu).
- *  SSR/no-JS/reduced-motion: od razu wartość końcowa. */
-export function Counter({ value, prefix = "", suffix = "", className = "", format = true }: CounterProps) {
+/** Licznik v3 (V6-F2): tryb once domyślnie; scrub (motion-craft „Kalibracja
+ *  scrubów") zostaje jako opcja dla pinów. Prefiks/sufiks w OSOBNYCH spanach
+ *  (koniec z „−6+58"). SSR/no-JS/reduced-motion: od razu wartość końcowa. */
+export function Counter({ value, prefix = "", suffix = "", className = "", format = true, mode = "once" }: CounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const numRef = useRef<HTMLSpanElement>(null);
   const fmt = (n: number) => (format ? fmtIntPl(Math.round(n)) : String(Math.round(n)));
@@ -34,31 +36,44 @@ export function Counter({ value, prefix = "", suffix = "", className = "", forma
         const render = () => {
           el.textContent = fmt(obj.v);
         };
-        gsap.fromTo(
-          obj,
-          { v: 0 },
-          {
+
+        if (mode === "once") {
+          // count-up raz; onComplete twardo ustawia final (nigdy wartość pośrednia)
+          gsap.fromTo(obj, { v: 0 }, {
             v: value,
-            ease: "none",
+            duration: 1.2,
+            ease: EASE.out,
             onUpdate: render,
-            scrollTrigger: {
-              trigger,
-              start: "top 85%",
-              end: "top 55%",
-              scrub: 0.8,
-              invalidateOnRefresh: true,
-              // twardy snap: poza oknem NIGDY nie zostaje wartość pośrednia
-              onLeave: () => {
-                obj.v = value;
-                render();
-              },
-              onLeaveBack: () => {
-                obj.v = 0;
-                render();
-              },
+            onComplete: () => {
+              obj.v = value;
+              render();
             },
-          }
-        );
+            scrollTrigger: { trigger, start: "top 80%", once: true },
+          });
+          return;
+        }
+
+        gsap.fromTo(obj, { v: 0 }, {
+          v: value,
+          ease: "none",
+          onUpdate: render,
+          scrollTrigger: {
+            trigger,
+            start: "top 85%",
+            end: "top 55%",
+            scrub: 0.8,
+            invalidateOnRefresh: true,
+            // twardy snap: poza oknem NIGDY nie zostaje wartość pośrednia
+            onLeave: () => {
+              obj.v = value;
+              render();
+            },
+            onLeaveBack: () => {
+              obj.v = 0;
+              render();
+            },
+          },
+        });
       });
     },
     { scope: ref }
