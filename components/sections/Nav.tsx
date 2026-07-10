@@ -133,7 +133,7 @@ export function Nav() {
       />
       <div className="container-hms flex h-[72px] items-center justify-between">
         <a href="#top" aria-label="HackMySales — strona główna" className="rounded-md">
-          <Logo />
+          <Logo status />
         </a>
 
         <nav aria-label="Główna" className="hidden items-center gap-8 md:flex">

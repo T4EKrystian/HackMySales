@@ -15,6 +15,15 @@ export const metadata: Metadata = {
   description:
     "Czat AI, wyszukiwarka i rekomendacje podłączone do Twojego sklepu. Doradza klientom 24/7, ratuje koszyki i pokazuje przychód co do złotówki. Wdrożenie bez developera.",
   alternates: { canonical: "/" },
+  // ?v=2 — favicony cache'ują się agresywnie (hms-design-dna „Znak")
+  icons: {
+    icon: [
+      { url: "/icon.svg?v=2", type: "image/svg+xml" },
+      { url: "/favicon-32.png?v=2", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png?v=2", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png?v=2", sizes: "180x180", type: "image/png" }],
+  },
   openGraph: {
     type: "website",
     locale: "pl_PL",
