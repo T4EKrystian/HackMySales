@@ -28,7 +28,7 @@ const raw = {
     h1Line2: "który nigdy nie śpi.",
     lead: "HackMySales podpina się do Twojego sklepu i doradza klientom jak najlepszy handlowiec — w czacie, w wyszukiwarce i w rekomendacjach. A co poniedziałek pokazuje, ile na tym zarobiłeś. Co do złotówki.",
     ctaPrimary: "Umów demo na swoich produktach",
-    ctaSecondary: "Porozmawiaj z botem",
+    ctaSecondary: "Zobacz, jak sprzedaje",
     scrollCue: "Przewiń",
     proof: "Wdrożenie w 1 dzień · Bez zmiany platformy · 14 dni testów za darmo",
     chat: {
@@ -119,13 +119,13 @@ const raw = {
   },
 
   problem: {
-    label: "DLACZEGO TO MA ZNACZENIE",
+    label: "CO CIĘ TO KOSZTUJE",
     h2: "Twój sklep traci klientów po cichu.",
     cards: [
       {
         value: 98,
         suffix: "%",
-        text: "tylu odwiedzających wychodzi bez zakupu. Większość nie dlatego, że nie chce kupić — tylko dlatego, że nikt im nie pomógł wybrać.",
+        text: "tylu odwiedzających wychodzi bez zakupu. Nie dlatego, że nie chcą kupić — nikt im nie pomógł wybrać.",
       },
       {
         value: 70,
@@ -320,14 +320,14 @@ const raw = {
       },
       {
         title: "AI uczy się Twojego biznesu",
-        body: "katalog, stany, ceny, dostawy, zwroty, FAQ. Odpowiada wyłącznie na podstawie Twoich danych — nie zmyśla.",
+        body: "katalog, stany, ceny, dostawy, zwroty, FAQ. Odpowiada wyłącznie na podstawie Twoich danych.",
       },
       {
         title: "Sprzedaje, a Ty czytasz raporty",
         body: "czat, wyszukiwarka i rekomendacje pracują 24/7. Ty dostajesz liczby i listę rzeczy do poprawy.",
       },
     ],
-    note: "Bez zmiany platformy. Bez przebudowy sklepu. Pierwsze efekty widać w 7 dni.",
+    note: "Bez przebudowy sklepu. Pierwsze efekty widać w 7 dni.",
   },
 
   morning: {
@@ -394,7 +394,7 @@ const raw = {
   },
 
   integrations: {
-    h2: "Działa tam, gdzie sprzedajesz.",
+    h2: "Twoja platforma jest na liście.",
     platforms: ["Shoper", "IdoSell", "PrestaShop", "WooCommerce", "Shopify", "Magento", "Sky-Shop", "REST API"],
     note: "Sklep pisany na miarę? REST API i webhooki — podłączymy wszystko, co ma katalog i koszyk. Czat dogada się z klientem także na Messengerze i Instagramie (plan Growth).",
   },
@@ -513,8 +513,8 @@ const raw = {
   },
 
   finalCta: {
-    h2: "Zobacz go na własnych produktach.",
-    lead: "Podaj adres sklepu — przygotujemy demo z Twoim katalogiem. 15 minut rozmowy, konkretne liczby, zero zobowiązań.",
+    h2: "Zobacz tego sprzedawcę na swoich produktach.",
+    lead: "Podaj adres sklepu — przygotujemy demo z Twoim katalogiem. 15 minut i zobaczysz, ile bot może u Ciebie zarobić. Bez zobowiązań.",
     urlLabel: "Adres Twojego sklepu",
     urlPlaceholder: "twojsklep.pl",
     emailLabel: "Twój e-mail",

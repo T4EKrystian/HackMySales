@@ -23,7 +23,7 @@ Mobile: hamburger, pełnoekranowe menu.
 **Lead:** HackMySales podpina się do Twojego sklepu i doradza klientom jak najlepszy handlowiec — w czacie, w wyszukiwarce i w rekomendacjach. A co poniedziałek pokazuje, ile na tym zarobiłeś. Co do złotówki.
 
 **CTA primary:** Umów demo na swoich produktach
-**CTA secondary:** Porozmawiaj z botem →  *(scrolluje/wskazuje na żywe demo obok)*
+**CTA secondary:** Zobacz, jak sprzedaje →  *(scrolluje/wskazuje na żywe demo obok; „porozmawiaj” obiecywało rozmowę, której skryptowane demo nie da — uczciwość)*
 
 **Mikrodowód pod CTA:** Wdrożenie w [1 dzień] · Bez zmiany platformy · 14 dni testów za darmo
 
@@ -55,13 +55,13 @@ Mobile: hamburger, pełnoekranowe menu.
 
 ## 2. Problem
 
-**Label:** DLACZEGO TO MA ZNACZENIE
+**Label:** CO CIĘ TO KOSZTUJE
 
 **H2:** Twój sklep traci klientów po cichu.
 
 **Trzy fakty (karty, liczby w mono):**
 
-1. **98%** — tylu odwiedzających wychodzi bez zakupu. Większość nie dlatego, że nie chce kupić — tylko dlatego, że nikt im nie pomógł wybrać.
+1. **98%** — tylu odwiedzających wychodzi bez zakupu. Nie dlatego, że nie chcą kupić — nikt im nie pomógł wybrać.
 2. **70%** — tyle pytań do obsługi to w kółko to samo: „gdzie moja paczka?”, „jaki rozmiar?”, „czy zdąży przed piątkiem?”.
 3. **16 godzin na dobę** — tyle czasu Twój sklep milczy, kiedy obsługa nie pracuje. Klienci kupują o 22:40. Pytają o 23:15. Odpowiedź dostają jutro — często już po zakupie u konkurencji.
 
@@ -174,10 +174,10 @@ Kolumny: **Zwykły czatbot** | **HackMySales**
 **H2:** Trzy kroki. Zero developera.
 
 1. **Podłączasz sklep** — wtyczka albo klucz API. 15 minut, klikasz, działa.
-2. **AI uczy się Twojego biznesu** — katalog, stany, ceny, dostawy, zwroty, FAQ. Odpowiada wyłącznie na podstawie Twoich danych — nie zmyśla.
+2. **AI uczy się Twojego biznesu** — katalog, stany, ceny, dostawy, zwroty, FAQ. Odpowiada wyłącznie na podstawie Twoich danych.
 3. **Sprzedaje, a Ty czytasz raporty** — czat, wyszukiwarka i rekomendacje pracują 24/7. Ty dostajesz liczby i listę rzeczy do poprawy.
 
-**Dopisek:** Bez zmiany platformy. Bez przebudowy sklepu. Pierwsze efekty widać w [7 dni].
+**Dopisek:** Bez przebudowy sklepu. Pierwsze efekty widać w [7 dni].
 
 ---
 
@@ -227,7 +227,7 @@ CTA pod wynikiem: Sprawdź to na swoim sklepie → demo
 
 ## 7. Integracje
 
-**H2:** Działa tam, gdzie sprzedajesz.
+**H2:** Twoja platforma jest na liście.
 
 Shoper · IdoSell · PrestaShop · WooCommerce · Shopify · Magento · Sky-Shop · [inne]
 **Dopisek:** Sklep pisany na miarę? REST API i webhooki — podłączymy wszystko, co ma katalog i koszyk. Czat dogada się z klientem także na Messengerze i Instagramie [w planie Growth].
@@ -287,7 +287,7 @@ Wtyczka lub API: ok. 15 minut. Indeksacja katalogu: do kilku godzin. Realnie: ra
 Shoper, IdoSell, PrestaShop, WooCommerce, Shopify, Magento — natywnie. Sklep autorski — przez REST API. Jeśli masz katalog i koszyk, podłączymy.
 
 **Co z RODO?**
-Dane przetwarzane w UE, umowa powierzenia w standardzie, rozmowy anonimizowane do analityki. [Szczegóły i podstawa prawna — do potwierdzenia z prawnikiem przed publikacją.]
+Dane przetwarzane w UE, umowa powierzenia w standardzie, rozmowy anonimizowane do analityki. Szczegóły potwierdzimy na demo. *(Podstawa prawna do potwierdzenia z prawnikiem przed publikacją — rejestr: PLACEHOLDERS.md.)*
 
 **Czy klienci wiedzą, że rozmawiają z AI?**
 Tak — i dobrze. Bot się przedstawia, a klienci pytają śmielej niż człowieka. W każdej chwili mogą poprosić o kontakt z obsługą.
@@ -305,8 +305,8 @@ Tak: ton, zakres tematów, zasady rabatowania, produkty wykluczone z rekomendacj
 
 ## 11. CTA końcowe
 
-**H2:** Zobacz go na własnych produktach.
-**Lead:** Podaj adres sklepu — przygotujemy demo z Twoim katalogiem. 15 minut rozmowy, konkretne liczby, zero zobowiązań.
+**H2:** Zobacz tego sprzedawcę na swoich produktach.
+**Lead:** Podaj adres sklepu — przygotujemy demo z Twoim katalogiem. 15 minut i zobaczysz, ile bot może u Ciebie zarobić. Bez zobowiązań.
 
 Formularz: `Adres Twojego sklepu` (placeholder: twojsklep.pl) · `Twój e-mail` · przycisk `Umów demo`
 **Pod formularzem:** Odpowiadamy w 1 dzień roboczy. Bez spamu, bez „sekwencji sprzedażowych”.
@@ -357,6 +357,9 @@ Blok body: 15–25 słów (twardy limit 35, powyżej tylko z twardą liczbą). N
 
 ## 15. Changelog copy
 
+- **2026-07-10 · §2 Problem + §11 CTA końcowe** — label „DLACZEGO TO MA ZNACZENIE” → „CO CIĘ TO KOSZTUJE” (meta-etykieta landingowa → pieniądze); karta 98%: bez „Większość… tylko dlatego” (nieweryfikowalna teza o większości, 21→16 słów); H2 finału „Zobacz go…” → „Zobacz tego sprzedawcę na swoich produktach.” (wiszący zaimek out, domyka klamrę z H1); lead finału bez triady „15 minut rozmowy, konkretne liczby, zero zobowiązań” → konkret „ile bot może u Ciebie zarobić”; FAQ RODO zsynchronizowane z pl.ts.
+- **2026-07-10 · §5 Wdrożenie + §7 Integracje** — krok 2 bez „nie zmyśla” (3× na stronie → 2×: Zaufanie + FAQ); dopisek bez „Bez zmiany platformy” (dubel z mikrodowodem hero); H2 Integracji „Działa tam, gdzie sprzedajesz.” → „Twoja platforma jest na liście.” (kolizja dwóch „Działa … gdzie” z Branżami; konkret nad logotypami).
+- **2026-07-10 · §1 Hero** — CTA secondary „Porozmawiaj z botem” → „Zobacz, jak sprzedaje” (demo jest oskryptowane — rozmowy nie będzie; uczciwość + obietnica dowodu). H1, lead, scenariusze czatu i mikrodowód bez zmian (chronione).
 - **2026-07-10 · §6 Wyniki + kalkulator** — kolejność bloków: kalkulator na przód (H2 „Nie wierz nam. Policz.” ma prowadzić do rachunku, nie do placeholderów); nagłówek kalkulatora „Ile zostawiasz na stole?” → „Ile Ci ucieka co miesiąc?” (kalka EN out, czasownik z leksykonu VoC; pytanie funkcjonalne nad polami, nie retoryczny opener — sekcję otwiera H2); „Realny potencjał” → „Do odzyskania” (banlista: „potencjał”; spójna metafora ucieka→odzyskać); licznik 24/7 bez drugiego żartu o śnie (H1 jest właścicielem tego chwytu); nowy podpis pod licznikami — uczciwość makiety + hak na demo.
 - **2026-07-10 · §3 Filary** — Filar 1: 45 słów → 23 („Nie skrypt.” out — jedna negacja wystarczy; wyliczenie 5 pozycji → „katalog, stany i ceny”; „jak najlepszy sprzedawca na sali” out — chwyt „handlowca” zostaje w hero i tytule filaru; triada „Dopyta, porówna, rozwieje…” out, kask zostaje jako jedyny konkret). Filar 2: 37 → 26 (meta-wyliczenie „literówki, odmiana…” out — cytat klienta już to POKAZUJE). Filar 3: 32 → 24 (mini-triada „na karcie, w koszyku i w rozmowie” out — „Twoja księgowa zauważy różnicę.” zamyka bez rozbiegu).
 - **2026-07-10 · §4 Kopalnie złota** — label „NIE KOLEJNY CZATBOT” → „KOPALNIE ZŁOTA” i nowy H2 „Sprzedawca to dopiero początek.” (dubel kontrastu czatbotowego z §4b — slot należy do „Czatbot z FAQ to nie handlowiec.”). Radar/Ratownik/Autopilot/Raport skrócone ze ścian ~40 słów do ≤27: triady i pytania retoryczne wycięte, „pieniądze leżące na stole” usunięte (kalka EN + dubel z kalkulatorem §6), karta Raportu bez własnych liczb (jedno źródło liczb: e-mail obok) i bez kawy (kawa zostaje w §5b). Panel przychodów: jeden kontrast zamiast dwóch. Cel: gęstość 15–25 słów, zero tików AI, korzyść właściciela w każdej karcie.
