@@ -163,7 +163,8 @@ export function Comparison() {
         const roundNo = root.querySelector<HTMLElement>(".arena-round-no");
         if (!stage || roundEls.length < 4) return;
 
-        const SEG = 2.6;
+        // budżet ≥90vh/stan: 4 rundy × 90% = end 360% (motion-craft „Kalibracja scrubów")
+        const SEG = 3.6;
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: {
@@ -171,8 +172,9 @@ export function Comparison() {
             pin: true,
             start: "top top",
             invalidateOnRefresh: true,
-            end: "+=280%",
-            scrub: 0.5,
+            end: "+=360%",
+            scrub: 0.8,
+            snap: { snapTo: "labels", duration: 0.4, ease: "power2.inOut" },
             onUpdate(self) {
               const p = self.progress;
               const done = Math.min(4, Math.floor((p + 0.06) / 0.25));
@@ -182,13 +184,20 @@ export function Comparison() {
           },
         });
 
+        tl.addLabel("start", 0);
         roundEls.forEach((el, i) => {
           const at = i * SEG;
           buildRoundTl(tl, el, at);
+          // snap w środek pełnej ekspozycji rundy (werdykt osiadł w at+2.25)
+          tl.addLabel(`round${i}`, at + 2.6);
           if (i < roundEls.length - 1) {
             tl.to(el, { autoAlpha: 0, y: -12, duration: 0.3, ease: "power1.in" }, at + SEG - 0.25);
           }
         });
+        // ogon do pełnych 4×SEG — rundy zajmują RÓWNE ćwiartki progresu (licznik 0:4)
+        const pad = 4 * SEG - tl.duration();
+        if (pad > 0) tl.to({}, { duration: pad });
+        tl.addLabel("end", 4 * SEG);
       });
 
       mm.add(MOBILE_MOTION, () => {

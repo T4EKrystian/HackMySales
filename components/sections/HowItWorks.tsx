@@ -123,9 +123,9 @@ export function HowItWorks() {
             pin: true,
             start: "top top",
             invalidateOnRefresh: true,
-            end: "+=220%",
-            scrub: 0.5,
-            snap: { snapTo: [0, 0.5, 1], duration: { min: 0.2, max: 0.5 }, ease: "power2.out" },
+            end: "+=280%",
+            scrub: 0.8,
+            snap: { snapTo: "labels", duration: 0.4, ease: "power2.inOut" },
             onUpdate(self) {
               const idx = Math.min(2, Math.floor(self.progress * 3));
               dots.forEach((d, i) => d.setAttribute("data-active", String(i <= idx)));
@@ -136,6 +136,8 @@ export function HowItWorks() {
         tl.to(track, { xPercent: -66.666, duration: 3 }, 0);
         if (fill) tl.fromTo(fill, { scaleX: 0 }, { scaleX: 1, duration: 3, transformOrigin: "left" }, 0);
         panels.forEach((p, i) => animatePanelContent(tl, p, i * 1.0 + 0.25));
+        // stany krok 1/2/3 = track w pozycjach 0 / −33% / −66% (spójnie z dawnym snapTo [0,.5,1])
+        tl.addLabel("s0", 0).addLabel("s1", 1.5).addLabel("s2", 3);
       });
 
       mm.add(MOBILE_MOTION, () => {
@@ -162,17 +164,18 @@ export function HowItWorks() {
 
   return (
     <section ref={scope} className="bg-surface">
+      {/* JEDEN wspólny header nad wariantami (v5: koniec z duchami H2 w DOM) */}
+      <Container className="pt-24 md:pt-28">
+        <div ref={headRef}>
+          <SectionLabel num="07">{t.label}</SectionLabel>
+          <SectionH2>{t.h2}</SectionH2>
+        </div>
+      </Container>
+
       {/* Desktop: horizontal pin */}
       <div className="hidden md:block motion-reduce:md:hidden">
         <div className="how-stage flex h-svh flex-col overflow-hidden">
-          <Container className="w-full pt-24">
-            <div ref={headRef}>
-              <SectionLabel num="07">{t.label}</SectionLabel>
-              <SectionH2>{t.h2}</SectionH2>
-            </div>
-          </Container>
-
-          <div className="relative mt-10 flex-1">
+          <div className="relative mt-6 flex-1">
             <div className="how-track flex h-full w-[300%]">
               {t.steps.map((_, i) => {
                 const Demo = DEMOS[i];
@@ -213,10 +216,8 @@ export function HowItWorks() {
       </div>
 
       {/* Mobile + reduced: pion ze sticky progress-line */}
-      <div className="section-pad md:hidden motion-reduce:md:block">
+      <div className="pb-24 md:hidden motion-reduce:md:block">
         <Container>
-          <SectionLabel num="07">{t.label}</SectionLabel>
-          <SectionH2>{t.h2}</SectionH2>
           <div className="relative mt-12 border-l border-hairline pl-7">
             <div className="flex flex-col gap-16">
               {t.steps.map((_, i) => {

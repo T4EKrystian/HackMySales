@@ -5,6 +5,7 @@ import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Counter } from "@/components/ui/Counter";
 import { gsap, useGSAP, DESKTOP_MOTION, REDUCE } from "@/lib/motion";
+import { fmtIntPl } from "@/lib/typography";
 import { useGLView } from "@/lib/glRegistry";
 
 /** Problem v3 (motion.md §3): pin 300% — trzy statystyki KOLEJNO jako gigantyczne
@@ -58,7 +59,8 @@ export function Problem() {
             start: "top top",
             invalidateOnRefresh: true,
             end: "+=300%",
-            scrub: 0.5,
+            scrub: 0.8,
+            snap: { snapTo: "labels", duration: 0.4, ease: "power2.inOut" },
             onUpdate(self) {
               const idx = Math.min(2, Math.floor(self.progress * 3));
               railSegs.forEach((el, i) => el.setAttribute("data-active", String(i === idx)));
@@ -67,6 +69,9 @@ export function Problem() {
         });
 
         // Pole kropek gaśnie przez cały pin; rail rośnie równolegle
+        // labels brzegowe: snap nie „wciąga" przy wejściu ani nie więzi przy wyjściu
+        tl.addLabel("start", 0);
+        tl.addLabel("end", 9);
         tl.to(glState, { progress: 1, duration: 9 }, 0);
         if (railLine) {
           tl.fromTo(railLine, { scaleY: 0 }, { scaleY: 1, duration: 9, transformOrigin: "top" }, 0);
@@ -83,11 +88,17 @@ export function Problem() {
               v: t.cards[i].value,
               duration: 1.5,
               onUpdate() {
-                if (numEl) numEl.textContent = String(Math.round(proxy.v));
+                if (numEl) numEl.textContent = fmtIntPl(Math.round(proxy.v));
+              },
+              // koniec odcinka = zawsze DOKŁADNIE wartość z decku (snap dociąga resztę)
+              onComplete() {
+                if (numEl) numEl.textContent = fmtIntPl(t.cards[i].value);
               },
             },
             at + 0.3
           );
+          // snap celuje w środek „pełnej" ekspozycji statystyki
+          tl.addLabel(`stat${i}`, at + 1.9);
           if (i < stats.length - 1) {
             tl.to(stat, { autoAlpha: 0, yPercent: -10, duration: 0.45, ease: "power2.in" }, at + 2.35);
           }
@@ -105,18 +116,19 @@ export function Problem() {
 
   return (
     <section ref={scope} className="relative">
+      {/* JEDEN wspólny header nad wariantami (v5: koniec z duchami H2 w DOM) */}
+      <Container className="pt-24 md:pt-28">
+        <SectionLabel num="01">{t.label}</SectionLabel>
+        <SectionH2 className="max-w-[24ch]">{t.h2}</SectionH2>
+      </Container>
+
       {/* Desktop: pinowana scena 300% */}
       <div className="hidden md:block motion-reduce:md:hidden">
         <div className="prob-stage relative h-svh overflow-hidden">
           {/* Pole kropek-klientów (WebGL, scissorowane do tego DIV-a) */}
           <div ref={fieldRef} aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-[4%] top-[10%]" />
 
-          <Container className="relative flex h-full flex-col pb-16 pt-28">
-            <div>
-              <SectionLabel num="01">{t.label}</SectionLabel>
-              <SectionH2 className="max-w-[24ch]">{t.h2}</SectionH2>
-            </div>
-
+          <Container className="relative flex h-full flex-col pb-16 pt-20">
             <div className="relative flex-1">
               {t.cards.map((c, i) => (
                 <div key={i} className="prob-stat absolute inset-0 flex flex-col justify-center will-change-[filter,transform]">
@@ -155,9 +167,7 @@ export function Problem() {
 
       {/* Mobile + desktop reduced-motion: trzy pełnoekranowe bloki */}
       <div className="md:hidden motion-reduce:md:block">
-        <Container className="pt-24 md:pt-32">
-          <SectionLabel num="01">{t.label}</SectionLabel>
-          <SectionH2 className="max-w-[24ch]">{t.h2}</SectionH2>
+        <Container>
           {t.cards.map((c, i) => (
             <div
               key={i}

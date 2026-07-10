@@ -53,15 +53,28 @@ function SearchPanelContent() {
           </li>
         ))}
       </ul>
-      <ul className="divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline">
-        {d.results.map((r) => (
-          <li key={r.name} className="pp-row flex items-center gap-3 px-4 py-2.5">
-            {"kind" in r && r.kind && <ProductVisual kind={r.kind as ProductKind} size={40} />}
-            <span className="min-w-0 flex-1 truncate text-sm text-ink">{r.name}</span>
-            <span className="num shrink-0 text-sm text-sub">{r.price}</span>
-          </li>
-        ))}
-      </ul>
+      <div className="relative">
+        <ul className="pp-results divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline">
+          {d.results.map((r) => (
+            <li key={r.name} className="pp-row flex items-center gap-3 px-4 py-2.5">
+              {"kind" in r && r.kind && <ProductVisual kind={r.kind as ProductKind} size={40} />}
+              <span className="min-w-0 flex-1 truncate text-sm text-ink">{r.name}</span>
+              <span className="num shrink-0 text-sm text-sub">{r.price}</span>
+            </li>
+          ))}
+        </ul>
+        {/* Skeleton shimmer — ŻADEN frame demo nie stoi pusty, zanim wjadą wyniki
+            (motion-craft „Kalibracja scrubów"); no-JS/SSR: niewidoczny, wyniki od razu */}
+        <ul className="pp-skel pointer-events-none absolute inset-0 divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline opacity-0" aria-hidden="true">
+          {d.results.map((r) => (
+            <li key={r.name} className="flex items-center gap-3 px-4 py-2.5">
+              <span className="pp-skel-block h-10 w-10 shrink-0 rounded-lg" />
+              <span className="pp-skel-block h-3 flex-1 rounded-full" />
+              <span className="pp-skel-block h-3 w-12 shrink-0 rounded-full" />
+            </li>
+          ))}
+        </ul>
+      </div>
       <p className="pp-note flex items-center gap-2 text-xs text-mute">
         <Glyph name="check" size={13} className="text-ok" />
         {d.note}
@@ -123,7 +136,11 @@ function buildPanelTl(panel: HTMLElement, kind: "chat" | "search" | "reco"): gsa
     const chips = q<HTMLElement>(".pp-chip");
     const rows = q<HTMLElement>(".pp-row");
     const note = q<HTMLElement>(".pp-note")[0];
+    const skel = q<HTMLElement>(".pp-skel")[0];
+    const realUl = q<HTMLElement>(".pp-results")[0];
     tl.set([chips, rows, note], { autoAlpha: 0 });
+    // skeleton od startu stanu — rama wyników nigdy nie stoi pusta
+    if (skel && realUl) tl.set(realUl, { autoAlpha: 0 }, 0).set(skel, { autoAlpha: 1 }, 0);
     typeInto(tl, q<HTMLElement>(".pp-query")[0], { caret: q<HTMLElement>(".pp-caret")[0] });
     // sweep po zapytaniu — „literówka złapana" (F4)
     const sweep = q<HTMLElement>(".pp-sweep")[0];
@@ -135,8 +152,11 @@ function buildPanelTl(panel: HTMLElement, kind: "chat" | "search" | "reco"): gsa
         "+=0.1"
       ).set(sweep, { opacity: 0 });
     }
-    tl.fromTo(chips, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.07, ease: EASE.soft }, "+=0.15")
-      .fromTo(rows, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.08, ease: EASE.soft }, "+=0.1")
+    tl.fromTo(chips, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.07, ease: EASE.soft }, "+=0.15");
+    if (skel && realUl) {
+      tl.to(skel, { autoAlpha: 0, duration: 0.2 }, "+=0.1").set(realUl, { autoAlpha: 1 });
+    }
+    tl.fromTo(rows, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.08, ease: EASE.soft }, "+=0.05")
       .fromTo(note, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, "+=0.1");
   }
 
@@ -204,13 +224,19 @@ export function Pillars() {
 
         let current = 0;
         let demoTl: gsap.core.Timeline | null = null;
+        let pending: gsap.core.Tween | null = null;
         let started = false;
 
+        // sekwencja time-based startuje po ≥200 ms aktywności stanu; wyjście = reset
         const playDemo = (idx: number) => {
+          pending?.kill();
+          pending = null;
           demoTl?.kill();
           demoTl = null;
           if (idx === 0) return; // czat gra przez ChatShell
-          demoTl = buildPanelTl(panels[idx], KINDS[idx]);
+          pending = gsap.delayedCall(0.2, () => {
+            demoTl = buildPanelTl(panels[idx], KINDS[idx]);
+          });
         };
 
         const setActive = (idx: number) => {
@@ -236,8 +262,10 @@ export function Pillars() {
             pin: true,
             start: "top top",
             invalidateOnRefresh: true,
-            end: "+=250%",
-            scrub: 0.6,
+            // budżet ≥90vh/stan: 3 stany × ~93% = end 280% (motion-craft)
+            end: "+=280%",
+            scrub: 0.8,
+            snap: { snapTo: "labels", duration: 0.4, ease: "power2.inOut" },
             onEnter: () => {
               if (!started) {
                 started = true;
@@ -249,14 +277,20 @@ export function Pillars() {
           },
         });
 
+        tl.addLabel("p0", 0);
         tl.to({}, { duration: 1 });
         for (let i = 1; i < panels.length; i++) {
           tl.to(panels[i - 1], { autoAlpha: 0, y: -16, duration: 0.4 })
             .fromTo(panels[i], { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.4 }, "<0.15")
+            .addLabel(`p${i}`)
             .to({}, { duration: 1 });
         }
+        tl.addLabel("pEnd", tl.duration());
 
-        return () => demoTl?.kill();
+        return () => {
+          pending?.kill();
+          demoTl?.kill();
+        };
       });
 
       // Mobile: demo gra raz, gdy blok wejdzie w viewport (czat samostartuje w ChatShell)
