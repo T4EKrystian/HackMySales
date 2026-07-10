@@ -19,7 +19,7 @@ export function Trust() {
   return (
     <section ref={ref} className="section-pad">
       <Container>
-        <SectionLabel num="09">{t.label}</SectionLabel>
+        <SectionLabel num="10">{t.label}</SectionLabel>
         <SectionH2 className="max-w-[22ch]">{t.h2}</SectionH2>
 
         <div className="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2">

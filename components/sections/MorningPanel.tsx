@@ -54,7 +54,7 @@ export function MorningPanel() {
   return (
     <section ref={ref} id="panel" className="section-pad">
       <Container>
-        <SectionLabel num="07">{t.label}</SectionLabel>
+        <SectionLabel num="08">{t.label}</SectionLabel>
         <SectionH2 className="max-w-[24ch]">{t.h2}</SectionH2>
         <p className="js-reveal mt-5 max-w-[58ch] text-sub" style={{ fontSize: "var(--text-lead)", lineHeight: 1.6 }}>
           {t.lead}

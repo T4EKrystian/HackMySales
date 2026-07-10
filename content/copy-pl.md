@@ -196,6 +196,36 @@ Kolumny: **Zwykły czatbot** | **HackMySales**
 
 **Dopisek:** Różnicę widzisz w panelu, nie w obietnicach.
 
+### 4d. Arena (forma v3 sekcji Różnica)
+
+Tabela renderuje się jako pojedynek: 4 rundy, wynik `0 : 4`. Pytania klienta i odpowiedzi
+HackMySales = 1:1 scenariusze §1 i wyszukiwarka §3 (zero nowego copy po stronie HMS).
+Werdykty rund = wiersze tabeli (1→1, 2→2, 3→5, 4→6); wiersze 3 i 4 zamykają sekcję jako
+podsumowanie pod wynikiem. Dopisek bez zmian.
+
+**Kwestie FAQ-bota (lewa strona — celowo sztampowe):**
+1. „Nie rozumiem. Wybierz temat z listy: Dostawa · Zwroty · Kontakt.”
+2. „Przepraszam, nie rozumiem. Spróbuj wpisać inaczej.”
+3. „Tabela rozmiarów jest w opisie produktu.”
+4. „Napisz do nas: bok@twojsklep.pl. Odpowiadamy do 24 h.”
+
+**Intro odpowiedzi HMS w rundzie 2 (złożone z chipów §3):** „Rozumiem: ciepłe · dziecięce (ok. 5 lat) · narty · do 200 zł. Trafienia:”
+**Etykiety UI:** kolumny = nagłówki tabeli; „Runda” + licznik; nazwa lewego bota: „FAQ-bot”.
+
+---
+
+## 4e. Kanały (NOWA sekcja v3, po Arenie)
+
+**Label:** KANAŁY
+
+**H2:** Jeden bot. Sklep, Messenger, Instagram.
+
+**Lead:** Jedna baza wiedzy, jeden panel, te same możliwości — w każdym kanale. *(1:1 z features.md P12)*
+
+**Węzły diagramu:** Sklep www · Messenger · Instagram · E-mail — raport dla Ciebie
+**Tooltipy węzłów:** przykładowe wymiany 1:1 z §1 (sklep = scenariusz A), §3c (Messenger = Moda, Instagram = B2B), §4 (e-mail = pierwsza linia raportu).
+**Caption:** Messenger i Instagram — w planie Growth.
+
 ---
 
 ## 5. Jak to działa
@@ -209,6 +239,12 @@ Kolumny: **Zwykły czatbot** | **HackMySales**
 3. **Sprzedaje, a Ty czytasz raporty** — czat, wyszukiwarka i rekomendacje pracują 24/7. Ty dostajesz liczby i listę rzeczy do poprawy.
 
 **Dopisek:** Bez przebudowy sklepu. Pierwsze efekty widać w [7 dni].
+
+### 5c. Wizuale kroków (stringi interfejsu, v3)
+
+- Krok 1 — snippet wkleja się sam: `<script src="cdn.hackmysales.pl/bot.js" data-shop="twojsklep.pl">` + status „✓ podpięto”.
+- Krok 2 — skan katalogu: nazwy produktów z dem (§1/§3/§4c) odhaczają się; etykieta „katalog · stany · ceny” (z treści kroku 2).
+- Krok 3 — pierwszy raport: nagłówek e-maila §4 (Od/Temat) + KPI „Przychód z rozmów — dziś” z §5b.
 
 ---
 

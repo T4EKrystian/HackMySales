@@ -222,6 +222,34 @@ const raw = {
       { left: "Kończy rozmowę na „napisz do nas”", right: "Kończy na „dodać do koszyka?”" },
     ],
     footer: "Różnicę widzisz w panelu, nie w obietnicach.",
+    // Arena (copy §4d) — pytania i odpowiedzi HMS komponowane 1:1 ze scenariuszy §1/§3
+    arena: {
+      faqName: "FAQ-bot",
+      roundLabel: "Runda",
+      faqReplies: [
+        "Nie rozumiem. Wybierz temat z listy: Dostawa · Zwroty · Kontakt.",
+        "Przepraszam, nie rozumiem. Spróbuj wpisać inaczej.",
+        "Tabela rozmiarów jest w opisie produktu.",
+        "Napisz do nas: bok@twojsklep.pl. Odpowiadamy do 24 h.",
+      ],
+      r2Intro: "Rozumiem: ciepłe · dziecięce (ok. 5 lat) · narty · do 200 zł. Trafienia:",
+      // indeksy wierszy tabeli użyte jako werdykty rund (reszta w podsumowaniu)
+      verdictRows: [0, 1, 4, 5],
+      summaryRows: [2, 3],
+    },
+  },
+
+  channels: {
+    label: "KANAŁY",
+    h2: "Jeden bot. Sklep, Messenger, Instagram.",
+    lead: "Jedna baza wiedzy, jeden panel, te same możliwości — w każdym kanale.",
+    nodes: [
+      { key: "www", name: "Sklep www" },
+      { key: "messenger", name: "Messenger" },
+      { key: "instagram", name: "Instagram" },
+      { key: "email", name: "E-mail — raport dla Ciebie" },
+    ],
+    caption: "Messenger i Instagram — w planie Growth.",
   },
 
   forWho: {
@@ -368,6 +396,15 @@ const raw = {
       },
     ],
     note: "Bez przebudowy sklepu. Pierwsze efekty widać w 7 dni.",
+    // Wizuale kroków (copy §5c — stringi interfejsu)
+    demos: {
+      snippet: '<script src="cdn.hackmysales.pl/bot.js"',
+      snippet2: '  data-shop="twojsklep.pl"></script>',
+      snippetOk: "✓ podpięto",
+      scanLabel: "katalog · stany · ceny",
+      scanItems: ["X-Trail 2 GTX", "Kurtka 3L Shell", "Kask MTB Core", "Komplet termoaktywny 104–116", "Spodnie ocieplane Junior"],
+      reportKpi: "Przychód z rozmów — dziś",
+    },
   },
 
   morning: {

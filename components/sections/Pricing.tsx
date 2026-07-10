@@ -13,7 +13,7 @@ export function Pricing() {
   return (
     <section ref={ref} id="cennik" className="section-pad bg-surface">
       <Container>
-        <SectionLabel num="10">{t.label}</SectionLabel>
+        <SectionLabel num="11">{t.label}</SectionLabel>
         <SectionH2>{t.h2}</SectionH2>
         <p className="js-reveal mt-5 max-w-[62ch] text-sub" style={{ fontSize: "var(--text-lead)", lineHeight: 1.6 }}>
           {t.lead}

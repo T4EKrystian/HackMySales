@@ -140,7 +140,7 @@ type Variant = "core" | "mini" | "converge";
 
 const VARIANT = {
   core: { count: 12000, scale: 1.5, size: 3.2, time: 1, mouse: 0.9 },
-  mini: { count: 2200, scale: 1.0, size: 3.2, time: 0.55, mouse: 0 },
+  mini: { count: 2600, scale: 1.15, size: 4.4, time: 0.55, mouse: 0 },
   converge: { count: 5200, scale: 1.35, size: 3.0, time: 0.7, mouse: 0 },
 } as const;
 

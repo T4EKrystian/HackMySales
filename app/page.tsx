@@ -7,6 +7,7 @@ import { Manifest } from "@/components/sections/Manifest";
 import { Pillars } from "@/components/sections/Pillars";
 import { GoldMines } from "@/components/sections/GoldMines";
 import { Comparison } from "@/components/sections/Comparison";
+import { Channels } from "@/components/sections/Channels";
 import { ForWho } from "@/components/sections/ForWho";
 import { MorningPanel } from "@/components/sections/MorningPanel";
 import { ProgressDots } from "@/components/ui/ProgressDots";
@@ -58,6 +59,7 @@ export default function Home() {
         <Pillars />
         <GoldMines />
         <Comparison />
+        <Channels />
         <ForWho />
         <HowItWorks />
         <MorningPanel />

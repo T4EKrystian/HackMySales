@@ -117,7 +117,7 @@ export function Results() {
   return (
     <section ref={ref} id="wyniki" className="section-pad">
       <Container>
-        <SectionLabel num="08">{t.label}</SectionLabel>
+        <SectionLabel num="09">{t.label}</SectionLabel>
         <SectionH2>{t.h2}</SectionH2>
 
         {/* Kolejność bloków: kalkulator → nocna zmiana → liczniki (motion.md §5, 2026-07-10) */}
