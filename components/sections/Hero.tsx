@@ -21,52 +21,61 @@ export function Hero() {
       const mm = gsap.matchMedia();
 
       mm.add(NO_REDUCE, () => {
-        // --- H1: mask-reveal liniami + scramble-in „nigdy" ---
+        // Fast-path LCP: H1 i lead są widoczne od SSR. Pełna choreografia (maski) gra
+        // tylko, gdy JS wstał szybko — na wolnym łączu treść po prostu stoi (LCP < 2,5 s),
+        // a drobne elementy i tak wjeżdżają.
+        const fast = performance.now() < 2600;
         const lines = gsap.utils.toArray<HTMLElement>(".hero-line", scope.current!);
         let split: SplitText | null = null;
         let played = false;
 
-        document.fonts.ready.then(() => {
-          if (!lines.length || !scope.current) return;
-          split = SplitText.create(lines, {
-            type: "lines,words",
-            mask: "lines",
-            autoSplit: true,
-            onSplit(self) {
-              const nigdy = self.words.find((w) => (w.textContent ?? "").trim().toLowerCase() === "nigdy");
-              nigdy?.classList.add("hero-nigdy");
-              gsap.set(lines, { opacity: 1 }); // zdejmij stan startowy .hero-el
-              if (played) {
-                gsap.set(self.lines, { yPercent: 0 });
-                return;
-              }
+        if (!lines.length || !scope.current) return;
+        split = SplitText.create(lines, {
+          type: "lines,words",
+          mask: "lines",
+          autoSplit: true,
+          aria: "none", // aria-label na <span> = prohibited attr (axe); h1 czyta się z treści
+          onSplit(self) {
+            const nigdy = self.words.find((w) => (w.textContent ?? "").trim().toLowerCase() === "nigdy");
+            nigdy?.classList.add("hero-nigdy");
+            if (played || !fast) {
               played = true;
-              const tl = gsap.timeline({ delay: 0.12 });
-              tl.from(self.lines, { yPercent: 112, duration: 0.9, ease: EASE.out, stagger: STAG.base });
-              if (nigdy) {
-                tl.to(nigdy, { duration: 0.6, scrambleText: { text: "nigdy", chars: "nigdyśpi", speed: 1.6 } }, 0.55);
-              }
-              return tl;
-            },
-          });
+              gsap.set(self.lines, { yPercent: 0 });
+              return;
+            }
+            played = true;
+            const tl = gsap.timeline({ delay: 0.1 });
+            tl.from(self.lines, { yPercent: 112, duration: 0.9, ease: EASE.out, stagger: STAG.base });
+            if (nigdy) {
+              tl.to(nigdy, { duration: 0.6, scrambleText: { text: "nigdy", chars: "nigdyśpi", speed: 1.6 } }, 0.55);
+            }
+            return tl;
+          },
         });
 
         // --- Reszta choreografii wejścia (< 1,4 s łącznie) ---
         const tl = gsap.timeline({ paused: true, defaults: { ease: EASE.soft } });
-        tl.fromTo(".hero-glow", { opacity: 0 }, { opacity: 1, duration: 1.2 }, 0)
-          .fromTo(
-            [".hero-eyebrow", ".hero-lead", ".hero-cta", ".hero-proof", ".hero-cue"],
+        tl.fromTo(".hero-glow", { opacity: 0 }, { opacity: 1, duration: 1.2 }, 0);
+        if (fast) {
+          tl.fromTo(
+            ".hero-lead",
             { y: 24, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.7, stagger: STAG.base },
+            { y: 0, opacity: 1, duration: 0.7 },
             0.3
-          )
-          .fromTo(
-            ".hero-demo",
-            { y: 48, opacity: 0, scale: 0.98 },
-            { y: 0, opacity: 1, scale: 1, duration: 0.9, clearProps: "transform" },
-            0.55
           );
-        document.fonts.ready.then(() => tl.play());
+        }
+        tl.fromTo(
+          [".hero-eyebrow", ".hero-cta", ".hero-proof", ".hero-cue"],
+          { y: 24, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7, stagger: STAG.base },
+          0.38
+        ).fromTo(
+          ".hero-demo",
+          { y: 48, opacity: 0, scale: 0.98 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.9, clearProps: "transform" },
+          0.55
+        );
+        tl.play();
 
         // --- Rdzeń: dyspersja i odpłynięcie przy scrollu (uniform, nie DOM) ---
         gsap.to(glState, {
@@ -126,11 +135,12 @@ export function Hero() {
             className="mt-5 font-display font-bold tracking-[-0.03em] text-ink"
             style={{ fontSize: "var(--text-hero)", lineHeight: 1.05 }}
           >
-            <span className="hero-line hero-el block">{t.h1Line1}</span>
-            <span className="hero-line hero-el block">{t.h1Line2}</span>
+            {/* bez .hero-el — H1 to kandydat LCP, musi malować się od SSR */}
+            <span className="hero-line block">{t.h1Line1}</span>
+            <span className="hero-line block">{t.h1Line2}</span>
           </h1>
           <p
-            className="hero-lead hero-el mt-6 max-w-[36rem] text-sub"
+            className="hero-lead mt-6 max-w-[36rem] text-sub"
             style={{ fontSize: "var(--text-lead)", lineHeight: 1.6 }}
           >
             {t.lead}

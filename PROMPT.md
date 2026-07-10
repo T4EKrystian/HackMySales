@@ -6,12 +6,13 @@
 
 Kontynuujesz rozwój gotowego landing page'a HackMySales (AI czat + wyszukiwarka + rekomendacje dla e-commerce, rynek polski). Strona jest ZBUDOWANA i przechodzi QA — nie scaffolduj niczego od nowa, nie przepisuj działających sekcji bez powodu. Poprzeczka bez zmian: rzemiosło poziomu linear.app/vercel.com, ciemna i powściągliwa, zero AI-slopu.
 
-## Stan zastany (commit `main`)
+## Stan zastany (commit `main`, po przebudowie v3 — 2026-07-10)
 
-- Next.js 15 (App Router, TS, `output: "export"` — statyczny eksport!) · Tailwind v4 · GSAP + ScrollTrigger + Lenis · lucide-react · fonty self-hosted przez `@fontsource-variable` (NIE next/font/google — CLAUDE.md wyjaśnia).
-- 16 sekcji w `components/sections/` (hero z demem czatu w 3 scenariuszach, pin filarów, kopalnie złota + ticker, porównanie #roznica, branże #branze, panel #panel, wyniki + ROI, cennik, FAQ…), dots-nav i progress bar.
-- QA: axe-core 0 naruszeń · Lighthouse A11y/BP/SEO 100 (Perf 79 na dławionej maszynie; prod ≥90) · reduced-motion w pełni obsłużony (filary mają wariant stackowany `motion-reduce:`) · CLS 0.
-- Git zainicjowany, historia na `main`. Teksty WYŁĄCZNIE w `content/pl.ts` (źródło: `content/copy-pl.md`). Placeholdery `[…]` są celowo widoczne — lista w `PLACEHOLDERS.md`.
+- Next.js 15 (App Router, TS, `output: "export"` — statyczny eksport!) · Tailwind v4 · GSAP 3.15 (SplitText/ScrambleText/DrawSVG/MotionPath/Flip — darmowe od 3.13) + ScrollTrigger + Lenis · three r182 + @react-three/fiber 9 + drei 10 (JEDEN globalny Canvas przez `lib/glRegistry` + `components/gl/` — lazy po idle, sceny: rdzeń hero, pole Problemu, mini-rdzeń Kanałów, converge finału) · motion (tylko springi komponentowe) · lucide-react · fonty self-hosted przez `@fontsource-variable` (NIE next/font/google — CLAUDE.md wyjaśnia).
+- 18 sekcji v3: hero z particle core + żywym czatem (typing, chipy scenariuszy, zegar) · proof ticker (scalony TrustBar) · Problem (pin 300%, liczby 15vw, gasnące kropki GL) · Manifest (kinetic kicker) · filary (device-frame morph + Flip) · bento kopalni (2 duże + 4 małe, żywe pętle, spotlight+tilt) · arena zamiast tabeli (4 rundy, wynik 0:4) · Kanały (beams + pulsy) · kroki horizontal-pin ze snapem · poranek (perspektywa + parallax warstw) · kalkulator (odometer, mnożnik ×N, glow-burst) · integracje (2 przeciwbieżne marquee + fuzzy finder) · kontrola (żywy panel sterowania) · pricing (border-beam, disclosure) · FAQ display-size (plus→minus) · founder note (maski + watermark 2017/40+) · final CTA (sekwencja skanu + converge) · footer z wielkim wordmarkiem (fill-wipe). Custom cursor (pointer:fine), grain, nav chowany przy scrollu ze scramble-hover.
+- QA v3: Lighthouse desktop **Perf 99 · A11y 100 · BP 100 · SEO 100** (LCP 0,8 s, CLS 0,008); mobile throttled Slow-4G: Perf 74 · A11y 100 · BP 100 · SEO 100 (LCP 4,0 s = artefakt swap fontów pod throttlingiem — patrz „Znane kompromisy” niżej); konsola czysta; reduced-motion pełne (GL się nie montuje, piny mają warianty pionowe); mobile 390 px bez poziomego scrolla.
+- Znane kompromisy v3: (1) mobile-throttled LCP gated swapem fontów — do zbicia preloadem woff2 na etapie deployu (nginx/Vercel headers) albo `font-display: optional` dla Inter; (2) przełącznik cen Miesięcznie/Rocznie NIE istnieje — deck nie ma cen rocznych (§9b); (3) EffectComposer/Bloom odpuszczony świadomie — glow robią additive points + CSS (budżet perf).
+- Git: historia przebudowy w commitach `feat(v3-f1..f8)`. Teksty WYŁĄCZNIE w `content/pl.ts` (źródło: `content/copy-pl.md` — nowe sekcje interfejsowe §1b/4c/4d/4e/5c/6b/7c/8b/9b/11b). Placeholdery `[…]` — lista w `PLACEHOLDERS.md`.
 
 ## Zanim cokolwiek zmienisz
 

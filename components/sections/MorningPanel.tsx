@@ -25,14 +25,14 @@ export function MorningPanel() {
       const mm = gsap.matchMedia();
 
       mm.add(DESKTOP_MOTION, () => {
+        // bez fade na opacity — teksty w frame muszą trzymać kontrast od startu (axe)
         gsap.fromTo(
           frame,
-          { rotateX: 9, y: 48, scale: 0.975, autoAlpha: 0.4, transformOrigin: "center top", transformPerspective: 1400 },
+          { rotateX: 9, y: 48, scale: 0.975, transformOrigin: "center top", transformPerspective: 1400 },
           {
             rotateX: 0,
             y: 0,
             scale: 1,
-            autoAlpha: 1,
             ease: "none",
             scrollTrigger: { trigger: frame, start: "top 92%", end: "center 58%", scrub: 0.5 },
           }

@@ -284,11 +284,12 @@ export function Pillars() {
                   <li
                     key={i}
                     data-active="true"
-                    className="pillar-item group transition-opacity duration-300 data-[active=false]:opacity-45"
+                    className="pillar-item group"
                   >
-                    <p className="num mb-2 text-xs text-blue-soft">0{i + 1}</p>
-                    <h3 className="font-display text-2xl font-semibold tracking-tight text-ink">{item.title}</h3>
-                    <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-sub">{item.body}</p>
+                    {/* dimming przez tokeny koloru, nie opacity — kontrast ≥4,5:1 również w stanie nieaktywnym (axe) */}
+                    <p className="num mb-2 text-xs text-blue-soft transition-colors duration-300 group-data-[active=false]:text-mute">0{i + 1}</p>
+                    <h3 className="font-display text-2xl font-semibold tracking-tight text-ink transition-colors duration-300 group-data-[active=false]:text-sub">{item.title}</h3>
+                    <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-sub transition-colors duration-300 group-data-[active=false]:text-mute">{item.body}</p>
                   </li>
                 ))}
               </ol>

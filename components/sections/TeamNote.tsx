@@ -26,6 +26,7 @@ export function TeamNote() {
             type: "lines",
             mask: "lines",
             autoSplit: true,
+            aria: "none", // aria-label na spanach = prohibited (axe); blockquote czyta się z treści
             onSplit(self) {
               gsap.set(quote, { opacity: 1 });
               return gsap.from(self.lines, {

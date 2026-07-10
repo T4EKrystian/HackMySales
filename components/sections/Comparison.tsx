@@ -99,7 +99,7 @@ function HmsAnswer({ r }: { r: Round }) {
 
 function VerdictChips({ r }: { r: Round }) {
   return (
-    <div className="arena-verdict mt-4 grid grid-cols-2 gap-3">
+    <div className="arena-verdict mt-4 grid gap-3 sm:grid-cols-2">
       <p className="flex items-start gap-2 text-xs leading-relaxed text-mute">
         <X size={13} strokeWidth={2} className="mt-0.5 shrink-0" aria-hidden="true" />
         {r.verdict.left}
@@ -220,13 +220,13 @@ export function Comparison() {
       </div>
       {/* Dwie odpowiedzi */}
       <div className="mt-8 grid gap-5 md:grid-cols-2 md:gap-8">
-        <div>
+        <div className="min-w-0">
           <p className="label mb-3">{t.arena.faqName}</p>
           <div className="arena-faq-msg rounded-2xl rounded-bl-md border border-hairline bg-card px-4 py-3 text-sm leading-relaxed text-mute">
             {r.faq}
           </div>
         </div>
-        <div>
+        <div className="min-w-0">
           <p className="label mb-3 flex items-center gap-2 text-blue-soft">
             <Logo withWord={false} markSize={14} />
             HackMySales
@@ -285,7 +285,7 @@ export function Comparison() {
       <Container className="mt-16 max-w-[980px]">
         <div ref={sumRef} className="grid gap-3">
           {t.arena.summaryRows.map((idx) => (
-            <div key={idx} className="js-reveal grid grid-cols-2 gap-5 border-t border-hairline pt-4 md:gap-8">
+            <div key={idx} className="js-reveal grid gap-3 border-t border-hairline pt-4 sm:grid-cols-2 sm:gap-8">
               <p className="flex items-start gap-2 text-sm leading-relaxed text-mute">
                 <X size={14} strokeWidth={2} className="mt-0.5 shrink-0" aria-hidden="true" />
                 {t.rows[idx].left}
