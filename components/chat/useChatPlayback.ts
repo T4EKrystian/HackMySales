@@ -2,6 +2,7 @@
 
 import { useRef, useState, type RefObject } from "react";
 import { gsap, useGSAP, typeIntoPunct, NO_REDUCE, REDUCE } from "@/lib/motion";
+import { whenIntroDone } from "@/lib/introGate";
 
 /** Silnik playbacku rozmów (v5) — wyciągnięty z ChatDemo, rytm z DNA „Chat authenticity":
  *  typing dots 600–900 ms (deterministycznie per krok), klient pisze z pauzami po
@@ -16,9 +17,12 @@ export function useChatPlayback(opts: {
   active?: boolean;
   legacy?: boolean;
   scriptKey: string;
+  /** V6 (hero): start dopiero po intro strony — kropka online „zapala się",
+   *  0,4 s oddechu i rusza pierwsza wiadomość. Opt-in wyłącznie w hero. */
+  waitForIntro?: boolean;
   onDone?: () => void;
 }) {
-  const { scope, bodyRef, mode = "play", active, legacy = false, scriptKey, onDone } = opts;
+  const { scope, bodyRef, mode = "play", active, legacy = false, scriptKey, waitForIntro = false, onDone } = opts;
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const startedRef = useRef(false);
   const pendingRef = useRef<gsap.core.Tween | null>(null);
@@ -123,6 +127,28 @@ export function useChatPlayback(opts: {
         tlRef.current = tl;
 
         if (active === undefined) {
+          // wake (V6): kropka online „zapala się", 0,4 s oddechu → pierwsza wiadomość;
+          // bez waitForIntro zachowanie jak dotąd (1,0 s pauzy)
+          let cleanupGate: (() => void) | null = null;
+          const wake = () => {
+            if (waitForIntro) {
+              const dot = root.querySelector<HTMLElement>(".chat-online-dot");
+              if (dot) {
+                gsap.fromTo(
+                  dot,
+                  { scale: 0.4, autoAlpha: 0 },
+                  { scale: 1, autoAlpha: 1, duration: 0.25, ease: "back.out(2)" }
+                );
+              }
+            }
+            pendingRef.current = gsap.delayedCall(waitForIntro ? 0.4 : 1.0, () => tl.play());
+          };
+          const start = () => {
+            startedRef.current = true;
+            if (waitForIntro) cleanupGate = whenIntroDone(wake);
+            else wake();
+          };
+
           // samostart: pierwszy wjazd w viewport z pauzą oddechu; rebuild gra od razu
           const rect = root.getBoundingClientRect();
           const inView = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
@@ -135,16 +161,18 @@ export function useChatPlayback(opts: {
                 start: "top 72%",
                 once: true,
                 onEnter: () => {
-                  startedRef.current = true;
-                  gsap.delayedCall(1.0, () => tl.play());
+                  if (!startedRef.current) start();
                 },
               },
             });
-            if (inView) {
-              startedRef.current = true;
-              gsap.delayedCall(1.0, () => tl.play());
-            }
+            if (inView) start();
           }
+
+          return () => {
+            cleanupGate?.();
+            pendingRef.current?.kill();
+            pendingRef.current = null;
+          };
         } else if (active) {
           // sterowanie zewnętrzne: start po ≥200 ms aktywności (kalibracja scrubów)
           pendingRef.current = gsap.delayedCall(0.2, () => tl.play(0));

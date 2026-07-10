@@ -31,6 +31,8 @@ export type ChatShellProps = {
   mode?: "play" | "static";
   /** sterowanie z zewnątrz (Pillars): true = graj (po 200 ms), false = reset */
   active?: boolean;
+  /** V6: hero — playback rusza po intro strony (kropka online + 0,4 s) */
+  waitForIntro?: boolean;
   /** żywy zegar w wierszu statusu (hero) */
   clock?: string;
   /** slot pod wierszem tożsamości w headerze (taby hero) */
@@ -42,6 +44,10 @@ export type ChatShellProps = {
   /** e-mail: metadane nagłówka (Od/Temat) i link stopki */
   emailMeta?: { fromLabel: string; from: string; subjectLabel: string; subject: string };
   emailLink?: string;
+  /** V6 morph Kanałów (opt-in): data-flip-id na ramce (flipId) i bąblach (flipMsgs)
+   *  — Flip.getState/from matchuje elementy między remountami skinów */
+  flipId?: string;
+  flipMsgs?: boolean;
   replayable?: boolean;
   bodyClassName?: string;
   className?: string;
@@ -62,6 +68,7 @@ function BubbleShell({
   chrome = "full",
   mode = "play",
   active,
+  waitForIntro,
   clock,
   headerExtra,
   footer,
@@ -70,6 +77,8 @@ function BubbleShell({
   bodyClassName = "",
   className = "",
   ariaLabel = "Rozmowa demo",
+  flipId,
+  flipMsgs = false,
   onDone,
 }: ChatShellProps) {
   const cfg = CHAT_SKINS[skin as Exclude<ChatSkinName, "email">];
@@ -84,6 +93,7 @@ function BubbleShell({
     active,
     legacy: skin === "legacy",
     scriptKey: `${skin}-${script.key}`,
+    waitForIntro,
     onDone,
   });
 
@@ -138,7 +148,10 @@ function BubbleShell({
             <div className="min-w-0">
               {step.role === "bot" && cfg.dots && <TypingDots />}
               <div className={`chat-msg ${step.role === "user" ? "ml-auto max-w-[85%]" : "max-w-[85%]"}`}>
-                <div className={`px-4 py-3 text-sm leading-relaxed ${step.role === "user" ? cfg.bubbleUser : cfg.bubbleBot}`}>
+                <div
+                  data-flip-id={flipMsgs ? `ch-msg-${i}` : undefined}
+                  className={`px-4 py-3 text-sm leading-relaxed ${step.role === "user" ? cfg.bubbleUser : cfg.bubbleBot}`}
+                >
                   {step.role === "bot" && cfg.replyQuote && prevUser && (
                     <p className="mb-1.5 truncate border-l-2 border-line-2 pl-2 text-[11px] text-mute">
                       {ui.replyLabel}: {prevUser}
@@ -205,8 +218,8 @@ function BubbleShell({
         : undefined;
 
   return (
-    <div ref={scope} className={`frame-l2 relative w-full ${className}`}>
-      <div className="glass-head absolute inset-x-0 top-0 z-10 rounded-t-[19px]">
+    <div ref={scope} data-flip-id={flipId} className={`frame-l2 relative w-full ${className}`}>
+      <div data-flip-id={flipId ? "ch-head" : undefined} className="glass-head absolute inset-x-0 top-0 z-10 rounded-t-[19px]">
         <div className="flex items-center justify-between gap-3 px-5 py-3.5">
           {skin === "legacy" ? (
             <p className="chat-legacy-font text-sm text-sub">{ui.legacyName}</p>
@@ -248,6 +261,7 @@ function EmailShell({
   emailLink,
   mode = "play",
   className = "",
+  flipId,
 }: ChatShellProps) {
   const scope = useRef<HTMLDivElement>(null);
 
@@ -282,7 +296,7 @@ function EmailShell({
   );
 
   return (
-    <div ref={scope} className={`rounded-[var(--radius-lg)] border border-hairline bg-surface ${className}`}>
+    <div ref={scope} data-flip-id={flipId} className={`rounded-[var(--radius-lg)] border border-hairline bg-surface ${className}`}>
       {emailMeta && (
         <div className="border-b border-hairline px-5 py-3">
           <p className="text-xs text-mute">

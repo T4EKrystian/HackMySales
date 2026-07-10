@@ -34,6 +34,7 @@ export function ChatDemo() {
       script={scenarioToScript(active)}
       skin="onsite"
       clock={clock}
+      waitForIntro
       replayable
       bodyClassName="max-h-[556px] min-h-[476px] p-5 pt-[112px]"
       headerExtra={

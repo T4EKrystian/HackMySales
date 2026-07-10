@@ -65,7 +65,7 @@ export function PersonaRow({ presence, clock, ring = false }: { presence?: strin
         </p>
         {presence ? (
           <p className="flex items-center gap-1.5 truncate text-xs text-mute">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
+            <span className="chat-online-dot inline-block h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
             {presence}
             {clock && (
               <>

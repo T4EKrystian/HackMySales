@@ -78,6 +78,7 @@ uniform float uMode; // 0 = core (dyspersja na scroll), 1 = converge (finał)
 uniform float uFlat;    // 1 = sfera; <1 = spłaszczenie do dysku (orbita)
 uniform float uScatter; // mnożnik dyspersji scrollowej
 uniform float uBeatAmp; // udział pulsu w rozmiarze/promieniu
+uniform float uIgnite;  // V6: zapłon 0→1 (scale .96→1; intensywność mnoży JS)
 attribute vec3 aDir;
 attribute float aSeed;
 varying float vRim;
@@ -111,6 +112,9 @@ void main(){
   vec3 toM=pos-uMouse;
   float md=length(toM);
   pos+=normalize(toM+vec3(0.0001))*uMouseForce*smoothstep(1.15,0.0,md)*0.34;
+
+  // zapłon (V6): cała forma rośnie .96→1 — easing nadaje GSAP na glState.ignition
+  pos*=mix(0.96,1.0,uIgnite);
 
   vec4 mv=modelViewMatrix*vec4(pos,1.0);
   gl_Position=projectionMatrix*mv;
@@ -226,6 +230,7 @@ function pointsUniforms(over: Record<string, { value: unknown }>) {
     uFlat: { value: 1 },
     uScatter: { value: 1 },
     uBeatAmp: { value: 1 },
+    uIgnite: { value: 1 },
     uAlpha: { value: 1 },
     uColA: { value: tokenColor("--blue-500") },
     uColB: { value: tokenColor("--blue-300") },
@@ -316,11 +321,15 @@ export function CoreParticles({ entry, variant }: { entry: GLViewEntry; variant:
     smooth.current += (entry.state.progress - smooth.current) * 0.09;
 
     const t = timeRef.current;
-    const intensity = fadeRef.current * (0.85 + entry.state.boost * 0.5);
+    // iloczyn fade × ignition: obie rampy niezależne — scena po lazy-mount i beat
+    // intro nie kolidują (późniejsza z ramp rządzi zapłonem)
+    const ignite = entry.state.ignition ?? 1;
+    const intensity = fadeRef.current * ignite * (0.85 + entry.state.boost * 0.5);
 
     mat.uniforms.uTime.value = t * conf.time;
     mat.uniforms.uIntensity.value = intensity;
     mat.uniforms.uProgress.value = smooth.current;
+    mat.uniforms.uIgnite.value = ignite;
 
     const om = orbitMatRef.current;
     if (om) {
@@ -328,6 +337,7 @@ export function CoreParticles({ entry, variant }: { entry: GLViewEntry; variant:
       om.uniforms.uTime.value = t * conf.time * 0.45;
       om.uniforms.uIntensity.value = intensity;
       om.uniforms.uProgress.value = smooth.current;
+      om.uniforms.uIgnite.value = ignite;
     }
     if (orbitGroupRef.current) orbitGroupRef.current.rotation.y = t * 0.03;
 

@@ -6,6 +6,7 @@ import "lenis/dist/lenis.css";
 import "./globals.css";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Cursor } from "@/components/motion/Cursor";
+import { ChapterTint } from "@/components/motion/ChapterTint";
 import { GLStage } from "@/components/gl/GLStage";
 
 export const metadata: Metadata = {
@@ -60,6 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SmoothScroll>{children}</SmoothScroll>
         <GLStage />
         <Cursor />
+        <ChapterTint />
         <div className="grain" aria-hidden="true" />
       </body>
     </html>

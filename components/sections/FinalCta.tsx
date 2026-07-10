@@ -88,6 +88,8 @@ export function FinalCta() {
 
     console.log("demo-request (makieta)", { shop: url, email });
     setStage("sent");
+    // V6: pojedynczy „ignition" chmury — echo zapłonu hero (klamra otwarcie↔domknięcie)
+    gsap.fromTo(glState, { ignition: 0.4 }, { ignition: 1, duration: 0.9, ease: EASE.out });
   };
 
   const showEmail = !enhanced || stage === "email" || stage === "sent";

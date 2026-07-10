@@ -101,3 +101,33 @@ słupki `scaleY` stagger .05–.06 + linia `stroke-dashoffset`; przyciski/karty/
 - Piny: `pinSpacing` poprawny — zero CLS; każda pinowana sekcja ma wariant mobile/reduced bez pinu.
 - WebGL: jeden context, brak cieni, dpr ≤1.75, rAF wyłączony poza viewportem i przy `document.hidden`.
 - Wątpliwość „fajne, ale niepotrzebne” → wyciąć.
+
+## 6. Choreografie-sygnatury V6 (trzy momenty; reszta strony gra ciszej pod nie)
+
+**A. Wejście na stronę (~1,45 s, bez preloadera/kurtyny).** „Rozjaśnienie z czerni" robią wyłącznie
+warstwy dekoracyjne (nie-kandydaci LCP): glow 0→1 (1,2 s) + dot-grid 0→1 (0,6 s) od t=0 → zapłon
+rdzenia t=0,12–0,77 (`glState.ignition` 0→1: w shaderze scale .96→1 + intensywność; iloczyn
+`fadeRef × ignition` obsługuje lazy-mount sceny — późniejsza rampa rządzi) → H1 maską od t=0,22
+(tylko gałąź fast; poza nią linie stoją) → hero-el 0,38 → demo-frame 0,55–1,45. `onComplete`
+domyka bramkę intro (`lib/introGate`, bezpiecznik 2,6 s): kropka online „zapala się"
+(scale .4→1 back.out 0,25 s) i po 0,4 s rusza pierwsza wiadomość czatu. Kotwica w środku strony:
+bramka rozwiązuje się w tle — powrót do hero budzi czat natychmiast. Reduced-motion: wszystko
+statycznie, bramka domknięta defensywnie. LCP-kontrakt: `.hero-lead` i fast-path NIETKNIĘTE.
+
+**B. Kanały — przełączenie skina (puls 300 → morph 450 → re-stagger 250 ms).** Rozmowa gra RAZ
+(stan `seen`); przełączenia są statyczne, zmianę niesie morph: klik nodu → jednorazowy puls-klik
+jaśniejszą nakładką beamu hub→nod (dashoffset L→0, 300 ms) → `Flip.getState` na `[data-flip-id]`
+(ch-frame/ch-head/ch-msg-N, props: borderRadius) → `flushSync` remount skina → `Flip.from`
+(450 ms, stagger 0,02 = fala wiadomości) + tween wysokości wrappera (sekcja pod spodem płynie);
+scrollTop okna przenoszony przed Flipem. Email ↔ bąble: matchuje się tylko ramka, wnętrze wjeżdża
+staggerem od ~60% morpha. Kolory NIE flipują (twarda podmiana pod ruchem konturu). Rapid-click:
+kill obu faz + sanitize (jawne przywrócenie autoAlpha — `.js .chat-step` ukrywa przy blanket
+clearProps). Mobile: bez pulsu, fade. Reduced: podmiana natychmiastowa. Taby = ta sama akcja bez pulsu.
+
+**C. Finał — echo zapłonu.** Focus inputu: boost chmury (V5). Po `sent`: pojedynczy tween
+`ignition` 0,4→1 (0,9 s) na scenie converge — klamra z otwarciem hero. Bez konfetti.
+
+**D. Przejścia rozdziałów.** Trzy granice makro-bloków (problem→rozwiązanie→dowody→oferta) scrubują
+`--chapter-tint` na body (color-mix ku akcentowi, 0→1,6→0,8→2,4%) przez CAŁĄ wysokość sekcji
+granicznej — niewidoczna ręka, nie fajerwerk. Sekcje z bg-surface świadomie przykrywają tint.
+Desktop-only (mobile/reduced: brak).

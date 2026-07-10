@@ -7,9 +7,13 @@ import { Button } from "@/components/ui/Button";
 import { ChatDemo } from "@/components/sections/ChatDemo";
 import { gsap, useGSAP, SplitText, NO_REDUCE, REDUCE, FINE_POINTER, EASE, STAG, attachMagnet } from "@/lib/motion";
 import { useGLView } from "@/lib/glRegistry";
+import { armIntroGate, markIntroDone } from "@/lib/introGate";
 
-/** Hero v3 (motion.md §3, features §L17): particle core + mask-reveal H1 + żywy czat.
- *  Rdzeń oddycha (puls 1,2 s), reaguje na kursor i rozprasza się przy scrollu. */
+/** Hero v3/v6 (motion.md §3, features §L17): particle core + mask-reveal H1 + żywy czat.
+ *  V6 „wejście": tło (glow+grid) rozjaśnia się z czerni → rdzeń zapala się
+ *  (glState.ignition, iloczyn z fadeRef sceny — patrz CoreParticles) → H1 maską →
+ *  hero-el → demo; onComplete uzbrojonej bramki budzi czat (kropka + 0,4 s).
+ *  LCP: .hero-lead i fast-path NIETKNIĘTE — nowe beaty tylko na dekoracjach. */
 export function Hero() {
   const t = pl.hero;
   const scope = useRef<HTMLElement>(null);
@@ -21,6 +25,10 @@ export function Hero() {
       const mm = gsap.matchMedia();
 
       mm.add(NO_REDUCE, () => {
+        // V6: bramka intro (bezpiecznik 2,6 s) + rdzeń startuje ciemny (zapłon w beacie)
+        armIntroGate(2600);
+        glState.ignition = 0;
+
         // Fast-path LCP: H1 i lead są widoczne od SSR. Pełna choreografia gra tylko,
         // gdy hydracja dogoniła pierwszy paint (<700 ms po FCP) — na wolnych maszynach
         // namalowanej treści już NIE dotykamy (każdy późny tween = późny kandydat LCP).
@@ -47,7 +55,8 @@ export function Hero() {
               return;
             }
             played = true;
-            const tl = gsap.timeline({ delay: 0.1 });
+            // V6: H1 wchodzi PO zapłonie rdzenia (0.22 zamiast 0.1) — tylko gałąź fast
+            const tl = gsap.timeline({ delay: 0.22 });
             tl.from(self.lines, { yPercent: 112, duration: 0.9, ease: EASE.out, stagger: STAG.base });
             if (nigdy) {
               tl.to(nigdy, { duration: 0.6, scrambleText: { text: "nigdy", chars: "nigdyśpi", speed: 1.6 } }, 0.55);
@@ -56,9 +65,17 @@ export function Hero() {
           },
         });
 
-        // --- Reszta choreografii wejścia (< 1,4 s łącznie) ---
-        const tl = gsap.timeline({ paused: true, defaults: { ease: EASE.soft } });
+        // --- Choreografia wejścia (~1,45 s): tło → zapłon rdzenia → treść → demo ---
+        const tl = gsap.timeline({
+          paused: true,
+          defaults: { ease: EASE.soft },
+          onComplete: markIntroDone,
+        });
         tl.fromTo(".hero-glow", { opacity: 0 }, { opacity: 1, duration: 1.2 }, 0);
+        tl.fromTo(".hero-bg-el", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0);
+        // zapłon rdzenia: scale .96→1 + bloom-in (shader uIgnite; iloczyn z fadeRef
+        // obsługuje lazy-mount sceny — tween dotyka TYLKO obiektu JS glState)
+        tl.to(glState, { ignition: 1, duration: 0.65, ease: EASE.out }, 0.12);
         // lead: sam transform — element pozostaje namalowany (LCP), tylko dojeżdża
         if (fast) {
           tl.fromTo(".hero-lead", { y: 20 }, { y: 0, duration: 0.7, clearProps: "transform" }, 0.3);
@@ -87,7 +104,8 @@ export function Hero() {
       });
 
       mm.add(REDUCE, () => {
-        gsap.set([".hero-el", ".hero-glow", ".hero-line"], { clearProps: "all", opacity: 1 });
+        gsap.set([".hero-el", ".hero-glow", ".hero-line", ".hero-bg-el"], { clearProps: "all", opacity: 1 });
+        markIntroDone(); // defensywnie — czat nie może czekać na intro, które nie gra
       });
 
       // Magnetic CTA — tylko desktop z myszą (max 4 px w hero)
@@ -116,9 +134,9 @@ export function Hero() {
 
   return (
     <section ref={scope} id="top" className="relative flex min-h-svh items-center overflow-hidden pt-[72px]">
-      {/* Tło: glow (poster do czasu WebGL) + siatka kropek */}
+      {/* Tło: glow (poster do czasu WebGL) + siatka kropek (rozjaśniają się z czerni) */}
       <div className="hero-glow glow-bg absolute inset-x-0 -top-24 h-[130%]" aria-hidden="true" />
-      <div className="dot-grid absolute inset-0" aria-hidden="true" />
+      <div className="dot-grid hero-bg-el absolute inset-0" aria-hidden="true" />
 
       {/* Track rdzenia — scena `core` rysowana na globalnym canvasie (z-0, za treścią) */}
       <div

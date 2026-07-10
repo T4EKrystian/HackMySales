@@ -10,8 +10,10 @@ import { useEffect, useRef } from "react";
 export type GLSceneName = "core" | "mini" | "converge" | "field";
 
 /** Mutowalny stan widoku — czytany w useFrame. progress: znaczenie zależne od sceny
- *  (core: dyspersja 0→1, converge: zbieganie 0→1, field: fala gaśnięcia 0→1). */
-export type GLViewState = { progress: number; boost: number };
+ *  (core: dyspersja 0→1, converge: zbieganie 0→1, field: fala gaśnięcia 0→1).
+ *  ignition (V6): „zapłon" sceny — efektywna intensywność = fade × ignition;
+ *  init 1 (tylko hero zbija na 0 przed intro — sceny mini/converge/field bez zmian). */
+export type GLViewState = { progress: number; boost: number; ignition: number };
 
 export type GLViewEntry = {
   key: string;
@@ -57,7 +59,7 @@ export const glPointer = { x: -1e4, y: -1e4 };
  *  Przy prefers-reduced-motion nie rejestruje niczego (GLStage i tak się nie montuje). */
 export function useGLView(key: string, scene: GLSceneName, props?: Record<string, number | boolean>) {
   const ref = useRef<HTMLDivElement>(null);
-  const stateRef = useRef<GLViewState>({ progress: 0, boost: 0 });
+  const stateRef = useRef<GLViewState>({ progress: 0, boost: 0, ignition: 1 });
 
   useEffect(() => {
     const el = ref.current;

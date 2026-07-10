@@ -49,7 +49,9 @@
 
 @layer base {
   body {
-    background: var(--bg-page);
+    /* V6: tint rozdziałów (ChapterTint scrubuje --chapter-tint 0→~2,5%) —
+       „niewidoczna ręka" między makro-blokami; 0% = czysty --bg-page */
+    background: color-mix(in oklab, var(--bg-page) calc(100% - var(--chapter-tint, 0%)), var(--blue-500));
     color: var(--text-primary);
     font-family: var(--font-body);
     line-height: 1.65;
@@ -171,10 +173,11 @@
 .skip-link:focus-visible { transform: translateY(0); }
 
 /* Elementy animowane: ukryte tylko gdy jest JS; bez JS wszystko widoczne.
-   GSAP animuje przez fromTo — klasa daje stan startowy bez FOUC. */
-.js .js-reveal, .js .hero-el, .js .chat-step { opacity: 0; }
+   GSAP animuje przez fromTo — klasa daje stan startowy bez FOUC.
+   .hero-bg-el (V6): dekoracje tła hero rozjaśniają się z czerni w intro. */
+.js .js-reveal, .js .hero-el, .js .chat-step, .js .hero-bg-el { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
-  .js .js-reveal, .js .hero-el, .js .chat-step { opacity: 1; }
+  .js .js-reveal, .js .hero-el, .js .chat-step, .js .hero-bg-el { opacity: 1; }
 }
 
 /* Manifest: słowa startują przygaszone tylko przy działającym JS */
@@ -234,6 +237,12 @@
   background: linear-gradient(135deg, var(--blue-400), var(--blue-600));
   padding: 1.5px;
   border-radius: 999px;
+}
+
+/* V6 morph Kanałów: jednorazowy puls-klik hub→nod (jaśniejsza nakładka na beam) */
+.ch-pulse-click {
+  filter: none;
+  will-change: stroke-dashoffset;
 }
 .chat-legacy-font {
   /* jedyny wyjątek od fontsource — systemowy stack jako sygnał „starego bota" */

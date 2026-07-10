@@ -1,13 +1,14 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Glyph } from "@/components/ui/Glyph";
 import { Logo } from "@/components/ui/Logo";
 import { ChatShell } from "@/components/chat/ChatShell";
 import { scenarioToScript, type ChatScript } from "@/components/chat/script";
-import { gsap, useGSAP, useReveal, DESKTOP_MOTION, EASE } from "@/lib/motion";
+import { gsap, useGSAP, useReveal, Flip, DESKTOP_MOTION, REDUCE, EASE } from "@/lib/motion";
 import { useGLView } from "@/lib/glRegistry";
 
 /** Kanały (copy §4e, features/motion v3 + v5): centralny mini-rdzeń + beams SVG.
@@ -54,8 +55,15 @@ export function Channels() {
   const { ref: coreRef } = useGLView("channels-core", "mini");
   const exchanges = nodeExchanges();
   const [activeCh, setActiveCh] = useState(0);
+  // V6: rozmowa gra RAZ — po pierwszym odtworzeniu przełączenia są statyczne
+  // (bez ~15 s re-typingu), a zmianę skina niesie MORPH (Flip przez remount)
+  const [seen, setSeen] = useState(false);
   const scriptA = scenarioToScript(pl.hero.chat.scenarios[0]);
   const nightMail = pl.goldMines.nightMail;
+  const switcherRef = useRef<HTMLDivElement>(null);
+  const switchTl = useRef<gsap.core.Timeline | null>(null);
+  const morphTl = useRef<gsap.core.Timeline | null>(null);
+  const pulseLen = useRef<number[]>([0, 0, 0, 0]);
 
   useGSAP(
     () => {
@@ -69,6 +77,7 @@ export function Channels() {
       if (!net || !centerEl || paths.length < 4) return;
 
       // Geometria beams — liczona z realnych pozycji kart (odporna na RWD)
+      const pulseClicks = gsap.utils.toArray<SVGPathElement>(".ch-pulse-click", root);
       const layout = () => {
         const nb = net.getBoundingClientRect();
         const cb = centerEl.getBoundingClientRect();
@@ -83,6 +92,11 @@ export function Channels() {
           const d = `M ${cx} ${cy} C ${midX} ${cy}, ${midX} ${ny}, ${nx} ${ny}`;
           paths[i]?.setAttribute("d", d);
           pulses[i]?.setAttribute("d", d);
+          // jednorazowy puls-klik (V6 morph) — ta sama geometria, jaśniejsza nakładka
+          if (pulseClicks[i]) {
+            pulseClicks[i].setAttribute("d", d);
+            pulseLen.current[i] = pulseClicks[i].getTotalLength();
+          }
         });
       };
       layout();
@@ -131,6 +145,86 @@ export function Channels() {
     { scope, dependencies: [activeCh] }
   );
 
+  /* ---------- V6: choreografia przełączenia skina (puls → morph → re-stagger) ---------- */
+
+  // sanitize: wymuszenie stanu końcowego PRZED nowym getState — bez blanket
+  // clearProps na opacity (`.js .chat-step {opacity:0}` schowałby treść!)
+  const sanitize = (el: HTMLElement) => {
+    Flip.killFlipsOf(el.querySelectorAll("[data-flip-id]"));
+    gsap.set(el.querySelectorAll(".chat-step, .nm-line, .nm-link"), { autoAlpha: 1 });
+    gsap.set(el.querySelectorAll("[data-flip-id]"), { clearProps: "transform,width,height,borderRadius,opacity" });
+    gsap.set(el.querySelectorAll(".chat-step"), { opacity: 1 });
+    gsap.set(el, { clearProps: "height" });
+  };
+
+  const doMorph = (next: number, desktop: boolean) => {
+    const el = switcherRef.current;
+    if (!el) return;
+    const oldScroll = el.querySelector<HTMLElement>('[role="log"]')?.scrollTop ?? 0;
+    const oldH = el.offsetHeight;
+    const state = desktop ? Flip.getState(el.querySelectorAll("[data-flip-id]"), { props: "borderRadius" }) : null;
+
+    // sync commit: layout-effecty NOWEJ instancji (static → kroki widoczne) biegną
+    // wewnątrz flushSync, zanim policzymy Flip.from na świeżym drzewie
+    flushSync(() => {
+      setSeen(true);
+      setActiveCh(next);
+    });
+
+    const body = el.querySelector<HTMLElement>('[role="log"]');
+    if (body) body.scrollTop = oldScroll;
+
+    if (!desktop || !state) return; // mobile: fade CSS na nowej ramce wystarcza
+
+    const m = gsap.timeline();
+    morphTl.current = m;
+    m.fromTo(el, { height: oldH }, { height: el.offsetHeight, duration: 0.45, ease: EASE.inOut, clearProps: "height" }, 0);
+    m.add(
+      Flip.from(state, {
+        targets: el.querySelectorAll("[data-flip-id]"),
+        duration: 0.45,
+        ease: EASE.inOut,
+        props: "borderRadius",
+        nested: true,
+        stagger: 0.02, // fala morphu od góry = „re-stagger" wiadomości
+        onEnter: (els) =>
+          gsap.fromTo(els, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.25, stagger: 0.03, delay: 0.22 }),
+      }),
+      0
+    );
+    // email ↔ bąble: matchuje się tylko ramka — wnętrze wjeżdża od ~60% morpha
+    const loose = el.querySelectorAll(".nm-line, .nm-link");
+    if (loose.length) {
+      m.fromTo(loose, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.25, stagger: 0.03 }, 0.27);
+    }
+  };
+
+  const beginSwitch = (next: number, viaNode: boolean) => {
+    if (next === activeCh) return;
+    if (window.matchMedia(REDUCE).matches) {
+      setSeen(true);
+      setActiveCh(next);
+      return;
+    }
+    switchTl.current?.kill();
+    morphTl.current?.kill();
+    if (switcherRef.current) sanitize(switcherRef.current);
+    const desktop = window.matchMedia("(min-width: 768px)").matches;
+
+    const tl = gsap.timeline();
+    switchTl.current = tl;
+    if (viaNode && desktop) {
+      const p = scope.current?.querySelectorAll<SVGPathElement>(".ch-pulse-click")[next];
+      const L = pulseLen.current[next];
+      if (p && L > 0) {
+        tl.set(p, { strokeDasharray: `16 ${L + 16}`, strokeDashoffset: L + 16, opacity: 1 })
+          .to(p, { strokeDashoffset: 0, duration: 0.3, ease: "power1.in" })
+          .set(p, { opacity: 0 });
+      }
+    }
+    tl.call(() => doMorph(next, desktop)); // morph rusza, gdy puls DOTARŁ do nodu
+  };
+
   const GLYPHS: Record<string, "www" | "messenger" | "instagram" | "mail"> = {
     www: "www",
     messenger: "messenger",
@@ -146,11 +240,14 @@ export function Channels() {
         className={`ch-node frame-hover group relative cursor-pointer rounded-2xl border bg-l1 px-5 py-3.5 transition-colors duration-200 md:rounded-full md:focus-within:z-20 ${
           isActive ? "border-blue" : "border-line-1"
         } ${orbit}`}
-        onClick={() => setActiveCh(idx)}
+        onClick={() => beginSwitch(idx, true)}
       >
-        {/* klik nodu = zmiana skina w switcherze (v5) */}
+        {/* klik nodu = puls beamem do nodu → morph skina (V6) */}
         <button
-          onClick={() => setActiveCh(idx)}
+          onClick={(e) => {
+            e.stopPropagation();
+            beginSwitch(idx, true);
+          }}
           aria-pressed={isActive}
           className="flex items-center gap-3 text-sm font-medium text-ink"
         >
@@ -191,6 +288,8 @@ export function Channels() {
               <g key={n.key}>
                 <path className="ch-beam" fill="none" stroke="var(--border-strong)" strokeWidth="1.25" />
                 <path className="ch-pulse" fill="none" stroke="var(--blue-400)" strokeWidth="1.5" strokeLinecap="round" opacity="0.9" />
+                {/* jednorazowy puls-klik (V6): jaśniejsza nakładka hub→nod przed morphem */}
+                <path className="ch-pulse-click" fill="none" stroke="var(--blue-300)" strokeWidth="2" strokeLinecap="round" opacity="0" />
               </g>
             ))}
           </svg>
@@ -215,13 +314,14 @@ export function Channels() {
           </div>
         </div>
 
-        {/* Switcher skinów (v5): TA SAMA rozmowa §1A w wybranym kanale */}
+        {/* Switcher skinów (v5/v6): TA SAMA rozmowa §1A; po pierwszym odtworzeniu
+            przełączenia są statyczne, a zmianę niesie morph (puls→Flip→re-stagger) */}
         <div className="mx-auto mt-14 w-full max-w-[620px]">
           <div className="flex flex-wrap gap-1.5" role="group" aria-label="Wybierz kanał demo">
             {t.nodes.map((n, i) => (
               <button
                 key={n.key}
-                onClick={() => setActiveCh(i)}
+                onClick={() => beginSwitch(i, false)}
                 aria-pressed={i === activeCh}
                 className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 ${
                   i === activeCh ? "bg-blue-tint text-blue-soft" : "text-mute hover:bg-l3 hover:text-sub"
@@ -231,12 +331,14 @@ export function Channels() {
               </button>
             ))}
           </div>
-          <div className="mt-4">
+          <div ref={switcherRef} className="ch-switcher mt-4">
             {NODE_SKINS[activeCh] === "email" ? (
               <ChatShell
                 key="email"
                 skin="email"
                 chrome="bare"
+                mode={seen ? "static" : "play"}
+                flipId="ch-frame"
                 script={emailScript(scriptA)}
                 emailMeta={{
                   fromLabel: nightMail.fromLabel,
@@ -244,13 +346,19 @@ export function Channels() {
                   subjectLabel: nightMail.subjectLabel,
                   subject: scriptA.steps[0].text,
                 }}
+                className={seen ? "" : "fade-in-fast"}
               />
             ) : (
               <ChatShell
                 key={NODE_SKINS[activeCh]}
                 skin={NODE_SKINS[activeCh]}
+                mode={seen ? "static" : "play"}
+                onDone={() => setSeen(true)}
+                flipId="ch-frame"
+                flipMsgs
                 script={scriptA}
                 bodyClassName="max-h-[440px] min-h-[380px] p-5 pt-[86px]"
+                className={seen ? "" : "fade-in-fast"}
               />
             )}
           </div>
