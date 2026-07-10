@@ -222,6 +222,16 @@
   .logo-pulse { animation: none; }
 }
 
+/* Skiny ChatShell (v5): IG user-gradient w rodzinie blue; legacy = celowy anty-wzorzec */
+.chat-ig-user {
+  background: linear-gradient(135deg, var(--blue-400), var(--blue-600));
+  color: var(--text-on-blue);
+}
+.chat-legacy-font {
+  /* jedyny wyjątek od fontsource — systemowy stack jako sygnał „starego bota" */
+  font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+}
+
 /* Kropki „pisania" w demo czatu */
 @keyframes dotpulse {
   0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }

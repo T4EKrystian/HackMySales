@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
+import { ChatShell } from "@/components/chat/ChatShell";
+import { exchangeToScript } from "@/components/chat/script";
 import { useReveal } from "@/lib/motion";
 
 /** Sekcja „Dla kogo” (copy §3c, features §L12): 4 branże,
@@ -46,14 +48,13 @@ export function ForWho() {
                 {seg.chip}
               </p>
             </div>
-            <div className="flex flex-col gap-3">
-              <div className="max-w-[90%] self-end rounded-2xl rounded-br-md bg-blue px-4 py-3 text-sm leading-relaxed text-onblue">
-                {seg.user}
-              </div>
-              <div className="max-w-[90%] self-start rounded-2xl rounded-bl-md bg-elevated px-4 py-3 text-sm leading-relaxed text-ink">
-                {seg.bot}
-              </div>
-            </div>
+            <ChatShell
+              chrome="bare"
+              mode="static"
+              skin="onsite"
+              script={exchangeToScript(seg.key, { user: seg.user, bot: seg.bot })}
+              bodyClassName="gap-3"
+            />
           </div>
         </div>
 

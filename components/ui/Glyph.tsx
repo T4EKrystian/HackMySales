@@ -18,7 +18,9 @@ export type GlyphName =
   | "www"
   | "messenger"
   | "instagram"
-  | "mail";
+  | "mail"
+  | "camera"
+  | "plus";
 
 const PATHS: Record<GlyphName, React.ReactNode> = {
   "arrow-right": <path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5" />,
@@ -79,6 +81,13 @@ const PATHS: Record<GlyphName, React.ReactNode> = {
       <path d="m4.75 7.5 7.25 5.5 7.25-5.5" />
     </>
   ),
+  camera: (
+    <>
+      <path d="M4.5 8.5A1.75 1.75 0 0 1 6.25 6.75h2L9.6 5h4.8l1.35 1.75h2A1.75 1.75 0 0 1 19.5 8.5v8A1.75 1.75 0 0 1 17.75 18.25H6.25A1.75 1.75 0 0 1 4.5 16.5Z" />
+      <circle cx="12" cy="12.25" r="3.1" />
+    </>
+  ),
+  plus: <path d="M12 5.5v13M5.5 12h13" />,
 };
 
 export function Glyph({

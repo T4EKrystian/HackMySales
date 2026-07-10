@@ -1,0 +1,316 @@
+"use client";
+
+import { useEffect, useRef, type ReactNode } from "react";
+import { pl } from "@/content/pl";
+import { Glyph } from "@/components/ui/Glyph";
+import { gsap, useGSAP, typeInto, NO_REDUCE, REDUCE } from "@/lib/motion";
+import { CHAT_SKINS, type ChatSkinName } from "./skins";
+import { useChatPlayback } from "./useChatPlayback";
+import {
+  AttachmentProductCard,
+  DayDivider,
+  InputTools,
+  PersonaAvatar,
+  PersonaRow,
+  ReadReceipt,
+  TypingDots,
+} from "./parts";
+import type { ChatScript } from "./script";
+
+/** ChatShell (v5, DNA „Chat authenticity"): jedna powłoka rozmów demo w skinach
+ *  onsite / messenger / instagram / email / legacy. Copy 1:1 z pl.ts (adaptery
+ *  w script.ts), persona Magda + plakietka AI, playback silnikiem useChatPlayback.
+ *  SSR/no-JS: pełna rozmowa w markupie (odsłania ją dopiero silnik). */
+
+export type ChatShellProps = {
+  script: ChatScript;
+  skin?: ChatSkinName;
+  /** full = ramka L2 + glass header; bare = samo body (ramkę daje rodzic) */
+  chrome?: "full" | "bare";
+  /** play = silnik; static = wszystko widoczne od razu (Trust/ForWho) */
+  mode?: "play" | "static";
+  /** sterowanie z zewnątrz (Pillars): true = graj (po 200 ms), false = reset */
+  active?: boolean;
+  /** żywy zegar w wierszu statusu (hero) */
+  clock?: string;
+  /** slot pod wierszem tożsamości w headerze (taby hero) */
+  headerExtra?: ReactNode;
+  /** stopka okna (atrapa inputu hero); brak = bez stopki */
+  footer?: ReactNode;
+  /** chipy sugerowanych pytań po zakończeniu rozmowy */
+  quickReplies?: { key: string; text: string; onClick: () => void }[];
+  /** e-mail: metadane nagłówka (Od/Temat) i link stopki */
+  emailMeta?: { fromLabel: string; from: string; subjectLabel: string; subject: string };
+  emailLink?: string;
+  replayable?: boolean;
+  bodyClassName?: string;
+  className?: string;
+  ariaLabel?: string;
+  onDone?: () => void;
+};
+
+export function ChatShell(props: ChatShellProps) {
+  if (props.skin === "email") return <EmailShell {...props} />;
+  return <BubbleShell {...props} />;
+}
+
+/* ---------- Skiny bąbelkowe: onsite / messenger / instagram / legacy ---------- */
+
+function BubbleShell({
+  script,
+  skin = "onsite",
+  chrome = "full",
+  mode = "play",
+  active,
+  clock,
+  headerExtra,
+  footer,
+  quickReplies,
+  replayable = false,
+  bodyClassName = "",
+  className = "",
+  ariaLabel = "Rozmowa demo",
+  onDone,
+}: ChatShellProps) {
+  const cfg = CHAT_SKINS[skin as Exclude<ChatSkinName, "email">];
+  const ui = pl.chatUi;
+  const scope = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+
+  const { done, replay } = useChatPlayback({
+    scope,
+    bodyRef,
+    mode,
+    active,
+    legacy: skin === "legacy",
+    scriptKey: `${skin}-${script.key}`,
+    onDone,
+  });
+
+  // zmiana scenariusza = powrót na górę okna; koniec rozmowy = dojazd do chipów
+  useEffect(() => {
+    bodyRef.current?.scrollTo({ top: 0 });
+  }, [script.key]);
+  useEffect(() => {
+    if (!done) return;
+    bodyRef.current?.scrollTo({ top: bodyRef.current.scrollHeight, behavior: "smooth" });
+  }, [done]);
+
+  const lastBotIdx = (() => {
+    let idx = -1;
+    script.steps.forEach((s, i) => {
+      if (s.role === "bot") idx = i;
+    });
+    return idx;
+  })();
+
+  const body = (
+    <div
+      ref={bodyRef}
+      data-lenis-prevent={chrome === "full" ? true : undefined}
+      tabIndex={chrome === "full" ? 0 : undefined}
+      role="log"
+      aria-label={ariaLabel}
+      className={`flex flex-col gap-4 ${chrome === "full" ? "overflow-y-auto" : ""} ${cfg.bodyClass} ${bodyClassName}`}
+    >
+      {cfg.divider && chrome === "full" && <DayDivider />}
+
+      {script.steps.map((step, i) => {
+        const prevUser = i > 0 && script.steps[i - 1].role === "user" ? script.steps[i - 1].text : null;
+        return (
+          <div
+            key={`${script.key}-${i}`}
+            data-role={step.role}
+            className={`chat-step ${step.role === "user" ? "self-end" : "self-start"} ${
+              step.role === "bot" && cfg.avatar ? "flex max-w-full items-end gap-2" : ""
+            }`}
+          >
+            {step.role === "bot" && cfg.avatar && (
+              <span className="mb-0.5 shrink-0">
+                {/* avatar przy OSTATNIM bąblu wątku bota — wzorzec komunikatorów */}
+                {i === lastBotIdx || script.steps[i + 1]?.role !== "bot" ? (
+                  <PersonaAvatar size={28} />
+                ) : (
+                  <span className="inline-block w-7" aria-hidden="true" />
+                )}
+              </span>
+            )}
+            <div className="min-w-0">
+              {step.role === "bot" && cfg.dots && <TypingDots />}
+              <div className={`chat-msg ${step.role === "user" ? "ml-auto max-w-[85%]" : "max-w-[85%]"}`}>
+                <div className={`px-4 py-3 text-sm leading-relaxed ${step.role === "user" ? cfg.bubbleUser : cfg.bubbleBot}`}>
+                  {step.role === "bot" && cfg.replyQuote && prevUser && (
+                    <p className="mb-1.5 truncate border-l-2 border-line-2 pl-2 text-[11px] text-mute">
+                      {ui.replyLabel}: {prevUser}
+                    </p>
+                  )}
+                  {step.role === "user" ? (
+                    <p>
+                      <span className="chat-user-text" data-full={step.text}>
+                        {step.text}
+                      </span>
+                      <span className="chat-caret typing-caret" style={{ display: "none" }} aria-hidden="true" />
+                    </p>
+                  ) : (
+                    <p>{step.text}</p>
+                  )}
+                  {step.card && <AttachmentProductCard card={step.card} />}
+                  {step.after && <p className="mt-3">{step.after}</p>}
+                </div>
+                {cfg.receipt && i === lastBotIdx && <ReadReceipt />}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+      {script.badge && (
+        <div data-role="badge" className="chat-step self-center">
+          <p className="chat-msg flex items-center gap-2 rounded-full border border-hairline bg-blue-tint px-4 py-2 text-xs text-blue-soft">
+            <Glyph name="check" size={14} />
+            <span className="num">{script.badge}</span>
+          </p>
+        </div>
+      )}
+
+      {done && quickReplies && quickReplies.length > 0 && (
+        <div className="fade-in-panel flex flex-col items-end gap-2 self-end">
+          {quickReplies.map((q) => (
+            <button
+              key={q.key}
+              onClick={q.onClick}
+              className="max-w-[260px] truncate rounded-full border border-strongline bg-transparent px-4 py-2 text-left text-xs text-sub transition-[color,border-color,transform] duration-150 hover:-translate-y-px hover:border-blue hover:text-ink"
+            >
+              {q.text}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  if (chrome === "bare") {
+    return (
+      <div ref={scope} className={className}>
+        {body}
+      </div>
+    );
+  }
+
+  const presence =
+    cfg.presence === "status"
+      ? pl.hero.chat.persona.status
+      : cfg.presence === "activeNow"
+        ? ui.activeNow
+        : undefined;
+
+  return (
+    <div ref={scope} className={`frame-l2 relative w-full ${className}`}>
+      <div className="glass-head absolute inset-x-0 top-0 z-10 rounded-t-[19px]">
+        <div className="flex items-center justify-between gap-3 px-5 py-3.5">
+          {skin === "legacy" ? (
+            <p className="chat-legacy-font text-sm text-sub">{ui.legacyName}</p>
+          ) : (
+            <PersonaRow presence={presence} clock={clock} />
+          )}
+          {replayable && done && (
+            <button
+              onClick={replay}
+              className="flex shrink-0 items-center gap-1.5 rounded-full border border-line-2 px-3 py-1.5 text-xs text-sub hover:bg-l3"
+            >
+              <Glyph name="replay" size={13} />
+              {pl.hero.chat.replay}
+            </button>
+          )}
+        </div>
+        {headerExtra}
+      </div>
+      {body}
+      {footer}
+      {/* pasek narzędzi wzorca komunikatora — tylko gdy skin go ma, a rodzic nie dał stopki */}
+      {!footer && cfg.inputTools && (
+        <div className="flex items-center gap-3 border-t border-hairline p-4">
+          <InputTools />
+          <span className="flex-1 rounded-full border border-hairline bg-field px-5 py-2.5 text-sm text-mute">
+            {ui.inputPlaceholder}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ---------- Skin e-mail (refaktor NightMailPreview) ---------- */
+
+function EmailShell({
+  script,
+  emailMeta,
+  emailLink,
+  mode = "play",
+  className = "",
+}: ChatShellProps) {
+  const scope = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const el = scope.current;
+      if (!el) return;
+      const mm = gsap.matchMedia();
+      if (mode === "static") {
+        gsap.set([".nm-line", ".nm-link"], { autoAlpha: 1 });
+        return;
+      }
+      mm.add(NO_REDUCE, () => {
+        const lines = gsap.utils.toArray<HTMLElement>(".nm-line", el);
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: el, start: "top 80%", once: true },
+        });
+        lines.forEach((line) => {
+          const txt = line.querySelector<HTMLElement>(".nm-text");
+          tl.fromTo(line, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 });
+          typeInto(tl, txt, { speed: 0.014, max: 1.1 });
+        });
+        if (el.querySelector(".nm-link")) {
+          tl.fromTo(".nm-link", { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.3 });
+        }
+      });
+      mm.add(REDUCE, () => {
+        gsap.set([".nm-line", ".nm-link"], { autoAlpha: 1 });
+      });
+    },
+    { scope, dependencies: [script.key, mode] }
+  );
+
+  return (
+    <div ref={scope} className={`rounded-[var(--radius-lg)] border border-hairline bg-surface ${className}`}>
+      {emailMeta && (
+        <div className="border-b border-hairline px-5 py-3">
+          <p className="text-xs text-mute">
+            {emailMeta.fromLabel}: <span className="text-sub">{emailMeta.from}</span>
+          </p>
+          <p className="mt-1 text-xs text-mute">
+            {emailMeta.subjectLabel}: <span className="font-medium text-ink">{emailMeta.subject}</span>
+          </p>
+        </div>
+      )}
+      <div className="flex flex-col gap-2.5 px-5 py-4">
+        {script.steps
+          .filter((s) => s.role === "bot")
+          .map((step, i) => (
+            <p key={i} className={`nm-line text-sm leading-relaxed ${i === 0 ? "text-ink" : "text-sub"}`}>
+              <span className="mr-2 inline-block h-1 w-1 translate-y-[-2px] rounded-full bg-blue" aria-hidden="true" />
+              <span className="nm-text" data-full={step.text}>
+                {step.text}
+              </span>
+            </p>
+          ))}
+        {emailLink && (
+          <p className="nm-link mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-blue-soft">
+            {emailLink}
+            <Glyph name="arrow-right" size={14} />
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}

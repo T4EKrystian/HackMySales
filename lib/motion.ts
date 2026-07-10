@@ -97,6 +97,52 @@ export function typeInto(
     });
 }
 
+/** Rytm pisania z DNA „Chat authenticity": 40–70 ms/znak + pauza 250–400 ms po [.?!,].
+ *  Deterministyczny (seed = indeks znaku) — bez Math.random, stabilny między replayami.
+ *  typeInto zostaje dla wyszukiwarki/areny/raportu (szybkie „maszynowe" pisanie). */
+export function typeIntoPunct(
+  tl: gsap.core.Timeline,
+  el: HTMLElement | null,
+  opts?: { caret?: HTMLElement | null; max?: number }
+) {
+  if (!el) return;
+  const full = el.dataset.full ?? el.textContent ?? "";
+  const rand = (n: number) => {
+    const x = Math.sin(n * 12.9898) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  // mapa czasu skumulowanego per znak
+  const times: number[] = [];
+  let acc = 0;
+  for (let i = 0; i < full.length; i++) {
+    acc += 0.04 + 0.03 * rand(i);
+    if (/[.?!,]/.test(full[i])) acc += 0.25 + 0.15 * rand(i + 997);
+    times.push(acc);
+  }
+  const total = Math.min(acc, opts?.max ?? 3.6);
+  const proxy = { t: 0 };
+  tl.call(() => {
+    el.textContent = "";
+    if (opts?.caret) opts.caret.style.display = "inline-block";
+  })
+    .to(proxy, {
+      t: acc,
+      duration: total,
+      ease: "none",
+      onUpdate: () => {
+        let n = 0;
+        while (n < times.length && times[n] <= proxy.t) n++;
+        el.textContent = full.slice(0, n);
+      },
+      onComplete: () => {
+        el.textContent = full;
+      },
+    })
+    .call(() => {
+      if (opts?.caret) opts.caret.style.display = "none";
+    });
+}
+
 /** Magnetyczne przyciąganie elementu do kursora (nav CTA: max 8px, hero CTA: 4px).
  *  Wywoływać wewnątrz kontekstu matchMedia FINE_POINTER. Zwraca cleanup. */
 export function attachMagnet(el: HTMLElement, radius = 8) {

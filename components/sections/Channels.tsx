@@ -1,15 +1,18 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Glyph } from "@/components/ui/Glyph";
 import { Logo } from "@/components/ui/Logo";
+import { ChatShell } from "@/components/chat/ChatShell";
+import { scenarioToScript, type ChatScript } from "@/components/chat/script";
 import { gsap, useGSAP, useReveal, DESKTOP_MOTION, EASE } from "@/lib/motion";
 import { useGLView } from "@/lib/glRegistry";
 
-/** Kanały (copy §4e, features/motion v3): centralny mini-rdzeń + beams SVG do kanałów.
- *  Ścieżki rysują się on-enter (DrawSVG), pulsy danych płyną po nich w pętli.
+/** Kanały (copy §4e, features/motion v3 + v5): centralny mini-rdzeń + beams SVG.
+ *  v5: klik nodu / taba przełącza switcher pod diagramem — TA SAMA rozmowa (§1 scenariusz A)
+ *  w 4 skinach ChatShell (onsite/messenger/instagram/email); pulsy płyną do aktywnego kanału.
  *  Hover/focus na kanale → przykładowa wymiana (na mobile widoczna na stałe).
  *  Treści wymian 1:1 z §1/§3c/§4 — zero nowych obietnic. */
 
@@ -27,12 +30,32 @@ function nodeExchanges(): Record<string, Exchange> {
   };
 }
 
+const NODE_SKINS = ["onsite", "messenger", "instagram", "email"] as const;
+
+/** E-mail = wątek: temat z pytania klienta, odpowiedź Magdy jako punkty raportowe. */
+function emailScript(base: ChatScript): ChatScript {
+  return {
+    key: `${base.key}-email`,
+    steps: base.steps
+      .filter((s) => s.role === "bot")
+      .flatMap((s) => {
+        const lines = [{ role: "bot" as const, text: s.text }];
+        if (s.card) lines.push({ role: "bot" as const, text: `${s.card.name} — ${s.card.price}` });
+        if (s.after) lines.push({ role: "bot" as const, text: s.after });
+        return lines;
+      }),
+  };
+}
+
 export function Channels() {
   const t = pl.channels;
   const scope = useRef<HTMLElement>(null);
   const headRef = useReveal<HTMLDivElement>(0.08);
   const { ref: coreRef } = useGLView("channels-core", "mini");
   const exchanges = nodeExchanges();
+  const [activeCh, setActiveCh] = useState(0);
+  const scriptA = scenarioToScript(pl.hero.chat.scenarios[0]);
+  const nightMail = pl.goldMines.nightMail;
 
   useGSAP(
     () => {
@@ -97,6 +120,17 @@ export function Channels() {
     { scope }
   );
 
+  // v5: pulsy „płyną do aktywnego kanału" — nieaktywne przygasają
+  useGSAP(
+    () => {
+      const pulses = gsap.utils.toArray<SVGPathElement>(".ch-pulse", scope.current);
+      pulses.forEach((p, i) => {
+        gsap.to(p, { opacity: i === activeCh ? 0.95 : 0.15, duration: 0.4, ease: EASE.soft });
+      });
+    },
+    { scope, dependencies: [activeCh] }
+  );
+
   const GLYPHS: Record<string, "www" | "messenger" | "instagram" | "mail"> = {
     www: "www",
     messenger: "messenger",
@@ -104,17 +138,25 @@ export function Channels() {
     email: "mail",
   };
 
-  const NodeCard = ({ nodeKey, name, orbit = "" }: { nodeKey: string; name: string; orbit?: string }) => {
+  const NodeCard = ({ nodeKey, name, idx, orbit = "" }: { nodeKey: string; name: string; idx: number; orbit?: string }) => {
     const ex = exchanges[nodeKey];
+    const isActive = idx === activeCh;
     return (
       <div
-        tabIndex={0}
-        className={`ch-node frame-hover group relative rounded-2xl border border-line-1 bg-l1 px-5 py-3.5 md:rounded-full md:focus-visible:z-20 ${orbit}`}
+        className={`ch-node frame-hover group relative cursor-pointer rounded-2xl border bg-l1 px-5 py-3.5 transition-colors duration-200 md:rounded-full md:focus-within:z-20 ${
+          isActive ? "border-blue" : "border-line-1"
+        } ${orbit}`}
+        onClick={() => setActiveCh(idx)}
       >
-        <p className="flex items-center gap-3 text-sm font-medium text-ink">
-          <Glyph name={GLYPHS[nodeKey]} size={17} className="text-blue-soft" />
+        {/* klik nodu = zmiana skina w switcherze (v5) */}
+        <button
+          onClick={() => setActiveCh(idx)}
+          aria-pressed={isActive}
+          className="flex items-center gap-3 text-sm font-medium text-ink"
+        >
+          <Glyph name={GLYPHS[nodeKey]} size={17} className={isActive ? "text-blue-soft" : "text-mute"} />
           {name}
-        </p>
+        </button>
         {/* Wymiana przykładowa: mobile inline, desktop tooltip na hover/focus */}
         <div className="mt-3 flex flex-col gap-2 md:pointer-events-none md:absolute md:left-1/2 md:top-[calc(100%+10px)] md:z-10 md:mt-0 md:w-72 md:-translate-x-1/2 md:rounded-xl md:border md:border-hairline md:bg-elevated md:p-4 md:opacity-0 md:shadow-card md:transition-opacity md:duration-200 md:group-hover:opacity-100 md:group-focus-visible:opacity-100">
           {ex.user && (
@@ -155,8 +197,8 @@ export function Channels() {
 
           {/* satelity na łuku orbity (nie płaski rząd) — przesunięcia ku hubowi */}
           <div className="relative z-10 flex flex-col gap-5 md:gap-24">
-            <NodeCard nodeKey={t.nodes[0].key} name={t.nodes[0].name} orbit="md:translate-x-10 md:-translate-y-2" />
-            <NodeCard nodeKey={t.nodes[1].key} name={t.nodes[1].name} orbit="md:translate-x-10 md:translate-y-2" />
+            <NodeCard nodeKey={t.nodes[0].key} name={t.nodes[0].name} idx={0} orbit="md:translate-x-10 md:-translate-y-2" />
+            <NodeCard nodeKey={t.nodes[1].key} name={t.nodes[1].name} idx={1} orbit="md:translate-x-10 md:translate-y-2" />
           </div>
 
           {/* Centralny węzeł: mini-rdzeń (scena `mini`) + znak */}
@@ -168,8 +210,49 @@ export function Channels() {
           </div>
 
           <div className="relative z-10 flex flex-col gap-5 md:gap-24">
-            <NodeCard nodeKey={t.nodes[2].key} name={t.nodes[2].name} orbit="md:-translate-x-10 md:-translate-y-2" />
-            <NodeCard nodeKey={t.nodes[3].key} name={t.nodes[3].name} orbit="md:-translate-x-10 md:translate-y-2" />
+            <NodeCard nodeKey={t.nodes[2].key} name={t.nodes[2].name} idx={2} orbit="md:-translate-x-10 md:-translate-y-2" />
+            <NodeCard nodeKey={t.nodes[3].key} name={t.nodes[3].name} idx={3} orbit="md:-translate-x-10 md:translate-y-2" />
+          </div>
+        </div>
+
+        {/* Switcher skinów (v5): TA SAMA rozmowa §1A w wybranym kanale */}
+        <div className="mx-auto mt-14 w-full max-w-[620px]">
+          <div className="flex flex-wrap gap-1.5" role="group" aria-label="Wybierz kanał demo">
+            {t.nodes.map((n, i) => (
+              <button
+                key={n.key}
+                onClick={() => setActiveCh(i)}
+                aria-pressed={i === activeCh}
+                className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 ${
+                  i === activeCh ? "bg-blue-tint text-blue-soft" : "text-mute hover:bg-l3 hover:text-sub"
+                }`}
+              >
+                {n.name}
+              </button>
+            ))}
+          </div>
+          <div className="mt-4">
+            {NODE_SKINS[activeCh] === "email" ? (
+              <ChatShell
+                key="email"
+                skin="email"
+                chrome="bare"
+                script={emailScript(scriptA)}
+                emailMeta={{
+                  fromLabel: nightMail.fromLabel,
+                  from: nightMail.from,
+                  subjectLabel: nightMail.subjectLabel,
+                  subject: scriptA.steps[0].text,
+                }}
+              />
+            ) : (
+              <ChatShell
+                key={NODE_SKINS[activeCh]}
+                skin={NODE_SKINS[activeCh]}
+                script={scriptA}
+                bodyClassName="max-h-[440px] min-h-[380px] p-5 pt-[86px]"
+              />
+            )}
           </div>
         </div>
 

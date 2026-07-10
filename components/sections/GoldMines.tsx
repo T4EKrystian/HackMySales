@@ -6,7 +6,8 @@ import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Counter } from "@/components/ui/Counter";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
-import { gsap, useGSAP, useReveal, typeInto, NO_REDUCE, REDUCE, EASE } from "@/lib/motion";
+import { ChatShell } from "@/components/chat/ChatShell";
+import { gsap, useGSAP, useReveal, NO_REDUCE, REDUCE, EASE } from "@/lib/motion";
 
 /** Kopalnie złota v3 (features §L19): asymetryczne bento 2 duże + 4 małe.
  *  Każda karta = żywe mikro-demo (pętla albo interakcja), zero ikon.
@@ -328,58 +329,16 @@ function WismoPath() {
 /* ---------- Raport nocnej zmiany: e-mail pisze się sam ---------- */
 
 function NightMailPreview() {
+  // v5: skin e-mail ChatShell (ten sam typeInto-playback, wspólna rama z demami rozmów)
   const m = pl.goldMines.nightMail;
-  const ref = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      const el = ref.current;
-      if (!el) return;
-      const mm = gsap.matchMedia();
-      mm.add(NO_REDUCE, () => {
-        const lines = gsap.utils.toArray<HTMLElement>(".nm-line", el);
-        const tl = gsap.timeline({
-          scrollTrigger: { trigger: el, start: "top 80%", once: true },
-        });
-        lines.forEach((line) => {
-          const txt = line.querySelector<HTMLElement>(".nm-text");
-          tl.fromTo(line, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 });
-          typeInto(tl, txt, { speed: 0.014, max: 1.1 });
-        });
-        tl.fromTo(".nm-link", { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.3 });
-      });
-      mm.add(REDUCE, () => {
-        gsap.set([".nm-line", ".nm-link"], { autoAlpha: 1 });
-      });
-    },
-    { scope: ref }
-  );
-
   return (
-    <div ref={ref} className="rounded-[var(--radius-lg)] border border-hairline bg-surface">
-      <div className="border-b border-hairline px-5 py-3">
-        <p className="text-xs text-mute">
-          {m.fromLabel}: <span className="text-sub">{m.from}</span>
-        </p>
-        <p className="mt-1 text-xs text-mute">
-          {m.subjectLabel}: <span className="font-medium text-ink">{m.subject}</span>
-        </p>
-      </div>
-      <div className="flex flex-col gap-2.5 px-5 py-4">
-        {m.lines.map((line, i) => (
-          <p key={i} className={`nm-line text-sm leading-relaxed ${i === 0 ? "text-ink" : "text-sub"}`}>
-            <span className="mr-2 inline-block h-1 w-1 translate-y-[-2px] rounded-full bg-blue" aria-hidden="true" />
-            <span className="nm-text" data-full={line}>
-              {line}
-            </span>
-          </p>
-        ))}
-        <p className="nm-link mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-blue-soft">
-          {m.link}
-          <Glyph name="arrow-right" size={14} />
-        </p>
-      </div>
-    </div>
+    <ChatShell
+      skin="email"
+      chrome="bare"
+      script={{ key: "night-mail", steps: m.lines.map((line) => ({ role: "bot" as const, text: line })) }}
+      emailMeta={{ fromLabel: m.fromLabel, from: m.from, subjectLabel: m.subjectLabel, subject: m.subject }}
+      emailLink={m.link}
+    />
   );
 }
 

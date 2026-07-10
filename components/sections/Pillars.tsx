@@ -1,10 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { ProductVisual, type ProductKind } from "@/components/ui/ProductVisual";
+import { ChatShell } from "@/components/chat/ChatShell";
+import { exchangeToScript } from "@/components/chat/script";
 import { gsap, useGSAP, useReveal, typeInto, Flip, DESKTOP_MOTION, MOBILE_MOTION, EASE } from "@/lib/motion";
 
 /** Filary v3 (features §L18): pin z JEDNYM device-frame; wnętrza morfują,
@@ -14,19 +16,18 @@ import { gsap, useGSAP, useReveal, typeInto, Flip, DESKTOP_MOTION, MOBILE_MOTION
 
 /* ---------- Zawartość paneli (żywe UI, zero obrazków) ---------- */
 
-function ChatPanelContent() {
-  const d = pl.pillars.demo.chat;
+function ChatPanelContent({ active }: { active?: boolean }) {
+  // v5: rozmowa na ChatShell (persona Magda + rytm pisania z DNA); active=undefined
+  // (mobile) = samostart on-scroll, sterowanie desktopowe daje pin przez stan sekcji
   return (
-    <div className="flex h-full flex-col justify-center gap-4">
-      <div className="pp-user max-w-[85%] self-end rounded-2xl rounded-br-md bg-blue px-4 py-3 text-sm leading-relaxed text-onblue">
-        <span className="pp-user-text" data-full={d.user}>
-          {d.user}
-        </span>
-      </div>
-      <div className="pp-bot max-w-[85%] self-start rounded-2xl rounded-bl-md bg-elevated px-4 py-3 text-sm leading-relaxed text-ink">
-        {d.bot}
-      </div>
-    </div>
+    <ChatShell
+      chrome="bare"
+      skin="onsite"
+      active={active}
+      script={exchangeToScript("pillars-chat", pl.pillars.demo.chat)}
+      className="h-full"
+      bodyClassName="h-full justify-center"
+    />
   );
 }
 
@@ -116,19 +117,7 @@ function buildPanelTl(panel: HTMLElement, kind: "chat" | "search" | "reco"): gsa
   const q = gsap.utils.selector(panel);
   const tl = gsap.timeline();
 
-  if (kind === "chat") {
-    const user = q<HTMLElement>(".pp-user")[0];
-    const bot = q<HTMLElement>(".pp-bot")[0];
-    tl.set(bot, { autoAlpha: 0 })
-      .fromTo(user, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.25, ease: "power2.out" });
-    typeInto(tl, q<HTMLElement>(".pp-user-text")[0]);
-    tl.fromTo(
-      bot,
-      { autoAlpha: 0, y: 14, scale: 0.97 },
-      { autoAlpha: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.4)" },
-      "+=0.5"
-    );
-  }
+  // v5: gałąź "chat" zniknęła — panel czatu gra przez ChatShell (prop active)
 
   if (kind === "search") {
     const chips = q<HTMLElement>(".pp-chip");
@@ -192,6 +181,8 @@ export function Pillars() {
   const scope = useRef<HTMLElement>(null);
   const headRef = useReveal<HTMLDivElement>();
   const KINDS = ["chat", "search", "reco"] as const;
+  // v5: stan dla ChatShell w panelu 0 — pin steruje playbackiem przez propsa `active`
+  const [chatActive, setChatActive] = useState(false);
 
   useGSAP(
     () => {
@@ -217,12 +208,15 @@ export function Pillars() {
 
         const playDemo = (idx: number) => {
           demoTl?.kill();
+          demoTl = null;
+          if (idx === 0) return; // czat gra przez ChatShell
           demoTl = buildPanelTl(panels[idx], KINDS[idx]);
         };
 
         const setActive = (idx: number) => {
           if (idx === current) return;
           current = idx;
+          setChatActive(idx === 0);
           items.forEach((el, i) => el.setAttribute("data-active", i === idx ? "true" : "false"));
           if (thumb) gsap.to(thumb, { y: items[idx].offsetTop, duration: 0.35, ease: EASE.soft });
           if (deviceLabel) {
@@ -247,6 +241,7 @@ export function Pillars() {
             onEnter: () => {
               if (!started) {
                 started = true;
+                setChatActive(true);
                 playDemo(0);
               }
             },
@@ -264,10 +259,11 @@ export function Pillars() {
         return () => demoTl?.kill();
       });
 
-      // Mobile: demo gra raz, gdy blok wejdzie w viewport
+      // Mobile: demo gra raz, gdy blok wejdzie w viewport (czat samostartuje w ChatShell)
       mm.add(MOBILE_MOTION, () => {
         const blocks = gsap.utils.toArray<HTMLElement>(".pillar-mobile-panel", root);
         blocks.forEach((block, i) => {
+          if (i === 0) return;
           gsap.timeline({
             scrollTrigger: { trigger: block, start: "top 75%", once: true },
           }).add(() => buildPanelTl(block, KINDS[i]));
@@ -326,7 +322,7 @@ export function Pillars() {
               <div className="absolute inset-0">
                 {PANELS.map((Panel, i) => (
                   <div key={i} className="pillar-panel absolute inset-0 p-6 pt-[62px]">
-                    <Panel />
+                    {i === 0 ? <ChatPanelContent active={chatActive} /> : <Panel />}
                   </div>
                 ))}
               </div>
