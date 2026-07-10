@@ -199,7 +199,7 @@ export function Pillars() {
     <section ref={scope} id="produkt" className="section-pad bg-surface">
       <Container>
         <div ref={headRef}>
-          <SectionLabel>{t.label}</SectionLabel>
+          <SectionLabel num="02">{t.label}</SectionLabel>
           <SectionH2 className="max-w-[22ch]">{t.h2}</SectionH2>
         </div>
       </Container>
@@ -228,7 +228,7 @@ export function Pillars() {
                 ))}
               </ol>
             </div>
-            <div className="relative h-[460px]">
+            <div className="relative h-[520px]">
               {PANELS.map((Panel, i) => (
                 <div key={i} className="pillar-panel absolute inset-0">
                   <Panel />

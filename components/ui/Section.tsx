@@ -4,8 +4,26 @@ export function Container({ children, className = "" }: { children: ReactNode; c
   return <div className={`container-hms ${className}`}>{children}</div>;
 }
 
-export function SectionLabel({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <p className={`label js-reveal ${className}`}>{children}</p>;
+export function SectionLabel({
+  children,
+  num,
+  className = "",
+}: {
+  children: ReactNode;
+  num?: string;
+  className?: string;
+}) {
+  return (
+    <p className={`label js-reveal flex items-center gap-3 ${className}`}>
+      {num && (
+        <>
+          <span className="text-blue-soft">{num}</span>
+          <span aria-hidden="true" className="inline-block h-px w-8 bg-strongline" />
+        </>
+      )}
+      {children}
+    </p>
+  );
 }
 
 export function SectionH2({ children, className = "" }: { children: ReactNode; className?: string }) {

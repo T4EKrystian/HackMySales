@@ -53,7 +53,7 @@ function RevenueMiniPanel() {
     <div ref={ref} className="rounded-[var(--radius-lg)] border border-hairline bg-surface p-6">
       <p className="label">{t.panelTitle}</p>
       <p className="mt-3 font-display text-ink">
-        <Counter value={t.panelAmount} prefix="[" suffix=" zł]" className="text-4xl font-bold tracking-tight" />
+        <Counter value={t.panelAmount} suffix=" zł" className="text-4xl font-bold tracking-tight" />
       </p>
       <div className="relative mt-6 h-24" aria-hidden="true">
         <div className="flex h-full items-end gap-2">
@@ -124,7 +124,7 @@ export function GoldMines() {
   return (
     <section ref={ref} id="funkcje" className="section-pad">
       <Container>
-        <SectionLabel>{t.label}</SectionLabel>
+        <SectionLabel num="03">{t.label}</SectionLabel>
         <SectionH2 className="max-w-[26ch]">{t.h2}</SectionH2>
 
         <div className="mt-14 grid gap-5 lg:grid-cols-3">

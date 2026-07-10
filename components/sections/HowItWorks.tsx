@@ -35,7 +35,7 @@ export function HowItWorks() {
   return (
     <section ref={ref} className="section-pad bg-surface">
       <Container>
-        <SectionLabel>{t.label}</SectionLabel>
+        <SectionLabel num="06">{t.label}</SectionLabel>
         <SectionH2>{t.h2}</SectionH2>
 
         <div className="relative mt-16">

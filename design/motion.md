@@ -4,7 +4,7 @@ Cel: strona ma się „płynąć” jak keynote Apple — ruch prowadzi wzrok i 
 
 ## 1. Stack i zasady twarde
 
-- **GSAP + ScrollTrigger** (`gsap`, `@gsap/react` z hookiem `useGSAP` — obowiązkowo, robi cleanup) + **Lenis** do smooth scrolla (lerp 0.1, synchronizacja z `ScrollTrigger.update`).
+- **GSAP + ScrollTrigger** (`gsap`, `@gsap/react` z hookiem `useGSAP` — obowiązkowo, robi cleanup) + **Lenis** do smooth scrolla (lerp 0.1, `autoRaf` — Lenis jeździ na własnym rAF; ScrollTrigger.update podpięte przez `useLenis`). UWAGA: nie wiązać Lenisa z tickerem GSAP ręcznie — historycznie zabiło to scroll kółkiem.
 - Animujemy WYŁĄCZNIE `transform` i `opacity` (+ `clip-path` w hero). Nigdy width/height/top/margin. `will-change` tylko na czas animacji.
 - **Jedna krzywa dla reveali:** `power3.out`. Wjazdy: `y: 32→0, opacity: 0→1, dur 0.7–0.9, stagger 0.08–0.12`. Nic nie wjeżdża z boków poza wskazanymi miejscami. Zero rotacji, zero bounce, zero flipów 3D.
 - **`prefers-reduced-motion: reduce`** — obowiązkowy `gsap.matchMedia()`: wszystkie ScrollTriggery wyłączone, elementy widoczne od razu, Lenis wyłączony, liczniki pokazują wartość końcową. To warunek zaliczenia, nie opcja.
@@ -63,6 +63,7 @@ GSAP timeline (nie CSS): wskaźnik pisania (3 kropki, pulsowanie) 600–900 ms �
 - **Dots-nav (L11):** bez GSAP; IntersectionObserver + przejścia CSS (opacity/scale, 300 ms).
 - **Zakładki branż (L12):** zmiana treści przez CSS fade-up 300 ms (klasa na key-remount), zero GSAP.
 - **Poranny dashboard (L13):** jeden timeline przy top 75%: KPI liczniki równolegle, słupki stagger 0.05, linia dashoffset, wiersze list standardowym revealem.
+- **Scroll cue w hero:** bujanie strzałki w CSS (2.2 s, in-out), fade-out GSAP scrubem na pierwszych 180 px; klik scrolluje do #produkt. Reduced-motion: bez bujania.
 - **Progress bar w nav (L14):** `scaleX` scrub 0.3 na dystansie całego dokumentu; to trzeci dozwolony scrub globalny (obok kickera i glow) — działa w nav, nie w treści, więc nie liczy się do budżetu sekcji.
 
 ## 9. Budżet i kontrola jakości ruchu

@@ -1,6 +1,7 @@
 /** Słownik PL — treści 1:1 z content/copy-pl.md, przepuszczone przez plNbsp (sierotki, nbsp).
  *  Komponenty biorą stringi WYŁĄCZNIE stąd. Struktura gotowa pod przyszłe content/en.ts.
- *  Wartości w [nawiasach] to jawne placeholdery — lista w PLACEHOLDERS.md. */
+ *  TRYB MAKIETY: liczby demo renderują się bez nawiasów; co podmienić przed
+ *  produkcją śledzi PLACEHOLDERS.md (w decku nawiasy zostają jako oznaczenie edytorskie). */
 
 import { deepNbsp } from "@/lib/typography";
 
@@ -28,7 +29,8 @@ const raw = {
     lead: "HackMySales podpina się do Twojego sklepu i doradza klientom jak najlepszy handlowiec — w czacie, w wyszukiwarce i w rekomendacjach. A co poniedziałek pokazuje, ile na tym zarobiłeś. Co do złotówki.",
     ctaPrimary: "Umów demo na swoich produktach",
     ctaSecondary: "Porozmawiaj z botem",
-    proof: "Wdrożenie w [1 dzień] · Bez zmiany platformy · 14 dni testów za darmo",
+    scrollCue: "Przewiń",
+    proof: "Wdrożenie w 1 dzień · Bez zmiany platformy · 14 dni testów za darmo",
     chat: {
       title: "HackMySales — doradca",
       status: "online",
@@ -211,7 +213,7 @@ const raw = {
         pain: "Największy koszt: zwroty złych rozmiarów.",
         user: "Sukienka na wesele, rozmiar 38, do 300 zł",
         bot: "Mam sześć trafień. Uwaga: ten model wypada duży — przy Twoich wymiarach lepiej zagra 36. Pokazać oba warianty?",
-        chip: "[−30%] zwrotów rozmiarowych",
+        chip: "−30% zwrotów rozmiarowych",
       },
       {
         key: "dom",
@@ -219,7 +221,7 @@ const raw = {
         pain: "Klient nie kupuje jednej płytki — kompletuje projekt.",
         user: "Urządzam łazienkę 4 m², szary mat",
         bot: "Proponuję komplet: płytki 60×60, fuga, hydroizolacja i listwy — 8 pozycji, wszystko z jednej partii. Wrzucić całość do koszyka?",
-        chip: "[+38%] wartości koszyka",
+        chip: "+38% wartości koszyka",
       },
       {
         key: "elektronika",
@@ -227,7 +229,7 @@ const raw = {
         pain: "Połowa pytań to „czy to zadziała z moim…”.",
         user: "czy ta karta graficzna wejdzie do mojego zestawu?",
         bot: "Tak — Twój zasilacz 650 W wystarczy, a obudowa zmieści kartę o długości 310 mm. Dorzucić przewód 2×8-pin?",
-        chip: "[−50%] pytań „czy kompatybilne”",
+        chip: "−50% pytań „czy kompatybilne”",
       },
       {
         key: "b2b",
@@ -246,7 +248,7 @@ const raw = {
     h2: "Czatboty odpowiadają. HackMySales sprzedaje i raportuje.",
     revenue: {
       title: "Panel przychodów",
-      body: "Każda rozmowa spięta z zamówieniem. Nie „liczba interakcji”, tylko: bot zarobił w tym miesiącu [47 218 zł]. Wiesz, co działa, bo widzisz kasę, nie wykres „zaangażowania”.",
+      body: "Każda rozmowa spięta z zamówieniem. Nie „liczba interakcji”, tylko: bot zarobił w tym miesiącu 47 218 zł. Wiesz, co działa, bo widzisz kasę, nie wykres „zaangażowania”.",
       panelTitle: "Przychód z rozmów — ten miesiąc",
       panelAmount: 47218,
       panelCaption: "przypisane do zamówień · dane demo",
@@ -280,7 +282,7 @@ const raw = {
       {
         icon: "moon" as const,
         title: "Raport nocnej zmiany",
-        body: "Poniedziałek 8:00, w skrzynce: „W weekend obsłużyłem [214] rozmów, sprzedałem za [12 460 zł], 3 pytania przekazałem zespołowi, najczęściej pytano o [dostawę przed świętami]”. Czytasz kawę w ręku i wiesz wszystko.",
+        body: "Poniedziałek 8:00, w skrzynce: „W weekend obsłużyłem 214 rozmów, sprzedałem za 12 460 zł, 3 pytania przekazałem zespołowi, najczęściej pytano o dostawę przed świętami”. Czytasz kawę w ręku i wiesz wszystko.",
       },
     ],
     nightMail: {
@@ -289,7 +291,7 @@ const raw = {
       subjectLabel: "Temat",
       subject: "Raport nocnej zmiany — poniedziałek 8:00",
       lines: [
-        "W nocy obsłużyłem [34] rozmowy i sprzedałem za [6 840 zł].",
+        "W nocy obsłużyłem 34 rozmowy i sprzedałem za 6 840 zł.",
         "21 pytań o dostawę — odpowiedziałem sam.",
         "3 rozmowy przekazałem zespołowi, ze streszczeniami.",
         "Radar: 6 osób szukało „kurtki softshell 158”, której nie masz.",
@@ -325,7 +327,7 @@ const raw = {
         body: "czat, wyszukiwarka i rekomendacje pracują 24/7. Ty dostajesz liczby i listę rzeczy do poprawy.",
       },
     ],
-    note: "Bez zmiany platformy. Bez przebudowy sklepu. Pierwsze efekty widać w [7 dni].",
+    note: "Bez zmiany platformy. Bez przebudowy sklepu. Pierwsze efekty widać w 7 dni.",
   },
 
   morning: {
@@ -359,9 +361,9 @@ const raw = {
     label: "POLICZALNOŚĆ",
     h2: "Nie wierz nam. Policz.",
     counters: [
-      { prefix: "[+", value: 18, suffix: "%]", label: "konwersji u klientów po [3 miesiącach]" },
-      { prefix: "[+", value: 23, suffix: "%]", label: "średniej wartości koszyka (AOV)" },
-      { prefix: "[−", value: 64, suffix: "%]", label: "zapytań „gdzie moja paczka” do obsługi" },
+      { prefix: "+", value: 18, suffix: "%", label: "konwersji u klientów po 3 miesiącach" },
+      { prefix: "+", value: 23, suffix: "%", label: "średniej wartości koszyka (AOV)" },
+      { prefix: "−", value: 64, suffix: "%", label: "zapytań „gdzie moja paczka” do obsługi" },
       { static: "24/7", label: "godziny pracy jedynego handlowca, który nie bierze urlopu" },
     ],
     night: {
@@ -385,7 +387,7 @@ const raw = {
       resultSuffix: "miesięcznie",
       assumptionsTitle: "Założenia szacunku",
       assumptions:
-        "+0,5 p.p. konwersji i +10% AOV — wartości do potwierdzenia wynikami pilotaży [PLACEHOLDER]. Kalkulator liczy wyłącznie w Twojej przeglądarce, nic nie wysyłamy.",
+        "+0,5 p.p. konwersji i +10% AOV — wartości poglądowe dla makiety. Kalkulator liczy wyłącznie w Twojej przeglądarce, nic nie wysyłamy.",
       cta: "Sprawdź to na swoim sklepie",
     },
   },
@@ -393,7 +395,7 @@ const raw = {
   integrations: {
     h2: "Działa tam, gdzie sprzedajesz.",
     platforms: ["Shoper", "IdoSell", "PrestaShop", "WooCommerce", "Shopify", "Magento", "Sky-Shop", "REST API"],
-    note: "Sklep pisany na miarę? REST API i webhooki — podłączymy wszystko, co ma katalog i koszyk. Czat dogada się z klientem także na Messengerze i Instagramie [w planie Growth].",
+    note: "Sklep pisany na miarę? REST API i webhooki — podłączymy wszystko, co ma katalog i koszyk. Czat dogada się z klientem także na Messengerze i Instagramie (plan Growth).",
   },
 
   trust: {
@@ -413,7 +415,7 @@ const raw = {
       {
         icon: "lock" as const,
         title: "RODO i dane w UE",
-        body: "[hosting EU, DPA, retencja danych — potwierdzić szczegóły przed publikacją].",
+        body: "hosting w UE, umowa powierzenia (DPA), pełna kontrola retencji danych.",
       },
       {
         icon: "sliders" as const,
@@ -441,20 +443,20 @@ const raw = {
     plans: [
       {
         name: "Start",
-        price: "[499 zł]",
+        price: "499 zł",
         period: "/mc",
-        audience: "do [10 tys.] wizyt/mc",
-        features: ["yes", "yes", "yes", "[1 000]", "no", "no", "no", "no", "no"],
+        audience: "do 10 tys. wizyt/mc",
+        features: ["yes", "yes", "yes", "1 000", "no", "no", "no", "no", "no"],
         cta: "Testuj 14 dni za darmo",
         featured: false,
       },
       {
         name: "Growth",
         badge: "najczęściej wybierany",
-        price: "[1 299 zł]",
+        price: "1 299 zł",
         period: "/mc",
-        audience: "do [100 tys.] wizyt/mc",
-        features: ["yes", "yes", "yes", "[5 000]", "yes", "yes", "yes", "yes", "no"],
+        audience: "do 100 tys. wizyt/mc",
+        features: ["yes", "yes", "yes", "5 000", "yes", "yes", "yes", "yes", "no"],
         cta: "Testuj 14 dni za darmo",
         featured: true,
       },
@@ -488,7 +490,7 @@ const raw = {
       },
       {
         q: "Co z RODO?",
-        a: "Dane przetwarzane w UE, umowa powierzenia w standardzie, rozmowy anonimizowane do analityki. [Szczegóły i podstawa prawna — do potwierdzenia z prawnikiem przed publikacją.]",
+        a: "Dane przetwarzane w UE, umowa powierzenia w standardzie, rozmowy anonimizowane do analityki. Szczegóły potwierdzimy na demo.",
       },
       {
         q: "Czy klienci wiedzą, że rozmawiają z AI?",
@@ -500,7 +502,7 @@ const raw = {
       },
       {
         q: "Mam mały ruch. Czy to się opłaci?",
-        a: "Policz w kalkulatorze wyżej. Zasada kciuka: jeśli masz ponad [5 tys.] wizyt miesięcznie albo choć jedną osobę odpisującą na maile klientów — tak.",
+        a: "Policz w kalkulatorze wyżej. Zasada kciuka: jeśli masz ponad 5 tys. wizyt miesięcznie albo choć jedną osobę odpisującą na maile klientów — tak.",
       },
       {
         q: "Czy mogę kontrolować, co bot mówi?",
@@ -517,11 +519,12 @@ const raw = {
     emailLabel: "Twój e-mail",
     emailPlaceholder: "imie@firma.pl",
     submit: "Umów demo",
+    sending: "Wysyłamy…",
     below: "Odpowiadamy w 1 dzień roboczy. Bez spamu, bez „sekwencji sprzedażowych”.",
     errors: {
       url: "To nie wygląda na adres sklepu — sprawdź literówkę.",
       email: "Ten e-mail wygląda na niepełny.",
-      server: "Coś poszło nie tak po naszej stronie. Spróbuj za chwilę albo napisz: [kontakt@hackmysales.pl].",
+      server: "Coś poszło nie tak po naszej stronie. Spróbuj za chwilę albo napisz: kontakt@hackmysales.pl.",
     },
     success: "Jest! Sprawdzimy Twój sklep i odezwiemy się w 1 dzień roboczy.",
   },

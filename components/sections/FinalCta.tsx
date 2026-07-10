@@ -9,8 +9,8 @@ import { useReveal } from "@/lib/motion";
 
 type Errors = { url?: string; email?: string };
 
-/** CTA końcowe — walidacja i stany z copy §13. Bez backendu:
- *  TODO [PLACEHOLDER] endpoint — na razie console.log + stan sukcesu. */
+/** CTA końcowe — MAKIETA (decyzja: bez backendu). Walidacja + stan sukcesu,
+ *  zgłoszenie ląduje w console.log. Podpięcie realnego endpointu = osobna decyzja. */
 export function FinalCta() {
   const t = pl.finalCta;
   const ref = useReveal<HTMLElement>(0.08);
@@ -29,8 +29,7 @@ export function FinalCta() {
     setErrors(next);
     if (Object.keys(next).length) return;
 
-    // TODO [PLACEHOLDER]: podpiąć endpoint (CRM / e-mail / webhook)
-    console.log("demo-request", { url, email });
+    console.log("demo-request (makieta)", { shop: url, email });
     setSent(true);
   };
 
@@ -51,7 +50,7 @@ export function FinalCta() {
         {sent ? (
           <p
             role="status"
-            className="js-reveal mx-auto mt-10 flex w-fit items-center gap-3 rounded-full border border-hairline bg-card px-6 py-4 text-sm text-ink"
+            className="mx-auto mt-10 flex w-fit items-center gap-3 rounded-full border border-hairline bg-card px-6 py-4 text-sm text-ink"
           >
             <Check size={16} strokeWidth={2} className="text-ok" aria-hidden="true" />
             {t.success}

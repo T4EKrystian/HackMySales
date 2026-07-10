@@ -1,6 +1,6 @@
 # HackMySales — Copy Deck PL (źródło prawdy)
 
-Zasady: teksty wdrażamy 1:1, bez „ulepszania”. Wartości w `[nawiasach]` = placeholdery do podmiany na prawdziwe dane — mają zostać w kodzie jako widoczne placeholdery i trafić do `PLACEHOLDERS.md`. Struktura stringów: słownik `content/pl.ts` (gotowość pod EN).
+Zasady: teksty wdrażamy 1:1, bez „ulepszania”. Wartości w `[nawiasach]` = placeholdery do podmiany na prawdziwe dane (oznaczenie edytorskie w tym decku). TRYB MAKIETY: na stronie liczby renderują się bez nawiasów jako dane demo; co podmienić śledzi `PLACEHOLDERS.md`. Struktura stringów: słownik `content/pl.ts` (gotowość pod EN).
 
 ---
 
@@ -321,11 +321,13 @@ Lockup logo + tagline: AI CHATBOT & RECOMMENDATIONS THAT INCREASE SALES
 
 - Walidacja URL: „To nie wygląda na adres sklepu — sprawdź literówkę.”
 - Walidacja e-mail: „Ten e-mail wygląda na niepełny.”
+- Wysyłka w toku (przycisk, disabled): „Wysyłamy…”
 - Wysyłka OK: „Jest! Sprawdzimy Twój sklep i odezwiemy się w 1 dzień roboczy.”
 - Błąd serwera: „Coś poszło nie tak po naszej stronie. Spróbuj za chwilę albo napisz: [kontakt@hackmysales.pl].”
 - Cookie banner: „Używamy ciasteczek do analityki — tak jak Ty w swoim sklepie.” `Zgoda` / `Tylko niezbędne`
 - 404: „Tej strony nie ma. Gdyby nasz bot tu pracował, zaproponowałby coś podobnego.” + link „Wróć na stronę główną”
 - Skip link (a11y): „Przejdź do treści”
+- Wskaźnik przewijania w hero: „Przewiń”
 
 ## 14. Słowa zakazane w całym serwisie
 

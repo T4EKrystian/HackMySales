@@ -90,7 +90,7 @@ function RoiCalculator() {
           <p className="text-sm leading-relaxed text-sub">{t.resultIntro}</p>
           <p aria-live="polite" className="mt-4 font-display font-bold tracking-tight text-ink">
             <span className="num text-4xl md:text-5xl">
-              [+<span ref={resultRef}>{fmtNum(gain)}</span> zł]
+              +<span ref={resultRef}>{fmtNum(gain)}</span> zł
             </span>
             <span className="ml-2 text-base font-normal text-sub">{t.resultSuffix}</span>
           </p>
@@ -117,7 +117,7 @@ export function Results() {
   return (
     <section ref={ref} id="wyniki" className="section-pad">
       <Container>
-        <SectionLabel>{t.label}</SectionLabel>
+        <SectionLabel num="08">{t.label}</SectionLabel>
         <SectionH2>{t.h2}</SectionH2>
 
         <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
@@ -151,7 +151,7 @@ export function Results() {
               {t.night.stats.map((s, i) => (
                 <div key={i}>
                   <dd className="font-display text-2xl font-bold tracking-tight text-ink">
-                    <Counter value={s.value} prefix="[" suffix={s.unit ? ` ${s.unit}]` : "]"} />
+                    <Counter value={s.value} suffix={s.unit ? ` ${s.unit}` : ""} />
                   </dd>
                   <dt className="mt-1 text-xs text-mute">{s.label}</dt>
                 </div>

@@ -37,7 +37,9 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pl">
+    // Inline skrypt niżej dodaje klasę .js PRZED hydracją — React 19 zgłasza mismatch
+    // atrybutów <html>; tłumimy ostrzeżenie tylko na tym elemencie (wzorzec theme-script).
+    <html lang="pl" suppressHydrationWarning>
       <body className="bg-page text-ink">
         {/* Klasa .js przed renderem treści — steruje stanem startowym animacji (no-JS: wszystko widoczne) */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />

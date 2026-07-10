@@ -38,7 +38,7 @@ export function Problem() {
   return (
     <section ref={ref} className="section-pad">
       <Container>
-        <SectionLabel>{t.label}</SectionLabel>
+        <SectionLabel num="01">{t.label}</SectionLabel>
         <SectionH2 className="max-w-[24ch]">{t.h2}</SectionH2>
 
         <div className="mt-14 grid gap-5 md:grid-cols-3">

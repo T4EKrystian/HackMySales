@@ -23,7 +23,7 @@ Commands: `npm run dev` · `npm run build` · `npm run lint`. Build must pass af
 
 ## Hard rules
 
-- **Copy:** only from `content/copy-pl.md`, verbatim. Never write your own Polish marketing copy. All strings live in `content/pl.ts` dictionary (typed), components consume the dictionary — ready for future EN locale. Keep `[placeholders]` visible and list them in `PLACEHOLDERS.md`.
+- **Copy:** only from `content/copy-pl.md`, verbatim. Never write your own Polish marketing copy. All strings live in `content/pl.ts` dictionary (typed), components consume the dictionary — ready for future EN locale. Mockup mode: UI renders demo numbers WITHOUT brackets; `PLACEHOLDERS.md` is the registry of values to swap before production (deck keeps brackets as editorial marks).
 - **Color/spacing/type:** only via tokens from `design/tokens.css` (map them into Tailwind theme). Zero hardcoded hex values in components. One accent color (blue). No purple/pink gradients, ever.
 - **Fonts:** self-hosted via `@fontsource-variable` packages (Schibsted Grotesk display, Inter body, JetBrains Mono numbers/labels) — deterministic, GDPR-friendly, includes latin-ext. Do NOT switch to next/font/google. All numbers/KPI/prices render in mono; use `fmtIntPl` for thousands grouping (groups 4-digit numbers too, per copy deck style).
 - **Motion:** follow `design/motion.md` exactly. `useGSAP` hook for cleanup. `prefers-reduced-motion` support is mandatory, not optional. Animate only transform/opacity. Content must be fully visible without JS.

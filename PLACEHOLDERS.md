@@ -1,6 +1,6 @@
 # PLACEHOLDERS — do podmiany przed startem produkcyjnym
 
-Wszystkie wartości w `[nawiasach]` są widoczne na stronie celowo (zasada uczciwości z `design/anti-slop.md`). Podmieniasz w **jednym miejscu**: `content/pl.ts`.
+TRYB MAKIETY: strona renderuje liczby demo bez nawiasów (decyzja: makieta ma wyglądać skończenie). Ta lista dalej obowiązuje — to rejestr wartości do podmiany przed produkcją. Podmieniasz w **jednym miejscu**: `content/pl.ts`.
 
 ## Liczby i oferty (content/pl.ts)
 

@@ -15,7 +15,7 @@ export function Comparison() {
   return (
     <section ref={ref} id="roznica" className="section-pad">
       <Container className="max-w-[980px]">
-        <SectionLabel>{t.label}</SectionLabel>
+        <SectionLabel num="04">{t.label}</SectionLabel>
         <SectionH2 className="max-w-[24ch]">{t.h2}</SectionH2>
 
         <div className="js-reveal mt-14 overflow-hidden rounded-[var(--radius-lg)] border border-hairline">

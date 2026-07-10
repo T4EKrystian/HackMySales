@@ -16,7 +16,7 @@ export function ForWho() {
   return (
     <section ref={ref} id="branze" className="section-pad bg-surface">
       <Container className="max-w-[980px]">
-        <SectionLabel>{t.label}</SectionLabel>
+        <SectionLabel num="05">{t.label}</SectionLabel>
         <SectionH2 className="max-w-[24ch]">{t.h2}</SectionH2>
 
         {/* Zakładki */}

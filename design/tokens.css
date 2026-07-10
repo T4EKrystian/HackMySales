@@ -39,7 +39,7 @@
   /* --- Gradienty (tylko w rodzinie niebieskiego — nigdy fiolet/róż) --- */
   --gradient-hero: linear-gradient(135deg, #3D5BFC 0%, #2E45E0 60%, #1B2A9E 100%);
   --gradient-text: linear-gradient(100deg, #F4F6FC 30%, #93A5FF 100%);
-  --gradient-glow: radial-gradient(ellipse 800px 400px at 50% -10%, rgba(61,91,252,0.18), transparent 70%);
+  --gradient-glow: radial-gradient(ellipse 800px 400px at 50% -10%, rgba(61,91,252,0.22), transparent 70%);
 
   /* --- Typografia --- */
   --font-display: "Schibsted Grotesk", "Inter", -apple-system, system-ui, sans-serif;
@@ -47,17 +47,17 @@
   --font-mono: "JetBrains Mono", ui-monospace, monospace; /* liczby, KPI, kod */
 
   /* Skala (clamp = płynne RWD). Nagłówki: font-display, tracking ujemny. */
-  --text-hero: clamp(2.6rem, 6.5vw, 4.75rem);      /* H1, lh 1.05, ls -0.03em */
-  --text-h2: clamp(2rem, 4.5vw, 3.25rem);          /* lh 1.1, ls -0.02em */
+  --text-hero: clamp(2.75rem, 7vw, 5.5rem);      /* H1, lh 1.05, ls -0.03em */
+  --text-h2: clamp(2.25rem, 5vw, 3.75rem);          /* lh 1.1, ls -0.02em */
   --text-h3: clamp(1.35rem, 2.5vw, 1.75rem);       /* lh 1.2, ls -0.01em */
-  --text-lead: clamp(1.05rem, 1.5vw, 1.25rem);     /* lead pod nagłówkami, lh 1.6 */
+  --text-lead: clamp(1.1rem, 1.6vw, 1.3rem);     /* lead pod nagłówkami, lh 1.6 */
   --text-body: 1rem;                               /* lh 1.65 */
   --text-small: 0.875rem;
   --text-label: 0.75rem;                           /* uppercase, ls 0.08em, mono */
 
   /* --- Rytm i geometria (siatka 4px) --- */
-  --space-section: clamp(6rem, 12vw, 10rem);       /* pion między sekcjami */
-  --container-max: 1200px;
+  --space-section: clamp(7rem, 14vw, 12rem);       /* pion między sekcjami */
+  --container-max: 1240px;
   --container-pad: clamp(1.25rem, 4vw, 2.5rem);
   --radius-sm: 8px;
   --radius-md: 12px;

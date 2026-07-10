@@ -1,30 +1,25 @@
 "use client";
 
-import { ReactLenis, type LenisRef } from "lenis/react";
+import { ReactLenis, useLenis } from "lenis/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/** Lenis (smooth scroll) spięty z tickerem GSAP + obsługa kotwic z offsetem pod nav.
- *  prefers-reduced-motion → natywny scroll (Lenis wyłączony). */
-export function SmoothScroll({ children }: { children: React.ReactNode }) {
-  const lenisRef = useRef<LenisRef>(null);
+/** Musi być dzieckiem ReactLenis (kontekst). Spina Lenis ze ScrollTriggerem,
+ *  obsługuje kotwice i wyłącza smooth przy prefers-reduced-motion.
+ *  Lenis jeździ na własnym rAF (autoRaf, domyślne) — zero zależności od tickera GSAP. */
+function LenisBridge() {
+  const lenis = useLenis(ScrollTrigger.update);
 
   useEffect(() => {
-    const lenis = lenisRef.current?.lenis;
     if (!lenis) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      lenis.destroy();
+      lenis.destroy(); // natywny scroll; kotwice łapie scroll-margin-top z CSS
       return;
     }
-
-    lenis.on("scroll", ScrollTrigger.update);
-    const update = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(update);
-    gsap.ticker.lagSmoothing(0);
 
     const onClick = (e: MouseEvent) => {
       const a = (e.target as HTMLElement).closest?.('a[href^="#"]') as HTMLAnchorElement | null;
@@ -38,15 +33,16 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       history.pushState(null, "", id);
     };
     document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, [lenis]);
 
-    return () => {
-      document.removeEventListener("click", onClick);
-      gsap.ticker.remove(update);
-    };
-  }, []);
+  return null;
+}
 
+export function SmoothScroll({ children }: { children: React.ReactNode }) {
   return (
-    <ReactLenis root options={{ lerp: 0.1, autoRaf: false }} ref={lenisRef}>
+    <ReactLenis root options={{ lerp: 0.1 }}>
+      <LenisBridge />
       {children}
     </ReactLenis>
   );

@@ -174,7 +174,7 @@ export function ChatDemo() {
         tabIndex={0}
         role="log"
         aria-label="Rozmowa demo"
-        className="flex max-h-[400px] min-h-[320px] flex-col gap-4 overflow-y-auto p-5"
+        className="flex max-h-[460px] min-h-[380px] flex-col gap-4 overflow-y-auto p-5"
       >
         {active.steps.map((step, i) => (
           <div

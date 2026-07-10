@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { pl } from "@/content/pl";
 import { Button } from "@/components/ui/Button";
 import { ChatDemo } from "@/components/sections/ChatDemo";
@@ -27,7 +27,7 @@ export function Hero() {
             0.1
           )
           .fromTo(
-            [".hero-eyebrow", ".hero-lead", ".hero-cta", ".hero-proof"],
+            [".hero-eyebrow", ".hero-lead", ".hero-cta", ".hero-proof", ".hero-cue"],
             { y: 24, opacity: 0 },
             { y: 0, opacity: 1, duration: 0.7, stagger: 0.08 },
             0.35
@@ -70,12 +70,18 @@ export function Hero() {
         };
       });
 
-      // Dyskretny parallax glow (jedyny scrub w hero)
+      // Dyskretny parallax glow (jedyny scrub w hero) + zanikanie scroll cue
       mm.add(NO_REDUCE, () => {
         gsap.to(".hero-glow", {
           yPercent: -8,
           ease: "none",
           scrollTrigger: { trigger: scope.current, start: "top top", end: "bottom top", scrub: true },
+        });
+        gsap.to(".hero-cue", {
+          opacity: 0,
+          ease: "none",
+          immediateRender: false, // nie zamrażaj stanu sprzed animacji wejścia
+          scrollTrigger: { start: 10, end: 180, scrub: true },
         });
       });
     },
@@ -83,12 +89,12 @@ export function Hero() {
   );
 
   return (
-    <section ref={scope} id="top" className="relative overflow-hidden pt-[72px]">
+    <section ref={scope} id="top" className="relative flex min-h-svh items-center overflow-hidden pt-[72px]">
       {/* Tło: glow + siatka kropek */}
       <div className="hero-glow glow-bg absolute inset-x-0 -top-24 h-[130%]" aria-hidden="true" />
       <div className="dot-grid absolute inset-0" aria-hidden="true" />
 
-      <div className="container-hms relative grid items-center gap-14 pb-20 pt-16 md:pb-28 md:pt-24 lg:grid-cols-[55fr_45fr]">
+      <div className="container-hms relative grid w-full items-center gap-14 py-16 md:py-20 lg:grid-cols-[55fr_45fr]">
         <div>
           <p className="hero-eyebrow hero-el label">{t.eyebrow}</p>
           <h1
@@ -125,6 +131,18 @@ export function Hero() {
           <ChatDemo />
         </div>
       </div>
+
+      {/* Wskaźnik przewijania — znika po pierwszych ~180px scrolla */}
+      <a
+        href="#produkt"
+        className="hero-cue hero-el absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-mute transition-colors duration-150 hover:text-sub md:flex"
+        aria-label="Przewiń do sekcji Produkt"
+      >
+        <span className="label">{t.scrollCue}</span>
+        <span className="cue-bob flex h-9 w-9 items-center justify-center rounded-full border border-hairline">
+          <ChevronDown size={16} strokeWidth={1.75} aria-hidden="true" />
+        </span>
+      </a>
     </section>
   );
 }
