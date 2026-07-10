@@ -152,7 +152,19 @@
 .ticker:hover .ticker-track { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .ticker-track { animation: none; }
+  /* statyczna lista: bez klona, max 3 wpisy + podpis (motion.md §3) */
+  .ticker-track > ul[aria-hidden="true"] { display: none; }
+  .ticker-track > ul > li:nth-child(n + 4):not(:last-child) { display: none; }
 }
+
+/* Akcent „nigdy" w H1 — stały glow (puls daje rdzeń za tekstem, nie paint-animacja) */
+.hero-nigdy {
+  color: var(--blue-300);
+  text-shadow: 0 0 28px var(--blue-glow);
+}
+
+/* Kursor pisania klienta w czacie (na niebieskim bąblu) */
+.chat-caret { background: var(--text-on-blue); }
 
 /* Kropki „pisania" w demo czatu */
 @keyframes dotpulse {

@@ -78,8 +78,9 @@ float heartbeat(float t){
 void main(){
   vec3 dir=aDir;
   float beat=heartbeat(uTime);
-  float n=snoise(dir*2.1+uTime*0.16+aSeed*3.7);
-  float r=1.0+n*0.22+beat*0.05;
+  float n=snoise(dir*2.3+uTime*0.16);
+  float n2=snoise(dir*7.0+uTime*0.28);
+  float r=1.0+n*0.09+n2*0.035+beat*0.05;
   vec3 pos=dir*r;
 
   if(uMode>0.5){
@@ -123,8 +124,8 @@ void main(){
   if(disc<0.01) discard;
   float hot=pow(max(0.0,1.0-d*2.2),3.0); // gorący środek zamiast bloomu z composera
   vec3 col=mix(uColA,uColB,clamp(vRim+vSeed*0.25,0.0,1.0));
-  col+=hot*0.5;
-  float a=disc*(0.3+vRim*0.5+hot*0.4)*vFade;
+  col+=hot*0.6;
+  float a=disc*(0.42+vRim*0.55+hot*0.45)*vFade;
   gl_FragColor=vec4(col,a);
 }
 `;
@@ -138,9 +139,9 @@ function tokenColor(name: string) {
 type Variant = "core" | "mini" | "converge";
 
 const VARIANT = {
-  core: { count: 12000, scale: 1.55, size: 2.1, time: 1, mouse: 0.9 },
-  mini: { count: 2200, scale: 1.0, size: 2.4, time: 0.55, mouse: 0 },
-  converge: { count: 5200, scale: 1.35, size: 2.0, time: 0.7, mouse: 0 },
+  core: { count: 12000, scale: 1.5, size: 3.2, time: 1, mouse: 0.9 },
+  mini: { count: 2200, scale: 1.0, size: 3.2, time: 0.55, mouse: 0 },
+  converge: { count: 5200, scale: 1.35, size: 3.0, time: 0.7, mouse: 0 },
 } as const;
 
 export function CoreParticles({ entry, variant }: { entry: GLViewEntry; variant: Variant }) {

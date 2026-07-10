@@ -51,6 +51,25 @@ Mobile: hamburger, pełnoekranowe menu.
 
 **Pasek zaufania (pod hero):** Zbudowane przez zespół Time4Ecommerce — w e-commerce od 2017, ponad 40 sklepów pod opieką. Działa z: Shoper · IdoSell · PrestaShop · WooCommerce · Shopify · Magento · [logotypy klientów — placeholder]
 
+**Sugerowane pytania w demo czatu (chipy po zakończeniu scenariusza):** treść = pierwsze pytanie klienta z pozostałych scenariuszy (1:1 ze scenariuszy wyżej) — zero nowych obietnic, klik przełącza scenariusz.
+
+---
+
+## 1b. Proof ticker (pas pod hero, marquee)
+
+*(Żywy feed nocy — mikrodowody pracy bota. Kwoty i zdarzenia = dane demo (rejestr: PLACEHOLDERS.md), spójne z §5b i §4. Timestampy nocne — klamra z H1 „nigdy nie śpi”.)*
+
+- 23:14 — pytanie o rozmiar · odpowiedź w 0,9 s
+- 23:41 — koszyk uratowany · 214 zł
+- 00:36 — „gdzie moja paczka?” · obsłużone bez człowieka
+- 01:12 — rozmiar dobrany z historii zwrotów
+- 02:03 — zapytanie ofertowe B2B · lead zebrany
+- 03:47 — klient obsłużony · 0 min czekania
+- 05:20 — radar: 3 pytania o „softshell dziecięcy”
+- 06:58 — kompletowanie łazienki · 1 260 zł
+
+**Podpis (w pasku):** noc z HackMySales · dane demo
+
 ---
 
 ## 2. Problem
@@ -344,6 +363,8 @@ Lockup logo + tagline: AI CHATBOT & RECOMMENDATIONS THAT INCREASE SALES
 - 404: „Tej strony nie ma. Gdyby nasz bot tu pracował, zaproponowałby coś podobnego.” + link „Wróć na stronę główną”
 - Skip link (a11y): „Przejdź do treści”
 - Wskaźnik przewijania w hero: „Przewiń”
+- Etykieta custom cursora nad żywymi demami: „demo”
+- Status w oknie czatu: „online” + żywy zegar HH:MM (dane, nie copy)
 
 ## 14. Słowa zakazane w całym serwisie
 
@@ -369,6 +390,7 @@ Blok body: 15–25 słów (twardy limit 35, powyżej tylko z twardą liczbą). N
 
 ## 15. Changelog copy
 
+- **2026-07-10 · Przebudowa v3 (forma, nie treść)** — nowe stringi wyłącznie interfejsowe: §1b Proof ticker (feed nocy — dane demo spójne z §4/§5b), chipy sugerowanych pytań w hero (1:1 pierwsze pytania scenariuszy B/C — zero nowego copy), §13 etykieta cursora „demo” i status zegara. Marketingowe H1/lead/filary/karty — BEZ ZMIAN (chronione). Ticker Radaru (§L3) scalony z proof tickerem — wpisy radarowe zostają w karcie Radaru (§4) i w §1b.
 - **2026-07-10 · §10b Nota od zespołu (NOWA) + trust bar** — strona nie miała żadnego ludzkiego dowodu (case studies uczciwie ukryte); nota = 3 zdania na faktach od klienta (od 2017, 40+ sklepów), podpis „— zespół Time4Ecommerce”; trust bar pod hero dostaje te same fakty (sama nazwa firmy nie była dowodem dla obcego). Blok 39 słów — świadomie ponad normę 25: to jedyne miejsce z osobistym głosem, 3 krótkie zdania.
 - **2026-07-10 · §2 Problem + §11 CTA końcowe** — label „DLACZEGO TO MA ZNACZENIE” → „CO CIĘ TO KOSZTUJE” (meta-etykieta landingowa → pieniądze); karta 98%: bez „Większość… tylko dlatego” (nieweryfikowalna teza o większości, 21→16 słów); H2 finału „Zobacz go…” → „Zobacz tego sprzedawcę na swoich produktach.” (wiszący zaimek out, domyka klamrę z H1); lead finału bez triady „15 minut rozmowy, konkretne liczby, zero zobowiązań” → konkret „ile bot może u Ciebie zarobić”; FAQ RODO zsynchronizowane z pl.ts.
 - **2026-07-10 · §5 Wdrożenie + §7 Integracje** — krok 2 bez „nie zmyśla” (3× na stronie → 2×: Zaufanie + FAQ); dopisek bez „Bez zmiany platformy” (dubel z mikrodowodem hero); H2 Integracji „Działa tam, gdzie sprzedajesz.” → „Twoja platforma jest na liście.” (kolizja dwóch „Działa … gdzie” z Branżami; konkret nad logotypami).

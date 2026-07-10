@@ -68,8 +68,8 @@ Oskryptowana rozmowa (scenariusz w `copy-pl.md` §1) odtwarzana jak prawdziwa: w
 ### L2. Kalkulator ROI „Ile zostawiasz na stole?”
 3 pola (odwiedziny/mc, AOV, konwersja %) z sensownymi defaultami (20 000 · 180 zł · 1,8%). Licząc na żywo: przychód dziś, przychód przy +0,5 p.p. konwersji i +10% AOV [założenia do potwierdzenia — oznaczyć w UI jako „założenia”], różnica = duża kwota w mono. Wynik animowany (odliczanie). Poniżej CTA na demo. Bez wysyłania danych — wszystko client-side.
 
-### L3. Ticker „Radar popytu na żywo”
-Pozioma, wolno płynąca taśma (marquee, pauza na hover) z przykładowymi wpisami radaru: „11:42 — klient pytał o rozmiar 46 (brak w ofercie)” · „11:47 — 3 osoby szukały «kurtka softshell dziecięca»” · „11:51 — pytanie o dostawę w sobotę” · „12:09 — brak wyników: «buty trailowe gore-tex 47»” · „12:16 — pytanie o raty 0%”. Podpis: „Przykładowe dane demo”. Daje wrażenie żywego systemu bez kłamstwa.
+### L3. Ticker „Radar popytu na żywo” → SCALONY z L16 (v3)
+Wpisy radarowe żyją w dwóch miejscach: karta Radaru w bento (wiersze + sweep) i proof ticker pod hero (§L16). Osobna taśma na dole sekcji funkcji — usunięta (dwa marquee treściowe to o jedno za dużo).
 
 ### L4. Licznik nocnej zmiany
 W sekcji wyników: karta „Kiedy spałeś, bot…” z licznikami odpalanymi scrollem: rozmowy [34], sprzedaż [6 840 zł], zaoszczędzone tickety [21]. Liczby w JetBrains Mono.
@@ -107,4 +107,12 @@ Krótki blok typograficzny: label OD ZESPOŁU, 3 zdania na potwierdzonych faktac
 ### L11. Boczna nawigacja kropkowa (desktop ≥1280px)
 Pionowe kropki po prawej: Start · Produkt · Funkcje · Różnica · Wyniki · Cennik · FAQ · Demo. Aktywna sekcja podświetlona (IntersectionObserver), hover pokazuje etykietę, klik scrolluje. Dyskretna — 6px kropki, zero animacji poza opacity/scale.
 
-Uwaga ogólna: L1–L11 budujemy w HTML/CSS/TS (zero wideo, zero GIF-ów, zero screenshotów) — mają być ostre na retinie, lekkie i możliwe do poprawki tekstów w 30 sekund.
+### L16. Proof ticker (pas pod hero) — v3
+Marquee CSS (pauza na hover, reduced-motion: statyczna lista pierwszych 3 wpisów) z feedem nocy (copy §1b), mono, timestampy 23:14→06:58. Pod taśmą: linia zaufania + platformy (dawny TrustBar — scalony, żeby pod hero był jeden pas, nie dwa). Zastępuje L3 w layoucie.
+
+### L17. Hero v3 — rdzeń + żywszy czat
+- WebGL particle core (scena `core` w GLStage): oddech ~1,2 s, repulsja od kursora, dyspersja na scroll. Poster do czasu idle-mount: dotychczasowy gradient glow.
+- H1: mask-reveal liniami (SplitText), słowo „nigdy” z pulsem w rytmie rdzenia.
+- Czat (rozszerzenie L1/L6): pytania klienta piszą się znak po znaku; po badge'u pojawiają się klikalne chipy = pierwsze pytania pozostałych scenariuszy (przełączają scenariusz); status okna: „online” + żywy zegar HH:MM; etykieta cursora „demo” nad oknem.
+
+Uwaga ogólna: elementy L budujemy w HTML/CSS/TS (zero wideo, zero GIF-ów, zero screenshotów) — mają być ostre na retinie, lekkie i możliwe do poprawki tekstów w 30 sekund.

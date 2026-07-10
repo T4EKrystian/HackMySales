@@ -118,6 +118,25 @@ const raw = {
     platforms: ["Shoper", "IdoSell", "PrestaShop", "WooCommerce", "Shopify", "Magento"],
   },
 
+  // Proof ticker (copy-pl §1b) — feed nocy, dane demo (PLACEHOLDERS.md)
+  proofTicker: {
+    items: [
+      "23:14 — pytanie o rozmiar · odpowiedź w 0,9 s",
+      "23:41 — koszyk uratowany · 214 zł",
+      "00:36 — „gdzie moja paczka?” · obsłużone bez człowieka",
+      "01:12 — rozmiar dobrany z historii zwrotów",
+      "02:03 — zapytanie ofertowe B2B · lead zebrany",
+      "03:47 — klient obsłużony · 0 min czekania",
+      "05:20 — radar: 3 pytania o „softshell dziecięcy”",
+      "06:58 — kompletowanie łazienki · 1 260 zł",
+    ],
+    caption: "noc z HackMySales · dane demo",
+  },
+
+  ui: {
+    cursorDemo: "demo",
+  },
+
   problem: {
     label: "CO CIĘ TO KOSZTUJE",
     h2: "Twój sklep traci klientów po cichu.",

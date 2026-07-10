@@ -1,13 +1,14 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, RotateCcw } from "lucide-react";
 import { pl } from "@/content/pl";
 import { Logo } from "@/components/ui/Logo";
 import { gsap, useGSAP, NO_REDUCE, REDUCE } from "@/lib/motion";
 
-/** Żywe demo czatu z trzema scenariuszami (features.md §L1+L6, motion.md §6).
- *  Taby: Doradztwo / Rozmiar / Paczka — zmiana przebudowuje timeline i odtwarza od zera.
+/** Żywe demo czatu (features §L1+L6+L17, motion.md §3).
+ *  v3: pytania klienta piszą się znak po znaku, po badge'u chipy z pytaniami
+ *  pozostałych scenariuszy (klik przełącza), status z żywym zegarem.
  *  Reduced-motion i brak JS → pełna rozmowa statycznie. */
 export function ChatDemo() {
   const t = pl.hero.chat;
@@ -18,8 +19,23 @@ export function ChatDemo() {
   const [scenario, setScenario] = useState(0);
   const [done, setDone] = useState(false);
   const [tooltip, setTooltip] = useState(false);
+  const [clock, setClock] = useState("--:--");
 
   const active = t.scenarios[scenario];
+
+  // Żywy zegar przy statusie online (dane, nie copy)
+  useEffect(() => {
+    const tick = () =>
+      setClock(new Date().toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit" }));
+    tick();
+    const id = window.setInterval(tick, 30_000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    if (!done) return;
+    bodyRef.current?.scrollTo({ top: bodyRef.current.scrollHeight, behavior: "smooth" });
+  }, [done]);
 
   useGSAP(
     () => {
@@ -33,7 +49,13 @@ export function ChatDemo() {
         const steps = gsap.utils.toArray<HTMLElement>(".chat-step", root);
         const tl = gsap.timeline({ paused: true, onComplete: () => setDone(true) });
 
-        const scrollDown = () => body.scrollTo({ top: body.scrollHeight, behavior: "smooth" });
+        // Kotwiczymy na OSTATNIM widocznym kroku — scrollHeight zjeżdżałby w pustkę
+        // niewidocznych jeszcze wiadomości (mają wysokość mimo opacity 0).
+        const scrollToStep = (step: HTMLElement) =>
+          body.scrollTo({
+            top: Math.max(0, step.offsetTop + step.offsetHeight - body.clientHeight + 20),
+            behavior: "smooth",
+          });
 
         steps.forEach((step) => {
           const isBot = step.dataset.role === "bot";
@@ -43,36 +65,67 @@ export function ChatDemo() {
           if (!msg) return;
 
           if (isBot && dots) {
+            // bot: wskaźnik pisania -> wiadomość ze springiem
             tl.set(step, { opacity: 1 })
               .fromTo(dots, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 })
               .to({}, { duration: 0.75 })
               .to(dots, { autoAlpha: 0, duration: 0.15 })
-              .set(dots, { display: "none" });
+              .set(dots, { display: "none" })
+              .fromTo(
+                msg,
+                { y: 16, autoAlpha: 0, scale: 0.97 },
+                { y: 0, autoAlpha: 1, scale: 1, duration: 0.45, ease: "back.out(1.4)" }
+              )
+              .call(() => scrollToStep(step));
+          } else if (step.dataset.role === "user") {
+            // klient: bąbel pojawia się pusty i PISZE się znak po znaku
+            const textEl = step.querySelector<HTMLElement>(".chat-user-text");
+            const caret = step.querySelector<HTMLElement>(".chat-caret");
+            const full = textEl?.textContent ?? "";
+            const proxy = { i: 0 };
+            tl.set(step, { opacity: 1 }, "+=0.35")
+              .fromTo(msg, { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.25, ease: "power2.out" })
+              .call(() => {
+                if (textEl) textEl.textContent = "";
+                if (caret) caret.style.display = "inline-block";
+              })
+              .to(proxy, {
+                i: full.length,
+                duration: Math.min(1.4, Math.max(0.5, full.length * 0.028)),
+                ease: "none",
+                onUpdate: () => {
+                  if (textEl) textEl.textContent = full.slice(0, Math.round(proxy.i));
+                },
+              })
+              .call(() => {
+                if (caret) caret.style.display = "none";
+                scrollToStep(step);
+              });
           } else {
-            tl.set(step, { opacity: 1 }, "+=0.45");
+            // badge wartości
+            tl.set(step, { opacity: 1 }, "+=0.2")
+              .fromTo(
+                msg,
+                { y: 16, autoAlpha: 0, scale: 0.97 },
+                { y: 0, autoAlpha: 1, scale: 1, duration: 0.45, ease: "back.out(1.4)" }
+              )
+              .call(() => scrollToStep(step));
+            if (isBadge) {
+              tl.fromTo(
+                msg,
+                { boxShadow: "0 0 0 0 var(--blue-glow)" },
+                { boxShadow: "0 0 0 12px transparent", duration: 0.9, ease: "power2.out" }
+              );
+            }
           }
 
-          tl.fromTo(
-            msg,
-            { y: 16, autoAlpha: 0, scale: 0.97 },
-            { y: 0, autoAlpha: 1, scale: 1, duration: 0.45, ease: "back.out(1.4)" }
-          ).call(scrollDown);
-
-          if (isBadge) {
-            tl.fromTo(
-              msg,
-              { boxShadow: "0 0 0 0 var(--blue-glow)" },
-              { boxShadow: "0 0 0 12px transparent", duration: 0.9, ease: "power2.out" }
-            );
-          }
-
-          const hold = Math.min(2.0, (msg.textContent?.length ?? 40) * 0.012);
+          const hold = Math.min(1.8, (msg.textContent?.length ?? 40) * 0.011);
           tl.to({}, { duration: hold });
         });
 
         tlRef.current = tl;
 
-        // Autoplay: przy zmianie taba (element już w viewport) lub przy pierwszym wejściu w viewport
+        // Autoplay: zmiana taba gra od razu; pierwsze wejście w viewport z pauzą oddechu
         const rect = root.getBoundingClientRect();
         const inView = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
         if (inView && startedRef.current) {
@@ -85,13 +138,13 @@ export function ChatDemo() {
               once: true,
               onEnter: () => {
                 startedRef.current = true;
-                tl.play();
+                gsap.delayedCall(1.0, () => tl.play());
               },
             },
           });
           if (inView) {
             startedRef.current = true;
-            tl.play();
+            gsap.delayedCall(1.0, () => tl.play());
           }
         }
       });
@@ -133,8 +186,10 @@ export function ChatDemo() {
           <div className="min-w-0 leading-tight">
             <p className="truncate text-sm font-medium text-ink">{t.title}</p>
             <p className="flex items-center gap-1.5 text-xs text-mute">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
+              <span className="chat-online-dot inline-block h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
               {t.status}
+              <span aria-hidden="true">—</span>
+              <span className="num">{clock}</span>
             </p>
           </div>
         </div>
@@ -197,7 +252,14 @@ export function ChatDemo() {
                     : "rounded-bl-md bg-elevated text-ink"
                 }`}
               >
-                <p>{step.text}</p>
+                {step.role === "user" ? (
+                  <p>
+                    <span className="chat-user-text">{step.text}</span>
+                    <span className="chat-caret typing-caret" style={{ display: "none" }} aria-hidden="true" />
+                  </p>
+                ) : (
+                  <p>{step.text}</p>
+                )}
                 {"card" in step && step.card && (
                   <div className="mt-3 flex items-center gap-3 rounded-xl border border-hairline bg-card p-3">
                     <div
@@ -227,9 +289,27 @@ export function ChatDemo() {
             <span className="num">{active.badge}</span>
           </p>
         </div>
+
+        {/* Sugerowane pytania = pierwsze pytania pozostałych scenariuszy (copy §1) */}
+        {done && (
+          <div className="fade-in-panel flex flex-col items-end gap-2 self-end">
+            {t.scenarios.map(
+              (s, i) =>
+                i !== scenario && (
+                  <button
+                    key={s.key}
+                    onClick={() => switchScenario(i)}
+                    className="max-w-[260px] truncate rounded-full border border-strongline bg-transparent px-4 py-2 text-left text-xs text-sub transition-colors duration-150 hover:border-blue hover:text-ink"
+                  >
+                    {s.steps[0].text}
+                  </button>
+                )
+            )}
+          </div>
+        )}
       </div>
 
-      {/* Atrapa pola — uczciwa (features.md §L1) */}
+      {/* Atrapa pola — uczciwa (features §L1) */}
       <div className="relative border-t border-hairline p-4">
         <button
           className="w-full rounded-full border border-hairline bg-field px-5 py-3 text-left text-sm text-mute"

@@ -5,72 +5,90 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { pl } from "@/content/pl";
 import { Button } from "@/components/ui/Button";
 import { ChatDemo } from "@/components/sections/ChatDemo";
-import { gsap, useGSAP, NO_REDUCE, REDUCE } from "@/lib/motion";
+import { gsap, useGSAP, SplitText, NO_REDUCE, REDUCE, FINE_POINTER, EASE, STAG, attachMagnet } from "@/lib/motion";
+import { useGLView } from "@/lib/glRegistry";
 
-/** Hero 55/45 z timeline'em wejścia (design/motion.md §2) i magnetycznym CTA. */
+/** Hero v3 (motion.md §3, features §L17): particle core + mask-reveal H1 + żywy czat.
+ *  Rdzeń oddycha (puls 1,2 s), reaguje na kursor i rozprasza się przy scrollu. */
 export function Hero() {
   const t = pl.hero;
   const scope = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const { ref: coreRef, glState } = useGLView("hero-core", "core");
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
 
       mm.add(NO_REDUCE, () => {
-        const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+        // --- H1: mask-reveal liniami + scramble-in „nigdy" ---
+        const lines = gsap.utils.toArray<HTMLElement>(".hero-line", scope.current!);
+        let split: SplitText | null = null;
+        let played = false;
+
+        document.fonts.ready.then(() => {
+          if (!lines.length || !scope.current) return;
+          split = SplitText.create(lines, {
+            type: "lines,words",
+            mask: "lines",
+            autoSplit: true,
+            onSplit(self) {
+              const nigdy = self.words.find((w) => (w.textContent ?? "").trim().toLowerCase() === "nigdy");
+              nigdy?.classList.add("hero-nigdy");
+              gsap.set(lines, { opacity: 1 }); // zdejmij stan startowy .hero-el
+              if (played) {
+                gsap.set(self.lines, { yPercent: 0 });
+                return;
+              }
+              played = true;
+              const tl = gsap.timeline({ delay: 0.12 });
+              tl.from(self.lines, { yPercent: 112, duration: 0.9, ease: EASE.out, stagger: STAG.base });
+              if (nigdy) {
+                tl.to(nigdy, { duration: 0.6, scrambleText: { text: "nigdy", chars: "nigdyśpi", speed: 1.6 } }, 0.55);
+              }
+              return tl;
+            },
+          });
+        });
+
+        // --- Reszta choreografii wejścia (< 1,4 s łącznie) ---
+        const tl = gsap.timeline({ paused: true, defaults: { ease: EASE.soft } });
         tl.fromTo(".hero-glow", { opacity: 0 }, { opacity: 1, duration: 1.2 }, 0)
-          .fromTo(
-            ".hero-line",
-            { y: 40, opacity: 0, clipPath: "inset(0 0 100% 0)" },
-            { y: 0, opacity: 1, clipPath: "inset(0 0 -10% 0)", duration: 0.9, stagger: 0.1 },
-            0.1
-          )
           .fromTo(
             [".hero-eyebrow", ".hero-lead", ".hero-cta", ".hero-proof", ".hero-cue"],
             { y: 24, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.7, stagger: 0.08 },
-            0.35
+            { y: 0, opacity: 1, duration: 0.7, stagger: STAG.base },
+            0.3
           )
           .fromTo(
             ".hero-demo",
             { y: 48, opacity: 0, scale: 0.98 },
             { y: 0, opacity: 1, scale: 1, duration: 0.9, clearProps: "transform" },
-            0.6
+            0.55
           );
+        document.fonts.ready.then(() => tl.play());
 
-        const start = () => tl.play();
-        if (document.fonts?.ready) document.fonts.ready.then(start);
-        else start();
+        // --- Rdzeń: dyspersja i odpłynięcie przy scrollu (uniform, nie DOM) ---
+        gsap.to(glState, {
+          progress: 1,
+          ease: "none",
+          scrollTrigger: { trigger: scope.current, start: "top top", end: "bottom 30%", scrub: true },
+        });
+
+        return () => split?.revert();
       });
 
       mm.add(REDUCE, () => {
-        gsap.set([".hero-el", ".hero-glow"], { clearProps: "all", opacity: 1 });
+        gsap.set([".hero-el", ".hero-glow", ".hero-line"], { clearProps: "all", opacity: 1 });
       });
 
-      // Magnetic CTA — tylko desktop z myszą (design/motion.md §8)
-      mm.add("(min-width: 768px) and (hover: hover) and (prefers-reduced-motion: no-preference)", () => {
-        const wrap = ctaRef.current;
-        if (!wrap) return;
-        const xTo = gsap.quickTo(wrap, "x", { duration: 0.4, ease: "power3.out" });
-        const yTo = gsap.quickTo(wrap, "y", { duration: 0.4, ease: "power3.out" });
-        const onMove = (e: MouseEvent) => {
-          const r = wrap.getBoundingClientRect();
-          const dx = e.clientX - (r.left + r.width / 2);
-          const dy = e.clientY - (r.top + r.height / 2);
-          xTo(gsap.utils.clamp(-4, 4, dx * 0.08));
-          yTo(gsap.utils.clamp(-4, 4, dy * 0.08));
-        };
-        const onLeave = () => { xTo(0); yTo(0); };
-        wrap.addEventListener("mousemove", onMove);
-        wrap.addEventListener("mouseleave", onLeave);
-        return () => {
-          wrap.removeEventListener("mousemove", onMove);
-          wrap.removeEventListener("mouseleave", onLeave);
-        };
+      // Magnetic CTA — tylko desktop z myszą (max 4 px w hero)
+      mm.add(FINE_POINTER, () => {
+        if (!ctaRef.current) return;
+        return attachMagnet(ctaRef.current, 4);
       });
 
-      // Dyskretny parallax glow (jedyny scrub w hero) + zanikanie scroll cue
+      // Dyskretny parallax glow + zanikanie scroll cue
       mm.add(NO_REDUCE, () => {
         gsap.to(".hero-glow", {
           yPercent: -8,
@@ -80,7 +98,7 @@ export function Hero() {
         gsap.to(".hero-cue", {
           opacity: 0,
           ease: "none",
-          immediateRender: false, // nie zamrażaj stanu sprzed animacji wejścia
+          immediateRender: false,
           scrollTrigger: { start: 10, end: 180, scrub: true },
         });
       });
@@ -90,9 +108,16 @@ export function Hero() {
 
   return (
     <section ref={scope} id="top" className="relative flex min-h-svh items-center overflow-hidden pt-[72px]">
-      {/* Tło: glow + siatka kropek */}
+      {/* Tło: glow (poster do czasu WebGL) + siatka kropek */}
       <div className="hero-glow glow-bg absolute inset-x-0 -top-24 h-[130%]" aria-hidden="true" />
       <div className="dot-grid absolute inset-0" aria-hidden="true" />
+
+      {/* Track rdzenia — scena `core` rysowana na globalnym canvasie (z-0, za treścią) */}
+      <div
+        ref={coreRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-[20%] bottom-[-20%] left-[-30%] right-[-30%] md:-top-[22%] md:bottom-[-22%] md:left-[34%] md:right-[-16%]"
+      />
 
       <div className="container-hms relative grid w-full items-center gap-14 py-16 md:py-20 lg:grid-cols-[55fr_45fr]">
         <div>
@@ -102,7 +127,7 @@ export function Hero() {
             style={{ fontSize: "var(--text-hero)", lineHeight: 1.05 }}
           >
             <span className="hero-line hero-el block">{t.h1Line1}</span>
-            <span className="hero-line hero-el block text-gradient">{t.h1Line2}</span>
+            <span className="hero-line hero-el block">{t.h1Line2}</span>
           </h1>
           <p
             className="hero-lead hero-el mt-6 max-w-[36rem] text-sub"
@@ -127,7 +152,7 @@ export function Hero() {
           <p className="hero-proof hero-el mt-7 text-sm text-mute">{t.proof}</p>
         </div>
 
-        <div id="chat-demo" className="hero-demo">
+        <div id="chat-demo" className="hero-demo" data-cursor-label={pl.ui.cursorDemo}>
           <ChatDemo />
         </div>
       </div>

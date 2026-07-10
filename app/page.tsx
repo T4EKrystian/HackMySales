@@ -1,7 +1,7 @@
 import { pl } from "@/content/pl";
 import { Nav } from "@/components/sections/Nav";
 import { Hero } from "@/components/sections/Hero";
-import { TrustBar } from "@/components/sections/TrustBar";
+import { ProofTicker } from "@/components/sections/ProofTicker";
 import { Problem } from "@/components/sections/Problem";
 import { Pillars } from "@/components/sections/Pillars";
 import { GoldMines } from "@/components/sections/GoldMines";
@@ -51,7 +51,7 @@ export default function Home() {
       {/* Wrapper z-[1]: treść ponad globalnym Canvasem WebGL (z-0, fixed za contentem) */}
       <main id="tresc" className="relative z-[1]">
         <Hero />
-        <TrustBar />
+        <ProofTicker />
         <Problem />
         <Pillars />
         <GoldMines />

@@ -70,23 +70,22 @@ export default function GLCanvas() {
 
   const refs = useMemo(() => entries.map((e) => ({ current: e.el })), [entries]);
 
+  // UWAGA: <View track> musi być DZIECKIEM Canvasa (wariant CanvasView) — renderowany
+  // poza nim ignoruje track i mierzy własny, pusty div. Priorytety useFrame (index>0)
+  // wyłączają automatyczny render roota — rysują wyłącznie widoki.
   return (
-    <>
+    <Canvas
+      frameloop={active ? "always" : "never"}
+      dpr={[1, 1.75]}
+      gl={{ antialias: false, alpha: true, powerPreference: "high-performance", stencil: false, depth: false }}
+      style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}
+      aria-hidden="true"
+    >
       {entries.map((e, i) => (
-        <View key={e.key} track={refs[i] as React.RefObject<HTMLElement>}>
+        <View key={e.key} index={i + 1} track={refs[i] as React.RefObject<HTMLElement>}>
           <SceneFor entry={e} />
         </View>
       ))}
-      <Canvas
-        frameloop={active ? "always" : "never"}
-        dpr={[1, 1.75]}
-        gl={{ antialias: false, alpha: true, powerPreference: "high-performance", stencil: false, depth: false }}
-        style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}
-        eventSource={typeof document !== "undefined" ? document.body : undefined}
-        aria-hidden="true"
-      >
-        <View.Port />
-      </Canvas>
-    </>
+    </Canvas>
   );
 }
