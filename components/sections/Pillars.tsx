@@ -115,7 +115,7 @@ function RecoPanel() {
           >
             <div className="min-w-0">
               <p className="truncate text-sm font-medium text-ink">{it.name}</p>
-              <p className="truncate text-xs text-mute">{it.note}</p>
+              <p className={`truncate text-xs ${it.highlight ? "text-blue-soft" : "text-mute"}`}>{it.note}</p>
             </div>
             <span className="num shrink-0 text-sm text-ink">{it.price}</span>
           </li>
@@ -161,6 +161,8 @@ export function Pillars() {
 
         gsap.set(panels, { autoAlpha: 0, y: 16 });
         gsap.set(panels[0], { autoAlpha: 1, y: 0 });
+        // Wygaszenie nieaktywnych dopiero tutaj — SSR/reduced-motion widzi wszystkie w pełni
+        items.forEach((el, i) => el.setAttribute("data-active", i === 0 ? "true" : "false"));
 
         let current = 0;
         const setActive = (idx: number) => {
@@ -202,8 +204,8 @@ export function Pillars() {
         </div>
       </Container>
 
-      {/* Desktop: pinowana scena */}
-      <div className="hidden md:block">
+      {/* Desktop: pinowana scena (przy reduced-motion: ukryta, pokazujemy wariant stackowany) */}
+      <div className="hidden md:block motion-reduce:md:hidden">
         <div className="pillar-stage flex h-svh items-center">
           <Container className="grid w-full items-center gap-16 lg:grid-cols-2">
             <div className="relative pl-8">
@@ -217,8 +219,8 @@ export function Pillars() {
                 {t.items.map((item, i) => (
                   <li
                     key={i}
-                    data-active={i === 0}
-                    className="pillar-item group transition-colors duration-300 data-[active=false]:opacity-45"
+                    data-active="true"
+                    className="pillar-item group transition-opacity duration-300 data-[active=false]:opacity-45"
                   >
                     <h3 className="font-display text-2xl font-semibold tracking-tight text-ink">{item.title}</h3>
                     <p className="mt-3 max-w-[52ch] text-sm leading-relaxed text-sub">{item.body}</p>
@@ -237,8 +239,8 @@ export function Pillars() {
         </div>
       </div>
 
-      {/* Mobile: trzy zwykłe bloki */}
-      <Container className="mt-14 flex flex-col gap-14 md:hidden">
+      {/* Mobile + desktop reduced-motion: trzy zwykłe bloki */}
+      <Container className="mt-14 flex flex-col gap-14 md:hidden motion-reduce:md:flex">
         {t.items.map((item, i) => {
           const Panel = PANELS[i];
           return (

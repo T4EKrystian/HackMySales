@@ -23,7 +23,7 @@
   /* --- Tekst --- */
   --text-primary: #F4F6FC;
   --text-secondary: #AEB4C9;
-  --text-muted: #6E7488;     /* labelki, captions — min. 12px */
+  --text-muted: #7E859B;     /* labelki, captions — min. 12px; ≥4.5:1 na każdym tle (audyt axe) */
   --text-on-blue: #FFFFFF;
 
   /* --- Linie i obrysy --- */
@@ -86,7 +86,7 @@
   --bg-input: #FFFFFF;
   --text-primary: #0B0D14;
   --text-secondary: #4A5065;
-  --text-muted: #6E7488;
+  --text-muted: #667089;
   --border-hairline: #E4E7F0;
   --border-strong: #CDD2E0;
 }

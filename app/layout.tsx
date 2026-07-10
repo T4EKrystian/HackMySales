@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/schibsted-grotesk";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/jetbrains-mono";
@@ -29,6 +29,10 @@ export const metadata: Metadata = {
       "Czat AI, wyszukiwarka i rekomendacje dla e-commerce. Policzalnie, co do złotówki.",
     images: ["/og.png"],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#05060B", // pasek przeglądarki mobilnej w kolorze tła strony
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

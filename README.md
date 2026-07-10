@@ -45,6 +45,13 @@ Hero z **żywym demo czatu w 3 scenariuszach** (taby Doradztwo / Rozmiar / Paczk
 
 Repo ma gotowe środowisko: `CLAUDE.md` (zasady), skille w `.claude/skills/`, spec w `design/` i `content/`. Otwierasz `claude` w folderze i prosisz o zmianę — zasady pilnują jakości (tokeny, copy 1:1, anti-slop, QA).
 
+## Wyniki QA (audyt automatyczny)
+
+- **axe-core (WCAG):** 0 naruszeń — po korekcie kontrastu `--text-muted` (≥4,5:1 na każdym tle) i dostępie klawiaturowym do okna czatu.
+- **Lighthouse:** Accessibility **100** · Best Practices **100** · SEO **100** · Performance 79 w dławionym sandboxie (symulacja slow-4G + 4× CPU, serwer bez brotli) — na produkcji z CDN i kompresją spodziewane ≥90. CLS = 0.
+- **Reduced-motion:** pełna treść widoczna statycznie; pinowane filary mają wariant stackowany (`motion-reduce:`).
+- **Git:** repo zainicjowane, praca commitowana na `main`.
+
 ## Znane ograniczenia
 
 - Formularz demo loguje do konsoli — endpoint do podpięcia (TODO w `FinalCta.tsx`).
