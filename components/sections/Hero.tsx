@@ -21,10 +21,13 @@ export function Hero() {
       const mm = gsap.matchMedia();
 
       mm.add(NO_REDUCE, () => {
-        // Fast-path LCP: H1 i lead są widoczne od SSR. Pełna choreografia (maski) gra
-        // tylko, gdy JS wstał szybko — na wolnym łączu treść po prostu stoi (LCP < 2,5 s),
-        // a drobne elementy i tak wjeżdżają.
-        const fast = performance.now() < 2600;
+        // Fast-path LCP: H1 i lead są widoczne od SSR. Pełna choreografia gra tylko,
+        // gdy hydracja dogoniła pierwszy paint (<700 ms po FCP) — na wolnych maszynach
+        // namalowanej treści już NIE dotykamy (każdy późny tween = późny kandydat LCP).
+        const fcp =
+          performance.getEntriesByType("paint").find((e) => e.name === "first-contentful-paint")
+            ?.startTime ?? 0;
+        const fast = fcp > 0 && performance.now() - fcp < 700;
         const lines = gsap.utils.toArray<HTMLElement>(".hero-line", scope.current!);
         let split: SplitText | null = null;
         let played = false;
@@ -56,13 +59,9 @@ export function Hero() {
         // --- Reszta choreografii wejścia (< 1,4 s łącznie) ---
         const tl = gsap.timeline({ paused: true, defaults: { ease: EASE.soft } });
         tl.fromTo(".hero-glow", { opacity: 0 }, { opacity: 1, duration: 1.2 }, 0);
+        // lead: sam transform — element pozostaje namalowany (LCP), tylko dojeżdża
         if (fast) {
-          tl.fromTo(
-            ".hero-lead",
-            { y: 24, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.7 },
-            0.3
-          );
+          tl.fromTo(".hero-lead", { y: 20 }, { y: 0, duration: 0.7, clearProps: "transform" }, 0.3);
         }
         tl.fromTo(
           [".hero-eyebrow", ".hero-cta", ".hero-proof", ".hero-cue"],
