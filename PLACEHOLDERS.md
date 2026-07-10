@@ -8,10 +8,9 @@ TRYB MAKIETY: strona renderuje liczby demo bez nawiasów (decyzja: makieta ma wy
 |---|---|---|
 | `[1 dzień]` wdrożenia | `hero.proof` | potwierdzić realny czas |
 | `[47 218 zł]` przychód bota | `goldMines.revenue` (body + panelAmount) | wartość demo panelu |
-| `[214]`, `[12 460 zł]`, `[dostawę przed świętami]` | `goldMines.cards` (Raport nocnej zmiany) | przykład raportu |
 | `[7 dni]` pierwsze efekty | `how.note` | |
 | `[+18%]`, `[+23%]`, `[−64%]`, `[3 miesiącach]` | `results.counters` | MUSZĄ być prawdziwe przed startem |
-| `[34]`, `[6 840 zł]`, `[21]` nocna zmiana | `results.night` | dane demo |
+| `[34]`, `[6 840 zł]`, `[21]` nocna zmiana | `results.night` + `goldMines.nightMail` | dane demo (karta Raportu w §4 nie niesie już liczb — 2026-07-10) |
 | Założenia kalkulatora (+0,5 p.p., +10% AOV) | `results.calc.assumptions` | potwierdzić pilotażami |
 | `[499 zł]`, `[1 299 zł]`, limity `[1 000]`, `[5 000]`, `[10 tys.]`, `[100 tys.]`, `[5 tys.]` | `pricing.plans`, `faq.items` | ceny i progi planów |
 | `[w planie Growth]` (Messenger/IG) | `integrations.note` | |

@@ -122,23 +122,23 @@ Chip: leady zebrane, zanim wstałeś
 
 ## 4. Kopalnie złota — funkcje, których się nie spodziewasz
 
-**Label:** NIE KOLEJNY CZATBOT
+**Label:** KOPALNIE ZŁOTA
 
-**H2:** Czatboty odpowiadają. HackMySales sprzedaje i raportuje.
+**H2:** Sprzedawca to dopiero początek.
 
 **Karty (6):**
 
-**Panel przychodów** — Każda rozmowa spięta z zamówieniem. Nie „liczba interakcji”, tylko: bot zarobił w tym miesiącu **[47 218 zł]**. Wiesz, co działa, bo widzisz kasę, nie wykres „zaangażowania”.
+**Panel przychodów** — Każda rozmowa spięta z zamówieniem: bot zarobił w tym miesiącu **[47 218 zł]**. Widzisz kasę, nie wykres „zaangażowania”.
 
-**Radar popytu** — Bot notuje każde „nie znalazłem” i każde pytanie bez odpowiedzi. 40 osób pytało o rozmiar 46? 15 szukało czarnej wersji? Dostajesz gotową listę: czego ludzie szukali, a czego nie masz. To są pieniądze leżące na stole.
+**Radar popytu** — Bot zapisuje każde „nie znalazłem” i każde pytanie bez odpowiedzi. Co tydzień dostajesz listę: czego klienci szukali, a czego nie masz — gotowe zamówienie do hurtowni.
 
-**Ratownik koszyka** — Klient krąży, waha się, kursor sunie do „zamknij kartę” — bot zagaduje w dobrym momencie: odpowie na wątpliwość, przypomni o darmowej dostawie, poda kod. Odzyskuje koszyki, zanim staną się „porzucone”.
+**Ratownik koszyka** — Kursor sunie do „zamknij kartę” — bot zagaduje w ostatniej chwili: odpowiedzią na wątpliwość albo kodem, wedle reguł, które ustawisz. Koszyk uratowany, zanim stał się „porzucony”.
 
 **Doradca rozmiaru** — „Mam 178 cm i 82 kg” — bot dobiera rozmiar z tabel producenta i historii zwrotów („ten model wypada mało”). Mniej zwrotów, mniej kurierów jeżdżących w obie strony za Twoje pieniądze.
 
-**Autopilot „gdzie moja paczka”** — Status zamówienia, link do śledzenia, zmiana adresu — bez logowania, bez ticketu, bez angażowania człowieka. 70% zgłoszeń do BOK znika z dnia na dzień.
+**Autopilot „gdzie moja paczka”** — Status zamówienia, link do śledzenia, zmiana adresu — klient załatwia wszystko w czacie, nikt z zespołu nie kiwa palcem. 70% zgłoszeń do BOK znika z dnia na dzień.
 
-**Raport nocnej zmiany** — Poniedziałek 8:00, w skrzynce: „W weekend obsłużyłem [214] rozmów, sprzedałem za [12 460 zł], 3 pytania przekazałem zespołowi, najczęściej pytano o [dostawę przed świętami]”. Czytasz kawę w ręku i wiesz wszystko.
+**Raport nocnej zmiany** — Co rano bot melduje się jak pracownik: ile rozmów, ile sprzedaży, co przekazał zespołowi. Przykład masz obok — tak wygląda poniedziałek 8:00.
 
 **Podgląd e-maila raportu (żywe UI obok karty):**
 Od: HackMySales · Temat: Raport nocnej zmiany — poniedziałek 8:00
@@ -332,3 +332,25 @@ Lockup logo + tagline: AI CHATBOT & RECOMMENDATIONS THAT INCREASE SALES
 ## 14. Słowa zakazane w całym serwisie
 
 rewolucyjny, przełomowy, innowacyjny, magia/magiczny, odkryj moc, wynieś na wyższy poziom, supercharge, game-changer, ekosystem, synergia, „w dzisiejszych czasach”, „szybko zmieniający się świat”. Zero emoji. Zero wykrzykników (wyjątek: max 1 na stronę, w microcopy sukcesu).
+
+### Rozszerzenie 2026-07-10 — tiki AI (struktury zakazane)
+
+- symetryczne triady i wyliczanki retoryczne („szybko, prosto i bezpiecznie”; „dopyta, porówna, rozwieje”); wyliczenia FAKTÓW (dane, kroki, funkcje) są dozwolone,
+- „To nie X. To Y.” — limit 1 na całą stronę; slot zajęty przez H2 „Czatbot z FAQ to nie handlowiec.”,
+- „nie tylko… ale także”, „zarówno… jak i”,
+- pytanie retoryczne jako otwarcie sekcji,
+- trzy karty z tekstem identycznej długości,
+- puenta na końcu każdego akapitu — gdy wszystkie bloki mają puentę, żadna nie działa,
+- półpauza: max 1 na akapit.
+
+### Rozszerzenie 2026-07-10 — słowa zakazane (dodatkowo)
+
+kompleksowy, dedykowany, intuicyjny, płynnie, bezproblemowo, „warto zaznaczyć/podkreślić”, „co więcej”, szereg, „pozwala na”, „sprawia, że”, „dzięki czemu” (max 1× na stronę), „w erze AI”, potencjał, optymalizować, usprawnić, „idealne rozwiązanie”.
+
+### Normy gęstości (benchmark Linear/Resend/Stripe — pełny research: `content/voc.md`)
+
+Blok body: 15–25 słów (twardy limit 35, powyżej tylko z twardą liczbą). Nagłówek roboczy: 3–6 słów. Jedna myśl = jeden blok. Test wymiany: frazę, którą Tidio/Smartsupp/edrone mogliby wkleić u siebie — wymieniamy (mapa frazesów w voc.md §2).
+
+## 15. Changelog copy
+
+- **2026-07-10 · §4 Kopalnie złota** — label „NIE KOLEJNY CZATBOT” → „KOPALNIE ZŁOTA” i nowy H2 „Sprzedawca to dopiero początek.” (dubel kontrastu czatbotowego z §4b — slot należy do „Czatbot z FAQ to nie handlowiec.”). Radar/Ratownik/Autopilot/Raport skrócone ze ścian ~40 słów do ≤27: triady i pytania retoryczne wycięte, „pieniądze leżące na stole” usunięte (kalka EN + dubel z kalkulatorem §6), karta Raportu bez własnych liczb (jedno źródło liczb: e-mail obok) i bez kawy (kawa zostaje w §5b). Panel przychodów: jeden kontrast zamiast dwóch. Cel: gęstość 15–25 słów, zero tików AI, korzyść właściciela w każdej karcie.

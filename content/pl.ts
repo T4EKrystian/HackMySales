@@ -244,11 +244,11 @@ const raw = {
   },
 
   goldMines: {
-    label: "NIE KOLEJNY CZATBOT",
-    h2: "Czatboty odpowiadają. HackMySales sprzedaje i raportuje.",
+    label: "KOPALNIE ZŁOTA",
+    h2: "Sprzedawca to dopiero początek.",
     revenue: {
       title: "Panel przychodów",
-      body: "Każda rozmowa spięta z zamówieniem. Nie „liczba interakcji”, tylko: bot zarobił w tym miesiącu 47 218 zł. Wiesz, co działa, bo widzisz kasę, nie wykres „zaangażowania”.",
+      body: "Każda rozmowa spięta z zamówieniem: bot zarobił w tym miesiącu 47 218 zł. Widzisz kasę, nie wykres „zaangażowania”.",
       panelTitle: "Przychód z rozmów — ten miesiąc",
       panelAmount: 47218,
       panelCaption: "przypisane do zamówień · dane demo",
@@ -256,7 +256,7 @@ const raw = {
     },
     radar: {
       title: "Radar popytu",
-      body: "Bot notuje każde „nie znalazłem” i każde pytanie bez odpowiedzi. 40 osób pytało o rozmiar 46? 15 szukało czarnej wersji? Dostajesz gotową listę: czego ludzie szukali, a czego nie masz. To są pieniądze leżące na stole.",
+      body: "Bot zapisuje każde „nie znalazłem” i każde pytanie bez odpowiedzi. Co tydzień dostajesz listę: czego klienci szukali, a czego nie masz — gotowe zamówienie do hurtowni.",
       rows: [
         { query: "rozmiar 46", count: "40 pytań" },
         { query: "wersja czarna", count: "15 pytań" },
@@ -267,7 +267,7 @@ const raw = {
       {
         icon: "cart" as const,
         title: "Ratownik koszyka",
-        body: "Klient krąży, waha się, kursor sunie do „zamknij kartę” — bot zagaduje w dobrym momencie: odpowie na wątpliwość, przypomni o darmowej dostawie, poda kod. Odzyskuje koszyki, zanim staną się „porzucone”.",
+        body: "Kursor sunie do „zamknij kartę” — bot zagaduje w ostatniej chwili: odpowiedzią na wątpliwość albo kodem, wedle reguł, które ustawisz. Koszyk uratowany, zanim stał się „porzucony”.",
       },
       {
         icon: "ruler" as const,
@@ -277,12 +277,12 @@ const raw = {
       {
         icon: "package" as const,
         title: "Autopilot „gdzie moja paczka”",
-        body: "Status zamówienia, link do śledzenia, zmiana adresu — bez logowania, bez ticketu, bez angażowania człowieka. 70% zgłoszeń do BOK znika z dnia na dzień.",
+        body: "Status zamówienia, link do śledzenia, zmiana adresu — klient załatwia wszystko w czacie, nikt z zespołu nie kiwa palcem. 70% zgłoszeń do BOK znika z dnia na dzień.",
       },
       {
         icon: "moon" as const,
         title: "Raport nocnej zmiany",
-        body: "Poniedziałek 8:00, w skrzynce: „W weekend obsłużyłem 214 rozmów, sprzedałem za 12 460 zł, 3 pytania przekazałem zespołowi, najczęściej pytano o dostawę przed świętami”. Czytasz kawę w ręku i wiesz wszystko.",
+        body: "Co rano bot melduje się jak pracownik: ile rozmów, ile sprzedaży, co przekazał zespołowi. Przykład masz obok — tak wygląda poniedziałek 8:00.",
       },
     ],
     nightMail: {
