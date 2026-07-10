@@ -12,6 +12,7 @@ import {
 } from "@/lib/glRegistry";
 import { CoreParticles } from "./scenes/CoreParticles";
 import { FieldPoints } from "./scenes/FieldPoints";
+import { AmbientField } from "./scenes/AmbientField";
 
 function SceneFor({ entry }: { entry: GLViewEntry }) {
   switch (entry.scene) {
@@ -42,31 +43,14 @@ export default function GLCanvas() {
     return () => window.removeEventListener("pointermove", onMove);
   }, []);
 
-  // Pauza pętli renderowania: żaden widok w viewporcie lub document.hidden.
+  // v5: ambient żyje na CAŁEJ stronie → pętla gaśnie tylko przy karcie w tle.
+  // Views same się kulują (drei pomija render poza viewportem); budżet passu <0,3 ms.
   useEffect(() => {
-    const vis = new Map<Element, boolean>();
-    const update = () => {
-      const any = [...vis.values()].some(Boolean);
-      setActive(any && !document.hidden);
-    };
-    const io = new IntersectionObserver(
-      (ents) => {
-        ents.forEach((e) => vis.set(e.target, e.isIntersecting));
-        update();
-      },
-      { rootMargin: "12% 0px" }
-    );
-    entries.forEach((e) => {
-      vis.set(e.el, false);
-      io.observe(e.el);
-    });
+    const update = () => setActive(!document.hidden);
     document.addEventListener("visibilitychange", update);
     update();
-    return () => {
-      io.disconnect();
-      document.removeEventListener("visibilitychange", update);
-    };
-  }, [entries]);
+    return () => document.removeEventListener("visibilitychange", update);
+  }, []);
 
   const refs = useMemo(() => entries.map((e) => ({ current: e.el })), [entries]);
 
@@ -86,6 +70,8 @@ export default function GLCanvas() {
           <SceneFor entry={e} />
         </View>
       ))}
+      {/* pass ambient PO widokach (priority 1000) — własna Scene, pełny viewport */}
+      <AmbientField />
     </Canvas>
   );
 }
