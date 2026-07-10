@@ -2,15 +2,17 @@
 
 Marketing landing for HackMySales: AI chat + search + recommendations for e-commerce stores (product by Time4Ecommerce, Polish market). Dark, restrained, Apple-level craft. The customer portal (dark UI, blue #3D5BFC) is the visual sibling of this page.
 
+**STATUS: the page IS BUILT** (16 sections, axe-core clean, Lighthouse A11y/BP/SEO 100, git history on `main`). Do NOT re-scaffold or rewrite working sections. Current work = the backlog in `PROMPT.md`. Spec-first workflow: copy/features specs get updated BEFORE code.
+
 ## Read before writing any code
 
-1. `PROMPT.md` — the build brief (sections, order, acceptance criteria)
+1. `PROMPT.md` — current backlog and working rules (the original build brief is fulfilled)
 2. `design/tokens.css` — design tokens (single source of truth for color/type/spacing)
 3. `design/brand.md` — logo, typography, voice
 4. `design/motion.md` — animation spec (GSAP choreography per section)
 5. `design/anti-slop.md` — quality gate, checked before completing every section
 6. `content/copy-pl.md` — ALL copy, verbatim
-7. `content/features.md` — interactive landing elements L1–L5
+7. `content/features.md` — interactive landing elements L1–L14
 8. `content/seo.md` — meta, JSON-LD, performance targets
 
 ## Stack
@@ -23,7 +25,7 @@ Commands: `npm run dev` · `npm run build` · `npm run lint`. Build must pass af
 
 - **Copy:** only from `content/copy-pl.md`, verbatim. Never write your own Polish marketing copy. All strings live in `content/pl.ts` dictionary (typed), components consume the dictionary — ready for future EN locale. Keep `[placeholders]` visible and list them in `PLACEHOLDERS.md`.
 - **Color/spacing/type:** only via tokens from `design/tokens.css` (map them into Tailwind theme). Zero hardcoded hex values in components. One accent color (blue). No purple/pink gradients, ever.
-- **Fonts:** next/font/google with `latin-ext` subset (Polish diacritics) — Schibsted Grotesk (display), Inter (body), JetBrains Mono (numbers/labels). All numbers/KPI/prices render in mono.
+- **Fonts:** self-hosted via `@fontsource-variable` packages (Schibsted Grotesk display, Inter body, JetBrains Mono numbers/labels) — deterministic, GDPR-friendly, includes latin-ext. Do NOT switch to next/font/google. All numbers/KPI/prices render in mono; use `fmtIntPl` for thousands grouping (groups 4-digit numbers too, per copy deck style).
 - **Motion:** follow `design/motion.md` exactly. `useGSAP` hook for cleanup. `prefers-reduced-motion` support is mandatory, not optional. Animate only transform/opacity. Content must be fully visible without JS.
 - **Polish typography:** apply `.claude/skills/pl-typography` to every rendered string (non-breaking spaces after single-letter words, proper quotes „”, nbsp before zł/units).
 - **A11y:** semantic landmarks, one h1, focus-visible rings on everything interactive, skip link, aria for accordion/mobile menu, contrast ≥ 4.5:1 for text.
