@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionH2 } from "@/components/ui/Section";
 import { useReveal } from "@/lib/motion";
@@ -107,7 +107,7 @@ export function Integrations() {
           <p role="status" aria-live="polite" className="mt-3 min-h-[1.75rem] text-sm">
             {result?.hit && (
               <span key={result.hit} className="fade-in-panel flex items-center gap-2 text-blue-soft">
-                <Check size={15} strokeWidth={2} aria-hidden="true" />
+                <Glyph name="check" size={15} />
                 <span>
                   <span className="font-medium text-ink">{result.hit}</span> {t.finder.hit}
                 </span>

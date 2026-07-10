@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowRight, MoonStar } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Counter } from "@/components/ui/Counter";
@@ -141,7 +141,7 @@ function RoiCalculator() {
             className="group mt-6 inline-flex w-fit items-center gap-2 text-sm font-medium text-blue-soft hover:text-ink"
           >
             {t.cta}
-            <ArrowRight size={15} strokeWidth={1.75} className="transition-transform duration-150 group-hover:translate-x-0.5" aria-hidden="true" />
+            <Glyph name="arrow-right" size={15} className="transition-transform duration-150 group-hover:translate-x-0.5" />
           </a>
         </div>
       </div>
@@ -168,7 +168,7 @@ export function Results() {
         <div className="js-reveal mt-5 rounded-[var(--radius-lg)] border border-hairline bg-card p-7">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <p className="flex items-center gap-3 font-display text-lg font-semibold tracking-tight text-ink">
-              <MoonStar size={20} strokeWidth={1.75} className="text-blue-soft" aria-hidden="true" />
+              <Glyph name="moon" size={20} className="text-blue-soft" />
               {t.night.title}
             </p>
             <dl className="grid grid-cols-3 gap-8">

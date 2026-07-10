@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, RotateCcw } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Logo } from "@/components/ui/Logo";
 import { ProductVisual, type ProductKind } from "@/components/ui/ProductVisual";
@@ -176,61 +176,60 @@ export function ChatDemo() {
   };
 
   return (
-    <div
-      ref={scope}
-      className="relative w-full rounded-[var(--radius-xl)] border border-hairline bg-card shadow-card"
-    >
-      {/* Nagłówek okna */}
-      <div className="flex items-center justify-between gap-3 border-b border-hairline px-5 py-3.5">
-        <div className="flex min-w-0 items-center gap-3">
-          <Logo withWord={false} markSize={22} />
-          <div className="min-w-0 leading-tight">
-            <p className="truncate text-sm font-medium text-ink">{t.title}</p>
-            <p className="flex items-center gap-1.5 text-xs text-mute">
-              <span className="chat-online-dot inline-block h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
-              {t.status}
-              <span aria-hidden="true">—</span>
-              <span className="num">{clock}</span>
-            </p>
+    <div ref={scope} className="frame-l2 relative w-full">
+      {/* Glass header (elewacje v4): absolute nad przewijaną rozmową — blur rozmywa treść.
+          Nested radii: frame 20 → header top 19 (wewnątrz 1px obrysu). */}
+      <div className="glass-head absolute inset-x-0 top-0 z-10 rounded-t-[19px]">
+        <div className="flex items-center justify-between gap-3 px-5 py-3.5">
+          <div className="flex min-w-0 items-center gap-3">
+            <Logo withWord={false} markSize={22} />
+            <div className="min-w-0 leading-tight">
+              <p className="truncate text-sm font-medium text-ink">{t.title}</p>
+              <p className="flex items-center gap-1.5 text-xs text-mute">
+                <span className="chat-online-dot inline-block h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
+                {t.status}
+                <span aria-hidden="true">—</span>
+                <span className="num">{clock}</span>
+              </p>
+            </div>
           </div>
+          {done && (
+            <button
+              onClick={replay}
+              className="flex shrink-0 items-center gap-1.5 rounded-full border border-line-2 px-3 py-1.5 text-xs text-sub hover:bg-l3"
+            >
+              <Glyph name="replay" size={13} />
+              {t.replay}
+            </button>
+          )}
         </div>
-        {done && (
-          <button
-            onClick={replay}
-            className="flex shrink-0 items-center gap-1.5 rounded-full border border-hairline px-3 py-1.5 text-xs text-sub hover:bg-elevated"
-          >
-            <RotateCcw size={13} strokeWidth={1.75} aria-hidden="true" />
-            {t.replay}
-          </button>
-        )}
+        {/* Taby scenariuszy */}
+        <div className="flex gap-1.5 px-5 pb-2.5" role="group" aria-label="Scenariusze demo">
+          {t.scenarios.map((s, i) => (
+            <button
+              key={s.key}
+              onClick={() => switchScenario(i)}
+              aria-pressed={i === scenario}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 ${
+                i === scenario
+                  ? "bg-blue-tint text-blue-soft"
+                  : "text-mute hover:bg-l3 hover:text-sub"
+              }`}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Taby scenariuszy */}
-      <div className="flex gap-1.5 border-b border-hairline px-5 py-2.5" role="group" aria-label="Scenariusze demo">
-        {t.scenarios.map((s, i) => (
-          <button
-            key={s.key}
-            onClick={() => switchScenario(i)}
-            aria-pressed={i === scenario}
-            className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 ${
-              i === scenario
-                ? "bg-blue-tint text-blue-soft"
-                : "text-mute hover:bg-elevated hover:text-sub"
-            }`}
-          >
-            {s.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Rozmowa */}
+      {/* Rozmowa — scrolluje POD glass headerem (pt = wysokość headera) */}
       <div
         ref={bodyRef}
         data-lenis-prevent
         tabIndex={0}
         role="log"
         aria-label="Rozmowa demo"
-        className="flex max-h-[460px] min-h-[380px] flex-col gap-4 overflow-y-auto p-5"
+        className="flex max-h-[556px] min-h-[476px] flex-col gap-4 overflow-y-auto p-5 pt-[112px]"
       >
         {active.steps.map((step, i) => (
           <div
@@ -294,7 +293,7 @@ export function ChatDemo() {
         {/* Badge wartości scenariusza */}
         <div data-role="badge" className="chat-step self-center">
           <p className="chat-msg flex items-center gap-2 rounded-full border border-hairline bg-blue-tint px-4 py-2 text-xs text-blue-soft">
-            <Check size={14} strokeWidth={2} aria-hidden="true" />
+            <Glyph name="check" size={14} />
             <span className="num">{active.badge}</span>
           </p>
         </div>

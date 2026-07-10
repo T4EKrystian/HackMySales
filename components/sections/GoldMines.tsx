@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Counter } from "@/components/ui/Counter";
@@ -183,7 +183,7 @@ function RescueLoop() {
       <span className="rsc-cursor absolute left-0 top-0 h-2.5 w-2.5 rounded-full border border-strongline bg-ink opacity-0" />
       {/* badge ratunku */}
       <p className="rsc-badge num absolute inset-x-2 -bottom-3 flex items-center justify-center gap-1.5 rounded-full border border-hairline bg-blue-tint px-3 py-1.5 text-[11px] text-blue-soft opacity-0">
-        <Check size={11} strokeWidth={2} aria-hidden="true" />
+        <Glyph name="check" size={11} />
         {t.badge}
       </p>
     </div>
@@ -237,7 +237,7 @@ function SizeAdvisor() {
         key={opt.size}
         className={`fade-in-panel mt-3 flex min-h-[2.5rem] items-start gap-1.5 text-xs leading-relaxed ${opt.ok ? "text-blue-soft" : "text-mute"}`}
       >
-        {opt.ok && <Check size={12} strokeWidth={2} className="mt-0.5 shrink-0" aria-hidden="true" />}
+        {opt.ok && <Glyph name="check" size={12} className="mt-0.5 shrink-0" />}
         {opt.verdict}
       </p>
     </div>
@@ -376,7 +376,7 @@ function NightMailPreview() {
         ))}
         <p className="nm-link mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-blue-soft">
           {m.link}
-          <ArrowRight size={14} strokeWidth={1.75} aria-hidden="true" />
+          <Glyph name="arrow-right" size={14} />
         </p>
       </div>
     </div>
@@ -398,7 +398,7 @@ export function GoldMines() {
 
         <div className="mt-14 grid gap-5 lg:grid-cols-4">
           {/* Panel przychodów — duża karta */}
-          <SpotlightCard className="js-reveal p-8 lg:col-span-2">
+          <SpotlightCard level={2} className="js-reveal p-8 lg:col-span-2">
             <div className="grid h-full items-center gap-8 md:grid-cols-2">
               <div>
                 <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{t.revenue.title}</h3>
@@ -444,7 +444,7 @@ export function GoldMines() {
           </SpotlightCard>
 
           {/* Raport nocnej zmiany — duża karta z e-mailem */}
-          <SpotlightCard className="js-reveal p-8 lg:col-span-2">
+          <SpotlightCard level={2} className="js-reveal p-8 lg:col-span-2">
             <div className="grid h-full items-center gap-8 md:grid-cols-[1fr_1.2fr]">
               <div>
                 <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{report.title}</h3>

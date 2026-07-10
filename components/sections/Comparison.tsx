@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { Check, X } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Logo } from "@/components/ui/Logo";
@@ -57,7 +57,8 @@ function buildRounds(): Round[] {
 
 function HmsAnswer({ r }: { r: Round }) {
   return (
-    <div className="arena-hms-msg rounded-2xl rounded-bl-md bg-elevated px-4 py-3 text-sm leading-relaxed text-ink">
+    // prawa strona ŻYJE: poziom 2 + glow przy odpowiedzi (kontrast stron na screenshocie)
+    <div className="arena-hms-msg rounded-2xl rounded-bl-md border border-line-2 bg-l2 px-4 py-3 text-sm leading-relaxed text-ink [box-shadow:var(--highlight-top),0_8px_28px_-8px_var(--blue-glow)]">
       <p>{r.hms.text}</p>
       {r.hms.card && (
         <div className="mt-3 flex items-center gap-3 rounded-xl border border-hairline bg-card p-3">
@@ -89,13 +90,13 @@ function HmsAnswer({ r }: { r: Round }) {
       {r.hms.after && <p className="mt-3">{r.hms.after}</p>}
       {r.hms.note && (
         <p className="mt-3 flex items-center gap-1.5 text-xs text-mute">
-          <Check size={12} strokeWidth={2} className="text-ok" aria-hidden="true" />
+          <Glyph name="check" size={12} className="text-ok" />
           {r.hms.note}
         </p>
       )}
       {r.hms.badge && (
         <p className="num mt-3 inline-flex items-center gap-1.5 rounded-full border border-hairline bg-blue-tint px-3 py-1.5 text-xs text-blue-soft">
-          <Check size={12} strokeWidth={2} aria-hidden="true" />
+          <Glyph name="check" size={12} />
           {r.hms.badge}
         </p>
       )}
@@ -107,11 +108,11 @@ function VerdictChips({ r }: { r: Round }) {
   return (
     <div className="arena-verdict mt-4 grid gap-3 sm:grid-cols-2">
       <p className="flex items-start gap-2 text-xs leading-relaxed text-mute">
-        <X size={13} strokeWidth={2} className="mt-0.5 shrink-0" aria-hidden="true" />
+        <Glyph name="x" size={13} className="mt-0.5 shrink-0" />
         {r.verdict.left}
       </p>
       <p className="flex items-start gap-2 text-xs leading-relaxed text-ink">
-        <Check size={13} strokeWidth={2} className="mt-0.5 shrink-0 text-blue" aria-hidden="true" />
+        <Glyph name="check" size={13} className="mt-0.5 shrink-0 text-blue" />
         {r.verdict.right}
       </p>
     </div>
@@ -229,7 +230,8 @@ export function Comparison() {
       <div className="mt-8 grid gap-5 md:grid-cols-2 md:gap-8">
         <div className="min-w-0">
           <p className="label mb-3">{t.arena.faqName}</p>
-          <div className="arena-faq-msg rounded-2xl rounded-bl-md border border-hairline bg-card px-4 py-3 text-sm leading-relaxed text-mute">
+          {/* poziom 0 + desaturacja — strona celowo martwa (elewacje v4) */}
+          <div className="arena-faq-msg rounded-2xl rounded-bl-md border border-line-1 px-4 py-3 text-sm leading-relaxed text-sub opacity-85 saturate-[.6]">
             {r.faq}
           </div>
         </div>
@@ -294,11 +296,11 @@ export function Comparison() {
           {t.arena.summaryRows.map((idx) => (
             <div key={idx} className="js-reveal grid gap-3 border-t border-hairline pt-4 sm:grid-cols-2 sm:gap-8">
               <p className="flex items-start gap-2 text-sm leading-relaxed text-mute">
-                <X size={14} strokeWidth={2} className="mt-0.5 shrink-0" aria-hidden="true" />
+                <Glyph name="x" size={14} className="mt-0.5 shrink-0" />
                 {t.rows[idx].left}
               </p>
               <p className="flex items-start gap-2 text-sm leading-relaxed text-ink">
-                <Check size={14} strokeWidth={2} className="mt-0.5 shrink-0 text-blue" aria-hidden="true" />
+                <Glyph name="check" size={14} className="mt-0.5 shrink-0 text-blue" />
                 {t.rows[idx].right}
               </p>
             </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Logo } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/Button";
@@ -162,7 +162,7 @@ export function Nav() {
           aria-label={open ? t.menuClose : t.menuOpen}
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? <X size={24} strokeWidth={1.75} /> : <Menu size={24} strokeWidth={1.75} />}
+          {open ? <Glyph name="x" size={24} /> : <Glyph name="menu" size={24} />}
         </button>
       </div>
 

@@ -7,10 +7,26 @@
 :root {
   /* --- Tła (od najgłębszego) --- */
   --bg-page: #05060B;        /* tło strony */
-  --bg-surface: #0B0D14;     /* sekcje wyróżnione, nav po scrollu */
-  --bg-card: #12151F;        /* karty, panele */
-  --bg-elevated: #171B28;    /* hover kart, dropdowny, tooltips */
-  --bg-input: #0E1119;       /* pola formularzy */
+
+  /* --- System elewacji v4 (hms-design-dna „Powierzchnie") ---
+     Poziomy liczone od tła chłodną bielą (utrzymuje niebieski cast serii).
+     Stare tokeny niżej są ALIASAMI poziomów — komponenty przechodzą na system
+     bez zmian; nowy kod używa tokenów surface-N i stroke-N
+     (klasy bg-l1, bg-l2, bg-l3, border-line-1, border-line-2). */
+  --lift: #E8EDFF;
+  --surface-1: color-mix(in srgb, var(--lift) 3%, var(--bg-page));  /* poziom 1 */
+  --surface-2: color-mix(in srgb, var(--lift) 6%, var(--bg-page));  /* poziom 2 */
+  --surface-3: color-mix(in srgb, var(--lift) 9%, var(--bg-page));  /* hover/elevated */
+  --stroke-1: rgba(255, 255, 255, 0.06);
+  --stroke-2: rgba(255, 255, 255, 0.08);
+  --highlight-top: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-l2: 0 1px 2px rgba(0, 0, 0, 0.5), 0 12px 40px -12px rgba(0, 0, 0, 0.6);
+
+  /* Aliasy (deprecation path): */
+  --bg-surface: var(--surface-1);   /* sekcje wyróżnione, nav po scrollu */
+  --bg-card: var(--surface-2);      /* karty, panele */
+  --bg-elevated: var(--surface-3);  /* hover kart, dropdowny, tooltips */
+  --bg-input: #0E1119;              /* pola formularzy */
 
   /* --- Akcent (jedyny kolor marki — nie dodawaj drugiego) --- */
   --blue-300: #93A5FF;       /* tekst na niebieskich tłach-tintach, wykresy */
@@ -27,8 +43,8 @@
   --text-on-blue: #FFFFFF;
 
   /* --- Linie i obrysy --- */
-  --border-hairline: #1E2230;
-  --border-strong: #2A3042;
+  --border-hairline: var(--stroke-1); /* alias poziomu 1 (alpha samo-adaptuje kontrast) */
+  --border-strong: #2A3042;  /* NIE aliasować: używany też jako KOLOR TEKSTU (wordmark) i scrollbar */
   --border-focus: #7C90FF;   /* focus ring, 2px + offset 2px */
 
   /* --- Semantyczne (używaj oszczędnie) --- */
@@ -65,8 +81,8 @@
   --radius-xl: 28px;    /* duże panele, demo czatu */
   --radius-pill: 999px;
 
-  /* --- Cienie (subtelne — ciemny motyw pracuje borderami, nie cieniami) --- */
-  --shadow-card: 0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 24px rgba(0,0,0,0.35);
+  /* --- Cienie (v4: poziom 2 = top-highlight + cień warstwowy) --- */
+  --shadow-card: var(--highlight-top), var(--shadow-l2);
   --shadow-cta: 0 8px 28px var(--blue-glow);
 
   /* --- Motion --- */

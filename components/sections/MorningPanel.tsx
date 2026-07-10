@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { ArrowRight, Radar } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Counter } from "@/components/ui/Counter";
@@ -117,12 +117,9 @@ export function MorningPanel() {
         </p>
 
         {/* Dashboard — frame prostujący się z perspektywy (v3) */}
-        <div
-          ref={frameRef}
-          className="mt-14 overflow-hidden rounded-[var(--radius-xl)] border border-hairline bg-card shadow-card will-change-transform"
-        >
-          {/* Belka okna */}
-          <div className="flex items-center justify-between border-b border-hairline px-6 py-4">
+        <div ref={frameRef} className="frame-l2 relative mt-14 overflow-hidden will-change-transform">
+          {/* Glass belka okna (elewacje v4) */}
+          <div className="glass-head absolute inset-x-0 top-0 z-10 flex items-center justify-between rounded-t-[19px] px-6 py-4">
             <div className="flex items-center gap-3">
               <Logo withWord={false} markSize={20} />
               <p className="text-sm font-medium text-ink">HackMySales — panel</p>
@@ -130,12 +127,12 @@ export function MorningPanel() {
             <p className="label">{t.caption}</p>
           </div>
 
-          <div className="grid gap-px bg-[var(--border-hairline)] lg:grid-cols-[1.7fr_1fr]">
+          <div className="grid gap-px bg-[var(--stroke-1)] pt-[57px] lg:grid-cols-[1.7fr_1fr]">
             {/* Lewa kolumna: KPI + wykres */}
             <div className="flex flex-col gap-px">
               <div className="mp-layer grid grid-cols-2 gap-px bg-[var(--border-hairline)] md:grid-cols-4" data-depth="8">
                 {t.kpis.map((k) => (
-                  <div key={k.label} className="bg-card px-5 py-5">
+                  <div key={k.label} className="bg-l1 px-5 py-5">
                     <p className="text-xs text-mute">{k.label}</p>
                     <p className="mt-2 font-display text-ink">
                       <Counter
@@ -147,7 +144,7 @@ export function MorningPanel() {
                   </div>
                 ))}
               </div>
-              <div ref={chartRef} className="mp-layer flex-1 bg-card px-6 py-6" data-depth="14">
+              <div ref={chartRef} className="mp-layer flex-1 bg-l1 px-6 py-6" data-depth="14">
                 <p className="label">{t.chartTitle}</p>
                 <div className="relative mt-5 h-40" aria-hidden="true">
                   <div className="flex h-full items-end gap-1.5">
@@ -185,7 +182,7 @@ export function MorningPanel() {
 
             {/* Prawa kolumna: rozmowy + radar */}
             <div className="mp-layer flex flex-col gap-px" data-depth="20">
-              <div className="flex-1 bg-card px-6 py-6">
+              <div className="flex-1 bg-l1 px-6 py-6">
                 <p className="label">{t.convTitle}</p>
                 <ul className="mt-4 flex flex-col divide-y divide-[var(--border-hairline)]">
                   {t.conversations.map((c, i) => (
@@ -197,9 +194,9 @@ export function MorningPanel() {
                   ))}
                 </ul>
               </div>
-              <div className="bg-card px-6 py-6">
+              <div className="bg-l1 px-6 py-6">
                 <p className="label flex items-center gap-2">
-                  <Radar size={13} strokeWidth={1.75} className="text-blue" aria-hidden="true" />
+                  <Glyph name="radar" size={13} className="text-blue" />
                   {t.radarTitle}
                 </p>
                 <ul className="mt-4 flex flex-col gap-2.5">
@@ -215,12 +212,8 @@ export function MorningPanel() {
                   className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-blue-soft hover:text-ink"
                 >
                   {t.cta}
-                  <ArrowRight
-                    size={15}
-                    strokeWidth={1.75}
-                    className="transition-transform duration-150 group-hover:translate-x-0.5"
-                    aria-hidden="true"
-                  />
+                  <Glyph name="arrow-right" size={15}
+                    className="transition-transform duration-150 group-hover:translate-x-0.5" />
                 </a>
               </div>
             </div>

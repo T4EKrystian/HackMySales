@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Lock } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Logo } from "@/components/ui/Logo";
@@ -40,7 +40,7 @@ function Toggle({
         }`}
         style={{ transitionTimingFunction: "var(--ease-out)" }}
       >
-        {locked && <Lock size={9} strokeWidth={2.5} className="text-mute" aria-hidden="true" />}
+        {locked && <Glyph name="lock" size={9} className="text-mute" />}
       </span>
     </button>
   );
@@ -122,15 +122,15 @@ export function Trust() {
           </div>
 
           {/* Żywy podgląd — odpowiedź zmienia się przy każdym przełączeniu */}
-          <div className="js-reveal overflow-hidden rounded-[var(--radius-xl)] border border-hairline bg-card shadow-card lg:sticky lg:top-24">
-            <div className="flex items-center justify-between border-b border-hairline px-5 py-3.5">
+          <div className="js-reveal frame-l2 relative overflow-hidden lg:sticky lg:top-24">
+            <div className="glass-head absolute inset-x-0 top-0 z-10 flex items-center justify-between rounded-t-[19px] px-5 py-3.5">
               <div className="flex items-center gap-3">
                 <Logo withWord={false} markSize={20} />
                 <p className="text-sm font-medium text-ink">{pl.hero.chat.title}</p>
               </div>
               <p className="label">{p.previewLabel}</p>
             </div>
-            <div className="flex min-h-[300px] flex-col gap-4 p-5">
+            <div className="flex min-h-[300px] flex-col gap-4 p-5 pt-[70px]">
               <div className="max-w-[85%] self-end rounded-2xl rounded-br-md bg-blue px-4 py-3 text-sm leading-relaxed text-onblue">
                 {p.question}
               </div>

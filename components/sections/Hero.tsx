@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Button } from "@/components/ui/Button";
 import { ChatDemo } from "@/components/sections/ChatDemo";
@@ -156,7 +156,7 @@ export function Hero() {
               className="group inline-flex items-center gap-2 py-3 text-sm font-medium text-sub hover:text-ink"
             >
               {t.ctaSecondary}
-              <ArrowRight size={16} strokeWidth={1.75} className="transition-transform duration-150 group-hover:translate-x-0.5" aria-hidden="true" />
+              <Glyph name="arrow-right" size={16} className="transition-transform duration-150 group-hover:translate-x-0.5" />
             </a>
           </div>
           <p className="hero-proof hero-el mt-7 text-sm text-mute">{t.proof}</p>
@@ -175,7 +175,7 @@ export function Hero() {
       >
         <span className="label">{t.scrollCue}</span>
         <span className="cue-bob flex h-9 w-9 items-center justify-center rounded-full border border-hairline">
-          <ChevronDown size={16} strokeWidth={1.75} aria-hidden="true" />
+          <Glyph name="chevron-down" size={16} />
         </span>
       </a>
     </section>

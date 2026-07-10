@@ -28,6 +28,13 @@
   --color-onblue: var(--text-on-blue);
   --color-hairline: var(--border-hairline);
   --color-strongline: var(--border-strong);
+  /* Elewacje v4: powierzchnie jako bg-l1/l2/l3, obrysy jako border-line-1/-2
+     (osobny prefix — namespace --color-* jest wspólny dla bg/border/text) */
+  --color-l1: var(--surface-1);
+  --color-l2: var(--surface-2);
+  --color-l3: var(--surface-3);
+  --color-line-1: var(--stroke-1);
+  --color-line-2: var(--stroke-2);
   --color-focusring: var(--border-focus);
   --color-ok: var(--success);
   --color-warn: var(--warning);
@@ -68,6 +75,35 @@
   ::-webkit-scrollbar { width: 10px; height: 10px; }
   ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 999px; }
   ::-webkit-scrollbar-track { background: transparent; }
+}
+
+/* ---------- Elewacje v4 (hms-design-dna) — kompozyty ---------- */
+
+/* Frame poziomu 2: „sprzęt", nie div z borderem */
+@utility frame-l2 {
+  background: var(--surface-2);
+  border: 1px solid var(--stroke-2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--highlight-top), var(--shadow-l2);
+}
+
+/* Glass header device-frame'ów: blur ma rozmywać treść przewijaną POD headerem */
+@utility glass-head {
+  background: color-mix(in srgb, var(--surface-2) 72%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--stroke-1);
+}
+
+/* Poziom 3 na hover: tło w górę + border ku akcentowi */
+@utility frame-hover {
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+  &:hover {
+    background: var(--surface-3);
+    border-color: color-mix(in srgb, var(--blue-500) 30%, var(--stroke-2));
+  }
 }
 
 /* ---------- Utilities projektu ---------- */

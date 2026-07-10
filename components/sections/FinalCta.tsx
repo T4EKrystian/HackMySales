@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
@@ -116,7 +116,7 @@ export function FinalCta() {
             role="status"
             className="mx-auto mt-12 flex w-fit items-center gap-3 rounded-full border border-hairline bg-card px-6 py-4 text-sm text-ink"
           >
-            <Check size={16} strokeWidth={2} className="text-ok" aria-hidden="true" />
+            <Glyph name="check" size={16} className="text-ok" />
             {t.success}
           </p>
         ) : (
@@ -150,14 +150,14 @@ export function FinalCta() {
               {(scanning || (enhanced && stage === "email")) && (
                 <ul className="mt-2 flex flex-col gap-2 text-left" role="status" aria-live="polite">
                   <li className="scan-step flex items-center gap-2 text-sm text-sub">
-                    <Check size={14} strokeWidth={2} className="shrink-0 text-ok" aria-hidden="true" />
+                    <Glyph name="check" size={14} className="shrink-0 text-ok" />
                     <span>
                       {t.scan.accepted} <span className="num text-ink">{domain}</span>
                     </span>
                   </li>
                   {t.scan.steps.map((s) => (
                     <li key={s} className="scan-step flex items-center gap-2 text-sm text-sub">
-                      <ArrowRight size={14} strokeWidth={2} className="shrink-0 text-blue-soft" aria-hidden="true" />
+                      <Glyph name="arrow-right" size={14} className="shrink-0 text-blue-soft" />
                       {s}
                     </li>
                   ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Check, ChevronDown, Minus } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
@@ -40,9 +40,9 @@ function PlanCard({
       <li key={label} className={`flex items-center justify-between gap-3 text-sm ${off ? "text-mute" : "text-sub"}`}>
         <span className="flex items-center gap-2.5">
           {off ? (
-            <Minus size={15} strokeWidth={1.75} className="shrink-0 text-mute" aria-hidden="true" />
+            <Glyph name="minus" size={15} className="shrink-0 text-mute" />
           ) : (
-            <Check size={15} strokeWidth={2} className="shrink-0 text-blue" aria-hidden="true" />
+            <Glyph name="check" size={15} className="shrink-0 text-blue" />
           )}
           {label}
           {off && <span className="sr-only">— niedostępne w tym planie</span>}
@@ -57,8 +57,10 @@ function PlanCard({
       ref={ref}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      className={`js-reveal spot-card relative rounded-[var(--radius-lg)] border bg-card p-8 transition-transform duration-300 hover:-translate-y-1 ${
-        plan.featured ? "border-beam border-blue shadow-cta lg:-mt-3 lg:mb-3" : "border-hairline"
+      className={`js-reveal spot-card relative rounded-[var(--radius-lg)] border p-8 transition-transform duration-300 hover:-translate-y-1 ${
+        plan.featured
+          ? "border-beam border-blue bg-l2 [box-shadow:var(--highlight-top),var(--shadow-l2),var(--shadow-cta)] lg:-mt-3 lg:mb-3"
+          : "border-line-1 bg-l1"
       }`}
       style={{ transitionTimingFunction: "var(--ease-out)" }}
     >
@@ -101,12 +103,8 @@ function PlanCard({
         className="mt-4 flex items-center gap-1.5 text-xs font-medium text-mute transition-colors duration-150 hover:text-sub"
       >
         {expanded ? t.lessLabel : t.moreLabel}
-        <ChevronDown
-          size={13}
-          strokeWidth={2}
-          aria-hidden="true"
-          className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
-        />
+        <Glyph name="chevron-down" size={13}
+          className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""}`} />
       </button>
 
       <Button href="#demo" variant={plan.featured ? "primary" : "ghost"} size="md" className="mt-6 w-full">

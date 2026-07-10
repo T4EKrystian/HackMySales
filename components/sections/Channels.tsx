@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
+import { Glyph } from "@/components/ui/Glyph";
 import { Logo } from "@/components/ui/Logo";
 import { gsap, useGSAP, useReveal, DESKTOP_MOTION, EASE } from "@/lib/motion";
 import { useGLView } from "@/lib/glRegistry";
@@ -96,14 +97,24 @@ export function Channels() {
     { scope }
   );
 
-  const NodeCard = ({ nodeKey, name }: { nodeKey: string; name: string }) => {
+  const GLYPHS: Record<string, "www" | "messenger" | "instagram" | "mail"> = {
+    www: "www",
+    messenger: "messenger",
+    instagram: "instagram",
+    email: "mail",
+  };
+
+  const NodeCard = ({ nodeKey, name, orbit = "" }: { nodeKey: string; name: string; orbit?: string }) => {
     const ex = exchanges[nodeKey];
     return (
       <div
         tabIndex={0}
-        className="ch-node group relative rounded-[var(--radius-md)] border border-hairline bg-card px-5 py-4 transition-colors duration-150 hover:border-strongline md:focus-visible:z-20"
+        className={`ch-node frame-hover group relative rounded-2xl border border-line-1 bg-l1 px-5 py-3.5 md:rounded-full md:focus-visible:z-20 ${orbit}`}
       >
-        <p className="text-sm font-medium text-ink">{name}</p>
+        <p className="flex items-center gap-3 text-sm font-medium text-ink">
+          <Glyph name={GLYPHS[nodeKey]} size={17} className="text-blue-soft" />
+          {name}
+        </p>
         {/* Wymiana przykładowa: mobile inline, desktop tooltip na hover/focus */}
         <div className="mt-3 flex flex-col gap-2 md:pointer-events-none md:absolute md:left-1/2 md:top-[calc(100%+10px)] md:z-10 md:mt-0 md:w-72 md:-translate-x-1/2 md:rounded-xl md:border md:border-hairline md:bg-elevated md:p-4 md:opacity-0 md:shadow-card md:transition-opacity md:duration-200 md:group-hover:opacity-100 md:group-focus-visible:opacity-100">
           {ex.user && (
@@ -142,9 +153,10 @@ export function Channels() {
             ))}
           </svg>
 
-          <div className="relative z-10 flex flex-col gap-5 md:gap-20">
-            <NodeCard nodeKey={t.nodes[0].key} name={t.nodes[0].name} />
-            <NodeCard nodeKey={t.nodes[1].key} name={t.nodes[1].name} />
+          {/* satelity na łuku orbity (nie płaski rząd) — przesunięcia ku hubowi */}
+          <div className="relative z-10 flex flex-col gap-5 md:gap-24">
+            <NodeCard nodeKey={t.nodes[0].key} name={t.nodes[0].name} orbit="md:translate-x-10 md:-translate-y-2" />
+            <NodeCard nodeKey={t.nodes[1].key} name={t.nodes[1].name} orbit="md:translate-x-10 md:translate-y-2" />
           </div>
 
           {/* Centralny węzeł: mini-rdzeń (scena `mini`) + znak */}
@@ -155,9 +167,9 @@ export function Channels() {
             </div>
           </div>
 
-          <div className="relative z-10 flex flex-col gap-5 md:gap-20">
-            <NodeCard nodeKey={t.nodes[2].key} name={t.nodes[2].name} />
-            <NodeCard nodeKey={t.nodes[3].key} name={t.nodes[3].name} />
+          <div className="relative z-10 flex flex-col gap-5 md:gap-24">
+            <NodeCard nodeKey={t.nodes[2].key} name={t.nodes[2].name} orbit="md:-translate-x-10 md:-translate-y-2" />
+            <NodeCard nodeKey={t.nodes[3].key} name={t.nodes[3].name} orbit="md:-translate-x-10 md:translate-y-2" />
           </div>
         </div>
 

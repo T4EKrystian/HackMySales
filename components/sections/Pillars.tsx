@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { Check, Search } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { ProductVisual, type ProductKind } from "@/components/ui/ProductVisual";
@@ -35,7 +35,7 @@ function SearchPanelContent() {
   return (
     <div className="flex h-full flex-col justify-center gap-4">
       <div className="flex items-center gap-3 rounded-full border border-strongline bg-field px-4 py-3">
-        <Search size={16} strokeWidth={1.75} className="shrink-0 text-mute" aria-hidden="true" />
+        <Glyph name="search" size={16} className="shrink-0 text-mute" />
         <span className="num truncate text-sm text-ink">
           <span className="pp-query" data-full={d.query}>
             {d.query}
@@ -60,7 +60,7 @@ function SearchPanelContent() {
         ))}
       </ul>
       <p className="pp-note flex items-center gap-2 text-xs text-mute">
-        <Check size={13} strokeWidth={2} className="text-ok" aria-hidden="true" />
+        <Glyph name="check" size={13} className="text-ok" />
         {d.note}
       </p>
     </div>
@@ -301,19 +301,19 @@ export function Pillars() {
               </ol>
             </div>
 
-            {/* JEDEN device-frame — wnętrze morfuje */}
-            <div className="flex h-[540px] flex-col overflow-hidden rounded-[var(--radius-xl)] border border-hairline bg-card shadow-card" data-cursor-label={pl.ui.cursorDemo}>
-              <div className="flex items-center gap-3 border-b border-hairline px-5 py-3.5">
+            {/* JEDEN device-frame — wnętrze morfuje; glass header nad treścią (elewacje v4) */}
+            <div className="frame-l2 relative h-[540px] overflow-hidden" data-cursor-label={pl.ui.cursorDemo}>
+              <div className="glass-head absolute inset-x-0 top-0 z-10 flex items-center gap-3 rounded-t-[19px] px-5 py-3.5">
                 <span className="flex gap-1.5" aria-hidden="true">
-                  <span className="h-2.5 w-2.5 rounded-full bg-elevated" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-elevated" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-elevated" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-l3" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-l3" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-l3" />
                 </span>
                 <span className="pillar-device-label label">{t.panelLabels[0]}</span>
               </div>
-              <div className="relative flex-1">
+              <div className="absolute inset-0">
                 {PANELS.map((Panel, i) => (
-                  <div key={i} className="pillar-panel absolute inset-0 p-6">
+                  <div key={i} className="pillar-panel absolute inset-0 p-6 pt-[62px]">
                     <Panel />
                   </div>
                 ))}

@@ -5,8 +5,17 @@ import { motion, useMotionValue, useSpring } from "motion/react";
 
 /** Karta bento (features §L19): spotlight-border śledzący kursor (CSS var na ::before)
  *  + tilt max 3° na sprężynach Motion. GSAP nie dotyka tych właściwości (podział ról
- *  wg motion.md §1). Na touch/reduced-motion: zwykła karta. */
-export function SpotlightCard({ children, className = "" }: { children: ReactNode; className?: string }) {
+ *  wg motion.md §1). Na touch/reduced-motion: zwykła karta.
+ *  Elewacje v4: level 2 = karty „hero" bento (highlight + cień warstwowy), level 1 = reszta. */
+export function SpotlightCard({
+  children,
+  className = "",
+  level = 1,
+}: {
+  children: ReactNode;
+  className?: string;
+  level?: 1 | 2;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [interactive, setInteractive] = useState(false);
 
@@ -47,7 +56,11 @@ export function SpotlightCard({ children, className = "" }: { children: ReactNod
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       style={interactive ? { rotateX: srx, rotateY: sry, transformPerspective: 900 } : undefined}
-      className={`spot-card relative rounded-[var(--radius-lg)] border border-hairline bg-card ${className}`}
+      className={`spot-card relative rounded-[var(--radius-lg)] border ${
+        level === 2
+          ? "border-line-2 bg-l2 [box-shadow:var(--highlight-top),var(--shadow-l2)]"
+          : "border-line-1 bg-l1"
+      } ${className}`}
     >
       {children}
     </motion.div>

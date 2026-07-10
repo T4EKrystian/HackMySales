@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { Check } from "lucide-react";
+import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { gsap, useGSAP, useReveal, typeInto, DESKTOP_MOTION, MOBILE_MOTION } from "@/lib/motion";
@@ -40,7 +40,7 @@ function ScanDemo() {
         {d.scanItems.map((name) => (
           <li key={name} className="how-scan-row flex items-center justify-between gap-3 text-xs text-sub">
             <span className="truncate">{name}</span>
-            <Check size={12} strokeWidth={2} className="how-scan-check shrink-0 text-ok" aria-hidden="true" />
+            <Glyph name="check" size={12} className="how-scan-check shrink-0 text-ok" />
           </li>
         ))}
       </ul>
