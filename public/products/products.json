@@ -1,0 +1,24 @@
+{
+  "note": "Manifest foto demo (V5-F1). Nazwy/ceny 1:1 z content/pl.ts (dane demo — rejestr PLACEHOLDERS.md). Pliki: <slug>.webp 800×800 + <slug>-112.webp. Źródła i licencje: assets-src/SOURCES.md.",
+  "products": [
+    { "slug": "m-city", "name": "Rower miejski M-City", "price": null, "alt": "Biały rower miejski oparty o szarą ścianę" },
+    { "slug": "m29", "name": "Rower górski M29", "price": null, "alt": "Niebieski rower górski na leśnej ścieżce" },
+    { "slug": "kask-ridge", "name": "Kask MTB Ridge", "price": "219 zł", "alt": "Kask MTB full-face z goglami na kamieniu" },
+    { "slug": "kask-core", "name": "Kask MTB Core", "price": "189 zł", "alt": "Czarny matowy kask rowerowy na ciemnym tle" },
+    { "slug": "x-trail-2", "name": "X-Trail 2 GTX", "price": "379 zł", "alt": "Granatowy but trailowy na omszałym kamieniu" },
+    { "slug": "x-trail-mid", "name": "X-Trail Mid", "price": "399 zł", "alt": "Para butów trekkingowych za kostkę na pniu" },
+    { "slug": "kurtka-3l", "name": "Kurtka 3L Shell — L", "price": "449 zł", "alt": "Żółta kurtka z kapturem — detal packshotu" },
+    { "slug": "u-lock", "name": "Zapięcie U-lock", "price": null, "alt": "Zapięcie rowerowe na bagażniku roweru" },
+    { "slug": "plecak", "name": "Plecak trekkingowy", "price": null, "alt": "Czarny plecak na jasnym tle" },
+    { "slug": "kurtka-kids", "name": "Kurtka narciarska Kids 110–116", "price": "189 zł", "alt": "Dziecięca kurtka z kapturem na wieszaku" },
+    { "slug": "spodnie-junior", "name": "Spodnie ocieplane Junior", "price": "159 zł", "alt": "Dziecięce spodnie z nadrukiem zwierząt na wieszaku" },
+    { "slug": "komplet-termo", "name": "Komplet termoaktywny 104–116", "price": "99 zł", "alt": "Stos złożonej odzieży dziecięcej" },
+    { "slug": "sukienka", "name": "Sukienka — demo Moda i obuwie", "price": null, "alt": "Biała koronkowa sukienka na manekinie w butiku" },
+    { "slug": "dom", "name": "Demo Dom i ogród", "price": null, "alt": "Minimalistyczna lampa kula na marmurowym stoliku" },
+    { "slug": "elektronika", "name": "Demo Elektronika", "price": null, "alt": "Czarne słuchawki nauszne na białym tle" },
+    { "slug": "b2b", "name": "Demo B2B i hurt", "price": null, "alt": "Regały magazynowe z kartonami na paletach" }
+  ],
+  "team": [
+    { "slug": "magda", "file": "/team/magda.webp", "name": "Magda", "role": "doradczyni HackMySales", "alt": "Portret Magdy — doradczyni HackMySales (persona AI)" }
+  ]
+}

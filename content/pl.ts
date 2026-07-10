@@ -34,6 +34,14 @@ const raw = {
     chat: {
       title: "HackMySales — doradca",
       status: "online",
+      // §1c (v5): persona prowadząca rozmowy we wszystkich demach
+      persona: {
+        name: "Magda",
+        role: "doradczyni HackMySales",
+        aiBadge: "AI",
+        status: "online · odpowiada w ~1 min",
+        avatar: "/team/magda.webp",
+      },
       scenarios: [
         {
           key: "doradztwo",
@@ -138,6 +146,18 @@ const raw = {
 
   ui: {
     cursorDemo: "demo",
+  },
+
+  // §1c (v5): stringi wzorców komunikatorów dla skinów ChatShell
+  chatUi: {
+    today: "Dzisiaj",
+    seen: "Wyświetlone",
+    activeNow: "Aktywna teraz",
+    replyLabel: "Odpowiedź na",
+    legacyName: "Bot v1.2",
+    inputPlaceholder: "Napisz wiadomość…",
+    receiptAria: "Wiadomość wyświetlona przez klienta",
+    aiBadgeAria: "Rozmowę prowadzi AI",
   },
 
   problem: {

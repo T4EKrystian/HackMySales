@@ -72,6 +72,25 @@ Mobile: hamburger, pełnoekranowe menu.
 
 ---
 
+### 1c. Persona i UI czatu (v5, stringi interfejsu — nie copy marketingowe)
+
+*(Rozmowy w demach prowadzi jedna doradczyni-persona z plakietką AI — spójnie z FAQ „Czy klienci wiedzą, że rozmawiają z AI?" i skillem hms-design-dna „Chat authenticity". Avatar: `/team/magda.webp`, ta sama twarz w całym serwisie.)*
+
+- **Persona — imię:** Magda
+- **Persona — rola:** doradczyni HackMySales
+- **Persona — plakietka:** AI
+- **Persona — status:** online · odpowiada w ~1 min
+- **Skin onsite/messenger/instagram — separator dnia:** Dzisiaj
+- **Skin messenger — potwierdzenie odczytu:** Wyświetlone
+- **Skin instagram — status aktywności:** Aktywna teraz
+- **Skin instagram — etykieta cytatu odpowiedzi:** Odpowiedź na
+- **Skin legacy (Arena, lewa strona) — nazwa:** Bot v1.2
+- **Atrapa pola wiadomości (stopka okna czatu):** Napisz wiadomość…
+- **Aria potwierdzenia odczytu:** Wiadomość wyświetlona przez klienta
+- **Aria plakietki:** Rozmowę prowadzi AI
+
+---
+
 ## 2. Problem
 
 **Label:** CO CIĘ TO KOSZTUJE
@@ -493,6 +512,7 @@ Blok body: 15–25 słów (twardy limit 35, powyżej tylko z twardą liczbą). N
 
 ## 15. Changelog copy
 
+- **2026-07-10 · §1c Persona i UI czatu (v5, NOWA)** — dema rozmów dostają personę-doradczynię (Magda, plakietka „AI", status online) + stringi wzorców komunikatorów („Dzisiaj", „Wyświetlone", „Aktywna teraz", „Bot v1.2"); spójne z FAQ o AI i skillem „Chat authenticity". §14 przypis: naturalne pisanie KLIENTA w demach dozwolone (bot bez zmian). Copy marketingowe — BEZ ZMIAN.
 - **2026-07-10 · Przebudowa v3 (forma, nie treść)** — nowe stringi wyłącznie interfejsowe: §1b Proof ticker (feed nocy — dane demo spójne z §4/§5b), chipy sugerowanych pytań w hero (1:1 pierwsze pytania scenariuszy B/C — zero nowego copy), §13 etykieta cursora „demo” i status zegara. Marketingowe H1/lead/filary/karty — BEZ ZMIAN (chronione). Ticker Radaru (§L3) scalony z proof tickerem — wpisy radarowe zostają w karcie Radaru (§4) i w §1b.
 - **2026-07-10 · §10b Nota od zespołu (NOWA) + trust bar** — strona nie miała żadnego ludzkiego dowodu (case studies uczciwie ukryte); nota = 3 zdania na faktach od klienta (od 2017, 40+ sklepów), podpis „— zespół Time4Ecommerce”; trust bar pod hero dostaje te same fakty (sama nazwa firmy nie była dowodem dla obcego). Blok 39 słów — świadomie ponad normę 25: to jedyne miejsce z osobistym głosem, 3 krótkie zdania.
 - **2026-07-10 · §2 Problem + §11 CTA końcowe** — label „DLACZEGO TO MA ZNACZENIE” → „CO CIĘ TO KOSZTUJE” (meta-etykieta landingowa → pieniądze); karta 98%: bez „Większość… tylko dlatego” (nieweryfikowalna teza o większości, 21→16 słów); H2 finału „Zobacz go…” → „Zobacz tego sprzedawcę na swoich produktach.” (wiszący zaimek out, domyka klamrę z H1); lead finału bez triady „15 minut rozmowy, konkretne liczby, zero zobowiązań” → konkret „ile bot może u Ciebie zarobić”; FAQ RODO zsynchronizowane z pl.ts.
