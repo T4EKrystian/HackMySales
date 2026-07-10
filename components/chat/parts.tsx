@@ -12,8 +12,8 @@ import type { ChatCard } from "./script";
 const persona = pl.hero.chat.persona;
 const ui = pl.chatUi;
 
-export function PersonaAvatar({ size = 28 }: { size?: number }) {
-  return (
+export function PersonaAvatar({ size = 28, ring = false }: { size?: number; ring?: boolean }) {
+  const avatar = (
     <span
       className="relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-line-1 bg-blue-tint"
       style={{ width: size, height: size }}
@@ -31,6 +31,14 @@ export function PersonaAvatar({ size = 28 }: { size?: number }) {
       />
     </span>
   );
+  // IG: gradient wyłącznie jako 1px ring (anti-kitsch V6)
+  return ring ? (
+    <span className="chat-ig-ring inline-flex shrink-0" aria-hidden="true">
+      {avatar}
+    </span>
+  ) : (
+    avatar
+  );
 }
 
 export function AiBadge() {
@@ -46,10 +54,10 @@ export function AiBadge() {
 }
 
 /** Wiersz tożsamości do headerów: avatar + imię + AI + status/rola. */
-export function PersonaRow({ presence, clock }: { presence?: string; clock?: string }) {
+export function PersonaRow({ presence, clock, ring = false }: { presence?: string; clock?: string; ring?: boolean }) {
   return (
     <div className="flex min-w-0 items-center gap-3">
-      <PersonaAvatar />
+      <PersonaAvatar ring={ring} />
       <div className="min-w-0 leading-tight">
         <p className="flex items-center gap-2 truncate text-sm font-medium text-ink">
           {persona.name}

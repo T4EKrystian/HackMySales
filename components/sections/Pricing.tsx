@@ -62,7 +62,8 @@ function PlanCard({
       onMouseLeave={onLeave}
       className={`js-reveal spot-card relative rounded-[var(--radius-lg)] border p-8 transition-transform duration-300 hover:-translate-y-1 ${
         plan.featured
-          ? "border-beam border-blue bg-l2 [box-shadow:var(--highlight-top),var(--shadow-l2),var(--shadow-cta)] lg:-mt-3 lg:mb-3"
+          ? // anti-kitsch V6: wyróżnik Growth = beam + elewacja; kolorowy cień karty OUT
+            "border-beam border-blue bg-l2 [box-shadow:var(--highlight-top),var(--shadow-l2)] lg:-mt-3 lg:mb-3"
           : "border-line-1 bg-l1"
       }`}
       style={{ transitionTimingFunction: "var(--ease-out)" }}

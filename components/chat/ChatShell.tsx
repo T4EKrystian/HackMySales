@@ -129,7 +129,7 @@ function BubbleShell({
               <span className="mb-0.5 shrink-0">
                 {/* avatar przy OSTATNIM bąblu wątku bota — wzorzec komunikatorów */}
                 {i === lastBotIdx || script.steps[i + 1]?.role !== "bot" ? (
-                  <PersonaAvatar size={28} />
+                  <PersonaAvatar size={28} ring={cfg.avatarRing} />
                 ) : (
                   <span className="inline-block w-7" aria-hidden="true" />
                 )}
@@ -211,7 +211,7 @@ function BubbleShell({
           {skin === "legacy" ? (
             <p className="chat-legacy-font text-sm text-sub">{ui.legacyName}</p>
           ) : (
-            <PersonaRow presence={presence} clock={clock} />
+            <PersonaRow presence={presence} clock={clock} ring={cfg.avatarRing} />
           )}
           {replayable && done && (
             <button

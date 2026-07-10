@@ -335,7 +335,8 @@ function WismoPath() {
             strokeDasharray="3 4"
           />
         </svg>
-        <span className="wismo-dot absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-blue shadow-cta opacity-0" />
+        {/* anti-kitsch V6: kropka bez kolorowego cienia — sam akcent wystarczy */}
+        <span className="wismo-dot absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-blue opacity-0" />
       </div>
       <ol className="mt-2 flex justify-between gap-2">
         {t.stops.map((s) => (

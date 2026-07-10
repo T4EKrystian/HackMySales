@@ -200,10 +200,10 @@
   .ticker-track > ul > li:nth-child(n + 4):not(:last-child) { display: none; }
 }
 
-/* Akcent „nigdy" w H1 — stały glow (puls daje rdzeń za tekstem, nie paint-animacja) */
+/* Akcent „nigdy" w H1 — sam kolor; poświatę viewportu hero DAJE rdzeń
+   (anti-kitsch V6: budżet 1 glow na viewport — text-shadow OUT) */
 .hero-nigdy {
   color: var(--blue-300);
-  text-shadow: 0 0 28px var(--blue-glow);
 }
 
 /* Kursor pisania klienta w czacie (na niebieskim bąblu) */
@@ -222,10 +222,18 @@
   .logo-pulse { animation: none; }
 }
 
-/* Skiny ChatShell (v5): IG user-gradient w rodzinie blue; legacy = celowy anty-wzorzec */
-.chat-ig-user {
-  background: linear-gradient(135deg, var(--blue-400), var(--blue-600));
+/* Skiny ChatShell (v5/v6 anti-kitsch): kanały bez cukierka — rozpoznawalność
+   z GEOMETRII (pigułki, receipty, statusy), kolor wyciszony w naszej palecie */
+.chat-user-quiet {
+  /* messenger/IG: blue przygaszony ~18% ku szarości (oklch — bez zmiany jasności) */
+  background: color-mix(in oklch, var(--blue-500) 82%, var(--text-muted));
   color: var(--text-on-blue);
+}
+.chat-ig-ring {
+  /* gradient IG zredukowany do 1px ringu avatara — jedyny ślad „gradientowości" */
+  background: linear-gradient(135deg, var(--blue-400), var(--blue-600));
+  padding: 1.5px;
+  border-radius: 999px;
 }
 .chat-legacy-font {
   /* jedyny wyjątek od fontsource — systemowy stack jako sygnał „starego bota" */
@@ -576,10 +584,10 @@
   border-radius: 999px;
   background: conic-gradient(
     from 0deg,
-    color-mix(in srgb, var(--blue-400) 38%, transparent) 0deg,
+    color-mix(in srgb, var(--blue-400) 30%, transparent) 0deg,
     transparent 70deg
   );
-  animation: radar-sweep 4.8s linear infinite;
+  animation: radar-sweep 6s linear infinite;
 }
 @keyframes radar-blip {
   0%, 8% { opacity: 0; transform: scale(0.4); }

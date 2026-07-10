@@ -24,6 +24,8 @@ export type ChatSkinConfig = {
   inputTools: boolean;
   /** klasa na body — legacy dostaje systemowy font i przygaszenie */
   bodyClass: string;
+  /** IG: gradientowy 1px ring avatara (jedyny ślad gradientu — anti-kitsch V6) */
+  avatarRing?: boolean;
 };
 
 export const CHAT_SKINS: Record<Exclude<ChatSkinName, "email">, ChatSkinConfig> = {
@@ -40,8 +42,8 @@ export const CHAT_SKINS: Record<Exclude<ChatSkinName, "email">, ChatSkinConfig> 
     bodyClass: "",
   },
   messenger: {
-    // pełne zaokrąglenia bez ogonków — sylwetka komunikatora, kolor NASZ blue
-    bubbleUser: "rounded-3xl bg-blue text-onblue",
+    // pełne zaokrąglenia bez ogonków — sylwetka komunikatora; kolor wyciszony (V6)
+    bubbleUser: "rounded-3xl chat-user-quiet",
     bubbleBot: "rounded-3xl bg-elevated text-ink",
     avatar: true,
     dots: true,
@@ -53,8 +55,8 @@ export const CHAT_SKINS: Record<Exclude<ChatSkinName, "email">, ChatSkinConfig> 
     bodyClass: "",
   },
   instagram: {
-    // pigułki + gradient user w rodzinie blue (globals: .chat-ig-user)
-    bubbleUser: "rounded-[22px] chat-ig-user",
+    // pigułki; gradient TYLKO jako ring avatara (V6) — bąbel wyciszony solid
+    bubbleUser: "rounded-[22px] chat-user-quiet",
     bubbleBot: "rounded-[22px] border border-line-1 bg-l1 text-ink",
     avatar: true,
     dots: true,
@@ -64,6 +66,7 @@ export const CHAT_SKINS: Record<Exclude<ChatSkinName, "email">, ChatSkinConfig> 
     replyQuote: true,
     inputTools: true,
     bodyClass: "",
+    avatarRing: true,
   },
   legacy: {
     // celowy anty-wzorzec: kanciasto, bez życia, systemowy font (Arena — lewa strona)

@@ -59,8 +59,9 @@ function buildRounds(): Round[] {
 
 function HmsAnswer({ r }: { r: Round }) {
   return (
-    // prawa strona ŻYJE: poziom 2 + glow przy odpowiedzi (kontrast stron na screenshocie)
-    <div className="arena-hms-msg rounded-2xl rounded-bl-md border border-line-2 bg-l2 px-4 py-3 text-sm leading-relaxed text-ink [box-shadow:var(--highlight-top),0_8px_28px_-8px_var(--blue-glow)]">
+    // prawa strona ŻYJE przez ELEWACJĘ (L2 + line-2), nie poświatę —
+    // anti-kitsch V6: budżet 1 glow/viewport (kontrast stron robi legacy-desaturacja)
+    <div className="arena-hms-msg rounded-2xl rounded-bl-md border border-line-2 bg-l2 px-4 py-3 text-sm leading-relaxed text-ink [box-shadow:var(--highlight-top)]">
       <p>{r.hms.text}</p>
       {r.hms.card && (
         <div className="mt-3 flex items-center gap-3 rounded-xl border border-hairline bg-card p-3">
