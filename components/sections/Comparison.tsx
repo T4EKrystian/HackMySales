@@ -5,6 +5,7 @@ import { Check, X } from "lucide-react";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Logo } from "@/components/ui/Logo";
+import { ProductVisual, type ProductKind } from "@/components/ui/ProductVisual";
 import { gsap, useGSAP, useReveal, typeInto, DESKTOP_MOTION, MOBILE_MOTION } from "@/lib/motion";
 
 /** Arena (copy §4b+§4d, motion.md §3): tabela „Różnica" jako pojedynek na 4 rundy.
@@ -13,7 +14,7 @@ import { gsap, useGSAP, useReveal, typeInto, DESKTOP_MOTION, MOBILE_MOTION } fro
  *  wynik bije do 0:4. Desktop: pin ~280%. Mobile: rundy pionowo, auto-play on-enter.
  *  Reduced-motion: wszystko widoczne statycznie. */
 
-type HmsCard = { initials: string; name: string; tags: string; price: string; meta: string };
+type HmsCard = { initials: string; kind?: ProductKind; name: string; tags: string; price: string; meta: string };
 type Round = {
   q: string;
   faq: string;
@@ -21,7 +22,7 @@ type Round = {
     text: string;
     card?: HmsCard;
     after?: string;
-    results?: ReadonlyArray<{ name: string; price: string }>;
+    results?: ReadonlyArray<{ name: string; price: string; kind?: ProductKind }>;
     note?: string;
     badge?: string;
   };
@@ -60,9 +61,13 @@ function HmsAnswer({ r }: { r: Round }) {
       <p>{r.hms.text}</p>
       {r.hms.card && (
         <div className="mt-3 flex items-center gap-3 rounded-xl border border-hairline bg-card p-3">
-          <div aria-hidden="true" className="num flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-tint text-xs text-blue-soft">
-            {r.hms.card.initials}
-          </div>
+          {r.hms.card.kind ? (
+            <ProductVisual kind={r.hms.card.kind} size={44} />
+          ) : (
+            <div aria-hidden="true" className="num flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-tint text-xs text-blue-soft">
+              {r.hms.card.initials}
+            </div>
+          )}
           <div className="min-w-0">
             <p className="truncate text-sm font-medium text-ink">{r.hms.card.name}</p>
             <p className="truncate text-xs text-mute">{r.hms.card.tags}</p>
@@ -73,8 +78,9 @@ function HmsAnswer({ r }: { r: Round }) {
       {r.hms.results && (
         <ul className="mt-3 divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline bg-card">
           {r.hms.results.map((res) => (
-            <li key={res.name} className="flex items-center justify-between gap-3 px-3 py-2">
-              <span className="truncate text-xs text-ink">{res.name}</span>
+            <li key={res.name} className="flex items-center gap-2.5 px-3 py-2">
+              {res.kind && <ProductVisual kind={res.kind} size={30} />}
+              <span className="min-w-0 flex-1 truncate text-xs text-ink">{res.name}</span>
               <span className="num shrink-0 text-xs text-sub">{res.price}</span>
             </li>
           ))}
@@ -163,6 +169,7 @@ export function Comparison() {
             trigger: stage,
             pin: true,
             start: "top top",
+            invalidateOnRefresh: true,
             end: "+=280%",
             scrub: 0.5,
             onUpdate(self) {

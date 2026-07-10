@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Check, Search } from "lucide-react";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
+import { ProductVisual, type ProductKind } from "@/components/ui/ProductVisual";
 import { gsap, useGSAP, useReveal, typeInto, Flip, DESKTOP_MOTION, MOBILE_MOTION, EASE } from "@/lib/motion";
 
 /** Filary v3 (features §L18): pin z JEDNYM device-frame; wnętrza morfują,
@@ -51,8 +52,9 @@ function SearchPanelContent() {
       </ul>
       <ul className="divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline">
         {d.results.map((r) => (
-          <li key={r.name} className="pp-row flex items-center justify-between gap-3 px-4 py-3">
-            <span className="truncate text-sm text-ink">{r.name}</span>
+          <li key={r.name} className="pp-row flex items-center gap-3 px-4 py-2.5">
+            {"kind" in r && r.kind && <ProductVisual kind={r.kind as ProductKind} size={40} />}
+            <span className="min-w-0 flex-1 truncate text-sm text-ink">{r.name}</span>
             <span className="num shrink-0 text-sm text-sub">{r.price}</span>
           </li>
         ))}
@@ -74,11 +76,14 @@ function RecoPanelContent() {
         {d.items.map((it) => (
           <li
             key={it.name}
-            className={`pp-reco flex items-center justify-between gap-3 rounded-xl border px-4 py-3 ${
+            className={`pp-reco flex items-center gap-3 rounded-xl border px-4 py-3 ${
               it.highlight ? "pp-reco-hl border-blue bg-blue-tint" : "border-hairline bg-card"
             }`}
           >
-            <div className="min-w-0">
+            {"kind" in it && it.kind && (
+              <ProductVisual kind={it.kind as ProductKind} size={48} tint={it.highlight ? "blue" : undefined} />
+            )}
+            <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium text-ink">{it.name}</p>
               <p className={`truncate text-xs ${it.highlight ? "text-blue-soft" : "text-mute"}`}>{it.note}</p>
             </div>
@@ -224,6 +229,7 @@ export function Pillars() {
             trigger: stage,
             pin: true,
             start: "top top",
+            invalidateOnRefresh: true,
             end: "+=250%",
             scrub: 0.6,
             onEnter: () => {

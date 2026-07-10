@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Check, RotateCcw } from "lucide-react";
 import { pl } from "@/content/pl";
 import { Logo } from "@/components/ui/Logo";
+import { ProductVisual, type ProductKind } from "@/components/ui/ProductVisual";
 import { gsap, useGSAP, NO_REDUCE, REDUCE } from "@/lib/motion";
 
 /** Żywe demo czatu (features §L1+L6+L17, motion.md §3).
@@ -262,12 +263,20 @@ export function ChatDemo() {
                 )}
                 {"card" in step && step.card && (
                   <div className="mt-3 flex items-center gap-3 rounded-xl border border-hairline bg-card p-3">
-                    <div
-                      aria-hidden="true"
-                      className="num flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-blue-tint text-xs text-blue-soft"
-                    >
-                      {step.card.initials}
-                    </div>
+                    {(() => {
+                      // fallback inicjałów zostaje na przyszłe wpisy bez kind (np. EN dict)
+                      const card = step.card as { kind?: ProductKind; initials: string };
+                      return card.kind ? (
+                        <ProductVisual kind={card.kind} size={44} />
+                      ) : (
+                        <div
+                          aria-hidden="true"
+                          className="num flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-blue-tint text-xs text-blue-soft"
+                        >
+                          {card.initials}
+                        </div>
+                      );
+                    })()}
                     <div className="min-w-0">
                       <p className="truncate text-sm font-medium text-ink">{step.card.name}</p>
                       <p className="truncate text-xs text-mute">{step.card.tags}</p>

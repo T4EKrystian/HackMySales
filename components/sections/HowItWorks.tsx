@@ -122,6 +122,7 @@ export function HowItWorks() {
             trigger: stage,
             pin: true,
             start: "top top",
+            invalidateOnRefresh: true,
             end: "+=220%",
             scrub: 0.5,
             snap: { snapTo: [0, 0.5, 1], duration: { min: 0.2, max: 0.5 }, ease: "power2.out" },

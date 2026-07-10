@@ -13,6 +13,16 @@ gsap.registerPlugin(ScrollTrigger);
 function LenisBridge() {
   const lenis = useLenis(ScrollTrigger.update);
 
+  // Higiena pinów (motion-craft): fonty doładowują się PO inicjalizacji triggerów
+  // i zmieniają wysokości sekcji → stale pin-spacery = martwy scroll za footerem.
+  useEffect(() => {
+    let t: number | undefined;
+    document.fonts.ready.then(() => {
+      t = window.setTimeout(() => ScrollTrigger.refresh(), 80);
+    });
+    return () => window.clearTimeout(t);
+  }, []);
+
   useEffect(() => {
     if (!lenis) return;
 

@@ -11,6 +11,7 @@ import { Channels } from "@/components/sections/Channels";
 import { ForWho } from "@/components/sections/ForWho";
 import { MorningPanel } from "@/components/sections/MorningPanel";
 import { ProgressDots } from "@/components/ui/ProgressDots";
+import { ProductVisualDefs } from "@/components/ui/ProductVisual";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { Results } from "@/components/sections/Results";
 import { Integrations } from "@/components/sections/Integrations";
@@ -48,6 +49,7 @@ const appSchema = {
 export default function Home() {
   return (
     <>
+      <ProductVisualDefs />
       <Nav />
       <ProgressDots />
       {/* Wrapper z-[1]: treść ponad globalnym Canvasem WebGL (z-0, fixed za contentem) */}

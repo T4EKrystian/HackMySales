@@ -46,6 +46,7 @@ const raw = {
               text: "Mam trzy trafienia. Najczęściej wybierane:",
               card: {
                 initials: "XT",
+                kind: "but" as const,
                 name: "X-Trail 2 GTX",
                 tags: "wodoodporne · rozmiar 44 na stanie",
                 price: "379 zł",
@@ -59,6 +60,7 @@ const raw = {
               text: "Jasne — jest wersja za kostkę:",
               card: {
                 initials: "XM",
+                kind: "but" as const,
                 name: "X-Trail Mid",
                 tags: "za kostkę · membrana",
                 price: "399 zł",
@@ -79,6 +81,7 @@ const raw = {
               text: "Przy 178 cm / 82 kg ten model wypada mało — z historii zwrotów: klienci o Twoich wymiarach zostawiali L, a M wracało częściej. Proponuję:",
               card: {
                 initials: "3L",
+                kind: "kurtka" as const,
                 name: "Kurtka 3L Shell — L",
                 tags: "membrana 3-warstwowa · L na stanie",
                 price: "449 zł",
@@ -190,9 +193,9 @@ const raw = {
         query: "cos cieplego dla 5latka na narty do 200zl",
         chips: ["ciepłe", "dziecięce · ok. 5 lat", "narty", "do 200 zł"],
         results: [
-          { name: "Kurtka narciarska Kids 110–116", price: "189 zł" },
-          { name: "Spodnie ocieplane Junior", price: "159 zł" },
-          { name: "Komplet termoaktywny 104–116", price: "99 zł" },
+          { name: "Kurtka narciarska Kids 110–116", price: "189 zł", kind: "kurtka" as const },
+          { name: "Spodnie ocieplane Junior", price: "159 zł", kind: "odziez" as const },
+          { name: "Komplet termoaktywny 104–116", price: "99 zł", kind: "odziez" as const },
         ],
         note: "Intencja rozpoznana mimo literówek i odmiany",
       },
@@ -201,8 +204,8 @@ const raw = {
         sliderLeft: "trafność",
         sliderRight: "marża",
         items: [
-          { name: "Kask MTB Ridge", price: "219 zł", note: "dopasowany", highlight: false },
-          { name: "Kask MTB Core", price: "189 zł", note: "dopasowany · lepsza marża", highlight: true },
+          { name: "Kask MTB Ridge", price: "219 zł", note: "dopasowany", highlight: false, kind: "kask" as const },
+          { name: "Kask MTB Core", price: "189 zł", note: "dopasowany · lepsza marża", highlight: true, kind: "kask" as const },
         ],
       },
     },

@@ -56,6 +56,7 @@ export function Problem() {
             trigger: stage,
             pin: true,
             start: "top top",
+            invalidateOnRefresh: true,
             end: "+=300%",
             scrub: 0.5,
             onUpdate(self) {
