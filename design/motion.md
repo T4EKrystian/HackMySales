@@ -34,6 +34,7 @@ Desktop: kontener pinowany (`pin: true`, `end: "+=250%"`). Lewa kolumna: 3 nagł
 
 - Liczniki (`+18%`, `47 218 zł`): odpalane raz przy `top 75%`, dur 1.2, `ease: power2.out`, tabular-nums (mono i tak ma). Formatowanie PL: spacja nierozdzielająca jako separator tysięcy, przecinek dziesiętny.
 - Sekcja Wyniki — kolejność bloków (2026-07-10): kalkulator → licznik nocnej zmiany → liczniki celów (z podpisem). Triggery i czasy liczników bez zmian.
+- Nota od zespołu (L15, 2026-07-10): standardowy js-reveal jak reszta treści, bez własnej choreografii.
 - Mini-panel przychodów: słupki `scaleY 0→1` z `transformOrigin: bottom`, stagger 0.06; linia trendu: `stroke-dashoffset` (dur 1.4).
 - Ticker Radaru: CSS `@keyframes` marquee (transform), prędkość ~40s/pętla, `animation-play-state: paused` na hover; duplikacja treści dla płynnej pętli; reduced-motion → statyczna lista 3 wpisów.
 

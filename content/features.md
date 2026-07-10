@@ -101,6 +101,9 @@ Pełnowymiarowe żywe UI panelu: 4 KPI z licznikami scrollowymi, wykres 14 dni (
 ### L14. Pasek postępu scrolla w nav
 2px linia pod nav, `scaleX` 0→1 scrubem na całej wysokości dokumentu. Reduced-motion: ukryta.
 
+### L15. Nota od zespołu (sekcja między FAQ a finalnym CTA)
+Krótki blok typograficzny: label OD ZESPOŁU, 3 zdania na potwierdzonych faktach (sklepy od 2017, ponad 40 pod opieką), podpis „— zespół Time4Ecommerce” w mono. Zwykły reveal, zero własnej choreografii. Rola: jedyny ludzki dowód do czasu case studies — żadnych opinii, gwiazdek ani logotypów. Copy: `copy-pl.md` §10b.
+
 ### L11. Boczna nawigacja kropkowa (desktop ≥1280px)
 Pionowe kropki po prawej: Start · Produkt · Funkcje · Różnica · Wyniki · Cennik · FAQ · Demo. Aktywna sekcja podświetlona (IntersectionObserver), hover pokazuje etykietę, klik scrolluje. Dyskretna — 6px kropki, zero animacji poza opacity/scale.
 

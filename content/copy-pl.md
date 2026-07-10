@@ -49,7 +49,7 @@ Mobile: hamburger, pełnoekranowe menu.
 > Bot: Jasne — przekierowałem do punktu przy Twojej ulicy. Potwierdzenie poszło na e-mail.
 > *(badge)* ✓ Obsłużone bez człowieka · 0 min czekania
 
-**Pasek zaufania (pod hero):** Zbudowane przez zespół Time4Ecommerce. Działa z: Shoper · IdoSell · PrestaShop · WooCommerce · Shopify · Magento · [logotypy klientów — placeholder]
+**Pasek zaufania (pod hero):** Zbudowane przez zespół Time4Ecommerce — w e-commerce od 2017, ponad 40 sklepów pod opieką. Działa z: Shoper · IdoSell · PrestaShop · WooCommerce · Shopify · Magento · [logotypy klientów — placeholder]
 
 ---
 
@@ -303,6 +303,18 @@ Tak: ton, zakres tematów, zasady rabatowania, produkty wykluczone z rekomendacj
 
 ---
 
+## 10b. Nota od zespołu
+
+*(Jedyny ludzki dowód do czasu prawdziwych case studies. Wyłącznie fakty potwierdzone przez klienta 2026-07-10: sklepy od 2017, ponad 40 pod opieką, podpis zespołowy. Zero zmyślonych liczb, opinii i historii.)*
+
+**Label:** OD ZESPOŁU
+
+**Treść:** Sklepy internetowe prowadzimy od 2017 roku — dziś ponad 40. Te same pytania, zwroty i wieczorne koszyki znamy z pierwszej ręki. HackMySales zbudowaliśmy, żeby sklep radził sobie z nimi sam — i żeby było widać, ile na tym zarabia.
+
+**Podpis (mono):** — zespół Time4Ecommerce
+
+---
+
 ## 11. CTA końcowe
 
 **H2:** Zobacz tego sprzedawcę na swoich produktach.
@@ -357,6 +369,7 @@ Blok body: 15–25 słów (twardy limit 35, powyżej tylko z twardą liczbą). N
 
 ## 15. Changelog copy
 
+- **2026-07-10 · §10b Nota od zespołu (NOWA) + trust bar** — strona nie miała żadnego ludzkiego dowodu (case studies uczciwie ukryte); nota = 3 zdania na faktach od klienta (od 2017, 40+ sklepów), podpis „— zespół Time4Ecommerce”; trust bar pod hero dostaje te same fakty (sama nazwa firmy nie była dowodem dla obcego). Blok 39 słów — świadomie ponad normę 25: to jedyne miejsce z osobistym głosem, 3 krótkie zdania.
 - **2026-07-10 · §2 Problem + §11 CTA końcowe** — label „DLACZEGO TO MA ZNACZENIE” → „CO CIĘ TO KOSZTUJE” (meta-etykieta landingowa → pieniądze); karta 98%: bez „Większość… tylko dlatego” (nieweryfikowalna teza o większości, 21→16 słów); H2 finału „Zobacz go…” → „Zobacz tego sprzedawcę na swoich produktach.” (wiszący zaimek out, domyka klamrę z H1); lead finału bez triady „15 minut rozmowy, konkretne liczby, zero zobowiązań” → konkret „ile bot może u Ciebie zarobić”; FAQ RODO zsynchronizowane z pl.ts.
 - **2026-07-10 · §5 Wdrożenie + §7 Integracje** — krok 2 bez „nie zmyśla” (3× na stronie → 2×: Zaufanie + FAQ); dopisek bez „Bez zmiany platformy” (dubel z mikrodowodem hero); H2 Integracji „Działa tam, gdzie sprzedajesz.” → „Twoja platforma jest na liście.” (kolizja dwóch „Działa … gdzie” z Branżami; konkret nad logotypami).
 - **2026-07-10 · §1 Hero** — CTA secondary „Porozmawiaj z botem” → „Zobacz, jak sprzedaje” (demo jest oskryptowane — rozmowy nie będzie; uczciwość + obietnica dowodu). H1, lead, scenariusze czatu i mikrodowód bez zmian (chronione).

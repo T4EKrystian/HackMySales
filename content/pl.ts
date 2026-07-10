@@ -114,7 +114,7 @@ const raw = {
   },
 
   trustBar: {
-    line: "Zbudowane przez zespół Time4Ecommerce. Działa z:",
+    line: "Zbudowane przez zespół Time4Ecommerce — w e-commerce od 2017, ponad 40 sklepów pod opieką. Działa z:",
     platforms: ["Shoper", "IdoSell", "PrestaShop", "WooCommerce", "Shopify", "Magento"],
   },
 
@@ -510,6 +510,12 @@ const raw = {
         a: "Tak: ton, zakres tematów, zasady rabatowania, produkty wykluczone z rekomendacji. Wszystko w panelu, zmiany działają natychmiast.",
       },
     ],
+  },
+
+  teamNote: {
+    label: "OD ZESPOŁU",
+    body: "Sklepy internetowe prowadzimy od 2017 roku — dziś ponad 40. Te same pytania, zwroty i wieczorne koszyki znamy z pierwszej ręki. HackMySales zbudowaliśmy, żeby sklep radził sobie z nimi sam — i żeby było widać, ile na tym zarabia.",
+    signature: "— zespół Time4Ecommerce",
   },
 
   finalCta: {

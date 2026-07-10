@@ -15,6 +15,7 @@ import { Integrations } from "@/components/sections/Integrations";
 import { Trust } from "@/components/sections/Trust";
 import { Pricing } from "@/components/sections/Pricing";
 import { Faq } from "@/components/sections/Faq";
+import { TeamNote } from "@/components/sections/TeamNote";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Footer } from "@/components/sections/Footer";
 
@@ -62,6 +63,7 @@ export default function Home() {
         <Trust />
         <Pricing />
         <Faq />
+        <TeamNote />
         <FinalCta />
       </main>
       <Footer />
