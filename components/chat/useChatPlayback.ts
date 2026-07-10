@@ -77,9 +77,10 @@ export function useChatPlayback(opts: {
               .to(dots, { autoAlpha: 0, duration: 0.15 })
               .set(dots, { display: "none" })
               .fromTo(
+                // bez `scale` — revert kontekstu (revertOnUpdate) ostrzegał w konsoli
                 msg,
-                { y: 16, autoAlpha: 0, scale: 0.97 },
-                { y: 0, autoAlpha: 1, scale: 1, duration: 0.45, ease: "back.out(1.4)" }
+                { y: 16, autoAlpha: 0 },
+                { y: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(1.4)" }
               )
               .call(() => scrollToStep(step));
           } else if (role === "bot" && legacy) {
@@ -104,7 +105,7 @@ export function useChatPlayback(opts: {
             tl.set(step, { opacity: 1 }, "+=0.2").fromTo(
               msg,
               { y: role === "divider" ? 0 : 16, autoAlpha: 0 },
-              { y: 0, autoAlpha: 1, scale: 1, duration: role === "divider" ? 0.25 : 0.45, ease: "back.out(1.4)" }
+              { y: 0, autoAlpha: 1, duration: role === "divider" ? 0.25 : 0.45, ease: "back.out(1.4)" }
             );
             if (role === "badge") {
               tl.call(() => scrollToStep(step)).fromTo(

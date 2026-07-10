@@ -110,6 +110,7 @@ function RadarDial() {
         <span key={i} className="group absolute" style={{ top: b.top, left: b.left }}>
           <span
             tabIndex={0}
+            role="img"
             aria-label={rows[i] ? `${rows[i].query} — ${rows[i].count}` : undefined}
             className="radar-blip block h-1.5 w-1.5 cursor-help rounded-full bg-blue-soft before:absolute before:-inset-2.5 before:content-['']"
             style={{ animationDelay: b.delay }}

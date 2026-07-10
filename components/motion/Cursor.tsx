@@ -36,7 +36,14 @@ export function Cursor() {
       const dy = gsap.quickTo(dot, "y", { duration: 0.12, ease: EASE.soft });
       const rx = gsap.quickTo(ring, "x", { duration: 0.45, ease: EASE.soft });
       const ry = gsap.quickTo(ring, "y", { duration: 0.45, ease: EASE.soft });
-      const rScale = gsap.quickTo(ring, "scale", { duration: 0.3, ease: EASE.soft });
+      // quickTo("scale") ostrzega przy resetTo („not eligible for reset") — GSAP każe
+      // rozbić na osie; jedna funkcja-fasada zachowuje dotychczasowe API
+      const rScaleX = gsap.quickTo(ring, "scaleX", { duration: 0.3, ease: EASE.soft });
+      const rScaleY = gsap.quickTo(ring, "scaleY", { duration: 0.3, ease: EASE.soft });
+      const rScale = (v: number) => {
+        rScaleX(v);
+        rScaleY(v);
+      };
 
       let shown = false;
       const onMove = (e: PointerEvent) => {
