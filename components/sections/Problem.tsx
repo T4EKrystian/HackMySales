@@ -48,7 +48,7 @@ export function Problem() {
         const railLine = root.querySelector<HTMLElement>(".prob-rail-line");
         if (!stage || stats.length < 3) return;
 
-        gsap.set(stats, { autoAlpha: 0, yPercent: 12 });
+        gsap.set(stats, { autoAlpha: 0, yPercent: 12, filter: "blur(8px)" });
 
         const tl = gsap.timeline({
           defaults: { ease: "none" },
@@ -76,7 +76,7 @@ export function Problem() {
           const at = i * 3 + 0.2;
           const numEl = stat.querySelector<HTMLElement>(".prob-num");
           const proxy = { v: 0 };
-          tl.to(stat, { autoAlpha: 1, yPercent: 0, duration: 0.5, ease: "power2.out" }, at);
+          tl.to(stat, { autoAlpha: 1, yPercent: 0, filter: "blur(0px)", duration: 0.5, ease: "power2.out" }, at);
           tl.to(
             proxy,
             {
@@ -119,7 +119,7 @@ export function Problem() {
 
             <div className="relative flex-1">
               {t.cards.map((c, i) => (
-                <div key={i} className="prob-stat absolute inset-0 flex flex-col justify-center">
+                <div key={i} className="prob-stat absolute inset-0 flex flex-col justify-center will-change-[filter,transform]">
                   <p className="text-ink">
                     <span className="prob-num num text-[15vw] font-bold leading-[0.95] tracking-[-0.04em]">0</span>
                     <span className="num ml-4 text-[clamp(1.5rem,3vw,2.6rem)] text-blue-soft">

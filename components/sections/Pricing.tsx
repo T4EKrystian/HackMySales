@@ -5,7 +5,8 @@ import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { useReveal } from "@/lib/motion";
+import { RollingNumber } from "@/components/ui/RollingNumber";
+import { gsap, useReveal } from "@/lib/motion";
 
 /** Cennik v3 (copy §9 + §9b): spotlight + lift na hover, border-beam na planie
  *  polecanym, progressive disclosure featureów (5 + „Pełne porównanie").
@@ -14,10 +15,12 @@ import { useReveal } from "@/lib/motion";
 function PlanCard({
   plan,
   expanded,
+  yearly,
   onToggle,
 }: {
   plan: (typeof pl.pricing.plans)[number];
   expanded: boolean;
+  yearly: boolean;
   onToggle: () => void;
 }) {
   const t = pl.pricing;
@@ -71,16 +74,19 @@ function PlanCard({
       )}
       <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{plan.name}</h3>
       <p className="mt-4 text-ink">
-        <span
-          className={
-            plan.period ? "num text-3xl font-bold tracking-tight" : "font-display text-2xl font-semibold tracking-tight"
-          }
-        >
-          {plan.price}
-        </span>
+        {"priceMonthly" in plan && plan.priceMonthly ? (
+          // ceny przeliczają się rolką cyfr (copy §9b), nie skokiem
+          <span className="num text-3xl font-bold tracking-tight">
+            <RollingNumber value={yearly ? plan.priceYearly : plan.priceMonthly} /> zł
+          </span>
+        ) : (
+          <span className="font-display text-2xl font-semibold tracking-tight">{plan.price}</span>
+        )}
         {plan.period && <span className="num text-base text-sub">{plan.period}</span>}
       </p>
-      <p className="mt-1 text-sm text-mute">{plan.audience}</p>
+      <p className="mt-1 text-sm text-mute">
+        {yearly && "priceYearly" in plan && plan.priceYearly ? t.billing.yearlyNote : plan.audience}
+      </p>
 
       <ul className="mt-7 flex flex-col gap-3 border-t border-hairline pt-7">
         {t.featureLabels.slice(0, t.visibleRows).map((label, i) => featureRow(label, i))}
@@ -118,6 +124,17 @@ export function Pricing() {
   const t = pl.pricing;
   const ref = useReveal<HTMLElement>(0.08);
   const [expanded, setExpanded] = useState(false);
+  const [yearly, setYearly] = useState(false);
+  const badgeRef = useRef<HTMLSpanElement>(null);
+
+  const switchBilling = (toYearly: boolean) => {
+    if (toYearly === yearly) return;
+    setYearly(toYearly);
+    // badge „−20%" pulsuje RAZ przy przełączeniu na roczne (copy §9b)
+    if (toYearly && badgeRef.current && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.fromTo(badgeRef.current, { scale: 1 }, { scale: 1.18, duration: 0.16, yoyo: true, repeat: 1, ease: "power1.inOut" });
+    }
+  };
 
   return (
     <section ref={ref} id="cennik" className="section-pad bg-surface">
@@ -128,9 +145,41 @@ export function Pricing() {
           {t.lead}
         </p>
 
-        <div className="mt-14 grid items-start gap-5 lg:grid-cols-3">
+        {/* Przełącznik rozliczenia (copy §9b — ceny roczne demo, PLACEHOLDERS.md) */}
+        <div className="js-reveal mt-10 flex items-center gap-3">
+          <div className="flex rounded-full border border-line-1 bg-l1 p-1" role="group" aria-label="Okres rozliczenia">
+            {[t.billing.monthly, t.billing.yearly].map((label, i) => (
+              <button
+                key={label}
+                onClick={() => switchBilling(i === 1)}
+                aria-pressed={yearly === (i === 1)}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors duration-150 ${
+                  yearly === (i === 1) ? "bg-blue text-onblue" : "text-sub hover:text-ink"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <span
+            ref={badgeRef}
+            className={`num inline-block rounded-full px-3 py-1.5 text-xs transition-colors duration-200 ${
+              yearly ? "bg-blue-tint text-blue-soft" : "bg-l1 text-mute"
+            }`}
+          >
+            {t.billing.badge}
+          </span>
+        </div>
+
+        <div className="mt-12 grid items-start gap-5 lg:grid-cols-3">
           {t.plans.map((plan) => (
-            <PlanCard key={plan.name} plan={plan} expanded={expanded} onToggle={() => setExpanded((v) => !v)} />
+            <PlanCard
+              key={plan.name}
+              plan={plan}
+              expanded={expanded}
+              yearly={yearly}
+              onToggle={() => setExpanded((v) => !v)}
+            />
           ))}
         </div>
 

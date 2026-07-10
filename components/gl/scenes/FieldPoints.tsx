@@ -34,7 +34,8 @@ void main(){
 
   vec4 mv=modelViewMatrix*vec4(pos,1.0);
   gl_Position=projectionMatrix*mv;
-  gl_PointSize=uPx*(2.8+aSeed*1.8)*(1.0-t*0.4)*(5.2/max(0.1,-mv.z));
+  float popScale=1.0+0.6*exp(-pow((t-0.18)*5.0,2.0));
+  gl_PointSize=uPx*(2.8+aSeed*1.8)*(1.0-t*0.4)*popScale*(5.2/max(0.1,-mv.z));
   vDead=t;
   vSeed=aSeed;
   vA=uIntensity;
@@ -54,7 +55,8 @@ void main(){
   float disc=smoothstep(0.5,0.18,d);
   if(disc<0.01) discard;
   vec3 col=mix(uColLive,uColDead,vDead);
-  float a=disc*mix(0.5,0.06,vDead)*vA*(0.7+vSeed*0.3);
+  float pop=0.55*exp(-pow((vDead-0.18)*5.0,2.0)); // rozbłysk w chwili gaśnięcia
+  float a=disc*(mix(0.5,0.06,vDead)+pop)*vA*(0.7+vSeed*0.3);
   gl_FragColor=vec4(col,a);
 }
 `;

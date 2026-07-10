@@ -5,6 +5,7 @@ import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionH2 } from "@/components/ui/Section";
 import { useReveal } from "@/lib/motion";
+import { motion } from "motion/react";
 
 /** Integracje v3 (copy §7 + §7c): dwa przeciwbieżne marquee typograficznych
  *  logotypów (pauza na hover) + lokalny finder platformy z fuzzy-matchem.
@@ -106,17 +107,30 @@ export function Integrations() {
           />
           <p role="status" aria-live="polite" className="mt-3 min-h-[1.75rem] text-sm">
             {result?.hit && (
-              <span key={result.hit} className="fade-in-panel flex items-center gap-2 text-blue-soft">
+              // wynik wjeżdża springiem (Motion — podział ról wg motion-craft)
+              <motion.span
+                key={result.hit}
+                initial={{ opacity: 0, y: 8, scale: 0.94 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ type: "spring", stiffness: 420, damping: 26 }}
+                className="flex items-center gap-2 text-blue-soft"
+              >
                 <Glyph name="check" size={15} />
                 <span>
                   <span className="font-medium text-ink">{result.hit}</span> {t.finder.hit}
                 </span>
-              </span>
+              </motion.span>
             )}
             {result?.miss && (
-              <span key="miss" className="fade-in-panel block text-sub">
+              <motion.span
+                key="miss"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                className="block text-sub"
+              >
                 {t.finder.miss}
-              </span>
+              </motion.span>
             )}
           </p>
         </div>

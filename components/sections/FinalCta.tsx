@@ -63,7 +63,7 @@ export function FinalCta() {
         tl.fromTo(line, { scaleX: 0, transformOrigin: "left" }, { scaleX: 1, duration: 0.7, ease: EASE.inOut })
           .to(line, { opacity: 0, duration: 0.3 }, "+=1.2");
       }
-      tl.to(steps, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.4, ease: EASE.soft }, 0.35);
+      tl.to(steps, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.7, ease: EASE.soft }, 0.35).to({}, { duration: 0.25 });
     });
   };
 

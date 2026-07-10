@@ -475,6 +475,9 @@ const raw = {
       roiCaption: "tyle razy zwraca się plan Growth przy tych liczbach",
       costTick: "koszt planu Growth",
       glowThreshold: 10000,
+      methodLabel: "jak to liczymy",
+      methodText:
+        "Odzysk to różnica między przychodem dziś a przychodem przy +0,5 p.p. konwersji i +10% AOV — założenia poglądowe makiety. Mnożnik porównuje roczny odzysk z rocznym kosztem planu Growth; wszystko liczy się w Twojej przeglądarce, nic nie wysyłamy.",
     },
   },
 
@@ -537,6 +540,13 @@ const raw = {
 
   pricing: {
     label: "CENNIK",
+    // §9b — rozliczenie (ceny roczne = demo, rejestr PLACEHOLDERS)
+    billing: {
+      monthly: "Miesięcznie",
+      yearly: "Rocznie",
+      badge: "−20%",
+      yearlyNote: "przy rozliczeniu rocznym",
+    },
     h2: "Prosty rachunek.",
     lead: "Każdy plan zwraca się z jednej uratowanej transakcji dziennie. Ceny netto, rozliczenie miesięczne, rezygnacja jednym kliknięciem.",
     featureLabels: [
@@ -554,6 +564,8 @@ const raw = {
       {
         name: "Start",
         price: "499 zł",
+        priceMonthly: 499,
+        priceYearly: 399,
         period: "/mc",
         audience: "do 10 tys. wizyt/mc",
         features: ["yes", "yes", "yes", "1 000", "no", "no", "no", "no", "no"],
@@ -564,6 +576,8 @@ const raw = {
         name: "Growth",
         badge: "najczęściej wybierany",
         price: "1 299 zł",
+        priceMonthly: 1299,
+        priceYearly: 1039,
         period: "/mc",
         audience: "do 100 tys. wizyt/mc",
         features: ["yes", "yes", "yes", "5 000", "yes", "yes", "yes", "yes", "no"],

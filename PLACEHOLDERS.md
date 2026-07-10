@@ -14,6 +14,7 @@ TRYB MAKIETY: strona renderuje liczby demo bez nawiasów (decyzja: makieta ma wy
 | Wpisy proof tickera (0,9 s · 214 zł · timestampy) | `proofTicker.items` | feed nocy = dane demo, podpis w pasku o tym mówi |
 | Założenia kalkulatora (+0,5 p.p., +10% AOV) | `results.calc.assumptions` | potwierdzić pilotażami |
 | `[499 zł]`, `[1 299 zł]`, limity `[1 000]`, `[5 000]`, `[10 tys.]`, `[100 tys.]`, `[5 tys.]` | `pricing.plans`, `faq.items` | ceny i progi planów |
+| Ceny roczne `[399 zł]`, `[1 039 zł]` + rabat `[−20%]` | `pricing.plans` (priceYearly), `pricing.billing` | demo = miesięczna × 0,8 — potwierdzić realny rabat roczny |
 | `[w planie Growth]` (Messenger/IG) | `integrations.note` | |
 | Chipy branż: `[−30%]`, `[+38%]`, `[−50%]` | `forWho.segments` | cele przykładowe — potwierdzić pilotażami |
 | RODO: `[hosting EU, DPA, retencja…]` | `trust.items`, `faq.items` | skonsultować z prawnikiem |

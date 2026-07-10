@@ -60,6 +60,7 @@ function RoiCalculator() {
   const [visits, setVisits] = useState(20000);
   const [aov, setAov] = useState(180);
   const [conv, setConv] = useState(1.8);
+  const [methodOpen, setMethodOpen] = useState(false);
   const resultBoxRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const prevGain = useRef(0);
@@ -129,12 +130,28 @@ function RoiCalculator() {
             <span className="max-w-[24ch] text-xs leading-snug text-mute">{t.roiCaption}</span>
           </p>
 
-          <details className="mt-5">
-            <summary className="cursor-pointer text-xs text-mute underline-offset-4 hover:underline">
-              {t.assumptionsTitle}
-            </summary>
-            <p className="mt-2 text-xs leading-relaxed text-mute">{t.assumptions}</p>
-          </details>
+          {/* Popover metodologii (copy §6b) — wiarygodność przy dużych mnożnikach */}
+          <div className="relative mt-5">
+            <button
+              onClick={() => setMethodOpen((v) => !v)}
+              onBlur={() => setMethodOpen(false)}
+              aria-expanded={methodOpen}
+              aria-controls="roi-method"
+              className="group inline-flex items-center gap-1.5 text-xs text-mute transition-colors duration-150 hover:text-sub"
+            >
+              {t.methodLabel}
+              <Glyph name="arrow-right" size={12} className="transition-transform duration-150 group-hover:translate-x-0.5" />
+            </button>
+            <div
+              id="roi-method"
+              role="note"
+              className={`absolute bottom-[calc(100%+8px)] left-0 z-10 w-[minmax(0,1fr)] min-w-[260px] max-w-[340px] rounded-xl border border-line-2 bg-l3 p-4 text-xs leading-relaxed text-sub shadow-card transition-opacity duration-200 ${
+                methodOpen ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+            >
+              {t.methodText}
+            </div>
+          </div>
           <a
             ref={ctaRef}
             href="#demo"

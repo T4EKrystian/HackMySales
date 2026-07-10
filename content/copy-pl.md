@@ -295,6 +295,12 @@ wielką typografią `×[N]` = roczny odzysk ÷ roczny koszt planu Growth ([1 299
 Podpis mnożnika: „tyle razy zwraca się plan Growth przy tych liczbach”. Wynik kręci się rolkowym
 odometrem (cyfry na kolumnach). Przy przekroczeniu [10 000 zł]/mc — pojedynczy rozbłysk obrysu (bez konfetti).
 
+**Popover „jak to liczymy” (v4 — zamiast surowego `<details>`; wiarygodność przy dużych mnożnikach):**
+Link pod wynikiem: `jak to liczymy →`
+Treść (2 zdania): „Odzysk to różnica między przychodem dziś a przychodem przy +0,5 p.p. konwersji
+i +10% AOV — założenia poglądowe makiety. Mnożnik porównuje roczny odzysk z rocznym kosztem planu
+Growth; wszystko liczy się w Twojej przeglądarce, nic nie wysyłamy.”
+
 *(Case studies: placeholder na 2–3 historie klientów — układ cytat + liczba. Do czasu zebrania prawdziwych: sekcja ukryta, NIE wstawiać zmyślonych opinii.)*
 
 ---
@@ -367,12 +373,16 @@ badge „Dane w UE · RODO”. Prawa: podgląd czatu, który zmienia odpowiedź 
 CTA w każdej karcie: `Testuj 14 dni za darmo` (Start/Growth) · `Porozmawiajmy` (Scale)
 **Dopisek:** Bez karty na start. Przekroczysz limit rozmów? Nic nie wyłączamy — dogadamy plan.
 
-### 9b. Forma v3 cennika
+### 9b. Forma v4 cennika
 
 Karty: spotlight + lift na hover; plan polecany z border-beam (świetlik po obrysie).
 Progressive disclosure: widocznych 5 pierwszych pozycji, reszta pod `Pełne porównanie` / `Zwiń`.
-Przełącznika Miesięcznie/Rocznie NIE budujemy — deck nie definiuje cen rocznych (uczciwość > ozdoba);
-wraca na stół razem z prawdziwym cennikiem.
+
+**Przełącznik rozliczenia (decyzja 2026-07-10):** `Miesięcznie · Rocznie` + badge `−20%`
+(puls raz przy przełączeniu). Ceny roczne = miesięczna × 0,8, prezentowane per miesiąc:
+Start **[399 zł]/mc**, Growth **[1 039 zł]/mc**, Scale bez zmian. Dopisek przy cenie rocznej:
+„przy rozliczeniu rocznym”. LICZBY DEMO — rejestr: PLACEHOLDERS.md (potwierdzić przed startem).
+Ceny przeliczają się rolką cyfr (nie skokiem).
 
 ---
 

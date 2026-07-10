@@ -261,7 +261,7 @@ export function ChatDemo() {
                   <p>{step.text}</p>
                 )}
                 {"card" in step && step.card && (
-                  <div className="mt-3 flex items-center gap-3 rounded-xl border border-hairline bg-card p-3">
+                  <div className="mt-3 flex items-center gap-3 rounded-xl border border-hairline bg-card p-3 transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:[box-shadow:var(--highlight-top),var(--shadow-l2)]" style={{ transitionTimingFunction: "var(--ease-out)" }}>
                     {(() => {
                       // fallback inicjałów zostaje na przyszłe wpisy bez kind (np. EN dict)
                       const card = step.card as { kind?: ProductKind; initials: string };
@@ -307,7 +307,7 @@ export function ChatDemo() {
                   <button
                     key={s.key}
                     onClick={() => switchScenario(i)}
-                    className="max-w-[260px] truncate rounded-full border border-strongline bg-transparent px-4 py-2 text-left text-xs text-sub transition-colors duration-150 hover:border-blue hover:text-ink"
+                    className="max-w-[260px] truncate rounded-full border border-strongline bg-transparent px-4 py-2 text-left text-xs text-sub transition-[color,border-color,transform] duration-150 hover:-translate-y-px hover:border-blue hover:text-ink"
                   >
                     {s.steps[0].text}
                   </button>

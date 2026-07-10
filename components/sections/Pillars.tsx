@@ -36,11 +36,13 @@ function SearchPanelContent() {
     <div className="flex h-full flex-col justify-center gap-4">
       <div className="flex items-center gap-3 rounded-full border border-strongline bg-field px-4 py-3">
         <Glyph name="search" size={16} className="shrink-0 text-mute" />
-        <span className="num truncate text-sm text-ink">
+        <span className="num relative truncate text-sm text-ink">
           <span className="pp-query" data-full={d.query}>
             {d.query}
           </span>
           <span className="pp-caret typing-caret" aria-hidden="true" />
+          {/* sweep podświetlający korektę literówki (F4) */}
+          <span className="pp-sweep" aria-hidden="true" />
         </span>
       </div>
       <ul className="flex flex-wrap gap-2" aria-label="Rozpoznana intencja">
@@ -134,6 +136,16 @@ function buildPanelTl(panel: HTMLElement, kind: "chat" | "search" | "reco"): gsa
     const note = q<HTMLElement>(".pp-note")[0];
     tl.set([chips, rows, note], { autoAlpha: 0 });
     typeInto(tl, q<HTMLElement>(".pp-query")[0], { caret: q<HTMLElement>(".pp-caret")[0] });
+    // sweep po zapytaniu — „literówka złapana" (F4)
+    const sweep = q<HTMLElement>(".pp-sweep")[0];
+    if (sweep) {
+      tl.fromTo(
+        sweep,
+        { xPercent: -110, opacity: 1 },
+        { xPercent: 110, opacity: 1, duration: 0.55, ease: "power1.inOut" },
+        "+=0.1"
+      ).set(sweep, { opacity: 0 });
+    }
     tl.fromTo(chips, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.07, ease: EASE.soft }, "+=0.15")
       .fromTo(rows, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.08, ease: EASE.soft }, "+=0.1")
       .fromTo(note, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, "+=0.1");

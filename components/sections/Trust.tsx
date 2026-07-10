@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Glyph } from "@/components/ui/Glyph";
+import { gsap } from "@/lib/motion";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Logo } from "@/components/ui/Logo";
@@ -26,10 +27,11 @@ function Toggle({
     <button
       role="switch"
       aria-checked={on}
+      // aria-disabled zamiast disabled: kłódka ma reagować mikro-shake'iem na klik (F4)
+      aria-disabled={locked || undefined}
       aria-label={label}
-      disabled={locked}
       onClick={onClick}
-      className={`relative h-6 w-11 shrink-0 rounded-full border transition-colors duration-200 ${
+      className={`relative h-6 w-11 shrink-0 rounded-full border transition-colors duration-200 before:absolute before:-inset-2.5 before:content-[''] ${
         on ? "border-blue bg-blue" : "border-strongline bg-elevated"
       } ${locked ? "cursor-not-allowed opacity-60" : ""}`}
     >
@@ -52,6 +54,13 @@ export function Trust() {
   const ref = useReveal<HTMLElement>(0.08);
   const [tone, setTone] = useState(0); // 0 = formalny, 1 = luźny
   const [esc, setEsc] = useState(true);
+  const lockRef = useRef<HTMLDivElement>(null);
+
+  // Kłódka: mikro-shake przy próbie kliknięcia (to nie opcja — to konstrukcja)
+  const shakeLock = () => {
+    if (!lockRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    gsap.fromTo(lockRef.current, { x: -3 }, { x: 3, duration: 0.06, repeat: 3, yoyo: true, clearProps: "x" });
+  };
 
   const answer = tone === 0 ? p.answers.formal : p.answers.casual;
   const followUp = esc ? p.answers.escalationOn : p.answers.escalationOff;
@@ -106,7 +115,9 @@ export function Trust() {
                     {p.inventOff}
                   </span>
                 </p>
-                <Toggle on={false} locked label={p.inventLabel} />
+                <div ref={lockRef}>
+                  <Toggle on={false} locked label={p.inventLabel} onClick={shakeLock} />
+                </div>
               </div>
               <p className="mt-2 max-w-[52ch] text-sm leading-relaxed text-sub">{noInvent.body}</p>
             </div>
@@ -138,7 +149,7 @@ export function Trust() {
                 key={`${tone}-${esc ? 1 : 0}`}
                 role="status"
                 aria-live="polite"
-                className="fade-in-panel flex max-w-[88%] flex-col gap-2 self-start"
+                className="fade-in-fast flex max-w-[88%] flex-col gap-2 self-start"
               >
                 <div className="rounded-2xl rounded-bl-md bg-elevated px-4 py-3 text-sm leading-relaxed text-ink">
                   {answer}
