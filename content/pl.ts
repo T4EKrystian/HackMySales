@@ -364,8 +364,9 @@ const raw = {
       { prefix: "+", value: 18, suffix: "%", label: "konwersji u klientów po 3 miesiącach" },
       { prefix: "+", value: 23, suffix: "%", label: "średniej wartości koszyka (AOV)" },
       { prefix: "−", value: 64, suffix: "%", label: "zapytań „gdzie moja paczka” do obsługi" },
-      { static: "24/7", label: "godziny pracy jedynego handlowca, który nie bierze urlopu" },
+      { static: "24/7", label: "godziny pracy czatu, wyszukiwarki i rekomendacji" },
     ],
+    countersCaption: "Wartości poglądowe. Twoje liczby policzymy na demo.",
     night: {
       title: "Kiedy spałeś, bot…",
       stats: [
@@ -376,14 +377,14 @@ const raw = {
       caption: "przykładowa noc · dane demo",
     },
     calc: {
-      heading: "Ile zostawiasz na stole?",
+      heading: "Ile Ci ucieka co miesiąc?",
       fields: {
         visits: "Odwiedziny miesięcznie",
         aov: "Średni koszyk (zł)",
         conv: "Konwersja (%)",
       },
       resultIntro:
-        "Przy tych liczbach HackMySales musi podnieść konwersję tylko o 0,2 p.p., żeby zarobić na siebie. Realny potencjał przy Twoim ruchu:",
+        "Przy tych liczbach HackMySales musi podnieść konwersję tylko o 0,2 p.p., żeby zarobić na siebie. Do odzyskania przy Twoim ruchu:",
       resultSuffix: "miesięcznie",
       assumptionsTitle: "Założenia szacunku",
       assumptions:

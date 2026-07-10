@@ -205,17 +205,21 @@ Kolumny: **Zwykły czatbot** | **HackMySales**
 
 **H2:** Nie wierz nam. Policz.
 
+*(Kolejność na stronie od 2026-07-10: kalkulator → licznik nocnej zmiany → liczniki celów z podpisem. Sekcję otwiera najuczciwszy dowód — rachunek na liczbach klienta, nie placeholdery.)*
+
+**Kalkulator (interaktywny, spec: `content/features.md` §L2):**
+Nagłówek: Ile Ci ucieka co miesiąc?
+Pola: Odwiedziny miesięcznie · Średni koszyk (zł) · Konwersja (%)
+Wynik: „Przy tych liczbach HackMySales musi podnieść konwersję tylko o **0,2 p.p.**, żeby zarobić na siebie. Do odzyskania przy Twoim ruchu: **[+X zł miesięcznie]**.”
+CTA pod wynikiem: Sprawdź to na swoim sklepie → demo
+
 **Liczniki (animowane, mono, dane do potwierdzenia):**
 - **[+18%]** konwersji u klientów po [3 miesiącach]
 - **[+23%]** średniej wartości koszyka (AOV)
 - **[−64%]** zapytań „gdzie moja paczka” do obsługi
-- **[24/7]** — godziny pracy jedynego handlowca, który nie bierze urlopu
+- **[24/7]** — godziny pracy czatu, wyszukiwarki i rekomendacji
 
-**Kalkulator (interaktywny, spec: `content/features.md` §L2):**
-Nagłówek: Ile zostawiasz na stole?
-Pola: Odwiedziny miesięcznie · Średni koszyk (zł) · Konwersja (%)
-Wynik: „Przy tych liczbach HackMySales musi podnieść konwersję tylko o **0,2 p.p.**, żeby zarobić na siebie. Realny potencjał przy Twoim ruchu: **[+X zł miesięcznie]**.”
-CTA pod wynikiem: Sprawdź to na swoim sklepie → demo
+**Podpis pod licznikami:** Wartości poglądowe. Twoje liczby policzymy na demo.
 
 *(Case studies: placeholder na 2–3 historie klientów — układ cytat + liczba. Do czasu zebrania prawdziwych: sekcja ukryta, NIE wstawiać zmyślonych opinii.)*
 
@@ -353,5 +357,6 @@ Blok body: 15–25 słów (twardy limit 35, powyżej tylko z twardą liczbą). N
 
 ## 15. Changelog copy
 
+- **2026-07-10 · §6 Wyniki + kalkulator** — kolejność bloków: kalkulator na przód (H2 „Nie wierz nam. Policz.” ma prowadzić do rachunku, nie do placeholderów); nagłówek kalkulatora „Ile zostawiasz na stole?” → „Ile Ci ucieka co miesiąc?” (kalka EN out, czasownik z leksykonu VoC; pytanie funkcjonalne nad polami, nie retoryczny opener — sekcję otwiera H2); „Realny potencjał” → „Do odzyskania” (banlista: „potencjał”; spójna metafora ucieka→odzyskać); licznik 24/7 bez drugiego żartu o śnie (H1 jest właścicielem tego chwytu); nowy podpis pod licznikami — uczciwość makiety + hak na demo.
 - **2026-07-10 · §3 Filary** — Filar 1: 45 słów → 23 („Nie skrypt.” out — jedna negacja wystarczy; wyliczenie 5 pozycji → „katalog, stany i ceny”; „jak najlepszy sprzedawca na sali” out — chwyt „handlowca” zostaje w hero i tytule filaru; triada „Dopyta, porówna, rozwieje…” out, kask zostaje jako jedyny konkret). Filar 2: 37 → 26 (meta-wyliczenie „literówki, odmiana…” out — cytat klienta już to POKAZUJE). Filar 3: 32 → 24 (mini-triada „na karcie, w koszyku i w rozmowie” out — „Twoja księgowa zauważy różnicę.” zamyka bez rozbiegu).
 - **2026-07-10 · §4 Kopalnie złota** — label „NIE KOLEJNY CZATBOT” → „KOPALNIE ZŁOTA” i nowy H2 „Sprzedawca to dopiero początek.” (dubel kontrastu czatbotowego z §4b — slot należy do „Czatbot z FAQ to nie handlowiec.”). Radar/Ratownik/Autopilot/Raport skrócone ze ścian ~40 słów do ≤27: triady i pytania retoryczne wycięte, „pieniądze leżące na stole” usunięte (kalka EN + dubel z kalkulatorem §6), karta Raportu bez własnych liczb (jedno źródło liczb: e-mail obok) i bez kawy (kawa zostaje w §5b). Panel przychodów: jeden kontrast zamiast dwóch. Cel: gęstość 15–25 słów, zero tików AI, korzyść właściciela w każdej karcie.

@@ -120,24 +120,9 @@ export function Results() {
         <SectionLabel num="08">{t.label}</SectionLabel>
         <SectionH2>{t.h2}</SectionH2>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {t.counters.map((c, i) => (
-            <div key={i} className="js-reveal rounded-[var(--radius-lg)] border border-hairline bg-card p-7">
-              <p className="font-display text-ink">
-                {"static" in c && c.static ? (
-                  <span className="num text-4xl font-bold tracking-tight">{c.static}</span>
-                ) : (
-                  <Counter
-                    value={(c as { value: number }).value}
-                    prefix={(c as { prefix?: string }).prefix}
-                    suffix={(c as { suffix?: string }).suffix}
-                    className="text-4xl font-bold tracking-tight"
-                  />
-                )}
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-sub">{c.label}</p>
-            </div>
-          ))}
+        {/* Kolejność bloków: kalkulator → nocna zmiana → liczniki (motion.md §5, 2026-07-10) */}
+        <div className="mt-14">
+          <RoiCalculator />
         </div>
 
         {/* Licznik nocnej zmiany (features.md §L4) */}
@@ -161,9 +146,26 @@ export function Results() {
           </div>
         </div>
 
-        <div className="mt-16">
-          <RoiCalculator />
+        <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {t.counters.map((c, i) => (
+            <div key={i} className="js-reveal rounded-[var(--radius-lg)] border border-hairline bg-card p-7">
+              <p className="font-display text-ink">
+                {"static" in c && c.static ? (
+                  <span className="num text-4xl font-bold tracking-tight">{c.static}</span>
+                ) : (
+                  <Counter
+                    value={(c as { value: number }).value}
+                    prefix={(c as { prefix?: string }).prefix}
+                    suffix={(c as { suffix?: string }).suffix}
+                    className="text-4xl font-bold tracking-tight"
+                  />
+                )}
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-sub">{c.label}</p>
+            </div>
+          ))}
         </div>
+        <p className="js-reveal mt-4 text-xs text-mute">{t.countersCaption}</p>
       </Container>
     </section>
   );
