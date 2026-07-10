@@ -312,6 +312,65 @@
   .ticker-track-rev { animation: none; transform: none; }
 }
 
+/* ---------- Kalkulator: custom slidery z bąblem wartości (copy §6b) ---------- */
+
+.range-hms {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--blue-500) var(--fill, 50%),
+    var(--bg-elevated) var(--fill, 50%)
+  );
+}
+.range-hms::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--bg-card);
+  border: 2px solid var(--blue-500);
+  transition: box-shadow 150ms var(--ease-out);
+  cursor: grab;
+}
+.range-hms::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--bg-card);
+  border: 2px solid var(--blue-500);
+}
+.range-hms:hover::-webkit-slider-thumb,
+.range-hms:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 6px var(--blue-tint);
+}
+.range-wrap { position: relative; }
+.range-bubble {
+  position: absolute;
+  top: -30px;
+  left: var(--fill, 50%);
+  transform: translateX(-50%);
+  padding: 2px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border-hairline);
+  background: var(--bg-elevated);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 150ms var(--ease-out);
+  pointer-events: none;
+}
+.range-wrap:hover .range-bubble,
+.range-wrap:focus-within .range-bubble {
+  opacity: 1;
+}
+
 /* ---------- Bento: spotlight-border + sweep radaru (features §L19) ---------- */
 
 .spot-card {

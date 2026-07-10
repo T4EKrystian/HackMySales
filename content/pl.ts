@@ -467,6 +467,11 @@ const raw = {
       assumptions:
         "+0,5 p.p. konwersji i +10% AOV — wartości poglądowe dla makiety. Kalkulator liczy wyłącznie w Twojej przeglądarce, nic nie wysyłamy.",
       cta: "Sprawdź to na swoim sklepie",
+      // §6b — mnożnik ROI (dane demo: koszt = plan Growth, rejestr PLACEHOLDERS)
+      costMonthly: 1299,
+      roiCaption: "tyle razy zwraca się plan Growth przy tych liczbach",
+      costTick: "koszt planu Growth",
+      glowThreshold: 10000,
     },
   },
 
@@ -474,6 +479,13 @@ const raw = {
     h2: "Twoja platforma jest na liście.",
     platforms: ["Shoper", "IdoSell", "PrestaShop", "WooCommerce", "Shopify", "Magento", "Sky-Shop", "REST API"],
     note: "Sklep pisany na miarę? REST API i webhooki — podłączymy wszystko, co ma katalog i koszyk. Czat dogada się z klientem także na Messengerze i Instagramie (plan Growth).",
+    // §7c — finder platformy (odpowiedzi wyprowadzone z FAQ)
+    finder: {
+      placeholder: "Wpisz swoją platformę…",
+      label: "Sprawdź swoją platformę",
+      hit: "— wtyczka lub API, ok. 15 minut",
+      miss: "Sklep autorski? Podłączymy przez REST API.",
+    },
   },
 
   trust: {
@@ -501,6 +513,23 @@ const raw = {
         body: "formalny czy luźny, z rabatami czy bez. Zmieniasz w panelu, działa od zaraz.",
       },
     ],
+    // §8b — panel kontroli (żywy podgląd; stringi interfejsu)
+    panel: {
+      toneLabel: "Ton",
+      tones: ["Formalny", "Luźny"],
+      escalationLabel: "Eskalacja do człowieka",
+      inventLabel: "Zmyślanie",
+      inventOff: "OFF — zablokowane",
+      rodoBadge: "Dane w UE · RODO",
+      previewLabel: "Podgląd na żywo",
+      question: "Macie ten model w rozmiarze 46?",
+      answers: {
+        formal: "Rozmiaru 46 nie mamy obecnie w ofercie. Mogę zaproponować zbliżone modele.",
+        casual: "46 chwilowo nie ma — mogę pokazać podobne.",
+        escalationOn: "Przekazuję rozmowę zespołowi — dostaną streszczenie i wrócą do Ciebie.",
+        escalationOff: "Zapiszę pytanie w Radarze popytu — będzie w raporcie.",
+      },
+    },
   },
 
   pricing: {

@@ -288,6 +288,13 @@ CTA pod wynikiem: Sprawdź to na swoim sklepie → demo
 
 **Podpis pod licznikami:** Wartości poglądowe. Twoje liczby policzymy na demo.
 
+### 6b. Mnożnik ROI w kalkulatorze (v3, stringi interfejsu)
+
+Pod kwotą odzysku: pasek (fill = wielokrotność kosztu; znacznik „koszt planu Growth”) i mnożnik
+wielką typografią `×[N]` = roczny odzysk ÷ roczny koszt planu Growth ([1 299 zł]/mc — rejestr PLACEHOLDERS).
+Podpis mnożnika: „tyle razy zwraca się plan Growth przy tych liczbach”. Wynik kręci się rolkowym
+odometrem (cyfry na kolumnach). Przy przekroczeniu [10 000 zł]/mc — pojedynczy rozbłysk obrysu (bez konfetti).
+
 *(Case studies: placeholder na 2–3 historie klientów — układ cytat + liczba. Do czasu zebrania prawdziwych: sekcja ukryta, NIE wstawiać zmyślonych opinii.)*
 
 ---
@@ -298,6 +305,13 @@ CTA pod wynikiem: Sprawdź to na swoim sklepie → demo
 
 Shoper · IdoSell · PrestaShop · WooCommerce · Shopify · Magento · Sky-Shop · [inne]
 **Dopisek:** Sklep pisany na miarę? REST API i webhooki — podłączymy wszystko, co ma katalog i koszyk. Czat dogada się z klientem także na Messengerze i Instagramie [w planie Growth].
+
+### 7c. Finder platformy (v3, stringi interfejsu)
+
+Pod dwoma przeciwbieżnymi marquee logotypów: pole „Wpisz swoją platformę…” z lokalnym dopasowaniem
+(literówki łapane, nic nie wysyłamy). Odpowiedzi — wyprowadzone z FAQ §10:
+- trafienie: „✓ [platforma] — wtyczka lub API, ok. 15 minut”
+- brak na liście: „Sklep autorski? Podłączymy przez REST API.”
 
 ---
 
@@ -311,6 +325,21 @@ Shoper · IdoSell · PrestaShop · WooCommerce · Shopify · Magento · Sky-Shop
 - **Przekazanie do człowieka** — z pełnym streszczeniem rozmowy, żeby klient nie powtarzał wszystkiego od zera.
 - **RODO i dane w UE** — [hosting EU, DPA, retencja danych — potwierdzić szczegóły przed publikacją].
 - **Pełna kontrola tonu** — formalny czy luźny, z rabatami czy bez. Zmieniasz w panelu, działa od zaraz.
+
+### 8b. Panel kontroli (v3 — sekcja pokazuje kontrolę zamiast o niej pisać)
+
+Lewa kolumna = realne kontrolki (każda podpisana treścią punktu §8): segment „Ton: Formalny / Luźny”,
+przełącznik „Eskalacja do człowieka” (ON), zablokowany „Zmyślanie: OFF” (to nie opcja — to konstrukcja),
+badge „Dane w UE · RODO”. Prawa: podgląd czatu, który zmienia odpowiedź przy każdym przełączeniu.
+
+**Pytanie klienta (nawiązuje do wierszy Radaru §4 — „rozmiar 46”):** „Macie ten model w rozmiarze 46?”
+
+**Warianty odpowiedzi bota (zgodne z „nie zmyśla”):**
+- Formalny: „Rozmiaru 46 nie mamy obecnie w ofercie. Mogę zaproponować zbliżone modele.”
+- Luźny: „46 chwilowo nie ma — mogę pokazać podobne.”
+- dopisek przy eskalacji ON: „Przekazuję rozmowę zespołowi — dostaną streszczenie i wrócą do Ciebie.”
+- dopisek przy eskalacji OFF: „Zapiszę pytanie w Radarze popytu — będzie w raporcie.”
+**Etykiety UI:** „Ton” · „Eskalacja do człowieka” · „Zmyślanie” · „OFF — zablokowane” · „Dane w UE · RODO” · „Podgląd na żywo”.
 
 ---
 

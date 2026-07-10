@@ -6,7 +6,7 @@ import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Counter } from "@/components/ui/Counter";
 import { Logo } from "@/components/ui/Logo";
-import { gsap, useGSAP, useReveal, NO_REDUCE } from "@/lib/motion";
+import { gsap, useGSAP, useReveal, NO_REDUCE, DESKTOP_MOTION, FINE_POINTER, EASE } from "@/lib/motion";
 
 /** Sekcja „Panel” (copy §5b, features §L13) — pełnowymiarowy poranny dashboard.
  *  Żywe UI 1:1 w estetyce portalu klienta; wszystko dane demo. */
@@ -14,6 +14,62 @@ export function MorningPanel() {
   const t = pl.morning;
   const ref = useReveal<HTMLElement>(0.08);
   const chartRef = useRef<HTMLDivElement>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
+
+  // Głębia v3 (motion.md §3): frame w perspektywie prostuje się scrubem do centrum,
+  // warstwy kart na mouse-parallax (desktop, pointer:fine).
+  useGSAP(
+    () => {
+      const frame = frameRef.current;
+      if (!frame) return;
+      const mm = gsap.matchMedia();
+
+      mm.add(DESKTOP_MOTION, () => {
+        gsap.fromTo(
+          frame,
+          { rotateX: 9, y: 48, scale: 0.975, autoAlpha: 0.4, transformOrigin: "center top", transformPerspective: 1400 },
+          {
+            rotateX: 0,
+            y: 0,
+            scale: 1,
+            autoAlpha: 1,
+            ease: "none",
+            scrollTrigger: { trigger: frame, start: "top 92%", end: "center 58%", scrub: 0.5 },
+          }
+        );
+      });
+
+      mm.add(FINE_POINTER, () => {
+        const layers = gsap.utils.toArray<HTMLElement>(".mp-layer", frame);
+        const setters = layers.map((l) => ({
+          x: gsap.quickTo(l, "x", { duration: 0.6, ease: EASE.soft }),
+          y: gsap.quickTo(l, "y", { duration: 0.6, ease: EASE.soft }),
+          depth: Number(l.dataset.depth ?? 8),
+        }));
+        const onMove = (e: MouseEvent) => {
+          const r = frame.getBoundingClientRect();
+          const nx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+          const ny = ((e.clientY - r.top) / r.height - 0.5) * 2;
+          setters.forEach((s) => {
+            s.x(-nx * s.depth * 0.4);
+            s.y(-ny * s.depth * 0.4);
+          });
+        };
+        const onLeave = () =>
+          setters.forEach((s) => {
+            s.x(0);
+            s.y(0);
+          });
+        frame.addEventListener("mousemove", onMove);
+        frame.addEventListener("mouseleave", onLeave);
+        return () => {
+          frame.removeEventListener("mousemove", onMove);
+          frame.removeEventListener("mouseleave", onLeave);
+        };
+      });
+    },
+    { scope: frameRef }
+  );
 
   const bars = t.chartBars;
   const n = bars.length;
@@ -60,8 +116,11 @@ export function MorningPanel() {
           {t.lead}
         </p>
 
-        {/* Dashboard */}
-        <div className="js-reveal mt-14 overflow-hidden rounded-[var(--radius-xl)] border border-hairline bg-card shadow-card">
+        {/* Dashboard — frame prostujący się z perspektywy (v3) */}
+        <div
+          ref={frameRef}
+          className="mt-14 overflow-hidden rounded-[var(--radius-xl)] border border-hairline bg-card shadow-card will-change-transform"
+        >
           {/* Belka okna */}
           <div className="flex items-center justify-between border-b border-hairline px-6 py-4">
             <div className="flex items-center gap-3">
@@ -74,7 +133,7 @@ export function MorningPanel() {
           <div className="grid gap-px bg-[var(--border-hairline)] lg:grid-cols-[1.7fr_1fr]">
             {/* Lewa kolumna: KPI + wykres */}
             <div className="flex flex-col gap-px">
-              <div className="grid grid-cols-2 gap-px bg-[var(--border-hairline)] md:grid-cols-4">
+              <div className="mp-layer grid grid-cols-2 gap-px bg-[var(--border-hairline)] md:grid-cols-4" data-depth="8">
                 {t.kpis.map((k) => (
                   <div key={k.label} className="bg-card px-5 py-5">
                     <p className="text-xs text-mute">{k.label}</p>
@@ -88,7 +147,7 @@ export function MorningPanel() {
                   </div>
                 ))}
               </div>
-              <div ref={chartRef} className="flex-1 bg-card px-6 py-6">
+              <div ref={chartRef} className="mp-layer flex-1 bg-card px-6 py-6" data-depth="14">
                 <p className="label">{t.chartTitle}</p>
                 <div className="relative mt-5 h-40" aria-hidden="true">
                   <div className="flex h-full items-end gap-1.5">
@@ -125,7 +184,7 @@ export function MorningPanel() {
             </div>
 
             {/* Prawa kolumna: rozmowy + radar */}
-            <div className="flex flex-col gap-px">
+            <div className="mp-layer flex flex-col gap-px" data-depth="20">
               <div className="flex-1 bg-card px-6 py-6">
                 <p className="label">{t.convTitle}</p>
                 <ul className="mt-4 flex flex-col divide-y divide-[var(--border-hairline)]">
