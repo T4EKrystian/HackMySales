@@ -15,12 +15,22 @@ function LenisBridge() {
 
   // Higiena pinów (motion-craft): fonty doładowują się PO inicjalizacji triggerów
   // i zmieniają wysokości sekcji → stale pin-spacery = martwy scroll za footerem.
+  // refresh() to długi task — odpalamy w idle, żeby nie lądował w oknie TBT.
   useEffect(() => {
+    let idle: number | undefined;
     let t: number | undefined;
     document.fonts.ready.then(() => {
-      t = window.setTimeout(() => ScrollTrigger.refresh(), 80);
+      const run = () => ScrollTrigger.refresh();
+      if (typeof window.requestIdleCallback === "function") {
+        idle = window.requestIdleCallback(run, { timeout: 3000 });
+      } else {
+        t = window.setTimeout(run, 300);
+      }
     });
-    return () => window.clearTimeout(t);
+    return () => {
+      if (idle !== undefined) window.cancelIdleCallback(idle);
+      window.clearTimeout(t);
+    };
   }, []);
 
   useEffect(() => {
