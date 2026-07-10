@@ -150,10 +150,15 @@ export function Channels() {
   // sanitize: wymuszenie stanu końcowego PRZED nowym getState — bez blanket
   // clearProps na opacity (`.js .chat-step {opacity:0}` schowałby treść!)
   const sanitize = (el: HTMLElement) => {
+    // guard length: skin email nie ma .chat-step (a bąble .nm-*) — pusta NodeList
+    // w gsap.set sypie warningiem "target not found" przy każdym wyjściu z emaila
+    const setIf = (list: NodeListOf<Element>, vars: gsap.TweenVars) => {
+      if (list.length) gsap.set(list, vars);
+    };
     Flip.killFlipsOf(el.querySelectorAll("[data-flip-id]"));
-    gsap.set(el.querySelectorAll(".chat-step, .nm-line, .nm-link"), { autoAlpha: 1 });
-    gsap.set(el.querySelectorAll("[data-flip-id]"), { clearProps: "transform,width,height,borderRadius,opacity" });
-    gsap.set(el.querySelectorAll(".chat-step"), { opacity: 1 });
+    setIf(el.querySelectorAll(".chat-step, .nm-line, .nm-link"), { autoAlpha: 1 });
+    setIf(el.querySelectorAll("[data-flip-id]"), { clearProps: "transform,width,height,borderRadius,opacity" });
+    setIf(el.querySelectorAll(".chat-step"), { opacity: 1 });
     gsap.set(el, { clearProps: "height" });
   };
 
