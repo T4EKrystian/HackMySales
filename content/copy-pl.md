@@ -165,6 +165,18 @@ Treść: „W nocy obsłużyłem [34] rozmowy i sprzedałem za [6 840 zł]." · 
 
 ---
 
+## 4c. Mikro-dema w bento (stringi interfejsu, nie copy marketingowe)
+
+*(Żywe pętle w kartach §4 — treści wyprowadzone 1:1 ze scenariuszy §1/§1b/§5b; liczby: PLACEHOLDERS.md.)*
+
+- **Ratownik koszyka (pętla ~6 s):** pasek przeglądarki „twojsklep.pl — koszyk”, finałowy badge „koszyk uratowany · 214 zł” (kwota z §1b).
+- **Doradca rozmiaru (interaktywny):** wejście „178 cm · 82 kg” (scenariusz B); werdykty: S — „przy tych wymiarach: za mały” · M — „z historii zwrotów: wracał częściej” · L — „zostaje — mniejsze ryzyko zwrotu”.
+- **Autopilot paczki (pętla):** przystanki „sortownia · 7:40” → „kurier w drodze” → „jutro 10:00–14:00” (scenariusz C).
+- **Radar (sweep):** label na dialu „nasłuch 24/7” + wiersze zapytań z §4.
+- **Etykiety paneli filarów (§3, belka device-frame):** Czat · Wyszukiwarka · Rekomendacje.
+
+---
+
 ## 4b. Różnica (porównanie)
 
 **Label:** RÓŻNICA

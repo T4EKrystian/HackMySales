@@ -70,6 +70,33 @@ export function useReveal<T extends HTMLElement = HTMLElement>(stagger: number =
   return ref;
 }
 
+/** Dopisuje do timeline'a pisanie tekstu znak po znaku (data-full jako źródło,
+ *  SSR trzyma pełny tekst dla no-JS). Wspólne dla czatu, wyszukiwarki, areny, raportu. */
+export function typeInto(
+  tl: gsap.core.Timeline,
+  el: HTMLElement | null,
+  opts?: { caret?: HTMLElement | null; speed?: number; max?: number }
+) {
+  if (!el) return;
+  const full = el.dataset.full ?? el.textContent ?? "";
+  const proxy = { i: 0 };
+  tl.call(() => {
+    el.textContent = "";
+    if (opts?.caret) opts.caret.style.display = "inline-block";
+  })
+    .to(proxy, {
+      i: full.length,
+      duration: Math.min(opts?.max ?? 1.6, Math.max(0.4, full.length * (opts?.speed ?? 0.035))),
+      ease: "none",
+      onUpdate: () => {
+        el.textContent = full.slice(0, Math.round(proxy.i));
+      },
+    })
+    .call(() => {
+      if (opts?.caret) opts.caret.style.display = "none";
+    });
+}
+
 /** Magnetyczne przyciąganie elementu do kursora (nav CTA: max 8px, hero CTA: 4px).
  *  Wywoływać wewnątrz kontekstu matchMedia FINE_POINTER. Zwraca cleanup. */
 export function attachMagnet(el: HTMLElement, radius = 8) {

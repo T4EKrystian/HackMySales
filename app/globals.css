@@ -312,6 +312,58 @@
   .ticker-track-rev { animation: none; transform: none; }
 }
 
+/* ---------- Bento: spotlight-border + sweep radaru (features §L19) ---------- */
+
+.spot-card {
+  --spot-x: 50%;
+  --spot-y: 0%;
+  --spot-o: 0;
+  transform-style: preserve-3d;
+}
+.spot-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    240px circle at var(--spot-x) var(--spot-y),
+    color-mix(in srgb, var(--blue-400) 65%, transparent),
+    transparent 70%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: var(--spot-o);
+  transition: opacity 300ms var(--ease-out);
+  pointer-events: none;
+}
+
+/* Sweep radaru — obracający się „promień" nasłuchu */
+@keyframes radar-sweep { to { transform: rotate(1turn); } }
+.radar-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 0deg,
+    color-mix(in srgb, var(--blue-400) 38%, transparent) 0deg,
+    transparent 70deg
+  );
+  animation: radar-sweep 4.8s linear infinite;
+}
+@keyframes radar-blip {
+  0%, 8% { opacity: 0; transform: scale(0.4); }
+  12%, 55% { opacity: 1; transform: scale(1); }
+  70%, 100% { opacity: 0.25; transform: scale(1); }
+}
+.radar-blip { animation: radar-blip 4.8s infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .radar-sweep { animation: none; opacity: 0.35; }
+  .radar-blip { animation: none; opacity: 1; }
+}
+
 /* Podkreślenie linków nav */
 .nav-link { position: relative; }
 .nav-link::after {

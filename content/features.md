@@ -110,6 +110,19 @@ Pionowe kropki po prawej: Start · Produkt · Funkcje · Różnica · Wyniki · 
 ### L16. Proof ticker (pas pod hero) — v3
 Marquee CSS (pauza na hover, reduced-motion: statyczna lista pierwszych 3 wpisów) z feedem nocy (copy §1b), mono, timestampy 23:14→06:58. Pod taśmą: linia zaufania + platformy (dawny TrustBar — scalony, żeby pod hero był jeden pas, nie dwa). Zastępuje L3 w layoucie.
 
+### L18. Filary v3 — jeden device-frame, wnętrze morfuje
+Pin zostaje (motion.md §3), ale prawa strona to JEDEN frame z belką okna; wnętrza crossfadują,
+a każde demo gra mikro-timeline przy aktywacji: czat pisze się (user typing + bot spring),
+wyszukiwarka wpisuje literówkę i odhacza korektę, rekomendacje tasują się Flipem
+(karta z lepszą marżą wskakuje na górę, suwak zjeżdża ku „marży”). Mobile: trzy bloki, demo gra on-enter.
+
+### L19. Bento „Kopalnie złota” 2.0
+Grid asymetryczny 4-kolumnowy (2 duże + 4 małe), zero ikon — każda karta żywym mikro-demem:
+przychody (słupki+sparkline+licznik, jak L5/L9), radar (obrotowy sweep + blipy z §4c),
+ratownik (pętla ~6 s: kursor→X→bubble→badge), doradca rozmiaru (interaktywne S/M/L),
+autopilot (kropka po ścieżce MotionPath ze statusami), raport (e-mail pisze się liniami).
+Spotlight-border za kursorem + tilt ≤3° (Motion springs, tylko pointer:fine).
+
 ### L17. Hero v3 — rdzeń + żywszy czat
 - WebGL particle core (scena `core` w GLStage): oddech ~1,2 s, repulsja od kursora, dyspersja na scroll. Poster do czasu idle-mount: dotychczasowy gradient glow.
 - H1: mask-reveal liniami (SplitText), słowo „nigdy” z pulsem w rytmie rdzenia.

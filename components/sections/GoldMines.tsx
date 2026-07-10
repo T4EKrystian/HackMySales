@@ -1,27 +1,26 @@
 "use client";
 
-import { useRef } from "react";
-import { ArrowRight, Moon, PackageSearch, Radar, Ruler, ShoppingCart } from "lucide-react";
+import { useRef, useState } from "react";
+import { ArrowRight, Check } from "lucide-react";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Counter } from "@/components/ui/Counter";
-import { gsap, useGSAP, useReveal, NO_REDUCE } from "@/lib/motion";
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import { gsap, useGSAP, useReveal, typeInto, NO_REDUCE, REDUCE, EASE } from "@/lib/motion";
 
-const ICONS = {
-  cart: ShoppingCart,
-  ruler: Ruler,
-  package: PackageSearch,
-  moon: Moon,
-} as const;
+/** Kopalnie złota v3 (features §L19): asymetryczne bento 2 duże + 4 małe.
+ *  Każda karta = żywe mikro-demo (pętla albo interakcja), zero ikon.
+ *  Spotlight-border + tilt daje SpotlightCard. Stringi dem: copy §4c. */
 
-/** Mini-panel przychodów (features §L5+L9) — słupki + rysowana linia trendu. */
+/* ---------- Mini-panel przychodów (L5+L9, bez zmian koncepcji) ---------- */
+
 function RevenueMiniPanel() {
   const t = pl.goldMines.revenue;
   const ref = useRef<HTMLDivElement>(null);
 
   const n = t.bars.length;
   const pts = t.bars.map((v, i) => `${(i / (n - 1)) * 100},${100 - v}`).join(" ");
-  const [lastX, lastY] = [(100).toFixed(0), (100 - t.bars[n - 1]).toFixed(0)];
+  const [lastX, lastY] = ["100", (100 - t.bars[n - 1]).toFixed(0)];
 
   useGSAP(
     () => {
@@ -35,12 +34,12 @@ function RevenueMiniPanel() {
         tl.fromTo(
           el.querySelectorAll<HTMLElement>(".rev-bar"),
           { scaleY: 0 },
-          { scaleY: 1, duration: 0.7, ease: "power3.out", stagger: 0.06, transformOrigin: "bottom" }
+          { scaleY: 1, duration: 0.7, ease: EASE.soft, stagger: 0.06, transformOrigin: "bottom" }
         )
           .fromTo(
             el.querySelector(".rev-line"),
             { strokeDashoffset: 1 },
-            { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" },
+            { strokeDashoffset: 0, duration: 1.1, ease: EASE.inOut },
             "-=0.3"
           )
           .fromTo(el.querySelector(".rev-dot"), { autoAlpha: 0, scale: 0.4 }, { autoAlpha: 1, scale: 1, duration: 0.3 }, "-=0.1");
@@ -53,7 +52,7 @@ function RevenueMiniPanel() {
     <div ref={ref} className="rounded-[var(--radius-lg)] border border-hairline bg-surface p-6">
       <p className="label">{t.panelTitle}</p>
       <p className="mt-3 font-display text-ink">
-        <Counter value={t.panelAmount} suffix=" zł" className="text-4xl font-bold tracking-tight" />
+        <Counter value={t.panelAmount} suffix=" zł" className="whitespace-nowrap text-3xl font-bold tracking-tight lg:text-4xl" />
       </p>
       <div className="relative mt-6 h-24" aria-hidden="true">
         <div className="flex h-full items-end gap-2">
@@ -65,7 +64,6 @@ function RevenueMiniPanel() {
             />
           ))}
         </div>
-        {/* Linia trendu (features §L9) */}
         <svg className="absolute inset-0 h-full w-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none">
           <polyline
             className="rev-line"
@@ -88,11 +86,277 @@ function RevenueMiniPanel() {
   );
 }
 
-/** Podgląd e-maila raportu (features §L8) — żywe UI, zero screenshotów. */
+/* ---------- Radar: obrotowy sweep + blipy ---------- */
+
+function RadarDial() {
+  const t = pl.goldMines;
+  const BLIPS = [
+    { top: "22%", left: "62%", delay: "0s" },
+    { top: "58%", left: "30%", delay: "1.6s" },
+    { top: "40%", left: "78%", delay: "3.1s" },
+  ];
+  return (
+    <div className="relative mx-auto mt-5 h-36 w-36" aria-hidden="true">
+      <div className="absolute inset-0 overflow-hidden rounded-full border border-hairline">
+        <div className="absolute inset-[22%] rounded-full border border-hairline" />
+        <div className="absolute inset-[42%] rounded-full border border-hairline" />
+        <div className="radar-sweep" />
+        {BLIPS.map((b, i) => (
+          <span
+            key={i}
+            className="radar-blip absolute h-1.5 w-1.5 rounded-full bg-blue-soft"
+            style={{ top: b.top, left: b.left, animationDelay: b.delay }}
+          />
+        ))}
+      </div>
+      <p className="label absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px]">
+        {t.demos.radarLabel}
+      </p>
+    </div>
+  );
+}
+
+/* ---------- Ratownik koszyka: pętla ~6 s ---------- */
+
+function RescueLoop() {
+  const t = pl.goldMines.demos.rescue;
+  const ref = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const el = ref.current;
+      if (!el) return;
+      const mm = gsap.matchMedia();
+      const q = gsap.utils.selector(el);
+
+      mm.add(NO_REDUCE, () => {
+        const cursor = q<HTMLElement>(".rsc-cursor")[0];
+        const closeBtn = q<HTMLElement>(".rsc-close")[0];
+        const badge = q<HTMLElement>(".rsc-badge")[0];
+        if (!cursor || !badge) return;
+
+        const tl = gsap.timeline({
+          repeat: -1,
+          repeatDelay: 1.4,
+          scrollTrigger: { trigger: el, start: "top 85%", once: true },
+        });
+        tl.set(badge, { autoAlpha: 0, y: 10, scale: 0.95 })
+          .fromTo(cursor, { x: 10, y: 74, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 })
+          .to(cursor, { x: () => (closeBtn?.offsetLeft ?? 150) - 4, y: 6, duration: 1.1, ease: EASE.inOut })
+          .to(closeBtn, { backgroundColor: "var(--bg-elevated)", duration: 0.15 }, "<0.95")
+          .to(cursor, { scale: 0.85, duration: 0.1 })
+          .to(cursor, { scale: 1, duration: 0.1 })
+          // bot wtrąca się w ostatniej chwili
+          .to(badge, { autoAlpha: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.5)" }, "+=0.2")
+          .to(cursor, { autoAlpha: 0, duration: 0.3 }, "<")
+          .to(closeBtn, { backgroundColor: "transparent", duration: 0.3 }, "<")
+          .to({}, { duration: 1.6 })
+          .to(badge, { autoAlpha: 0, y: -8, duration: 0.35 });
+      });
+
+      mm.add(REDUCE, () => {
+        gsap.set(q(".rsc-badge"), { autoAlpha: 1 });
+        gsap.set(q(".rsc-cursor"), { autoAlpha: 0 });
+      });
+    },
+    { scope: ref }
+  );
+
+  return (
+    <div ref={ref} className="relative mt-5 select-none" aria-hidden="true">
+      {/* mini-okno sklepu */}
+      <div className="rounded-xl border border-hairline bg-surface">
+        <div className="flex items-center justify-between gap-2 border-b border-hairline px-3 py-2">
+          <span className="num truncate text-[10px] text-mute">{t.bar}</span>
+          <span className="rsc-close relative flex h-4 w-4 items-center justify-center rounded-sm">
+            <span className="absolute h-px w-2.5 rotate-45 bg-mute" />
+            <span className="absolute h-px w-2.5 -rotate-45 bg-mute" />
+          </span>
+        </div>
+        <div className="flex flex-col gap-1.5 p-3">
+          <div className="h-1.5 w-3/4 rounded-full bg-elevated" />
+          <div className="h-1.5 w-1/2 rounded-full bg-elevated" />
+          <div className="h-1.5 w-2/3 rounded-full bg-elevated" />
+        </div>
+      </div>
+      {/* kursor klienta */}
+      <span className="rsc-cursor absolute left-0 top-0 h-2.5 w-2.5 rounded-full border border-strongline bg-ink opacity-0" />
+      {/* badge ratunku */}
+      <p className="rsc-badge num absolute inset-x-2 -bottom-3 flex items-center justify-center gap-1.5 rounded-full border border-hairline bg-blue-tint px-3 py-1.5 text-[11px] text-blue-soft opacity-0">
+        <Check size={11} strokeWidth={2} aria-hidden="true" />
+        {t.badge}
+      </p>
+    </div>
+  );
+}
+
+/* ---------- Doradca rozmiaru: interaktywne S/M/L ---------- */
+
+function SizeAdvisor() {
+  const t = pl.goldMines.demos.size;
+  const [active, setActive] = useState(2);
+  const opt = t.options[active];
+  const widths = [0.82, 0.92, 1.04];
+
+  return (
+    <div className="mt-5">
+      <p className="num text-xs text-mute">{t.input}</p>
+      {/* sylwetka — zmienia szerokość wg rozmiaru */}
+      <div className="mt-3 flex h-20 items-end justify-center" aria-hidden="true">
+        <svg
+          viewBox="0 0 100 72"
+          className="h-full transition-transform duration-500"
+          style={{ transform: `scaleX(${widths[active]})`, transformOrigin: "center bottom", transitionTimingFunction: "var(--ease-out)" }}
+        >
+          <path
+            d="M35 8 Q50 2 65 8 L84 20 L76 34 L68 28 L68 66 Q50 72 32 66 L32 28 L24 34 L16 20 Z"
+            fill="none"
+            stroke="var(--blue-300)"
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+      <div className="mt-4 flex gap-1.5" role="group" aria-label="Wybierz rozmiar">
+        {t.options.map((o, i) => (
+          <button
+            key={o.size}
+            onClick={() => setActive(i)}
+            aria-pressed={i === active}
+            className={`num flex-1 rounded-lg border px-0 py-1.5 text-xs transition-colors duration-150 ${
+              i === active
+                ? "border-blue bg-blue-tint text-blue-soft"
+                : "border-hairline text-sub hover:border-strongline"
+            }`}
+          >
+            {o.size}
+          </button>
+        ))}
+      </div>
+      <p
+        key={opt.size}
+        className={`fade-in-panel mt-3 flex min-h-[2.5rem] items-start gap-1.5 text-xs leading-relaxed ${opt.ok ? "text-blue-soft" : "text-mute"}`}
+      >
+        {opt.ok && <Check size={12} strokeWidth={2} className="mt-0.5 shrink-0" aria-hidden="true" />}
+        {opt.verdict}
+      </p>
+    </div>
+  );
+}
+
+/* ---------- Autopilot paczki: kropka po ścieżce (MotionPath) ---------- */
+
+function WismoPath() {
+  const t = pl.goldMines.demos.wismo;
+  const ref = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const el = ref.current;
+      if (!el) return;
+      const mm = gsap.matchMedia();
+      const q = gsap.utils.selector(el);
+
+      mm.add(NO_REDUCE, () => {
+        const dot = q<HTMLElement>(".wismo-dot")[0];
+        const path = q<SVGPathElement>(".wismo-path")[0];
+        const stops = q<HTMLElement>(".wismo-stop");
+        if (!dot || !path) return;
+
+        gsap.fromTo(
+          path,
+          { drawSVG: "0%" },
+          {
+            drawSVG: "100%",
+            duration: 1.2,
+            ease: EASE.inOut,
+            scrollTrigger: { trigger: el, start: "top 85%", once: true },
+          }
+        );
+
+        const tl = gsap.timeline({
+          repeat: -1,
+          repeatDelay: 1.2,
+          scrollTrigger: { trigger: el, start: "top 85%", once: true },
+        });
+        tl.set(stops, { color: "var(--text-muted)" })
+          .fromTo(dot, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25 }, 0.6)
+          .to(
+            dot,
+            {
+              duration: 4.4,
+              ease: "none",
+              motionPath: { path, align: path, alignOrigin: [0.5, 0.5] },
+            },
+            0.6
+          );
+        stops.forEach((s, i) => {
+          tl.to(s, { color: "var(--blue-300)", duration: 0.25 }, 0.6 + 0.4 + i * 1.75);
+        });
+        tl.to(dot, { autoAlpha: 0, duration: 0.3 });
+      });
+    },
+    { scope: ref }
+  );
+
+  return (
+    <div ref={ref} className="mt-5" aria-hidden="true">
+      <div className="relative h-16">
+        <svg viewBox="0 0 200 56" className="h-full w-full overflow-visible" preserveAspectRatio="none">
+          <path
+            className="wismo-path"
+            d="M6 46 C 40 8, 78 54, 112 24 S 178 6, 194 14"
+            fill="none"
+            stroke="var(--border-strong)"
+            strokeWidth="1.5"
+            strokeDasharray="3 4"
+          />
+        </svg>
+        <span className="wismo-dot absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-blue shadow-cta opacity-0" />
+      </div>
+      <ol className="mt-2 flex justify-between gap-2">
+        {t.stops.map((s) => (
+          <li key={s} className="wismo-stop num text-[10px] leading-tight text-mute transition-colors duration-200">
+            {s}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+/* ---------- Raport nocnej zmiany: e-mail pisze się sam ---------- */
+
 function NightMailPreview() {
   const m = pl.goldMines.nightMail;
+  const ref = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const el = ref.current;
+      if (!el) return;
+      const mm = gsap.matchMedia();
+      mm.add(NO_REDUCE, () => {
+        const lines = gsap.utils.toArray<HTMLElement>(".nm-line", el);
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: el, start: "top 80%", once: true },
+        });
+        lines.forEach((line) => {
+          const txt = line.querySelector<HTMLElement>(".nm-text");
+          tl.fromTo(line, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.15 });
+          typeInto(tl, txt, { speed: 0.014, max: 1.1 });
+        });
+        tl.fromTo(".nm-link", { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.3 });
+      });
+      mm.add(REDUCE, () => {
+        gsap.set([".nm-line", ".nm-link"], { autoAlpha: 1 });
+      });
+    },
+    { scope: ref }
+  );
+
   return (
-    <div className="rounded-[var(--radius-lg)] border border-hairline bg-surface">
+    <div ref={ref} className="rounded-[var(--radius-lg)] border border-hairline bg-surface">
       <div className="border-b border-hairline px-5 py-3">
         <p className="text-xs text-mute">
           {m.fromLabel}: <span className="text-sub">{m.from}</span>
@@ -103,12 +367,14 @@ function NightMailPreview() {
       </div>
       <div className="flex flex-col gap-2.5 px-5 py-4">
         {m.lines.map((line, i) => (
-          <p key={i} className={`text-sm leading-relaxed ${i === 0 ? "text-ink" : "text-sub"}`}>
-            {i > 0 && <span className="mr-2 inline-block h-1 w-1 translate-y-[-2px] rounded-full bg-blue" aria-hidden="true" />}
-            {line}
+          <p key={i} className={`nm-line text-sm leading-relaxed ${i === 0 ? "text-ink" : "text-sub"}`}>
+            <span className="mr-2 inline-block h-1 w-1 translate-y-[-2px] rounded-full bg-blue" aria-hidden="true" />
+            <span className="nm-text" data-full={line}>
+              {line}
+            </span>
           </p>
         ))}
-        <p className="mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-blue-soft">
+        <p className="nm-link mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-blue-soft">
           {m.link}
           <ArrowRight size={14} strokeWidth={1.75} aria-hidden="true" />
         </p>
@@ -117,9 +383,12 @@ function NightMailPreview() {
   );
 }
 
+/* ---------- Sekcja: asymetryczne bento ---------- */
+
 export function GoldMines() {
   const t = pl.goldMines;
   const ref = useReveal<HTMLElement>(0.08);
+  const [rescue, size, wismo, report] = t.cards;
 
   return (
     <section ref={ref} id="funkcje" className="section-pad">
@@ -127,90 +396,65 @@ export function GoldMines() {
         <SectionLabel num="03">{t.label}</SectionLabel>
         <SectionH2 className="max-w-[26ch]">{t.h2}</SectionH2>
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-3">
-          {/* Panel przychodów — karta 2× szersza z żywym mini-panelem */}
-          <div className="js-reveal rounded-[var(--radius-lg)] border border-hairline bg-card p-8 lg:col-span-2">
-            <div className="grid items-center gap-8 md:grid-cols-2">
+        <div className="mt-14 grid gap-5 lg:grid-cols-4">
+          {/* Panel przychodów — duża karta */}
+          <SpotlightCard className="js-reveal p-8 lg:col-span-2">
+            <div className="grid h-full items-center gap-8 md:grid-cols-2">
               <div>
                 <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{t.revenue.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-sub">{t.revenue.body}</p>
               </div>
               <RevenueMiniPanel />
             </div>
-          </div>
+          </SpotlightCard>
 
-          {/* Radar popytu — z mini-raportem */}
-          <div className="js-reveal rounded-[var(--radius-lg)] border border-hairline bg-card p-8">
-            <Radar size={22} strokeWidth={1.75} className="text-blue" aria-hidden="true" />
-            <h3 className="mt-4 font-display text-xl font-semibold tracking-tight text-ink">{t.radar.title}</h3>
-            <p className="mt-3 text-sm leading-relaxed text-sub">{t.radar.body}</p>
-            <ul className="mt-5 divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline">
+          {/* Radar popytu */}
+          <SpotlightCard className="js-reveal p-7">
+            <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{t.radar.title}</h3>
+            <RadarDial />
+            <ul className="mt-6 divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline">
               {t.radar.rows.map((r) => (
-                <li key={r.query} className="flex items-center justify-between gap-3 px-4 py-2.5">
+                <li key={r.query} className="flex items-center justify-between gap-2 px-3 py-2">
                   <span className="truncate text-xs text-ink">{r.query}</span>
-                  <span className="num shrink-0 text-xs text-blue-soft">{r.count}</span>
+                  <span className="num shrink-0 text-[11px] text-blue-soft">{r.count}</span>
                 </li>
               ))}
             </ul>
-          </div>
+          </SpotlightCard>
 
-          {/* Pozostałe karty */}
-          {t.cards.slice(0, 3).map((card) => {
-            const Icon = ICONS[card.icon];
-            return (
-              <div
-                key={card.title}
-                className="js-reveal rounded-[var(--radius-lg)] border border-hairline bg-card p-8 transition-colors duration-150 hover:border-strongline hover:bg-elevated"
-              >
-                <Icon size={22} strokeWidth={1.75} className="text-blue" aria-hidden="true" />
-                <h3 className="mt-4 font-display text-xl font-semibold tracking-tight text-ink">{card.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-sub">{card.body}</p>
-              </div>
-            );
-          })}
+          {/* Ratownik koszyka */}
+          <SpotlightCard className="js-reveal p-7" >
+            <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{rescue.title}</h3>
+            <RescueLoop />
+            <p className="mt-7 text-xs leading-relaxed text-sub">{rescue.body}</p>
+          </SpotlightCard>
 
-          {/* Raport nocnej zmiany — szeroka karta z podglądem e-maila (features §L8) */}
-          {t.cards.slice(3).map((card) => {
-            const Icon = ICONS[card.icon];
-            return (
-              <div
-                key={card.title}
-                className="js-reveal rounded-[var(--radius-lg)] border border-hairline bg-card p-8 lg:col-span-3"
-              >
-                <div className="grid items-center gap-8 lg:grid-cols-2">
-                  <div className="flex flex-col gap-6 md:flex-row md:items-start">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-tint">
-                      <Icon size={22} strokeWidth={1.75} className="text-blue-soft" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{card.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-sub">{card.body}</p>
-                    </div>
-                  </div>
-                  <NightMailPreview />
-                </div>
+          {/* Doradca rozmiaru — interaktywny */}
+          <SpotlightCard className="js-reveal p-7">
+            <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{size.title}</h3>
+            <SizeAdvisor />
+            <p className="mt-4 text-xs leading-relaxed text-sub">{size.body}</p>
+          </SpotlightCard>
+
+          {/* Autopilot „gdzie moja paczka" */}
+          <SpotlightCard className="js-reveal p-7">
+            <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{wismo.title}</h3>
+            <WismoPath />
+            <p className="mt-5 text-xs leading-relaxed text-sub">{wismo.body}</p>
+          </SpotlightCard>
+
+          {/* Raport nocnej zmiany — duża karta z e-mailem */}
+          <SpotlightCard className="js-reveal p-8 lg:col-span-2">
+            <div className="grid h-full items-center gap-8 md:grid-cols-[1fr_1.2fr]">
+              <div>
+                <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{report.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-sub">{report.body}</p>
               </div>
-            );
-          })}
+              <NightMailPreview />
+            </div>
+          </SpotlightCard>
         </div>
       </Container>
-
-      {/* Ticker Radaru popytu (features §L3) — element własny strony */}
-      <div className="ticker js-reveal mt-16 border-y border-hairline bg-surface py-4" aria-label={t.ticker.caption}>
-        <div className="ticker-track">
-          {[false, true].map((clone) => (
-            <ul key={String(clone)} aria-hidden={clone} className="flex shrink-0 items-center gap-10">
-              {t.ticker.items.map((item, i) => (
-                <li key={i} className="num flex items-center gap-3 whitespace-nowrap text-sm text-sub">
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-blue" aria-hidden="true" />
-                  {item}
-                </li>
-              ))}
-              <li className="label whitespace-nowrap">{t.ticker.caption}</li>
-            </ul>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }

@@ -178,6 +178,8 @@ const raw = {
         body: "Podpowiada to, co klient naprawdę chce kupić — a kiedy kilka produktów pasuje tak samo, promuje ten z lepszą marżą. Twoja księgowa zauważy różnicę.",
       },
     ],
+    // Etykiety belki device-frame (copy §4c)
+    panelLabels: ["Czat", "Wyszukiwarka", "Rekomendacje"],
     // Panele demo (żywe UI — treści robocze interfejsu, nie copy marketingowe)
     demo: {
       chat: {
@@ -304,6 +306,25 @@ const raw = {
         body: "Co rano bot melduje się jak pracownik: ile rozmów, ile sprzedaży, co przekazał zespołowi. Przykład masz obok — tak wygląda poniedziałek 8:00.",
       },
     ],
+    // Mikro-dema bento (copy §4c — stringi interfejsu wyprowadzone ze scenariuszy)
+    demos: {
+      rescue: {
+        bar: "twojsklep.pl — koszyk",
+        badge: "koszyk uratowany · 214 zł",
+      },
+      size: {
+        input: "178 cm · 82 kg",
+        options: [
+          { size: "S", verdict: "przy tych wymiarach: za mały", ok: false },
+          { size: "M", verdict: "z historii zwrotów: wracał częściej", ok: false },
+          { size: "L", verdict: "zostaje — mniejsze ryzyko zwrotu", ok: true },
+        ],
+      },
+      wismo: {
+        stops: ["sortownia · 7:40", "kurier w drodze", "jutro 10:00–14:00"],
+      },
+      radarLabel: "nasłuch 24/7",
+    },
     nightMail: {
       fromLabel: "Od",
       from: "HackMySales",
