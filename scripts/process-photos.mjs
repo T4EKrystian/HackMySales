@@ -27,7 +27,8 @@ const PHOTOS = [
   { slug: "kurtka-3l", file: "kurtka-3l-b__u-UjzJzuCHZDU.jpg", region: { l: 0.7125, t: 0.12, s: 0.4125 } },
   // ciasny kadr na zapięciu (bagażnik)
   { slug: "u-lock", file: "u-lock__11145678.jpg", region: { l: 0.2, t: 0.48, s: 0.72 } },
-  { slug: "plecak", file: "plecak__13869858.jpg" },
+  // ciasny kadr na plecak — foto-gate V6: szerokie szare tło zbijało entropię (thumb 2.15)
+  { slug: "plecak", file: "plecak__13869858.jpg", region: { l: 0.265, t: 0.315, s: 0.43 } },
   // kadr na misiową kurtkę z kapturem (attention uciekał na drążek)
   { slug: "kurtka-kids", file: "kurtka-kids__28259750.jpg", region: { l: 0.4, t: 0.33, s: 0.58 } },
   { slug: "spodnie-junior", file: "spodnie-junior__28259747.jpg", region: { l: 0.22, t: 0.35, s: 0.5 } },
@@ -36,7 +37,8 @@ const PHOTOS = [
   { slug: "sukienka", file: "sukienka__8618977.jpg", region: { l: 0.32, t: 0.08, s: 0.92 } },
   // lampa + marmurowy stolik, oddech ściany
   { slug: "dom", file: "dom__6825311.jpg", region: { l: 0.26, t: 0.5, s: 0.98 } },
-  { slug: "elektronika", file: "elektronika__7772548.jpg" },
+  // ciasny kadr na muszle słuchawek — foto-gate V6 (biel tła zbijała entropię 800px)
+  { slug: "elektronika", file: "elektronika__7772548.jpg", region: { l: 0.14, t: 0.5, s: 0.58 } },
   { slug: "b2b", file: "b2b__38195854.jpg" },
 ];
 

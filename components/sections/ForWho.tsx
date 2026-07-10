@@ -6,6 +6,7 @@ import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { ChatShell } from "@/components/chat/ChatShell";
 import { exchangeToScript } from "@/components/chat/script";
+import { PersonaRow } from "@/components/chat/parts";
 import { useReveal } from "@/lib/motion";
 
 /** Foto kontekstu branży (V5-F5 pkt 10) — packshoty z products.json per zakładka. */
@@ -67,13 +68,19 @@ export function ForWho() {
                 {seg.chip}
               </p>
             </div>
-            <ChatShell
-              chrome="bare"
-              mode="static"
-              skin="onsite"
-              script={exchangeToScript(seg.key, { user: seg.user, bot: seg.bot })}
-              bodyClassName="gap-3"
-            />
+            <div className="min-w-0">
+              {/* v6: Magda w headerze każdej rozmowy branżowej (brief F5 pkt 10) */}
+              <div className="mb-4 border-b border-hairline pb-3">
+                <PersonaRow presence={pl.hero.chat.persona.status} />
+              </div>
+              <ChatShell
+                chrome="bare"
+                mode="static"
+                skin="onsite"
+                script={exchangeToScript(seg.key, { user: seg.user, bot: seg.bot })}
+                bodyClassName="gap-3"
+              />
+            </div>
           </div>
         </div>
 
