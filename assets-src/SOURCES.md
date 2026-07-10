@@ -24,6 +24,10 @@ Wszystkie zdjęcia: **Pexels License** lub **Unsplash License** — darmowe uży
 
 \* Pexels/Unsplash nie wymagają atrybucji; autorzy dostępni na stronach źródłowych.
 
+## Loga platform (V5-F5)
+
+Symbole SVG: **simple-icons** (licencja CC0) — Shopify/WooCommerce/PrestaShop z https://cdn.simpleicons.org/, Magento z https://cdn.jsdelivr.net/npm/simple-icons@11/icons/magento.svg (ikona usunięta w nowszych wydaniach paczki). Shoper/IdoSell/Sky-Shop: wordmarki typograficzne własne (brak symboli w simple-icons). Użycie: nominative use na liście realnych integracji (anti-slop v5). Pliki źródłowe: `assets-src/logo-*.svg`, komponent: `components/ui/PlatformLogo.tsx`.
+
 ## Odrzuty (dlaczego)
 
 Wyraźne logotypy obcych marek (HOKA ×3, POC ×2, SMITH, Van Rysel, MERRELL, SIMMS, Adidas Terrex, Patagonia, Brevité-flat-lay, „Mount to Coast” ×2, Nike/Dior) — konflikt z anti-slop („zmyślony sklep nie sprzedaje cudzych marek”); zdjęcia ludzi noszących produkt; sceny bez wyraźnego produktu. Pliki źródłowe odrzutów zostają w `assets-src/` do wglądu.

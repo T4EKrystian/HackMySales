@@ -133,6 +133,11 @@ export function FinalCta() {
                   disabled={scanning}
                   aria-invalid={!!errors.url}
                   aria-describedby={errors.url ? "cta-shop-err" : undefined}
+                  // v5: focus-attract — chmura ciaśnieje wokół formularza (istniejący boost)
+                  onFocus={() => gsap.to(glState, { boost: 0.45, duration: 0.6, ease: EASE.soft })}
+                  onBlur={() => {
+                    if (stage === "url") gsap.to(glState, { boost: 0, duration: 0.9, ease: EASE.soft });
+                  }}
                   className={`w-full rounded-full border bg-field px-6 py-4 text-center text-base text-ink placeholder:text-mute disabled:opacity-70 ${
                     errors.url ? "border-danger" : "border-hairline focus:border-strongline"
                   }`}

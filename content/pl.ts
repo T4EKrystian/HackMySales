@@ -132,8 +132,8 @@ const raw = {
   // Proof ticker (copy-pl §1b) — feed nocy, dane demo (PLACEHOLDERS.md)
   proofTicker: {
     items: [
+      "22:41 — koszyk uratowany · 214 zł",
       "23:14 — pytanie o rozmiar · odpowiedź w 0,9 s",
-      "23:41 — koszyk uratowany · 214 zł",
       "00:36 — „gdzie moja paczka?” · obsłużone bez człowieka",
       "01:12 — rozmiar dobrany z historii zwrotów",
       "02:03 — zapytanie ofertowe B2B · lead zebrany",

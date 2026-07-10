@@ -1,6 +1,7 @@
 "use client";
 
 import { pl } from "@/content/pl";
+import { PlatformLogo } from "@/components/ui/PlatformLogo";
 import { useReveal } from "@/lib/motion";
 
 /** Proof ticker (features §L16, copy §1b): feed nocy jako marquee + scalona linia
@@ -33,10 +34,14 @@ export function ProofTicker() {
       {/* Linia zaufania (dawny TrustBar — copy §1) */}
       <div className="container-hms flex flex-col items-center gap-4 py-5 md:flex-row md:justify-between">
         <p className="js-reveal text-sm text-mute">{trust.line}</p>
+        {/* v5: realne monochromatyczne loga (nominative use) — 55%→100% na hover */}
         <ul className="flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
           {trust.platforms.map((p) => (
-            <li key={p} className="js-reveal num text-[13px] tracking-wide text-sub">
-              {p}
+            <li
+              key={p}
+              className="js-reveal text-[13px] text-sub opacity-55 transition-opacity duration-200 hover:opacity-100"
+            >
+              <PlatformLogo name={p} iconSize={15} />
             </li>
           ))}
         </ul>

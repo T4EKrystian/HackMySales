@@ -4,11 +4,13 @@ import { useState } from "react";
 import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionH2 } from "@/components/ui/Section";
+import { PlatformLogo } from "@/components/ui/PlatformLogo";
 import { useReveal } from "@/lib/motion";
 import { motion } from "motion/react";
 
-/** Integracje v3 (copy §7 + §7c): dwa przeciwbieżne marquee typograficznych
- *  logotypów (pauza na hover) + lokalny finder platformy z fuzzy-matchem.
+/** Integracje v3 (copy §7 + §7c): dwa przeciwbieżne marquee logotypów — od v5
+ *  realne monochromatyczne symbole (simple-icons) + wordmarki PL platform
+ *  (pauza na hover) + lokalny finder platformy z fuzzy-matchem.
  *  Nic nie wysyłamy — odpowiedzi wyprowadzone z FAQ. */
 
 const norm = (s: string) =>
@@ -42,9 +44,9 @@ function MarqueeRow({ items, reverse }: { items: readonly string[]; reverse?: bo
             {items.map((p) => (
               <li
                 key={p}
-                className="font-display text-xl font-semibold tracking-tight text-mute transition-colors duration-200 hover:text-blue-soft md:text-2xl"
+                className="text-xl text-mute transition-colors duration-200 hover:text-blue-soft md:text-2xl"
               >
-                {p}
+                <PlatformLogo name={p} iconSize={24} />
               </li>
             ))}
           </ul>
