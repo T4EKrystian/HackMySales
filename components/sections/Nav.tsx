@@ -5,12 +5,18 @@ import { Menu, X } from "lucide-react";
 import { pl } from "@/content/pl";
 import { Logo } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/Button";
-import { gsap, useGSAP, NO_REDUCE } from "@/lib/motion";
+import { gsap, useGSAP, NO_REDUCE, FINE_POINTER, SCRAMBLE_CHARS, attachMagnet } from "@/lib/motion";
 
+/** Nav v3 (motion.md §3): glass po scrollu, chowa się w dół / wraca w górę,
+ *  scramble-hover na linkach, magnetic CTA, scroll-progress hairline. */
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
+  const openRef = useRef(false);
   const progressRef = useRef<HTMLDivElement>(null);
+  const scopeRef = useRef<HTMLElement>(null);
+  const ctaWrapRef = useRef<HTMLSpanElement>(null);
   const t = pl.nav;
 
   // Pasek postępu scrolla (features §L14) — scrub przez cały dokument
@@ -31,11 +37,60 @@ export function Nav() {
     });
   }, []);
 
+  // Scramble-hover linków + magnetic CTA (tylko desktop z myszą)
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(FINE_POINTER, () => {
+        const cleanups: Array<() => void> = [];
+
+        gsap.utils.toArray<HTMLElement>(".nav-scramble", scopeRef.current!).forEach((el) => {
+          const original = el.textContent ?? "";
+          const enter = () => {
+            // szerokość zablokowana na czas tweenu — zero przesuwania sąsiadów
+            el.style.width = `${el.offsetWidth}px`;
+            el.style.display = "inline-block";
+            gsap.to(el, {
+              duration: 0.5,
+              scrambleText: { text: original, chars: SCRAMBLE_CHARS, speed: 1.4 },
+              onComplete: () => {
+                el.style.width = "";
+                el.style.display = "";
+              },
+            });
+          };
+          el.parentElement?.addEventListener("mouseenter", enter);
+          cleanups.push(() => el.parentElement?.removeEventListener("mouseenter", enter));
+        });
+
+        if (ctaWrapRef.current) cleanups.push(attachMagnet(ctaWrapRef.current, 8));
+        return () => cleanups.forEach((fn) => fn());
+      });
+    },
+    { scope: scopeRef }
+  );
+
   useEffect(() => {
+    openRef.current = open;
+  }, [open]);
+
+  // Kierunek scrolla: >160px i w dół -> schowaj; w górę -> pokaż
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let raf = 0;
+    let lastY = window.scrollY;
     const onScroll = () => {
       cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => setScrolled(window.scrollY > 80));
+      raf = requestAnimationFrame(() => {
+        const y = window.scrollY;
+        setScrolled(y > 80);
+        if (!reduce && !openRef.current) {
+          const dy = y - lastY;
+          if (y > 160 && dy > 4) setHidden(true);
+          else if (dy < -4 || y <= 160) setHidden(false);
+        }
+        lastY = y;
+      });
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -47,6 +102,7 @@ export function Nav() {
 
   useEffect(() => {
     if (!open) return;
+    setHidden(false);
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -58,11 +114,13 @@ export function Nav() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
+      ref={scopeRef}
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter,transform] duration-300 ${
         scrolled
           ? "border-b border-hairline bg-surface/80 backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
-      }`}
+      } ${hidden ? "-translate-y-full" : "translate-y-0"}`}
+      style={{ transitionTimingFunction: "var(--ease-out)" }}
     >
       {/* Postęp scrolla — widoczny dopiero po zescrollowaniu (razem z tłem nav) */}
       <div
@@ -81,7 +139,7 @@ export function Nav() {
         <nav aria-label="Główna" className="hidden items-center gap-8 md:flex">
           {t.links.map((l) => (
             <a key={l.href} href={l.href} className="nav-link text-sm text-sub hover:text-ink">
-              {l.label}
+              <span className="nav-scramble">{l.label}</span>
             </a>
           ))}
         </nav>
@@ -90,9 +148,11 @@ export function Nav() {
           <Button href={t.loginHref} variant="ghost" size="md" rel="noopener">
             {t.login}
           </Button>
-          <Button href="#demo" variant="primary" size="md">
-            {t.cta}
-          </Button>
+          <span ref={ctaWrapRef} className="inline-block will-change-transform">
+            <Button href="#demo" variant="primary" size="md">
+              {t.cta}
+            </Button>
+          </span>
         </div>
 
         <button

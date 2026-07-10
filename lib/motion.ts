@@ -3,17 +3,37 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
+import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+import { Flip } from "gsap/Flip";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+gsap.registerPlugin(ScrollTrigger, SplitText, ScrambleTextPlugin, DrawSVGPlugin, MotionPathPlugin, Flip, useGSAP);
 
 export const REDUCE = "(prefers-reduced-motion: reduce)";
 export const NO_REDUCE = "(prefers-reduced-motion: no-preference)";
 export const DESKTOP_MOTION = "(min-width: 768px) and (prefers-reduced-motion: no-preference)";
+export const MOBILE_MOTION = "(max-width: 767px) and (prefers-reduced-motion: no-preference)";
+export const FINE_POINTER = "(min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)";
 
-/** Standardowy reveal sekcji (design/motion.md §3): elementy z klasą .js-reveal
- *  wjeżdżają y:32→0 ze staggerem, raz, przy top 78%. Reduced-motion: od razu widoczne. */
-export function useReveal<T extends HTMLElement = HTMLElement>(stagger = 0.1) {
+/** Tokeny ruchu (design/motion.md v3 §1) — wszystkie animacje biorą wartości stąd. */
+export const EASE = {
+  out: "expo.out", // wejścia, reveals
+  soft: "power3.out", // drobne przesunięcia, wskaźniki
+  inOut: "power2.inOut", // rysowanie linii, scruby
+} as const;
+
+export const DUR = { fast: 0.3, base: 0.6, slow: 1.2 } as const;
+export const STAG = { tight: 0.06, base: 0.08, loose: 0.09 } as const;
+
+/** Znaki scramble — litery wordmarku + cyfry (sygnatura, nie losowy glitch). */
+export const SCRAMBLE_CHARS = "hackmysles01";
+
+/** Standardowy reveal sekcji: elementy .js-reveal wjeżdżają y:32→0 ze staggerem,
+ *  raz, przy top 78%. Reduced-motion: od razu widoczne. */
+export function useReveal<T extends HTMLElement = HTMLElement>(stagger: number = STAG.base) {
   const ref = useRef<T>(null);
 
   useGSAP(
@@ -32,7 +52,7 @@ export function useReveal<T extends HTMLElement = HTMLElement>(stagger = 0.1) {
             y: 0,
             opacity: 1,
             duration: 0.8,
-            ease: "power3.out",
+            ease: EASE.soft,
             stagger,
             // uwaga: NIE czyścimy opacity — CSS trzyma stan startowy 0 pod .js
             clearProps: "transform",
@@ -50,4 +70,28 @@ export function useReveal<T extends HTMLElement = HTMLElement>(stagger = 0.1) {
   return ref;
 }
 
-export { gsap, ScrollTrigger, useGSAP };
+/** Magnetyczne przyciąganie elementu do kursora (nav CTA: max 8px, hero CTA: 4px).
+ *  Wywoływać wewnątrz kontekstu matchMedia FINE_POINTER. Zwraca cleanup. */
+export function attachMagnet(el: HTMLElement, radius = 8) {
+  const xTo = gsap.quickTo(el, "x", { duration: 0.4, ease: EASE.soft });
+  const yTo = gsap.quickTo(el, "y", { duration: 0.4, ease: EASE.soft });
+  const onMove = (e: MouseEvent) => {
+    const r = el.getBoundingClientRect();
+    const dx = e.clientX - (r.left + r.width / 2);
+    const dy = e.clientY - (r.top + r.height / 2);
+    xTo(gsap.utils.clamp(-radius, radius, dx * 0.16));
+    yTo(gsap.utils.clamp(-radius, radius, dy * 0.16));
+  };
+  const onLeave = () => {
+    xTo(0);
+    yTo(0);
+  };
+  el.addEventListener("mousemove", onMove);
+  el.addEventListener("mouseleave", onLeave);
+  return () => {
+    el.removeEventListener("mousemove", onMove);
+    el.removeEventListener("mouseleave", onLeave);
+  };
+}
+
+export { gsap, ScrollTrigger, SplitText, Flip, useGSAP };

@@ -1,73 +1,103 @@
-# HackMySales — Spec animacji (GSAP + ScrollTrigger + Lenis)
+# HackMySales — Spec animacji v3 (GSAP + ScrollTrigger + Lenis + WebGL)
 
-Cel: strona ma się „płynąć” jak keynote Apple — ruch prowadzi wzrok i opowiada produkt. Nigdy nie jest ozdobą samą w sobie.
+Cel v3: strona ma choreografię scrolla i jeden motyw wizualny — **rdzeń** (particle core), który
+oddycha w hero, gaśnie w Problemie, spina Kanały i zbiega się w finalnym CTA. Ruch opowiada produkt;
+nigdy nie jest ozdobą samą w sobie. Poprzednia wersja specu (v2, statyczne reveals) — w historii gita.
 
-## 1. Stack i zasady twarde
+## 1. Stack i zasady twarde (bez zmian tam, gdzie działały)
 
-- **GSAP + ScrollTrigger** (`gsap`, `@gsap/react` z hookiem `useGSAP` — obowiązkowo, robi cleanup) + **Lenis** do smooth scrolla (lerp 0.1, `autoRaf` — Lenis jeździ na własnym rAF; ScrollTrigger.update podpięte przez `useLenis`). UWAGA: nie wiązać Lenisa z tickerem GSAP ręcznie — historycznie zabiło to scroll kółkiem.
-- Animujemy WYŁĄCZNIE `transform` i `opacity` (+ `clip-path` w hero). Nigdy width/height/top/margin. `will-change` tylko na czas animacji.
-- **Jedna krzywa dla reveali:** `power3.out`. Wjazdy: `y: 32→0, opacity: 0→1, dur 0.7–0.9, stagger 0.08–0.12`. Nic nie wjeżdża z boków poza wskazanymi miejscami. Zero rotacji, zero bounce, zero flipów 3D.
-- **`prefers-reduced-motion: reduce`** — obowiązkowy `gsap.matchMedia()`: wszystkie ScrollTriggery wyłączone, elementy widoczne od razu, Lenis wyłączony, liczniki pokazują wartość końcową. To warunek zaliczenia, nie opcja.
-- Mobile (<768px): bez pinowania sekcji, bez parallaxy; zostają proste reveals i liczniki.
-- Elementy animowane startują ukryte przez klasę CSS ustawianą z JS (`.js-reveal`), nie inline w JSX — bez JS strona ma być w 100% widoczna (no-JS fallback + SEO).
-- Triggery: `start: "top 78%"`, `once: true` dla reveali (nie odtwarzamy przy scrollu w górę — spokój, nie dyskoteka).
+- **GSAP 3.15** + ScrollTrigger + `useGSAP` (cleanup obowiązkowo). Od v3.13 pluginy premium są darmowe —
+  używamy: **SplitText** (mask-reveals), **ScrambleText** (nav, wordmark), **DrawSVG** (sparkline, beams),
+  **MotionPath** (kropka WISMO), **Flip** (tasowanie rekomendacji).
+- **Lenis przez `lenis/react`** (`ReactLenis root`, lerp 0.1, autoRaf) + `useLenis(ScrollTrigger.update)`.
+  UWAGA HISTORYCZNA: NIE wiązać Lenisa ręcznie z tickerem GSAP — zabiło to kiedyś scroll kółkiem.
+  `data-lenis-prevent` na wewnętrznych scrollach (czat) i modalach.
+- **Motion (`motion/react`)** wyłącznie do sprężynek komponentowych (hover/tap/toggle).
+  Zasada: GSAP rządzi scrollem i timeline'ami, Motion mikro-springami. Nigdy oba na tej samej
+  właściwości tego samego elementu.
+- Animujemy WYŁĄCZNIE `transform` i `opacity` (+ `clip-path` w mask-revealach, `stroke-dashoffset` w SVG).
+  `will-change` punktowo, tylko na czas animacji.
+- **Tokeny ruchu** (`lib/motion.ts`): ease `expo.out` (wejścia), `power2.inOut` (scruby), custom
+  `cubic-bezier(0.16,1,0.3,1)` w CSS; duracje fast .3 / base .6 / slow 1.2; stagger .06–.09.
+  Wszystkie animacje z tokenów — spójność to połowa „premium”.
+- **`prefers-reduced-motion: reduce`** — twardy kontrakt: zero pinów, zero parallaxu, zero WebGL
+  (GLStage się nie montuje — zostają statyczne postery gradientowe), zero scrambli i marquee;
+  zostają czyste fade'y i wartości końcowe liczników. Bez JS strona w 100% widoczna (`.js .js-reveal`).
+- Mobile (<768px): bez pinów — wersje pionowe sekcji; particles −60% i bez mouse-reactivity;
+  custom cursor nie istnieje (tylko `pointer: fine`).
 
-## 2. Hero (choreografia wejścia, bez scrolla)
+## 2. Warstwa WebGL (GLStage)
 
-Timeline po załadowaniu fontów (`document.fonts.ready`):
-1. `0.0s` — tło: `--gradient-glow` fade-in (dur 1.2)
-2. `0.1s` — H1 wjeżdża liniami (SplitText na linie lub 2 spany; `y: 40, clip-path inset`, stagger 0.1)
-3. `0.35s` — lead, CTA, mikrodowód (stagger 0.08)
-4. `0.6s` — panel demo czatu: `y: 48, opacity, scale 0.98→1`
-5. `1.0s` — startuje scenariusz czatu (spec niżej §6)
-Nav: pojawia się od razu (bez animacji — dostępność), po 80px scrolla dostaje tło `--bg-surface/80` + blur + hairline (przejście CSS 320ms).
+- **Jeden globalny `<Canvas>`** `position:fixed; inset:0; z-index:0` za contentem (content w wrapperze
+  `z-[1]`). Sekcje rejestrują DIV-y przez `useGLView(key, scene)` (lib/glRegistry) — drei `<View track>`
+  scissoruje sceny do tych DIV-ów. Zero three.js w głównym bundle: Canvas ładowany `next/dynamic`
+  po `requestIdleCallback` (hero do tego czasu = statyczny poster `--gradient-glow`).
+- Parametry: `dpr [1, 1.75]`, `antialias:false`, brak cieni, additive blending; frameloop przełączany
+  na `never`, gdy żaden zarejestrowany widok nie jest w viewporcie lub `document.hidden`.
+- Sceny: `core` (hero — oddech ~1,2 s jak puls, repulsja od kursora, dyspersja na scroll przez
+  `state.progress`), `field` (Problem — siatka kropek-klientów, które gasną falami), `mini`
+  (Kanały — mały rdzeń), `converge` (finał — cząstki zbiegają się ku formularzowi).
+  Kolory scen czytane w runtime z tokenów CSS (`--blue-500`, `--blue-300`) — zero hexów w kodzie.
+- Glow „bloom” robimy tanio: additive points + miękki sprite w shaderze + CSS radial za sekcją.
+  Bez EffectComposera (budżet perf); grain = globalny overlay SVG (opacity 0.025), vignette = CSS.
 
-## 3. Reveals sekcji (domyślny wzorzec)
+## 3. Choreografie sekcji (v3)
 
-Każda sekcja: label → nagłówek → treść/karty, stagger 0.1. Karty w gridach: stagger 0.08 wg kolejności DOM (nie „random”). Duży cytat-kicker w sekcji Problem: fade + `y: 24` całości; opcjonalnie rozjaśnienie słów (`color` z `--text-muted` do `--text-primary`) sterowane `scrub: true` na dystansie 60vh — jedyne miejsce ze scrubem tekstu na stronie.
+- **Nav**: chowa się przy scrollu w dół (>160 px, delta >4), wraca przy scrollu w górę; glass po 80 px;
+  scramble-hover na linkach (szerokość linku zablokowana na czas tweenu); magnetic CTA max 8 px;
+  scroll-progress hairline 2 px (scrub 0.3 — dozwolony scrub globalny).
+- **Hero**: H1 mask-reveal liniami (SplitText, stagger .08, expo.out), słowo „nigdy” z pulsem glow
+  zsynchronizowanym z rdzeniem; wejście nav→headline→chat→rdzeń < 1,4 s; chat auto-play po ~1,2 s
+  (typing char-by-char klienta, wskaźnik pisania, karta produktu), potem klikalne sugerowane pytania
+  (scenariusze B/C); status `● online — HH:MM` z żywym zegarem; rdzeń rozprasza się scrubem na scroll.
+- **Proof ticker**: marquee CSS (transform, ~46 s/pętla, pauza na hover), mono; pod nim linia zaufania.
+  Reduced-motion: statyczna lista.
+- **Problem**: pin 300vh — trzy statystyki KOLEJNO jako liczby min. 18vw (counter scrubowany progresem),
+  pole kropek (scena `field`) gaśnie falami po 1/3; progress-rail 01→03 po lewej. Mobile/reduced:
+  trzy pełnoekranowe bloki z counterami on-enter.
+- **Manifest (kicker)**: SplitText na słowa, scrub — opacity 0.12→1 w rytmie czytania; na „ciszę”
+  sekcja przygasa (overlay), ostatnie słowo zostaje samo. Jedyny scrub tekstu na stronie.
+- **Filary**: pin ~250% — lewa lista 01–03 z progress-line, prawa: JEDEN device-frame, wnętrze
+  crossfade + mikro-parallax; każde demo odpala własny mikro-timeline przy aktywacji (czat pisze,
+  wyszukiwarka wpisuje literówkę i podświetla korektę, rekomendacje tasują się Flipem).
+- **Bento (Kopalnie złota)**: wejście staggerem od lewej-górnej; karty = żywe pętle (sweep radaru,
+  sekwencja ratownika ~6 s, S/M/L interaktywny, MotionPath paczki, e-mail pisze się liniami);
+  spotlight-border za kursorem (CSS var na mousemove), tilt max 3° (Motion spring). Zero ikon Lucide.
+- **Pojedynek**: pin ~250vh — 4 rundy: pytanie typing na środku, lewa odpowiedź szara z opóźnieniem,
+  prawa żywa z glow; scoreboard bije po rundzie; werdykty = wiersze tabeli §4b 1:1.
+  Mobile/reduced: rundy jako pionowe bloki z przyciskami.
+- **Kanały**: beams SVG rysują się on-enter (DrawSVG), pulsy płyną po ścieżkach (dashoffset loop);
+  centralny węzeł = scena `mini`; hover na kanał → tooltip z przykładową wymianą (istniejące treści).
+- **Trzy kroki**: pin horizontal — 3 panele jadą poziomo (scrub), linia postępu z węzłami 01→03;
+  wizuale: snippet wkleja się sam + „✓”, skan katalogu (nazwy produktów haczą się), pierwszy raport.
+  Mobile: pion ze sticky progress-line.
+- **Poranek**: device-frame w perspektywie (rotateX ~6°), prostuje się scrubem do centrum; 3 warstwy
+  kart na różnym parallaxie (scroll + mouse na desktopie); liczniki i wykres jak w v2.
+- **Kalkulator ROI**: wyniki natychmiast — rolkowy odometer (kolumny cyfr, spring), pasek rośnie,
+  mnożnik ROI wielką typografią; przy przekroczeniu progu pojedynczy glow-burst + puls CTA
+  (bez konfetti). Metryki pod spodem: countery on-enter (v2).
+- **Integracje**: dwa przeciwbieżne marquee typograficznych logotypów (pauza + kolor na hover);
+  input z lokalnym fuzzy-match → odpowiedź z decku (natychmiast, bez wysyłki).
+- **Kontrola**: przełączniki po lewej (segment tonu, toggle eskalacji, zablokowany „Zmyślanie: OFF”),
+  po prawej podgląd czatu podmieniający odpowiedź crossfadem (200 ms) przy każdej zmianie.
+- **Pricing**: border-beam (świetlik po obrysie) na planie polecanym; hover kart: spotlight + lift 4 px;
+  „pełne porównanie” rozwijane (grid-rows 0fr→1fr).
+- **FAQ**: pytania display size; plus→minus morph (rotacja ramion); height przez grid-rows; hover indent.
+- **Founder note**: linie cytatu wjeżdżają maską (scrub-reveal), watermark „2017 / 40+” na parallaxie.
+- **Final CTA**: po walidacji URL sekwencja ~2,5 s: linia skanu + odhaczane kroki (uczciwe — bez
+  udawanej detekcji), potem pole e-mail; w tle scena `converge` — cząstki zbiegają się ku inputowi.
+- **Footer**: wielki wordmark z fill-wipe na hover (background-clip), reszta bez ruchu.
 
-## 4. Sekcja filarów — pin z przełączaniem paneli (danie główne)
+## 4. Liczniki, wykresy, mikrointerakcje
 
-Desktop: kontener pinowany (`pin: true`, `end: "+=250%"`). Lewa kolumna: 3 nagłówki filarów; prawa: panel demo. Scroll przełącza aktywny filar (1/3 dystansu każdy): stary panel `opacity 0, y: -16`, nowy `opacity 1, y: 16→0`; nagłówki nieaktywne `--text-muted`, aktywny `--text-primary` + niebieski wskaźnik (kreska) przesuwający się między nimi (`yPercent`). Progress bar pionowy 2px po lewej (scrub). Mobile: trzy zwykłe bloki jeden pod drugim, bez pinu.
+Jak w v2 (wzorce działają): countery `power2.out` 1.2 s przy top 75–80%, `fmtIntPl`, tabular-nums;
+słupki `scaleY` stagger .05–.06 + linia `stroke-dashoffset`; przyciski/karty/akordeony w CSS
+(`--dur-fast/base`); akordeon `grid-template-rows`.
 
-## 5. Liczniki i wykresy
+## 5. Budżet i kontrola jakości ruchu
 
-- Liczniki (`+18%`, `47 218 zł`): odpalane raz przy `top 75%`, dur 1.2, `ease: power2.out`, tabular-nums (mono i tak ma). Formatowanie PL: spacja nierozdzielająca jako separator tysięcy, przecinek dziesiętny.
-- Sekcja Wyniki — kolejność bloków (2026-07-10): kalkulator → licznik nocnej zmiany → liczniki celów (z podpisem). Triggery i czasy liczników bez zmian.
-- Nota od zespołu (L15, 2026-07-10): standardowy js-reveal jak reszta treści, bez własnej choreografii.
-- Mini-panel przychodów: słupki `scaleY 0→1` z `transformOrigin: bottom`, stagger 0.06; linia trendu: `stroke-dashoffset` (dur 1.4).
-- Ticker Radaru: CSS `@keyframes` marquee (transform), prędkość ~40s/pętla, `animation-play-state: paused` na hover; duplikacja treści dla płynnej pętli; reduced-motion → statyczna lista 3 wpisów.
-
-## 6. Demo czatu w hero
-
-GSAP timeline (nie CSS): wskaźnik pisania (3 kropki, pulsowanie) 600–900 ms → wiadomość `y: 16, opacity, scale 0.97→1, dur 0.45, ease back.out(1.4)` (jedyne miejsce z lekkim springiem) → pauza wg długości tekstu (czytelność) → karta produktu analogicznie → badge zamówienia z krótkim błyskiem obrysu (`box-shadow` tint → transparent). Start: gdy hero w viewport (raz). Kontrola: `Odtwórz ponownie` restartuje timeline. Scroll kontenera czatu podąża za nowymi wiadomościami.
-
-## 7. Parallax i głębia (dyskretnie)
-
-- Glow za hero: `yPercent: -8` scrub na całej wysokości hero — max.
-- Panele demo w sekcjach: `y: ±16px` scrub względem tekstu (efekt „warstw”).
-- Nic więcej. Żadnych pływających blobów, cząsteczek, kursorów-śledzików.
-
-## 8. Mikrointerakcje (CSS, nie GSAP)
-
-- Przyciski primary: hover `translateY(-1px)` + `--shadow-cta`; active `translateY(0) scale(0.99)`; transition `--dur-fast`.
-- Karty: hover — border `--border-strong` → jaśniejszy + tło `--bg-elevated`; BEZ podnoszenia scale (tanie efekty = kicz).
-- Linki nav: underline `scaleX 0→1` od lewej, 180ms.
-- Akordeon FAQ: wysokość przez `grid-template-rows: 0fr→1fr` (czysty CSS trik), chevron `rotate 180deg`.
-- Magnetic button TYLKO na głównym CTA hero: przesunięcie max 4px ku kursorowi, spring powrotny; wyłączone na touch i reduced-motion.
-
-## 8a. Elementy v2 (rozszerzenia)
-
-- **Taby scenariuszy czatu (L6):** zmiana taba przerywa i przebudowuje timeline (useGSAP `dependencies` + `revertOnUpdate`); nowy scenariusz gra od razu, bo klik = intencja. Reduced-motion: statyczna pełna rozmowa.
-- **Sparkline w mini-panelu (L9):** polyline `stroke-dashoffset` 1→0 (dur 1.1, power2.inOut) po słupkach, kropka końcowa fade-in. Jeden timeline z barami.
-- **Pisanie zapytania (L10):** znaki doklejane tweenem `ease:none`, ~0.045 s/znak, max 2.2 s, raz przy top 78%; kursor miga w CSS. Duplikat panelu (mobile/desktop) bez `offsetParent` nie animuje.
-- **Porównanie (L7):** wyłącznie standardowy reveal wierszy — bez scrubów.
-- **Dots-nav (L11):** bez GSAP; IntersectionObserver + przejścia CSS (opacity/scale, 300 ms).
-- **Zakładki branż (L12):** zmiana treści przez CSS fade-up 300 ms (klasa na key-remount), zero GSAP.
-- **Poranny dashboard (L13):** jeden timeline przy top 75%: KPI liczniki równolegle, słupki stagger 0.05, linia dashoffset, wiersze list standardowym revealem.
-- **Scroll cue w hero:** bujanie strzałki w CSS (2.2 s, in-out), fade-out GSAP scrubem na pierwszych 180 px; klik scrolluje do #produkt. Reduced-motion: bez bujania.
-- **Progress bar w nav (L14):** `scaleX` scrub 0.3 na dystansie całego dokumentu; to trzeci dozwolony scrub globalny (obok kickera i glow) — działa w nav, nie w treści, więc nie liczy się do budżetu sekcji.
-
-## 9. Budżet i kontrola jakości ruchu
-
-Max 2 aktywne ScrollTriggery ze `scrub` jednocześnie w viewport. Żadnych animacji na `scroll` bez ScrollTriggera. Test: przewiń stronę szybko kółkiem — nic nie może „doganiać” ani migać. 60 fps na MacBooku Air i średnim Androidzie (DevTools performance — sprawdzić przed oddaniem). Jeśli jakaś animacja wydaje się „fajna, ale niepotrzebna” — wyciąć.
+- 60 fps desktop / ≥45 mobile. Test szybkiego scrolla: nic nie dogania, nic nie miga.
+- Scruby w treści: max 2 aktywne w viewport naraz (pin sekcji liczy się jako 1).
+- Piny: `pinSpacing` poprawny — zero CLS; każda pinowana sekcja ma wariant mobile/reduced bez pinu.
+- WebGL: jeden context, brak cieni, dpr ≤1.75, rAF wyłączony poza viewportem i przy `document.hidden`.
+- Wątpliwość „fajne, ale niepotrzebne” → wyciąć.

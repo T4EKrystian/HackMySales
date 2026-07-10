@@ -48,7 +48,8 @@ export default function Home() {
     <>
       <Nav />
       <ProgressDots />
-      <main id="tresc">
+      {/* Wrapper z-[1]: treść ponad globalnym Canvasem WebGL (z-0, fixed za contentem) */}
+      <main id="tresc" className="relative z-[1]">
         <Hero />
         <TrustBar />
         <Problem />

@@ -5,6 +5,8 @@ import "@fontsource-variable/jetbrains-mono";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { Cursor } from "@/components/motion/Cursor";
+import { GLStage } from "@/components/gl/GLStage";
 
 export const metadata: Metadata = {
   // [PLACEHOLDER] docelowa domena produkcyjna
@@ -47,6 +49,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Przejdź do treści
         </a>
         <SmoothScroll>{children}</SmoothScroll>
+        <GLStage />
+        <Cursor />
+        <div className="grain" aria-hidden="true" />
       </body>
     </html>
   );
