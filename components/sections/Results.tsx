@@ -8,6 +8,7 @@ import { Counter } from "@/components/ui/Counter";
 import { RollingNumber } from "@/components/ui/RollingNumber";
 import { gsap, useReveal } from "@/lib/motion";
 import { fmtIntPl } from "@/lib/typography";
+import { setAmbientValue } from "@/lib/ambient";
 
 /** Pole kalkulatora — top-level (stabilna tożsamość komponentu; definicja wewnątrz
  *  RoiCalculator remountowałaby inputy przy każdym renderze i zabijała fokus). */
@@ -77,6 +78,8 @@ function RoiCalculator() {
 
   // Glow-burst raz przy przekroczeniu progu w górę (motion.md §3)
   useEffect(() => {
+    // v5: gęstość ambientu w strefie „wyniki" rośnie z odzyskiem (0.3→0.5 przy 2× progu)
+    setAmbientValue("wyniki", gain / (t.glowThreshold * 2));
     const crossed = prevGain.current < t.glowThreshold && gain >= t.glowThreshold;
     prevGain.current = gain;
     if (!crossed || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;

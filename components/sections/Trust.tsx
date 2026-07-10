@@ -69,7 +69,7 @@ export function Trust() {
   const [noInvent, humanHandoff, rodo, toneItem] = [t.items[0], t.items[1], t.items[2], t.items[3]];
 
   return (
-    <section ref={ref} className="section-pad">
+    <section ref={ref} data-ambient="kontrola" className="section-pad">
       <Container>
         <SectionLabel num="10">{t.label}</SectionLabel>
         <SectionH2 className="max-w-[22ch]">{t.h2}</SectionH2>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
@@ -96,20 +97,34 @@ function RadarDial() {
     { top: "58%", left: "30%", delay: "1.6s" },
     { top: "40%", left: "78%", delay: "3.1s" },
   ];
+  // v5 (F5 pkt 7): blip → tooltip z zapytaniem 1:1 z tabeli radaru obok
+  const rows = t.radar.rows;
   return (
-    <div className="relative mx-auto mt-5 h-36 w-36" aria-hidden="true">
-      <div className="absolute inset-0 overflow-hidden rounded-full border border-hairline">
+    <div className="relative mx-auto mt-5 h-36 w-36">
+      <div className="absolute inset-0 overflow-hidden rounded-full border border-hairline" aria-hidden="true">
         <div className="absolute inset-[22%] rounded-full border border-hairline" />
         <div className="absolute inset-[42%] rounded-full border border-hairline" />
         <div className="radar-sweep" />
-        {BLIPS.map((b, i) => (
-          <span
-            key={i}
-            className="radar-blip absolute h-1.5 w-1.5 rounded-full bg-blue-soft"
-            style={{ top: b.top, left: b.left, animationDelay: b.delay }}
-          />
-        ))}
       </div>
+      {BLIPS.map((b, i) => (
+        <span key={i} className="group absolute" style={{ top: b.top, left: b.left }}>
+          <span
+            tabIndex={0}
+            aria-label={rows[i] ? `${rows[i].query} — ${rows[i].count}` : undefined}
+            className="radar-blip block h-1.5 w-1.5 cursor-help rounded-full bg-blue-soft before:absolute before:-inset-2.5 before:content-['']"
+            style={{ animationDelay: b.delay }}
+          />
+          {rows[i] && (
+            <span
+              role="tooltip"
+              className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-lg border border-hairline bg-elevated px-2.5 py-1.5 text-[10px] text-sub opacity-0 shadow-card transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100"
+            >
+              <span className="text-ink">{rows[i].query}</span>
+              <span className="num ml-2 text-blue-soft">{rows[i].count}</span>
+            </span>
+          )}
+        </span>
+      ))}
       <p className="label absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px]">
         {t.demos.radarLabel}
       </p>
@@ -174,10 +189,20 @@ function RescueLoop() {
             <span className="absolute h-px w-2.5 -rotate-45 bg-mute" />
           </span>
         </div>
-        <div className="flex flex-col gap-1.5 p-3">
-          <div className="h-1.5 w-3/4 rounded-full bg-elevated" />
-          <div className="h-1.5 w-1/2 rounded-full bg-elevated" />
-          <div className="h-1.5 w-2/3 rounded-full bg-elevated" />
+        <div className="flex items-center gap-3 p-3">
+          {/* v5: koszyk z PRAWDZIWYM produktem (foto), nie same kreski */}
+          <Image
+            src="/products/x-trail-2-112.webp"
+            alt=""
+            width={36}
+            height={36}
+            unoptimized
+            className="h-9 w-9 shrink-0 rounded-lg border border-line-1 object-cover"
+          />
+          <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+            <div className="h-1.5 w-3/4 rounded-full bg-elevated" />
+            <div className="h-1.5 w-1/2 rounded-full bg-elevated" />
+          </div>
         </div>
       </div>
       {/* kursor klienta */}
@@ -202,21 +227,17 @@ function SizeAdvisor() {
   return (
     <div className="mt-5">
       <p className="num text-xs text-mute">{t.input}</p>
-      {/* sylwetka — zmienia szerokość wg rozmiaru */}
+      {/* v5: foto kurtki zamiast sylwetki — nadal „oddycha" szerokością wg rozmiaru */}
       <div className="mt-3 flex h-20 items-end justify-center" aria-hidden="true">
-        <svg
-          viewBox="0 0 100 72"
-          className="h-full transition-transform duration-500"
+        <Image
+          src="/products/kurtka-3l.webp"
+          alt=""
+          width={72}
+          height={72}
+          unoptimized
+          className="h-[72px] w-[72px] rounded-xl border border-line-1 object-cover transition-transform duration-500"
           style={{ transform: `scaleX(${widths[active]})`, transformOrigin: "center bottom", transitionTimingFunction: "var(--ease-out)" }}
-        >
-          <path
-            d="M35 8 Q50 2 65 8 L84 20 L76 34 L68 28 L68 66 Q50 72 32 66 L32 28 L24 34 L16 20 Z"
-            fill="none"
-            stroke="var(--blue-300)"
-            strokeWidth="2"
-            strokeLinejoin="round"
-          />
-        </svg>
+        />
       </div>
       <div className="mt-4 flex gap-1.5" role="group" aria-label="Wybierz rozmiar">
         {t.options.map((o, i) => (

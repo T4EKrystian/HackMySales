@@ -5,7 +5,9 @@ import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Logo } from "@/components/ui/Logo";
-import { ProductVisual, type ProductKind } from "@/components/ui/ProductVisual";
+import { type ProductKind } from "@/components/ui/ProductVisual";
+import { AiBadge, PersonaAvatar } from "@/components/chat/parts";
+import { ProductThumb } from "@/components/ui/ProductThumb";
 import { gsap, useGSAP, useReveal, typeInto, DESKTOP_MOTION, MOBILE_MOTION } from "@/lib/motion";
 
 /** Arena (copy §4b+§4d, motion.md §3): tabela „Różnica" jako pojedynek na 4 rundy.
@@ -63,7 +65,7 @@ function HmsAnswer({ r }: { r: Round }) {
       {r.hms.card && (
         <div className="mt-3 flex items-center gap-3 rounded-xl border border-hairline bg-card p-3">
           {r.hms.card.kind ? (
-            <ProductVisual kind={r.hms.card.kind} size={44} />
+            <ProductThumb name={r.hms.card.name} kind={r.hms.card.kind} size={44} />
           ) : (
             <div aria-hidden="true" className="num flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-tint text-xs text-blue-soft">
               {r.hms.card.initials}
@@ -80,7 +82,7 @@ function HmsAnswer({ r }: { r: Round }) {
         <ul className="mt-3 divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline bg-card">
           {r.hms.results.map((res) => (
             <li key={res.name} className="flex items-center gap-2.5 px-3 py-2">
-              {res.kind && <ProductVisual kind={res.kind} size={30} />}
+              {res.kind && <ProductThumb name={res.name} kind={res.kind} size={30} />}
               <span className="min-w-0 flex-1 truncate text-xs text-ink">{res.name}</span>
               <span className="num shrink-0 text-xs text-sub">{res.price}</span>
             </li>
@@ -238,16 +240,22 @@ export function Comparison() {
       {/* Dwie odpowiedzi */}
       <div className="mt-8 grid gap-5 md:grid-cols-2 md:gap-8">
         <div className="min-w-0">
-          <p className="label mb-3">{t.arena.faqName}</p>
-          {/* poziom 0 + desaturacja — strona celowo martwa (elewacje v4) */}
-          <div className="arena-faq-msg rounded-2xl rounded-bl-md border border-line-1 px-4 py-3 text-sm leading-relaxed text-sub opacity-85 saturate-[.6]">
+          <p className="label mb-3 flex items-center gap-2">
+            {t.arena.faqName}
+            {/* v5: skin legacy — wersja bota z metryczką (deck §1c) */}
+            <span className="num rounded-[4px] border border-line-1 px-1.5 py-px text-[9px]">{pl.chatUi.legacyName}</span>
+          </p>
+          {/* poziom 0 + desaturacja + systemowy font — strona celowo martwa (skin legacy v5) */}
+          <div className="arena-faq-msg chat-legacy-font rounded-[6px] rounded-bl-none border border-line-1 px-4 py-3 text-sm leading-relaxed text-sub opacity-85 saturate-[.6]">
             {r.faq}
           </div>
         </div>
         <div className="min-w-0">
+          {/* v5: prawa strona = persona Magda (skin onsite) */}
           <p className="label mb-3 flex items-center gap-2 text-blue-soft">
-            <Logo withWord={false} markSize={14} />
-            HackMySales
+            <PersonaAvatar size={16} />
+            {pl.hero.chat.persona.name}
+            <AiBadge />
           </p>
           <HmsAnswer r={r} />
         </div>

@@ -23,21 +23,21 @@ export type AmbientZoneConfig = {
 /** Mapa briefu: hero 100 → sekcje czytane 15–30, Kanały hub, Arena split L/R,
  *  Wyniki sprzężone z kalkulatorem (setAmbientValue), reszta oddech 12–20%. */
 export const AMBIENT_ZONES: AmbientZoneConfig[] = [
-  { id: "hero", selector: "[data-ambient='hero']", density: 1, tint: 0, mask: 0 },
+  { id: "hero", selector: "#top", density: 1, tint: 0, mask: 0 },
   { id: "problem", selector: "[data-ambient='problem']", density: 0.4, tint: 0.65, mask: 0.55 },
   { id: "produkt", selector: "#produkt", density: 0.3, tint: 0.2, mask: 0.7 },
   { id: "funkcje", selector: "#funkcje", density: 0.25, tint: 0.2, mask: 0.7 },
-  { id: "arena", selector: "[data-ambient='arena']", density: 0.28, tint: 0.25, mask: 0.3, mode: "split" },
-  { id: "kanaly", selector: "#kanaly", density: 0.6, tint: 0, mask: 0 , mode: "hub" },
+  { id: "arena", selector: "#roznica", density: 0.28, tint: 0.25, mask: 0.3, mode: "split" },
+  { id: "kanaly", selector: "#kanaly", density: 0.6, tint: 0, mask: 0, mode: "hub" },
   { id: "branze", selector: "#branze", density: 0.2, tint: 0.25, mask: 0.55 },
   { id: "kroki", selector: "[data-ambient='kroki']", density: 0.2, tint: 0.25, mask: 0.6 },
-  { id: "poranek", selector: "[data-ambient='poranek']", density: 0.2, tint: 0.2, mask: 0.5 },
+  { id: "poranek", selector: "#panel", density: 0.2, tint: 0.2, mask: 0.5 },
   { id: "wyniki", selector: "#wyniki", density: 0.3, tint: 0.1, mask: 0.55 },
   { id: "integracje", selector: "[data-ambient='integracje']", density: 0.2, tint: 0.2, mask: 0.4 },
   { id: "kontrola", selector: "[data-ambient='kontrola']", density: 0.15, tint: 0.3, mask: 0.55 },
   { id: "cennik", selector: "#cennik", density: 0.15, tint: 0.2, mask: 0.6 },
   { id: "faq", selector: "#faq", density: 0.12, tint: 0.3, mask: 0.6 },
-  { id: "final", selector: "[data-ambient='final']", density: 0.2, tint: 0, mask: 0 },
+  { id: "final", selector: "#demo", density: 0.2, tint: 0, mask: 0 },
 ];
 
 /** Strefa domyślna między/poza zdefiniowanymi (oddech tła). */

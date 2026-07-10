@@ -115,7 +115,7 @@ export function Problem() {
   );
 
   return (
-    <section ref={scope} className="relative">
+    <section ref={scope} data-ambient="problem" className="relative">
       {/* JEDEN wspólny header nad wariantami (v5: koniec z duchami H2 w DOM) */}
       <Container className="pt-24 md:pt-28">
         <SectionLabel num="01">{t.label}</SectionLabel>

@@ -478,7 +478,9 @@
   pointer-events: none;
 }
 .range-wrap:hover .range-bubble,
-.range-wrap:focus-within .range-bubble {
+.range-wrap:focus-within .range-bubble,
+/* v5 (F5 pkt 13): bąbel widoczny także W TRAKCIE przeciągania (kursor może uciec z hoveru) */
+.range-wrap:has(.range-hms:active) .range-bubble {
   opacity: 1;
 }
 

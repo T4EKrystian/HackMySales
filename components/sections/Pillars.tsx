@@ -4,7 +4,8 @@ import { useRef, useState } from "react";
 import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
-import { ProductVisual, type ProductKind } from "@/components/ui/ProductVisual";
+import { type ProductKind } from "@/components/ui/ProductVisual";
+import { ProductThumb } from "@/components/ui/ProductThumb";
 import { ChatShell } from "@/components/chat/ChatShell";
 import { exchangeToScript } from "@/components/chat/script";
 import { gsap, useGSAP, useReveal, typeInto, Flip, DESKTOP_MOTION, MOBILE_MOTION, EASE } from "@/lib/motion";
@@ -57,7 +58,7 @@ function SearchPanelContent() {
         <ul className="pp-results divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline">
           {d.results.map((r) => (
             <li key={r.name} className="pp-row flex items-center gap-3 px-4 py-2.5">
-              {"kind" in r && r.kind && <ProductVisual kind={r.kind as ProductKind} size={40} />}
+              <ProductThumb name={r.name} kind={"kind" in r ? (r.kind as ProductKind) : undefined} size={40} />
               <span className="min-w-0 flex-1 truncate text-sm text-ink">{r.name}</span>
               <span className="num shrink-0 text-sm text-sub">{r.price}</span>
             </li>
@@ -96,9 +97,12 @@ function RecoPanelContent() {
               it.highlight ? "pp-reco-hl border-blue bg-blue-tint" : "border-hairline bg-card"
             }`}
           >
-            {"kind" in it && it.kind && (
-              <ProductVisual kind={it.kind as ProductKind} size={48} tint={it.highlight ? "blue" : undefined} />
-            )}
+            <ProductThumb
+              name={it.name}
+              kind={"kind" in it ? (it.kind as ProductKind) : undefined}
+              size={48}
+              tint={it.highlight ? "blue" : undefined}
+            />
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium text-ink">{it.name}</p>
               <p className={`truncate text-xs ${it.highlight ? "text-blue-soft" : "text-mute"}`}>{it.note}</p>

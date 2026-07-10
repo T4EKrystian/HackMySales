@@ -163,7 +163,7 @@ export function HowItWorks() {
   );
 
   return (
-    <section ref={scope} className="bg-surface">
+    <section ref={scope} data-ambient="kroki" className="bg-surface">
       {/* JEDEN wspólny header nad wariantami (v5: koniec z duchami H2 w DOM) */}
       <Container className="pt-24 md:pt-28">
         <div ref={headRef}>
