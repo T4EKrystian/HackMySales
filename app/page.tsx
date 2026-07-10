@@ -3,6 +3,7 @@ import { Nav } from "@/components/sections/Nav";
 import { Hero } from "@/components/sections/Hero";
 import { ProofTicker } from "@/components/sections/ProofTicker";
 import { Problem } from "@/components/sections/Problem";
+import { Manifest } from "@/components/sections/Manifest";
 import { Pillars } from "@/components/sections/Pillars";
 import { GoldMines } from "@/components/sections/GoldMines";
 import { Comparison } from "@/components/sections/Comparison";
@@ -53,6 +54,7 @@ export default function Home() {
         <Hero />
         <ProofTicker />
         <Problem />
+        <Manifest />
         <Pillars />
         <GoldMines />
         <Comparison />

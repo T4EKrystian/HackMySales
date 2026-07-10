@@ -34,7 +34,7 @@ void main(){
 
   vec4 mv=modelViewMatrix*vec4(pos,1.0);
   gl_Position=projectionMatrix*mv;
-  gl_PointSize=uPx*(1.6+aSeed*1.2)*(1.0-t*0.45)*(5.2/max(0.1,-mv.z));
+  gl_PointSize=uPx*(2.8+aSeed*1.8)*(1.0-t*0.4)*(5.2/max(0.1,-mv.z));
   vDead=t;
   vSeed=aSeed;
   vA=uIntensity;
@@ -54,7 +54,7 @@ void main(){
   float disc=smoothstep(0.5,0.18,d);
   if(disc<0.01) discard;
   vec3 col=mix(uColLive,uColDead,vDead);
-  float a=disc*mix(0.34,0.05,vDead)*vA*(0.75+vSeed*0.25);
+  float a=disc*mix(0.5,0.06,vDead)*vA*(0.7+vSeed*0.3);
   gl_FragColor=vec4(col,a);
 }
 `;

@@ -140,6 +140,12 @@
   .js .js-reveal, .js .hero-el, .js .chat-step { opacity: 1; }
 }
 
+/* Manifest: słowa startują przygaszone tylko przy działającym JS */
+.js .man-word { opacity: 0.12; }
+@media (prefers-reduced-motion: reduce) {
+  .js .man-word { opacity: 1; }
+}
+
 /* Ticker (Radar popytu) — czysty CSS marquee */
 @keyframes marquee { to { transform: translateX(-50%); } }
 .ticker { overflow: hidden; }
