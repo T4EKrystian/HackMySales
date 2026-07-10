@@ -31,7 +31,7 @@ export function ProofTicker() {
       </div>
 
       {/* Linia zaufania (dawny TrustBar — copy §1) */}
-      <div className="container-hms flex flex-col items-center gap-4 py-6 md:flex-row md:justify-between">
+      <div className="container-hms flex flex-col items-center gap-4 py-5 md:flex-row md:justify-between">
         <p className="js-reveal text-sm text-mute">{trust.line}</p>
         <ul className="flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
           {trust.platforms.map((p) => (

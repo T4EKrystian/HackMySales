@@ -75,7 +75,7 @@ export function Integrations() {
   const reversed = [...t.platforms].reverse();
 
   return (
-    <section ref={ref} className="section-pad bg-surface">
+    <section ref={ref} className="section-pad-tight bg-surface">
       <Container>
         <SectionH2 className="mt-0 max-w-[22ch]">{t.h2}</SectionH2>
       </Container>

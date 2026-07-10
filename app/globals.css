@@ -115,6 +115,7 @@
 }
 
 .section-pad { padding-block: var(--space-section); }
+.section-pad-tight { padding-block: var(--space-section-tight); }
 
 .font-display { font-family: var(--font-display); }
 

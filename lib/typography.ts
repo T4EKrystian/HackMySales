@@ -10,6 +10,8 @@ export function plNbsp(text: string): string {
       .replace(/(^|[\s(„")])([aiouwzAIOUWZ]) /g, `$1$2${NB}`)
       // jednostki i skróty kleją się do liczby
       .replace(/ (zł|szt\.|mc|p\.p\.|h\b)/g, `${NB}$1`)
+      // sekundy tylko po cyfrze („0,9 s") — samo „ s" byłoby zbyt łapczywe
+      .replace(/(\d) s\b/g, `$1${NB}s`)
       // separator tysięcy: 47 218 → spacja nierozdzielająca
       .replace(/(\d) (?=\d{3}(\D|$))/g, `$1${NB}`)
       // półpauza nie zostaje sama na początku linii
