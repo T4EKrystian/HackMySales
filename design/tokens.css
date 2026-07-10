@@ -1,0 +1,92 @@
+/* ============================================================
+   HackMySales — Design Tokens (jedyne źródło prawdy o kolorach)
+   Ciemny motyw domyślny, zgodny z portalem klienta.
+   Import w globals.css. Nigdy nie hardkoduj hexów w komponentach.
+   ============================================================ */
+
+:root {
+  /* --- Tła (od najgłębszego) --- */
+  --bg-page: #05060B;        /* tło strony */
+  --bg-surface: #0B0D14;     /* sekcje wyróżnione, nav po scrollu */
+  --bg-card: #12151F;        /* karty, panele */
+  --bg-elevated: #171B28;    /* hover kart, dropdowny, tooltips */
+  --bg-input: #0E1119;       /* pola formularzy */
+
+  /* --- Akcent (jedyny kolor marki — nie dodawaj drugiego) --- */
+  --blue-300: #93A5FF;       /* tekst na niebieskich tłach-tintach, wykresy */
+  --blue-400: #5C77FF;       /* hover przycisków, linki hover */
+  --blue-500: #3D5BFC;       /* PRIMARY: przyciski, logo, akcenty */
+  --blue-600: #2E45E0;       /* active/pressed */
+  --blue-tint: rgba(61, 91, 252, 0.12);  /* tła badge'y, ghost hover */
+  --blue-glow: rgba(61, 91, 252, 0.35);  /* poświaty, cienie CTA */
+
+  /* --- Tekst --- */
+  --text-primary: #F4F6FC;
+  --text-secondary: #AEB4C9;
+  --text-muted: #6E7488;     /* labelki, captions — min. 12px */
+  --text-on-blue: #FFFFFF;
+
+  /* --- Linie i obrysy --- */
+  --border-hairline: #1E2230;
+  --border-strong: #2A3042;
+  --border-focus: #7C90FF;   /* focus ring, 2px + offset 2px */
+
+  /* --- Semantyczne (używaj oszczędnie) --- */
+  --success: #33D69F;
+  --warning: #FFB454;
+  --danger: #FF5C7A;
+
+  /* --- Gradienty (tylko w rodzinie niebieskiego — nigdy fiolet/róż) --- */
+  --gradient-hero: linear-gradient(135deg, #3D5BFC 0%, #2E45E0 60%, #1B2A9E 100%);
+  --gradient-text: linear-gradient(100deg, #F4F6FC 30%, #93A5FF 100%);
+  --gradient-glow: radial-gradient(ellipse 800px 400px at 50% -10%, rgba(61,91,252,0.18), transparent 70%);
+
+  /* --- Typografia --- */
+  --font-display: "Schibsted Grotesk", "Inter", -apple-system, system-ui, sans-serif;
+  --font-body: "Inter", -apple-system, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace; /* liczby, KPI, kod */
+
+  /* Skala (clamp = płynne RWD). Nagłówki: font-display, tracking ujemny. */
+  --text-hero: clamp(2.6rem, 6.5vw, 4.75rem);      /* H1, lh 1.05, ls -0.03em */
+  --text-h2: clamp(2rem, 4.5vw, 3.25rem);          /* lh 1.1, ls -0.02em */
+  --text-h3: clamp(1.35rem, 2.5vw, 1.75rem);       /* lh 1.2, ls -0.01em */
+  --text-lead: clamp(1.05rem, 1.5vw, 1.25rem);     /* lead pod nagłówkami, lh 1.6 */
+  --text-body: 1rem;                               /* lh 1.65 */
+  --text-small: 0.875rem;
+  --text-label: 0.75rem;                           /* uppercase, ls 0.08em, mono */
+
+  /* --- Rytm i geometria (siatka 4px) --- */
+  --space-section: clamp(6rem, 12vw, 10rem);       /* pion między sekcjami */
+  --container-max: 1200px;
+  --container-pad: clamp(1.25rem, 4vw, 2.5rem);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;    /* karty */
+  --radius-xl: 28px;    /* duże panele, demo czatu */
+  --radius-pill: 999px;
+
+  /* --- Cienie (subtelne — ciemny motyw pracuje borderami, nie cieniami) --- */
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 24px rgba(0,0,0,0.35);
+  --shadow-cta: 0 8px 28px var(--blue-glow);
+
+  /* --- Motion --- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);      /* domyślny (≈ power3.out) */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 180ms;    /* hovery */
+  --dur-base: 320ms;    /* UI */
+  --dur-slow: 700ms;    /* reveals scrollowe */
+}
+
+/* Jasny motyw — na później (landing startuje w dark). Struktura gotowa: */
+[data-theme="light"] {
+  --bg-page: #FAFBFE;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-elevated: #F2F4FA;
+  --bg-input: #FFFFFF;
+  --text-primary: #0B0D14;
+  --text-secondary: #4A5065;
+  --text-muted: #6E7488;
+  --border-hairline: #E4E7F0;
+  --border-strong: #CDD2E0;
+}

@@ -1,0 +1,137 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { Menu, X } from "lucide-react";
+import { pl } from "@/content/pl";
+import { Logo } from "@/components/ui/Logo";
+import { Button } from "@/components/ui/Button";
+import { gsap, useGSAP, NO_REDUCE } from "@/lib/motion";
+
+export function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const t = pl.nav;
+
+  // Pasek postępu scrolla (features §L14) — scrub przez cały dokument
+  useGSAP(() => {
+    const bar = progressRef.current;
+    if (!bar) return;
+    const mm = gsap.matchMedia();
+    mm.add(NO_REDUCE, () => {
+      gsap.fromTo(
+        bar,
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          ease: "none",
+          scrollTrigger: { start: 0, end: "max", scrub: 0.3 },
+        }
+      );
+    });
+  }, []);
+
+  useEffect(() => {
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => setScrolled(window.scrollY > 80));
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  return (
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
+        scrolled
+          ? "border-b border-hairline bg-surface/80 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent"
+      }`}
+    >
+      {/* Postęp scrolla — widoczny dopiero po zescrollowaniu (razem z tłem nav) */}
+      <div
+        ref={progressRef}
+        aria-hidden="true"
+        className={`absolute inset-x-0 bottom-[-1px] h-[2px] origin-left bg-blue transition-opacity duration-300 ${
+          scrolled ? "opacity-100" : "opacity-0"
+        }`}
+        style={{ transform: "scaleX(0)" }}
+      />
+      <div className="container-hms flex h-[72px] items-center justify-between">
+        <a href="#top" aria-label="HackMySales — strona główna" className="rounded-md">
+          <Logo />
+        </a>
+
+        <nav aria-label="Główna" className="hidden items-center gap-8 md:flex">
+          {t.links.map((l) => (
+            <a key={l.href} href={l.href} className="nav-link text-sm text-sub hover:text-ink">
+              {l.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="hidden items-center gap-3 md:flex">
+          <Button href={t.loginHref} variant="ghost" size="md" rel="noopener">
+            {t.login}
+          </Button>
+          <Button href="#demo" variant="primary" size="md">
+            {t.cta}
+          </Button>
+        </div>
+
+        <button
+          className="rounded-md p-2 text-ink md:hidden"
+          aria-expanded={open}
+          aria-controls="menu-mobile"
+          aria-label={open ? t.menuClose : t.menuOpen}
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? <X size={24} strokeWidth={1.75} /> : <Menu size={24} strokeWidth={1.75} />}
+        </button>
+      </div>
+
+      {/* Menu mobile — pełny ekran */}
+      <div
+        id="menu-mobile"
+        className={`fixed inset-0 top-[72px] z-40 flex-col bg-page md:hidden ${open ? "flex" : "hidden"}`}
+      >
+        <nav aria-label="Mobilna" className="container-hms flex flex-col gap-2 pt-8">
+          {t.links.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className="border-b border-hairline py-4 font-display text-2xl font-semibold text-ink"
+            >
+              {l.label}
+            </a>
+          ))}
+          <div className="mt-8 flex flex-col gap-3">
+            <Button href="#demo" variant="primary" size="lg" onClick={() => setOpen(false)}>
+              {t.cta}
+            </Button>
+            <Button href={t.loginHref} variant="ghost" size="lg" rel="noopener">
+              {t.login}
+            </Button>
+          </div>
+        </nav>
+      </div>
+    </header>
+  );
+}

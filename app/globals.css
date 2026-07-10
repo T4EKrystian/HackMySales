@@ -1,0 +1,208 @@
+@import "tailwindcss";
+@import "../design/tokens.css";
+
+/* Fonty self-hosted przez @fontsource-variable (deterministycznie, bez CDN Google —
+   przyjaźniej pod RODO). Nadpisują stacki z tokens.css nazwami rodzin variable. */
+:root {
+  --font-display: "Schibsted Grotesk Variable", "Schibsted Grotesk", "Inter Variable", system-ui, sans-serif;
+  --font-body: "Inter Variable", Inter, -apple-system, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Mapowanie tokenów na theme Tailwinda (inline = utility czyta nasz var bezpośrednio).
+   W komponentach używamy WYŁĄCZNIE tych nazw — zero hexów. */
+@theme inline {
+  --color-page: var(--bg-page);
+  --color-surface: var(--bg-surface);
+  --color-card: var(--bg-card);
+  --color-elevated: var(--bg-elevated);
+  --color-field: var(--bg-input);
+  --color-ink: var(--text-primary);
+  --color-sub: var(--text-secondary);
+  --color-mute: var(--text-muted);
+  --color-blue: var(--blue-500);
+  --color-blue-soft: var(--blue-300);
+  --color-blue-hover: var(--blue-400);
+  --color-blue-deep: var(--blue-600);
+  --color-blue-tint: var(--blue-tint);
+  --color-onblue: var(--text-on-blue);
+  --color-hairline: var(--border-hairline);
+  --color-strongline: var(--border-strong);
+  --color-focusring: var(--border-focus);
+  --color-ok: var(--success);
+  --color-warn: var(--warning);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+}
+
+@layer base {
+  body {
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  ::selection {
+    background: color-mix(in srgb, var(--blue-500) 35%, transparent);
+    color: var(--text-primary);
+  }
+  :focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+  [id] { scroll-margin-top: 96px; }
+
+  /* Scrollbar — dyskretny */
+  * { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 999px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+}
+
+/* ---------- Utilities projektu ---------- */
+
+.container-hms {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+.section-pad { padding-block: var(--space-section); }
+
+.font-display { font-family: var(--font-display); }
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.shadow-card { box-shadow: var(--shadow-card); }
+.shadow-cta { box-shadow: var(--shadow-cta); }
+
+.glow-bg {
+  background: var(--gradient-glow);
+  pointer-events: none;
+}
+
+.text-gradient {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Siatka kropek pod hero — ledwo widoczna */
+.dot-grid {
+  background-image: radial-gradient(color-mix(in srgb, var(--text-muted) 18%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 30%, transparent 75%);
+  pointer-events: none;
+}
+
+/* Skip link (a11y) */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--blue-500);
+  color: var(--text-on-blue);
+  border-radius: var(--radius-md);
+  transform: translateY(-200%);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.skip-link:focus-visible { transform: translateY(0); }
+
+/* Elementy animowane: ukryte tylko gdy jest JS; bez JS wszystko widoczne.
+   GSAP animuje przez fromTo — klasa daje stan startowy bez FOUC. */
+.js .js-reveal, .js .hero-el, .js .chat-step { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .js .js-reveal, .js .hero-el, .js .chat-step { opacity: 1; }
+}
+
+/* Ticker (Radar popytu) — czysty CSS marquee */
+@keyframes marquee { to { transform: translateX(-50%); } }
+.ticker { overflow: hidden; }
+.ticker-track {
+  display: flex;
+  gap: 2.5rem;
+  width: max-content;
+  animation: marquee 42s linear infinite;
+}
+.ticker:hover .ticker-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+}
+
+/* Kropki „pisania" w demo czatu */
+@keyframes dotpulse {
+  0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-2px); }
+}
+.chat-dot {
+  width: 6px; height: 6px; border-radius: 999px;
+  background: var(--text-secondary);
+  animation: dotpulse 1s infinite;
+}
+.chat-dot:nth-child(2) { animation-delay: 0.15s; }
+.chat-dot:nth-child(3) { animation-delay: 0.3s; }
+@media (prefers-reduced-motion: reduce) { .chat-dot { animation: none; } }
+
+/* Fade-up treści przy zmianie zakładki (sekcja Branże) */
+@keyframes fade-up-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in-panel { animation: fade-up-in 300ms var(--ease-out); }
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-panel { animation: none; }
+}
+
+/* Kursor „pisania” w panelu wyszukiwarki */
+@keyframes caret-blink { 50% { opacity: 0; } }
+.typing-caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--blue-400);
+  animation: caret-blink 1s steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .typing-caret { display: none; }
+}
+
+/* Podkreślenie linków nav */
+.nav-link { position: relative; }
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 1.5px;
+  background: var(--blue-400);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms var(--ease-out);
+}
+.nav-link:hover::after, .nav-link:focus-visible::after { transform: scaleX(1); }
