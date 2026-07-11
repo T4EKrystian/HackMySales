@@ -52,7 +52,10 @@ export function useChatPlayback(opts: {
       const mm = gsap.matchMedia();
 
       if (mode === "static") {
+        // .chat-msg też: brama .js .chat-step .chat-msg{opacity:0} ukrywa treść (V7.1);
+        // static nie jest reduced-motion, więc CSS-override nie zadziała — odsłoń w JS
         gsap.set(".chat-step", { opacity: 1 });
+        gsap.set(".chat-msg", { opacity: 1 });
         gsap.set(".chat-typing", { display: "none" });
         setDone(true);
         return;
@@ -275,6 +278,7 @@ export function useChatPlayback(opts: {
 
       mm.add(REDUCE, () => {
         gsap.set(".chat-step", { opacity: 1 });
+        gsap.set(".chat-msg", { opacity: 1 });
         gsap.set(".chat-typing", { display: "none" });
         setDone(true);
       });

@@ -23,7 +23,6 @@ export function HeroChatMobile() {
 
   const first = t.scenarios[0];
   const userMsg = first.steps[0]?.text ?? "";
-  const botMsg = first.steps[1]?.text ?? "";
 
   const openSheet = () => {
     setMounted(true);
@@ -72,12 +71,12 @@ export function HeroChatMobile() {
         <div className="border-b border-hairline px-5 py-3.5">
           <PersonaRow presence={t.persona.status} />
         </div>
+        {/* Teaser SPÓJNY w czasie: pytanie klienta → Magda „pisze" (dots). Pełna
+            odpowiedź + karty produktów gra w sheecie po tapnięciu. Karta NIE pokazuje
+            gotowej odpowiedzi RAZEM z pisaniem (zgłoszony bug „wiadomość, potem pisze"). */}
         <div className="flex flex-col gap-4 p-5">
           <div className="chat-msg ml-auto max-w-[78%]">
             <div className="rounded-2xl rounded-br-sm bg-blue px-4 py-3 text-sm leading-relaxed text-onblue">{userMsg}</div>
-          </div>
-          <div className="chat-msg max-w-[78%]">
-            <div className="rounded-2xl rounded-bl-sm bg-elevated px-4 py-3 text-sm leading-relaxed text-sub">{botMsg}</div>
           </div>
           <TypingDots />
           <span className="mt-1 inline-flex items-center gap-2 self-start text-sm font-medium text-blue-soft">

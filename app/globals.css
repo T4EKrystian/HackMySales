@@ -174,10 +174,18 @@
 
 /* Elementy animowane: ukryte tylko gdy jest JS; bez JS wszystko widoczne.
    GSAP animuje przez fromTo — klasa daje stan startowy bez FOUC.
-   .hero-bg-el (V6): dekoracje tła hero rozjaśniają się z czerni w intro. */
-.js .js-reveal, .js .hero-el, .js .chat-step, .js .hero-bg-el { opacity: 0; }
+   .hero-bg-el (V6): dekoracje tła hero rozjaśniają się z czerni w intro.
+   .hero-demo (V7.1): okno/karta czatu — GATED, inaczej maluje się w pozycji
+   naturalnej, po czym intro nakłada offset y:48 → widoczny SKOK („avatar spada").
+   .chat-step .chat-msg (V7.1): treść bąbla ukryta do fazy typingu — zamyka lukę
+   own-opacity (bąbel wyrenderowany, rodzic-step opacity:0), by ŻADEN pomiar DOM/bbox
+   nie widział gotowej wiadomości przed pisaniem. Karta hero (.chat-msg BEZ .chat-step)
+   nietknięta — jest statycznym teaserem. */
+.js .js-reveal, .js .hero-el, .js .chat-step, .js .hero-bg-el, .js .hero-demo,
+.js .chat-step .chat-msg { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
-  .js .js-reveal, .js .hero-el, .js .chat-step, .js .hero-bg-el { opacity: 1; }
+  .js .js-reveal, .js .hero-el, .js .chat-step, .js .hero-bg-el, .js .hero-demo,
+  .js .chat-step .chat-msg { opacity: 1; }
 }
 
 /* Manifest: słowa startują przygaszone tylko przy działającym JS */
