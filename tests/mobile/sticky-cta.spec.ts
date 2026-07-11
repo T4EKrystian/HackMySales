@@ -5,8 +5,7 @@ import { gotoAndSettle } from "../helpers";
 /** Agent qa-mobile: sticky CTA widoczne po hero; znika w cenniku i finale. */
 
 test("sticky CTA po hero, ukryty w cenniku i finale", async ({ page }) => {
-  test.fail(true, "kontrakt F3: StickyCta (dziś nie istnieje)");
-
+  // F3: StickyCta — IO hero/cennik/demo + overlay + visualViewport
   await gotoAndSettle(page);
   const heroH = await page.evaluate(() => document.querySelector("#top")!.getBoundingClientRect().height);
   await page.evaluate((y) => window.scrollTo(0, y + 400), heroH);

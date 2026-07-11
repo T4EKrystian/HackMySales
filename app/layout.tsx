@@ -45,6 +45,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#05060B", // pasek przeglądarki mobilnej w kolorze tła strony
+  viewportFit: "cover", // env(safe-area-inset-*) dostępne (sticky CTA / sheet iOS)
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

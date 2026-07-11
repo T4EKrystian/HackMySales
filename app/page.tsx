@@ -21,6 +21,7 @@ import { Faq } from "@/components/sections/Faq";
 import { TeamNote } from "@/components/sections/TeamNote";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Footer } from "@/components/sections/Footer";
+import { StickyCta } from "@/components/mobile/StickyCta";
 
 // JSON-LD — czyścimy nbsp do czystego tekstu dla robotów
 const clean = (s: string) => s.replace(/ /g, " ");
@@ -74,6 +75,7 @@ export default function Home() {
         <FinalCta />
       </main>
       <Footer />
+      <StickyCta />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }} />
     </>

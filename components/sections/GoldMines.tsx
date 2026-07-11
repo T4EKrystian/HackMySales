@@ -338,7 +338,7 @@ function WismoPath() {
         {/* anti-kitsch V6: kropka bez kolorowego cienia — sam akcent wystarczy */}
         <span className="wismo-dot absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-blue opacity-0" />
       </div>
-      <ol className="mt-2 flex justify-between gap-2">
+      <ol className="mt-2 flex flex-col gap-1 md:flex-row md:justify-between md:gap-2">
         {t.stops.map((s) => (
           <li key={s} className="wismo-stop num text-[13px] md:text-[10px] leading-tight text-mute transition-colors duration-200">
             {s}
@@ -378,9 +378,10 @@ export function GoldMines() {
         <SectionLabel num="03">{t.label}</SectionLabel>
         <SectionH2 className="max-w-[26ch]">{t.h2}</SectionH2>
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-4">
+        {/* Bento: mobile 2 pełne (duże) + 4 mini w 2×2 (grid-cols-2); desktop lg:cols-4 */}
+        <div className="mt-10 grid grid-cols-2 gap-4 md:mt-14 md:gap-5 lg:grid-cols-4">
           {/* Panel przychodów — duża karta */}
-          <SpotlightCard level={2} className="js-reveal p-8 lg:col-span-2">
+          <SpotlightCard level={2} className="js-reveal col-span-2 p-6 md:p-8 lg:col-span-2">
             <div className="grid h-full items-center gap-8 md:grid-cols-2">
               <div>
                 <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{t.revenue.title}</h3>
@@ -391,7 +392,7 @@ export function GoldMines() {
           </SpotlightCard>
 
           {/* Radar popytu */}
-          <SpotlightCard className="js-reveal p-7">
+          <SpotlightCard className="js-reveal p-4 md:p-7">
             <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{t.radar.title}</h3>
             <RadarDial />
             <ul className="mt-6 divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline">
@@ -405,28 +406,28 @@ export function GoldMines() {
           </SpotlightCard>
 
           {/* Ratownik koszyka */}
-          <SpotlightCard className="js-reveal p-7" >
+          <SpotlightCard className="js-reveal p-4 md:p-7">
             <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{rescue.title}</h3>
             <RescueLoop />
             <p className="mt-7 text-xs leading-relaxed text-sub">{rescue.body}</p>
           </SpotlightCard>
 
           {/* Doradca rozmiaru — interaktywny */}
-          <SpotlightCard className="js-reveal p-7">
+          <SpotlightCard className="js-reveal p-4 md:p-7">
             <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{size.title}</h3>
             <SizeAdvisor />
             <p className="mt-4 text-xs leading-relaxed text-sub">{size.body}</p>
           </SpotlightCard>
 
           {/* Autopilot „gdzie moja paczka" */}
-          <SpotlightCard className="js-reveal p-7">
+          <SpotlightCard className="js-reveal p-4 md:p-7">
             <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{wismo.title}</h3>
             <WismoPath />
             <p className="mt-5 text-xs leading-relaxed text-sub">{wismo.body}</p>
           </SpotlightCard>
 
           {/* Raport nocnej zmiany — duża karta z e-mailem */}
-          <SpotlightCard level={2} className="js-reveal p-8 lg:col-span-2">
+          <SpotlightCard level={2} className="js-reveal col-span-2 p-6 md:p-8 lg:col-span-2">
             <div className="grid h-full items-center gap-8 md:grid-cols-[1fr_1.2fr]">
               <div>
                 <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{report.title}</h3>
