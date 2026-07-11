@@ -11,7 +11,16 @@
     "check:photos": "node scripts/check-photos.mjs",
     "check:numbers": "node --no-warnings scripts/check-numbers.mjs",
     "qa:v6": "node scripts/qa-v6.mjs",
-    "qa:scroll": "node scripts/qa-scroll.mjs"
+    "qa:scroll": "node scripts/qa-scroll.mjs",
+    "serve:out": "node scripts/serve-out.mjs",
+    "qa:interactions": "playwright test --project=interactions",
+    "qa:scroll:suite": "playwright test --project=scroll-desktop --project=scroll-mobile",
+    "qa:mobile": "playwright test --project=mobile",
+    "qa:visual": "playwright test --project=visual-desktop --project=visual-mobile",
+    "qa:visual:baseline": "VISUAL_BASELINE=1 playwright test --project=visual-desktop --project=visual-mobile",
+    "qa:console": "playwright test --project=console-desktop --project=console-mobile",
+    "qa:perf": "node scripts/qa-lighthouse.mjs",
+    "qa:all": "npm run build && npm run check:photos && npm run check:numbers && playwright test && npm run qa:perf"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.5",
@@ -30,13 +39,18 @@
     "three": "^0.182.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^22",
+    "@types/pngjs": "^6.0.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "^15.3.4",
+    "lighthouse": "^13.4.0",
+    "pixelmatch": "^7.2.0",
     "playwright": "^1.61.1",
+    "pngjs": "^7.0.0",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3"
   }
