@@ -328,7 +328,7 @@ export function Channels() {
                 key={n.key}
                 onClick={() => beginSwitch(i, false)}
                 aria-pressed={i === activeCh}
-                className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 ${
+                className={`inline-flex min-h-11 items-center rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 md:min-h-0 ${
                   i === activeCh ? "bg-blue-tint text-blue-soft" : "text-mute hover:bg-l3 hover:text-sub"
                 }`}
               >

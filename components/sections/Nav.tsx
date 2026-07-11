@@ -153,7 +153,7 @@ export function Nav() {
         style={{ transform: "scaleX(0)" }}
       />
       <div className="container-hms flex h-[72px] items-center justify-between">
-        <a href="#top" aria-label="HackMySales — strona główna" className="rounded-md">
+        <a href="#top" aria-label="HackMySales — strona główna" className="inline-flex min-h-11 items-center rounded-md">
           <Logo status />
         </a>
 
@@ -187,7 +187,7 @@ export function Nav() {
         </div>
 
         <button
-          className="rounded-md p-2 text-ink md:hidden"
+          className="rounded-md p-2.5 text-ink md:hidden"
           aria-expanded={open}
           aria-controls="menu-mobile"
           aria-label={open ? t.menuClose : t.menuOpen}

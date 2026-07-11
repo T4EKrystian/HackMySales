@@ -490,6 +490,15 @@
     var(--bg-elevated) var(--fill, 50%)
   );
 }
+/* Mobile: hit-area 44 px (input wysoki), tor malowany jako CENTROWANY 6 px pasek */
+@media (max-width: 767px) {
+  .range-hms {
+    height: 44px;
+    background:
+      linear-gradient(to right, var(--blue-500) var(--fill, 50%), var(--bg-elevated) var(--fill, 50%))
+      center / 100% 6px no-repeat;
+  }
+}
 .range-hms::-webkit-slider-thumb {
   appearance: none;
   -webkit-appearance: none;

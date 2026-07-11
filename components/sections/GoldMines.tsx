@@ -246,7 +246,7 @@ function SizeAdvisor() {
             key={o.size}
             onClick={() => setActive(i)}
             aria-pressed={i === active}
-            className={`num flex-1 rounded-lg border px-0 py-1.5 text-xs transition-colors duration-150 ${
+            className={`num flex min-h-11 flex-1 items-center justify-center rounded-lg border px-0 py-1.5 text-xs transition-colors duration-150 md:min-h-0 ${
               i === active
                 ? "border-blue bg-blue-tint text-blue-soft"
                 : "border-hairline text-sub hover:border-strongline"
