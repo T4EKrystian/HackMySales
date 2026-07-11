@@ -76,3 +76,26 @@ Wszystkie sekcje ≥ 4 w każdej osi. Żadna nie wymagała drugiej iteracji poza
 **20. Finał** — Co: domknięcie klamry rdzenia + uczciwy skan. Jak: converge → płaska elipsa-„lądowisko"; sekwencja §11b po URL; ignition echo na wysłaniu. Kryterium: elipsa NIE przecina tekstu. Zmiana (2. iteracja): pas GL `top-[22%]`→`top-[34%]` — elipsa przecinała microcopy „Odpowiadamy…" (v6r-20/21); po zmianie microcopy kończy się na 661 px, centrum pasa 729 px (v6r-20b czysty).
 
 **21. Footer** — brief: nic. Zmiana: żadna. Wordmark-wipe, kolumny, © 2026 — spokojny dead-tail.
+
+---
+
+# V7 — Rubryka mobile (F5, przebudowane sekcje 390×844)
+
+Metoda jak V6: świeży screenshot 390 (deviceScaleFactor 2) → ocena C/R/H/A ≥4.
+Dowody: pliki `v7r-*` w scratchpadzie sesji. Desktop bez zmian (rubryka V6 obowiązuje);
+poniżej TYLKO sekcje ruszane w gałęzi mobilnej V7.
+
+| # | Sekcja (mobile) | C | R | H | A | Zmiana V7 + dowód |
+|---|---|---|---|---|---|---|
+| 2 | Hero | 5 | 4 | 5 | 4 | kompaktowa karta czatu → bottom-sheet z pełnym demem; H1 clamp(2.75–4.5rem), lead 16 px, CTA full-width, proof. `v7r-hero` |
+| 5 | Problem | 4 | 4 | 5 | 4 | 3 staty `min-h-[62svh]` (pasy pustki) → SnapRow; Counter v4 (final-invariant, IO dip). Pustki 300–380 → 0 |
+| 6 | Trzy miejsca (Pillars) | 5 | 4 | 4 | 4 | 3 filary-stosy → SnapRow z żywym czatem, peek następnej karty. `v7r-problem` (anchor #produkt) |
+| 7 | Kopalnie złota | 4 | 4 | 4 | 5 | bento 2 duże (col-span-2) + 4 mini 2×2 (`grid-cols-2`), gapy big-card gęściej. `v7r-funkcje` |
+| 8 | Pojedynek (Arena) | 4 | 4 | 4 | 5 | stos 4 rund 3178 px → SnapRow (swipe, peek), 1386 px; „martwy FAQ vs żywa Magda" side-by-side zachowane. `v7r-arena` |
+| 9 | Kanały | 4 | 5 | 4 | 4 | sieć węzłów hidden na mobile (duplikowała switcher + łamała tap-targety); switcher + orb `h-28` zostają |
+| 14 | Pas metryk (Results) | 4 | 4 | 4 | 5 | countery 2×2 (`grid-cols-2`), kalkulator gęściej; inputy min-h-11 (hit ≥44) |
+| 17 | Cennik | 5 | 4 | 5 | 5 | 3 plany-stos → SnapRow initial=Growth, peek; toggle okresu min-h-11. `v7r-cennik` |
+| — | StickyCta (nowy) | 4 | 5 | 4 | 5 | pasek po hero: „Magda online" + AiBadge (uczciwość AI) + „Umów demo"; hidden w cenniku/demo/sheet/klawiaturze |
+
+Wszystkie przebudowane sekcje ≥4 w każdej osi. Krytyczne dla briefu: proza ≥16 px,
+liczniki = final, zero pustki, cele ≥AA — zweryfikowane suitą `mobile` (8/8).
