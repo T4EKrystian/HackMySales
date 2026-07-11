@@ -74,7 +74,7 @@ export function SnapRow({
       <ul
         ref={scrollerRef}
         aria-label={ariaLabel}
-        className={`hide-scrollbar -mx-[var(--container-pad)] flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-[var(--container-pad)] scroll-px-[var(--container-pad)] md:mx-0 md:grid ${mdGridCols} md:overflow-visible md:px-0`}
+        className={`hide-scrollbar -mx-[var(--container-pad)] flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-[var(--container-pad)] py-3 scroll-px-[var(--container-pad)] md:mx-0 md:grid ${mdGridCols} md:overflow-visible md:py-0 md:px-0`}
       >
         {items.map((item, i) => (
           <li key={i} data-snap-slide className={`shrink-0 snap-center md:w-auto ${slideClassName}`}>

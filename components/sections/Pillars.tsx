@@ -7,6 +7,7 @@ import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { type ProductKind } from "@/components/ui/ProductVisual";
 import { ProductThumb } from "@/components/ui/ProductThumb";
 import { ChatShell } from "@/components/chat/ChatShell";
+import { SnapRow } from "@/components/mobile/SnapRow";
 import { exchangeToScript } from "@/components/chat/script";
 import { gsap, useGSAP, useReveal, typeInto, Flip, DESKTOP_MOTION, MOBILE_MOTION, EASE } from "@/lib/motion";
 
@@ -370,23 +371,30 @@ export function Pillars() {
       </div>
 
       {/* Mobile + desktop reduced-motion: trzy zwykłe bloki */}
-      <Container className="mt-14 flex flex-col gap-14 md:hidden motion-reduce:md:flex">
-        {t.items.map((item, i) => {
-          const Panel = PANELS[i];
-          return (
-            <div key={i}>
-              <p className="num mb-2 text-xs text-blue-soft">0{i + 1}</p>
-              <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{item.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-sub">{item.body}</p>
-              <div className="pillar-mobile-panel mt-6 rounded-[var(--radius-xl)] border border-hairline bg-card p-6">
-                <p className="label mb-5">{t.panelLabels[i]}</p>
-                <div className="min-h-[300px]">
-                  <Panel />
+      {/* Mobile: karuzela snap-x 3 filarów (koniec z 3 stackowanymi blokami ~2287 px) */}
+      <Container className="mt-10 md:hidden motion-reduce:md:block">
+        <SnapRow
+          ariaLabel={pl.mobile.carousel.pillars}
+          goToLabel={pl.mobile.carousel.goTo}
+          slideClassName="w-[88vw]"
+          mdGridCols="md:grid-cols-3"
+          items={t.items.map((item, i) => {
+            const Panel = PANELS[i];
+            return (
+              <div key={i}>
+                <p className="num mb-2 text-xs text-blue-soft">0{i + 1}</p>
+                <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-sub">{item.body}</p>
+                <div className="pillar-mobile-panel mt-6 rounded-[var(--radius-xl)] border border-hairline bg-card p-5">
+                  <p className="label mb-4">{t.panelLabels[i]}</p>
+                  <div className="min-h-[280px]">
+                    <Panel />
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        />
       </Container>
     </section>
   );

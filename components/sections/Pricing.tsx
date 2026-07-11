@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
+import { SnapRow } from "@/components/mobile/SnapRow";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { RollingNumber } from "@/components/ui/RollingNumber";
@@ -172,8 +173,15 @@ export function Pricing() {
           </span>
         </div>
 
-        <div className="mt-12 grid items-start gap-5 lg:grid-cols-3">
-          {t.plans.map((plan) => (
+        {/* Mobile: karuzela snap-x z peekiem (Growth wycentrowany); desktop: grid 3 */}
+        <SnapRow
+          className="mt-12"
+          ariaLabel={pl.mobile.carousel.plans}
+          goToLabel={pl.mobile.carousel.goTo}
+          slideClassName="w-[85vw]"
+          initial={1}
+          mdGridCols="md:items-start lg:grid-cols-3"
+          items={t.plans.map((plan) => (
             <PlanCard
               key={plan.name}
               plan={plan}
@@ -182,7 +190,7 @@ export function Pricing() {
               onToggle={() => setExpanded((v) => !v)}
             />
           ))}
-        </div>
+        />
 
         <p className="js-reveal mt-10 text-sm text-mute">{t.note}</p>
       </Container>
