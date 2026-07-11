@@ -38,7 +38,7 @@ export function ForWho() {
               key={s.key}
               onClick={() => setActive(i)}
               aria-pressed={i === active}
-              className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-150 ${
+              className={`inline-flex min-h-11 items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-150 md:min-h-0 ${
                 i === active
                   ? "border-blue bg-blue-tint text-blue-soft"
                   : "border-hairline text-sub hover:border-strongline hover:bg-elevated"

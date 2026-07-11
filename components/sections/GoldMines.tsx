@@ -382,7 +382,7 @@ export function GoldMines() {
         <div className="mt-10 grid grid-cols-2 gap-4 md:mt-14 md:gap-5 lg:grid-cols-4">
           {/* Panel przychodów — duża karta */}
           <SpotlightCard level={2} className="js-reveal col-span-2 p-6 md:p-8 lg:col-span-2">
-            <div className="grid h-full items-center gap-8 md:grid-cols-2">
+            <div className="grid h-full items-center gap-6 md:grid-cols-2 md:gap-8">
               <div>
                 <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{t.revenue.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-sub">{t.revenue.body}</p>
@@ -428,7 +428,7 @@ export function GoldMines() {
 
           {/* Raport nocnej zmiany — duża karta z e-mailem */}
           <SpotlightCard level={2} className="js-reveal col-span-2 p-6 md:p-8 lg:col-span-2">
-            <div className="grid h-full items-center gap-8 md:grid-cols-[1fr_1.2fr]">
+            <div className="grid h-full items-center gap-6 md:grid-cols-[1fr_1.2fr] md:gap-8">
               <div>
                 <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{report.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-sub">{report.body}</p>

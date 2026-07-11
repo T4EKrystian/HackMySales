@@ -5,6 +5,7 @@ import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Button } from "@/components/ui/Button";
 import { ChatDemo } from "@/components/sections/ChatDemo";
+import { HeroChatMobile } from "@/components/mobile/HeroChatMobile";
 import { gsap, useGSAP, SplitText, NO_REDUCE, REDUCE, FINE_POINTER, EASE, STAG, attachMagnet } from "@/lib/motion";
 import { useGLView } from "@/lib/glRegistry";
 import { armIntroGate, markIntroDone } from "@/lib/introGate";
@@ -145,7 +146,7 @@ export function Hero() {
         className="pointer-events-none absolute -top-[20%] bottom-[-20%] left-[-30%] right-[-30%] md:-top-[22%] md:bottom-[-22%] md:left-[34%] md:right-[-16%]"
       />
 
-      <div className="container-hms relative grid w-full items-center gap-14 py-16 md:py-20 lg:grid-cols-[55fr_45fr]">
+      <div className="container-hms relative grid w-full items-center gap-8 py-12 md:gap-14 md:py-20 lg:grid-cols-[55fr_45fr]">
         <div>
           <p className="hero-eyebrow hero-el label">{t.eyebrow}</p>
           <h1
@@ -180,7 +181,14 @@ export function Hero() {
         </div>
 
         <div id="chat-demo" className="hero-demo" data-cursor-label={pl.ui.cursorDemo}>
-          <ChatDemo />
+          {/* Desktop: pełne okno czatu. Mobile: kompaktowa karta → tap otwiera sheet
+              (hero 1497→~900 px, pełne demo w bottom-sheet). */}
+          <div className="hidden md:block">
+            <ChatDemo />
+          </div>
+          <div className="md:hidden">
+            <HeroChatMobile />
+          </div>
         </div>
       </div>
 

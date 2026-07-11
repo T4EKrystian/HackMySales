@@ -50,8 +50,13 @@ test("typografia: proza ≥16 px, labelki ≥13 px", async ({ page }) => {
 });
 
 test("strona ≤22 ekranów", async ({ page }) => {
-  // Kontrakt F3 (D8): dziś 34,1 ekranów; F2 tnie do ~28, F3 domyka ≤22.
-  test.fail(true, "kontrakt F2+F3: długość strony (dziś 34,1 ekranów)");
+  // Cel briefu ≤22 ekranów. V7 zbił 34,1 → ~24,9 (−27%) SAMĄ gęstością — Problem/
+  // Comparison/Pillars/Pricing → SnapRow, bento 2×2, section-pad max-md, typografia.
+  // Ostatnie ~2,9 ekranu dzieli treść (6 kopalni-dem, arena, kalkulator, FAQ) od celu —
+  // domknięcie wymaga USUNIĘCIA treści (zakaz briefu) albo ścisku łamiącego premium-
+  // whitespace (CLAUDE.md Apple/Hermès). Świadomy kompromis — do decyzji klienta.
+  // Marker known-fail: bramka NIE jest czerwona (oczekiwana), metryka w raporcie.
+  test.fail(true, "cel ≤22 vs zakaz usuwania treści: osiągnięto 24,9 (density-only sufit)");
 
   await gotoAndSettle(page);
   const screens = await page.evaluate(() => document.documentElement.scrollHeight / innerHeight);

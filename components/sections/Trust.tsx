@@ -87,7 +87,7 @@ export function Trust() {
                       key={tn}
                       onClick={() => setTone(i)}
                       aria-pressed={tone === i}
-                      className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 ${
+                      className={`inline-flex min-h-11 items-center justify-center rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 md:min-h-0 ${
                         tone === i ? "bg-blue text-onblue" : "text-sub hover:text-ink"
                       }`}
                     >

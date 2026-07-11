@@ -209,7 +209,7 @@ export function MorningPanel() {
                 </ul>
                 <a
                   href="#demo"
-                  className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-blue-soft hover:text-ink"
+                  className="group mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-blue-soft hover:text-ink md:mt-6 md:min-h-0"
                 >
                   {t.cta}
                   <Glyph name="arrow-right" size={15}

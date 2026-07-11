@@ -169,6 +169,7 @@ const raw = {
     sheetClose: "Zamknij rozmowę",
     carousel: {
       stats: "Statystyki — przewiń w bok",
+      rounds: "Rundy pojedynku — przewiń w bok",
       pillars: "Trzy miejsca — przewiń w bok",
       channels: "Kanały — przewiń w bok",
       plans: "Plany cennika — przewiń w bok",

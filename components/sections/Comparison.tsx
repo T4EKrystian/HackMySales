@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
+import { SnapRow } from "@/components/mobile/SnapRow";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Logo } from "@/components/ui/Logo";
 import { type ProductKind } from "@/components/ui/ProductVisual";
@@ -238,8 +239,9 @@ export function Comparison() {
           {r.q}
         </span>
       </div>
-      {/* Dwie odpowiedzi */}
-      <div className="mt-8 grid gap-5 md:grid-cols-2 md:gap-8">
+      {/* Dwie odpowiedzi side-by-side (porównanie „martwy FAQ vs żywa Magda" =
+          sedno areny; na mobile 2 wąskie kolumny zamiast stosu → połowa wysokości) */}
+      <div className="mt-5 grid grid-cols-2 gap-3 md:mt-8 md:gap-8">
         <div className="min-w-0">
           <p className="label mb-3 flex items-center gap-2">
             {t.arena.faqName}
@@ -295,17 +297,24 @@ export function Comparison() {
         </div>
       </div>
 
-      {/* Mobile + reduced-motion: rundy pionowo */}
-      <Container className="mt-10 flex max-w-[980px] flex-col gap-10 md:hidden motion-reduce:md:flex">
-        {rounds.map((r, i) => (
-          <div key={i} className="arena-round-m">
-            <p className="label mb-5">
-              {t.arena.roundLabel} <span className="num text-blue-soft">{i + 1}/4</span>
-            </p>
-            <RoundContent r={r} mobile />
-          </div>
-        ))}
-        <div className="flex justify-center md:hidden motion-reduce:md:flex">{Scoreboard}</div>
+      {/* Mobile: 4 rundy w karuzeli snap-x (swipe przez porównania) zamiast stosu
+          ~3178 px; scoreboard pod spodem. Desktop-reduced: md:grid kolumnowo. */}
+      <Container className="mt-10 max-w-[980px] md:hidden motion-reduce:md:block">
+        <SnapRow
+          ariaLabel={pl.mobile.carousel.rounds}
+          goToLabel={pl.mobile.carousel.goTo}
+          slideClassName="w-[90vw]"
+          mdGridCols="md:grid-cols-1"
+          items={rounds.map((r, i) => (
+            <div key={i} className="arena-round-m">
+              <p className="label mb-4">
+                {t.arena.roundLabel} <span className="num text-blue-soft">{i + 1}/4</span>
+              </p>
+              <RoundContent r={r} mobile />
+            </div>
+          ))}
+        />
+        <div className="mt-8 flex justify-center">{Scoreboard}</div>
       </Container>
 
       {/* Podsumowanie: pozostałe wiersze tabeli + dopisek */}

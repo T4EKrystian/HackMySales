@@ -32,7 +32,7 @@ function Field({
           max={max}
           step={step}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="num w-28 rounded-lg border border-hairline bg-field px-3 py-1.5 text-right text-sm text-ink"
+          className="num w-28 min-h-11 rounded-lg border border-hairline bg-field px-3 py-1.5 text-right text-sm text-ink md:min-h-0"
         />
       </div>
       <div className="range-wrap mt-4" style={{ "--fill": fill } as React.CSSProperties}>
@@ -96,16 +96,16 @@ function RoiCalculator() {
   }, [gain, t.glowThreshold]);
 
   return (
-    <div className="js-reveal rounded-[var(--radius-xl)] border border-hairline bg-card p-8 shadow-card md:p-10">
+    <div className="js-reveal rounded-[var(--radius-xl)] border border-hairline bg-card p-6 shadow-card md:p-10">
       <h3 className="font-display text-2xl font-semibold tracking-tight text-ink">{t.heading}</h3>
-      <div className="mt-8 grid gap-10 lg:grid-cols-2">
-        <div className="flex flex-col gap-8">
+      <div className="mt-6 grid gap-7 md:mt-8 lg:grid-cols-2 lg:gap-10">
+        <div className="flex flex-col gap-6 md:gap-8">
           <Field id="roi-visits" label={t.fields.visits} value={visits} min={1000} max={500000} step={1000} display={fmtIntPl(visits)} onChange={setVisits} />
           <Field id="roi-aov" label={t.fields.aov} value={aov} min={30} max={2000} step={10} display={`${fmtIntPl(aov)} zł`} onChange={setAov} />
           <Field id="roi-conv" label={t.fields.conv} value={conv} min={0.2} max={6} step={0.1} display={`${String(conv).replace(".", ",")}%`} onChange={setConv} />
         </div>
 
-        <div ref={resultBoxRef} className="flex flex-col justify-center rounded-[var(--radius-lg)] border border-hairline bg-surface p-7">
+        <div ref={resultBoxRef} className="flex flex-col justify-center rounded-[var(--radius-lg)] border border-hairline bg-surface p-6 md:p-7">
           <p className="text-sm leading-relaxed text-sub">{t.resultIntro}</p>
           <p aria-live="polite" className="mt-4 font-display font-bold tracking-tight text-ink">
             <span className="num text-4xl md:text-5xl">
@@ -140,7 +140,7 @@ function RoiCalculator() {
               onBlur={() => setMethodOpen(false)}
               aria-expanded={methodOpen}
               aria-controls="roi-method"
-              className="group inline-flex items-center gap-1.5 text-xs text-mute transition-colors duration-150 hover:text-sub"
+              className="group inline-flex min-h-11 items-center gap-1.5 text-xs text-mute transition-colors duration-150 hover:text-sub md:min-h-0"
             >
               {t.methodLabel}
               <Glyph name="arrow-right" size={12} className="transition-transform duration-150 group-hover:translate-x-0.5" />
@@ -158,7 +158,7 @@ function RoiCalculator() {
           <a
             ref={ctaRef}
             href="#demo"
-            className="group mt-6 inline-flex w-fit items-center gap-2 text-sm font-medium text-blue-soft hover:text-ink"
+            className="group mt-4 inline-flex min-h-11 w-fit items-center gap-2 text-sm font-medium text-blue-soft hover:text-ink md:mt-6 md:min-h-0"
           >
             {t.cta}
             <Glyph name="arrow-right" size={15} className="transition-transform duration-150 group-hover:translate-x-0.5" />
@@ -180,7 +180,7 @@ export function Results() {
         <SectionH2>{t.h2}</SectionH2>
 
         {/* Kolejność bloków: kalkulator → nocna zmiana → liczniki (motion.md, 2026-07-10) */}
-        <div className="mt-14">
+        <div className="mt-10 md:mt-14">
           <RoiCalculator />
         </div>
 
@@ -205,18 +205,18 @@ export function Results() {
           </div>
         </div>
 
-        <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-5 grid grid-cols-2 gap-4 md:gap-5 lg:grid-cols-4">
           {t.counters.map((c, i) => (
-            <div key={i} className="js-reveal rounded-[var(--radius-lg)] border border-hairline bg-card p-7">
+            <div key={i} className="js-reveal rounded-[var(--radius-lg)] border border-hairline bg-card p-5 md:p-7">
               <p className="font-display text-ink">
                 {"static" in c && c.static ? (
-                  <span className="num text-4xl font-bold tracking-tight">{c.static}</span>
+                  <span className="num text-3xl font-bold tracking-tight md:text-4xl">{c.static}</span>
                 ) : (
                   <Counter
                     value={(c as { value: number }).value}
                     prefix={(c as { prefix?: string }).prefix}
                     suffix={(c as { suffix?: string }).suffix}
-                    className="text-4xl font-bold tracking-tight"
+                    className="text-3xl font-bold tracking-tight md:text-4xl"
                   />
                 )}
               </p>

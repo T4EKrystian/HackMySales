@@ -23,7 +23,7 @@ export function Footer() {
                 <ul className="flex flex-col gap-2.5">
                   {col.links.map((l) => (
                     <li key={l.label}>
-                      <a href={l.href} className="text-sm text-sub hover:text-ink">
+                      <a href={l.href} className="inline-flex min-h-11 items-center text-sm text-sub hover:text-ink md:min-h-0">
                         {l.label}
                       </a>
                     </li>

@@ -108,7 +108,7 @@ function PlanCard({
       <button
         onClick={onToggle}
         aria-expanded={expanded}
-        className="mt-4 flex items-center gap-1.5 text-xs font-medium text-mute transition-colors duration-150 hover:text-sub"
+        className="mt-2 flex min-h-11 items-center gap-1.5 text-xs font-medium text-mute transition-colors duration-150 hover:text-sub md:mt-4 md:min-h-0"
       >
         {expanded ? t.lessLabel : t.moreLabel}
         <Glyph name="chevron-down" size={13}
@@ -155,7 +155,7 @@ export function Pricing() {
                 key={label}
                 onClick={() => switchBilling(i === 1)}
                 aria-pressed={yearly === (i === 1)}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors duration-150 ${
+                className={`inline-flex min-h-11 items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition-colors duration-150 md:min-h-0 ${
                   yearly === (i === 1) ? "bg-blue text-onblue" : "text-sub hover:text-ink"
                 }`}
               >

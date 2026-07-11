@@ -109,8 +109,8 @@
     /* tokeny własne */
     --text-label: 0.8125rem;                    /* .label 12→13 */
     --text-hero: clamp(2.75rem, 13vw, 4.5rem);  /* H1 mobilny — brief V7 */
-    --space-section: clamp(3rem, 12vw, 4rem);       /* 224 → 96-128 px/sekcję */
-    --space-section-tight: clamp(2rem, 8vw, 3rem);
+    --space-section: clamp(2.5rem, 10vw, 3.25rem);  /* 224 → 80-104 px/sekcję */
+    --space-section-tight: clamp(1.75rem, 7vw, 2.5rem);
   }
 }
 

@@ -286,7 +286,10 @@ export function Channels() {
           </p>
         </div>
 
-        <div className="ch-net relative mt-14 grid items-center gap-5 md:grid-cols-[1fr_auto_1fr] md:gap-16">
+        {/* Sieć-nodów = diagram DESKTOPOWY (beams+orb). Na mobile ukryta: to stos
+            duplikujący switcher; switcher (taby+chat) jest demem mobilnym. Zdejmuje
+            też GL mini-core i naruszenia tap-targetów kart-nodów z mobile. */}
+        <div className="ch-net relative mt-14 hidden items-center gap-5 md:grid md:grid-cols-[1fr_auto_1fr] md:gap-16">
           {/* Beams — tylko desktop */}
           <svg className="pointer-events-none absolute inset-0 hidden h-full w-full md:block" aria-hidden="true">
             {t.nodes.map((n) => (
@@ -321,7 +324,7 @@ export function Channels() {
 
         {/* Switcher skinów (v5/v6): TA SAMA rozmowa §1A; po pierwszym odtworzeniu
             przełączenia są statyczne, a zmianę niesie morph (puls→Flip→re-stagger) */}
-        <div className="mx-auto mt-14 w-full max-w-[620px]">
+        <div className="mx-auto mt-10 w-full max-w-[620px] md:mt-14">
           <div className="flex flex-wrap gap-1.5" role="group" aria-label="Wybierz kanał demo">
             {t.nodes.map((n, i) => (
               <button

@@ -9,7 +9,7 @@ import { scenarioToScript } from "@/components/chat/script";
  *  (skin onsite, persona Magda + plakietka AI, karty produktów z PRAWDZIWYM foto).
  *  Zostaje tu tylko to, co hero-specyficzne: taby scenariuszy, żywy zegar,
  *  chipy sugerowanych pytań i uczciwa atrapa inputu z tooltippem. */
-export function ChatDemo() {
+export function ChatDemo({ size = "hero" }: { size?: "hero" | "sheet" }) {
   const t = pl.hero.chat;
   const [scenario, setScenario] = useState(0);
   const [tooltip, setTooltip] = useState(false);
@@ -34,9 +34,13 @@ export function ChatDemo() {
       script={scenarioToScript(active)}
       skin="onsite"
       clock={clock}
-      waitForIntro
+      waitForIntro={size === "hero"}
       replayable
-      bodyClassName="max-h-[556px] min-h-[476px] p-5 pt-[112px]"
+      bodyClassName={
+        size === "sheet"
+          ? "h-[66vh] p-5 pt-[112px]"
+          : "max-h-[556px] min-h-[476px] p-5 pt-[112px]"
+      }
       headerExtra={
         <div className="flex gap-1.5 px-5 pb-2.5" role="group" aria-label="Scenariusze demo">
           {t.scenarios.map((s, i) => (

@@ -2,11 +2,12 @@ import { test, expect } from "@playwright/test";
 import { gotoAndSettle } from "../helpers";
 
 /** Agent qa-mobile: brak pionowych pasów pustki >200 px między sekcjami
- *  (zmierzone dziś: 300–380 px w Problemie — min-h-[62svh] justify-center). */
+ *  (V7-F2: naprawione — Problem 300–380 px `min-h-[62svh]` → SnapRow statów).
+ *  Sąsiedztwo liczone po `main > *` (nie tylko `section`) — ProofTicker to `<div>`,
+ *  więc `main > section` mierzył FANTOMOWY odstęp Hero→Problem PONAD wypełnionym
+ *  paskiem tickera; realne pustki wewnątrz sekcji łapie druga pętla. */
 
 test("odstępy między sekcjami ≤200 px", async ({ page }) => {
-  test.fail(true, "kontrakt F2: pasy pustki (dziś 300-380 px w Problemie)");
-
   await gotoAndSettle(page);
   const H = await page.evaluate(() => document.documentElement.scrollHeight);
   for (let y = 0; y < H; y += 700) {
@@ -14,7 +15,7 @@ test("odstępy między sekcjami ≤200 px", async ({ page }) => {
     await page.waitForTimeout(80);
   }
   const gaps = await page.evaluate(() => {
-    const els = [...document.querySelectorAll("main > section, footer")];
+    const els = [...document.querySelectorAll("main > *, footer")];
     const out: { after: string; gap: number }[] = [];
     for (let i = 0; i < els.length - 1; i++) {
       const a = els[i].getBoundingClientRect();
