@@ -263,6 +263,13 @@
 .chat-dot:nth-child(3) { animation-delay: 0.3s; }
 @media (prefers-reduced-motion: reduce) { .chat-dot { animation: none; } }
 
+/* Karuzele mobilne (SnapRow): ukryty scrollbar, natywny momentum */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
 /* Log czatu: momentum-scroll na iOS + łamanie długich ciągów w bąblach */
 [role="log"] { -webkit-overflow-scrolling: touch; }
 .chat-msg { overflow-wrap: anywhere; }

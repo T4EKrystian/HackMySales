@@ -94,6 +94,26 @@
   --dur-slow: 700ms;    /* reveals scrollowe */
 }
 
+/* ── Mobile (<768px): typografia i rytm pionowy (V7-F2) ──────────────
+   Nadpisania w UNLAYERED :root (tokens importowany bez @layer) wygrywają
+   kaskadę nad @layer theme Tailwinda — jedna dźwignia na 61×text-sm + 51×text-xs,
+   desktop nietknięty z konstrukcji. Proza 14→16, labelki 12→13, H1 pod vw,
+   rytm sekcji 224→~96-128 px. */
+@media (max-width: 767px) {
+  :root {
+    /* Tailwind theme-vars (utilities .text-sm/.text-xs czytają je bezpośrednio) */
+    --text-sm: 1rem;
+    --text-sm--line-height: 1.6;
+    --text-xs: 0.8125rem;
+    --text-xs--line-height: 1.5;
+    /* tokeny własne */
+    --text-label: 0.8125rem;                    /* .label 12→13 */
+    --text-hero: clamp(2.75rem, 13vw, 4.5rem);  /* H1 mobilny — brief V7 */
+    --space-section: clamp(3rem, 12vw, 4rem);       /* 224 → 96-128 px/sekcję */
+    --space-section-tight: clamp(2rem, 8vw, 3rem);
+  }
+}
+
 /* Jasny motyw — na później (landing startuje w dark). Struktura gotowa: */
 [data-theme="light"] {
   --bg-page: #FAFBFE;

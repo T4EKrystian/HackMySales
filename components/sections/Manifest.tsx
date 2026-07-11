@@ -52,7 +52,7 @@ export function Manifest() {
 
   return (
     <section ref={scope} className="relative md:h-[240vh]">
-      <div className="flex items-center py-36 md:sticky md:top-0 md:h-svh md:py-0">
+      <div className="flex items-center py-20 md:sticky md:top-0 md:h-svh md:py-0">
         <Container>
           <blockquote
             className="man-quote max-w-[21ch] font-display font-semibold tracking-tight text-ink md:ml-[10vw]"

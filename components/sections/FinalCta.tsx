@@ -103,7 +103,7 @@ export function FinalCta() {
           elipsa nie przecinała tekstu (v6r-20/21: kolizja z „Odpowiadamy…"). */}
       <div ref={glRef} aria-hidden="true" className="pointer-events-none absolute inset-x-[-10%] top-[34%] bottom-[-42%]" />
 
-      <Container className="relative max-w-[760px] py-28 text-center md:py-40">
+      <Container className="relative max-w-[760px] py-16 text-center md:py-40">
         <h2
           className="js-reveal font-display font-bold tracking-tight text-ink"
           style={{ fontSize: "var(--text-h2)", lineHeight: 1.1 }}

@@ -20,7 +20,7 @@ export function PersonaAvatar({ size = 28, ring = false }: { size?: number; ring
       aria-hidden="true"
     >
       {/* fallback-inicjał pod spodem — obrazek przykrywa go po załadowaniu */}
-      <span className="num absolute text-[11px] text-blue-soft">{persona.name[0]}</span>
+      <span className="num absolute text-[13px] md:text-[11px] text-blue-soft">{persona.name[0]}</span>
       <Image
         src={persona.avatar}
         alt=""
@@ -96,7 +96,7 @@ export function TypingDots() {
 
 export function DayDivider() {
   return (
-    <p className="chat-step self-center text-[11px] uppercase tracking-[0.12em] text-mute" data-role="divider">
+    <p className="chat-step self-center text-[13px] md:text-[11px] uppercase tracking-[0.12em] text-mute" data-role="divider">
       <span className="chat-msg">{ui.today}</span>
     </p>
   );
@@ -104,7 +104,7 @@ export function DayDivider() {
 
 export function ReadReceipt() {
   return (
-    <p className="chat-receipt mt-1 text-right text-[11px] text-mute" aria-label={ui.receiptAria}>
+    <p className="chat-receipt mt-1 text-right text-[13px] md:text-[11px] text-mute" aria-label={ui.receiptAria}>
       {ui.seen}
     </p>
   );

@@ -118,7 +118,7 @@ function RadarDial() {
           {rows[i] && (
             <span
               role="tooltip"
-              className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-lg border border-hairline bg-elevated px-2.5 py-1.5 text-[10px] text-sub opacity-0 shadow-card transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100"
+              className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-lg border border-hairline bg-elevated px-2.5 py-1.5 text-[13px] md:text-[10px] text-sub opacity-0 shadow-card transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100"
             >
               <span className="text-ink">{rows[i].query}</span>
               <span className="num ml-2 text-blue-soft">{rows[i].count}</span>
@@ -126,7 +126,7 @@ function RadarDial() {
           )}
         </span>
       ))}
-      <p className="label absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px]">
+      <p className="label absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap text-[13px] md:text-[10px]">
         {t.demos.radarLabel}
       </p>
     </div>
@@ -184,7 +184,7 @@ function RescueLoop() {
       {/* mini-okno sklepu */}
       <div className="rounded-xl border border-hairline bg-surface">
         <div className="flex items-center justify-between gap-2 border-b border-hairline px-3 py-2">
-          <span className="num truncate text-[10px] text-mute">{t.bar}</span>
+          <span className="num truncate text-[13px] md:text-[10px] text-mute">{t.bar}</span>
           <span className="rsc-close relative flex h-4 w-4 items-center justify-center rounded-sm">
             <span className="absolute h-px w-2.5 rotate-45 bg-mute" />
             <span className="absolute h-px w-2.5 -rotate-45 bg-mute" />
@@ -209,7 +209,7 @@ function RescueLoop() {
       {/* kursor klienta */}
       <span className="rsc-cursor absolute left-0 top-0 h-2.5 w-2.5 rounded-full border border-strongline bg-ink opacity-0" />
       {/* badge ratunku */}
-      <p className="rsc-badge num absolute inset-x-2 -bottom-3 flex items-center justify-center gap-1.5 rounded-full border border-hairline bg-blue-tint px-3 py-1.5 text-[11px] text-blue-soft opacity-0">
+      <p className="rsc-badge num absolute inset-x-2 -bottom-3 flex items-center justify-center gap-1.5 rounded-full border border-hairline bg-blue-tint px-3 py-1.5 text-[13px] md:text-[11px] text-blue-soft opacity-0">
         <Glyph name="check" size={11} />
         {t.badge}
       </p>
@@ -340,7 +340,7 @@ function WismoPath() {
       </div>
       <ol className="mt-2 flex justify-between gap-2">
         {t.stops.map((s) => (
-          <li key={s} className="wismo-stop num text-[10px] leading-tight text-mute transition-colors duration-200">
+          <li key={s} className="wismo-stop num text-[13px] md:text-[10px] leading-tight text-mute transition-colors duration-200">
             {s}
           </li>
         ))}
@@ -398,7 +398,7 @@ export function GoldMines() {
               {t.radar.rows.map((r) => (
                 <li key={r.query} className="flex items-center justify-between gap-2 px-3 py-2">
                   <span className="truncate text-xs text-ink">{r.query}</span>
-                  <span className="num shrink-0 text-[11px] text-blue-soft">{r.count}</span>
+                  <span className="num shrink-0 text-[13px] md:text-[11px] text-blue-soft">{r.count}</span>
                 </li>
               ))}
             </ul>

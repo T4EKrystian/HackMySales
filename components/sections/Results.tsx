@@ -123,7 +123,7 @@ function RoiCalculator() {
               />
               <span className="absolute top-1/2 h-3 w-px -translate-y-1/2 bg-strongline" style={{ left: `${(1 / 16) * 100}%` }} />
             </div>
-            <p className="num mt-2 text-[10px] uppercase tracking-[0.08em] text-mute" style={{ marginLeft: `${(1 / 16) * 100}%` }}>
+            <p className="num mt-2 text-[13px] md:text-[10px] uppercase tracking-[0.08em] text-mute" style={{ marginLeft: `${(1 / 16) * 100}%` }}>
               {t.costTick}
             </p>
           </div>

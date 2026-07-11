@@ -36,8 +36,7 @@ test("liczniki: po wjeździe w viewport wartość == data-final (nigdy 0/pusta)"
 });
 
 test("szybki, urwany przejazd nie zostawia zer przy sufiksach", async ({ page }) => {
-  test.fail(true, "kontrakt F2: Counter v4 — invariant final niezależnie od IO");
-
+  // F2: Counter v4 — DOM zawsze = final; IO-dip to jedyna animacja (bez ST)
   await gotoAndSettle(page);
   // brutalny skok w środek sekcji Problem (scenariusz screenshota klienta)
   const probY = await page.evaluate(

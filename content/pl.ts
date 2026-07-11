@@ -162,6 +162,20 @@ const raw = {
     newMessage: "Nowa wiadomość",
   },
 
+  // Stringi interfejsu MOBILE (V7 — karuzele snap-x, sheet, sticky CTA)
+  mobile: {
+    stickyStatus: "Magda online",
+    sheetOpen: "Otwórz pełną rozmowę",
+    sheetClose: "Zamknij rozmowę",
+    carousel: {
+      stats: "Statystyki — przewiń w bok",
+      pillars: "Trzy miejsca — przewiń w bok",
+      channels: "Kanały — przewiń w bok",
+      plans: "Plany cennika — przewiń w bok",
+      goTo: (n: number) => `Przejdź do ${n}`,
+    },
+  },
+
   problem: {
     label: "CO CIĘ TO KOSZTUJE",
     h2: "Twój sklep traci klientów po cichu.",

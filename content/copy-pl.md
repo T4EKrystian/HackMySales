@@ -90,6 +90,17 @@ Mobile: hamburger, pełnoekranowe menu.
 - **Aria plakietki:** Rozmowę prowadzi AI
 - **Pigułka nowej wiadomości (gdy log przewinięty w górę, V7):** Nowa wiadomość
 
+### 1d. Interfejs mobilny (V7 — karuzele, sheet czatu, sticky CTA; stringi UI/aria)
+
+- **Sticky CTA — status persony:** Magda online
+- **Karta czatu — otwarcie sheetu (aria):** Otwórz pełną rozmowę
+- **Sheet czatu — zamknięcie (aria):** Zamknij rozmowę
+- **Karuzela statystyk (aria):** Statystyki — przewiń w bok
+- **Karuzela „trzy miejsca" (aria):** Trzy miejsca — przewiń w bok
+- **Karuzela kanałów (aria):** Kanały — przewiń w bok
+- **Karuzela cennika (aria):** Plany cennika — przewiń w bok
+- **Kropka karuzeli (aria):** Przejdź do {n}
+
 ---
 
 ## 2. Problem

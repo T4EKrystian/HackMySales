@@ -100,7 +100,7 @@ export function TeamNote() {
         <span className="num text-[22vw] font-bold leading-[0.85] text-ink opacity-[0.045]">40+</span>
       </div>
 
-      <Container className="relative py-36 md:py-56">
+      <Container className="relative py-20 md:py-56">
         <p className="tn-label label js-reveal">{t.label}</p>
         <blockquote
           className="tn-quote js-reveal mt-8 max-w-[24ch] font-display font-semibold tracking-tight text-ink"

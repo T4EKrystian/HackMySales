@@ -160,7 +160,7 @@ function BubbleShell({
                   className={`px-4 py-3 text-sm leading-relaxed ${step.role === "user" ? cfg.bubbleUser : cfg.bubbleBot}`}
                 >
                   {step.role === "bot" && cfg.replyQuote && prevUser && (
-                    <p className="mb-1.5 truncate border-l-2 border-line-2 pl-2 text-[11px] text-mute">
+                    <p className="mb-1.5 truncate border-l-2 border-line-2 pl-2 text-[13px] md:text-[11px] text-mute">
                       {ui.replyLabel}: {prevUser}
                     </p>
                   )}

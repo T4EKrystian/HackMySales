@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Counter } from "@/components/ui/Counter";
+import { SnapRow } from "@/components/mobile/SnapRow";
 import { gsap, useGSAP, DESKTOP_MOTION, REDUCE } from "@/lib/motion";
 import { fmtIntPl } from "@/lib/typography";
 import { useGLView } from "@/lib/glRegistry";
@@ -117,7 +118,7 @@ export function Problem() {
   return (
     <section ref={scope} data-ambient="problem" className="relative">
       {/* JEDEN wspólny header nad wariantami (v5: koniec z duchami H2 w DOM) */}
-      <Container className="pt-24 md:pt-28">
+      <Container className="pt-14 md:pt-28">
         <SectionLabel num="01">{t.label}</SectionLabel>
         <SectionH2 className="max-w-[24ch]">{t.h2}</SectionH2>
       </Container>
@@ -165,21 +166,24 @@ export function Problem() {
         </div>
       </div>
 
-      {/* Mobile + desktop reduced-motion: trzy pełnoekranowe bloki */}
+      {/* Mobile + desktop reduced-motion: karuzela snap-x 3 statów (koniec z pasami
+          pustki po 3× min-h-[62svh] justify-center — zgłoszone 300-380 px) */}
       <div className="md:hidden motion-reduce:md:block">
         <Container>
-          {t.cards.map((c, i) => (
-            <div
-              key={i}
-              className={`flex min-h-[62svh] flex-col justify-center ${i < t.cards.length - 1 ? "border-b border-hairline" : ""}`}
-            >
-              <p className="text-ink">
-                <Counter value={c.value} className="text-[24vw] font-bold leading-none tracking-[-0.04em] md:text-[10rem]" />
-                <span className="num ml-3 text-xl text-blue-soft">{c.suffix.trim()}</span>
-              </p>
-              <p className="mt-5 max-w-[44ch] text-sm leading-relaxed text-sub">{c.text}</p>
-            </div>
-          ))}
+          <SnapRow
+            ariaLabel={pl.mobile.carousel.stats}
+            goToLabel={pl.mobile.carousel.goTo}
+            className="mt-10"
+            items={t.cards.map((c, i) => (
+              <div key={i} className="flex min-h-[46svh] flex-col justify-center">
+                <p className="text-ink">
+                  <Counter value={c.value} className="text-[26vw] font-bold leading-none tracking-[-0.04em] md:text-[10rem]" />
+                  <span className="num ml-3 text-xl text-blue-soft">{c.suffix.trim()}</span>
+                </p>
+                <p className="mt-5 max-w-[40ch] text-sm leading-relaxed text-sub">{c.text}</p>
+              </div>
+            ))}
+          />
         </Container>
       </div>
     </section>

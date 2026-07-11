@@ -182,7 +182,7 @@ export function HowItWorks() {
   return (
     <section ref={scope} data-ambient="kroki" className="bg-surface">
       {/* JEDEN wspólny header nad wariantami (v5: koniec z duchami H2 w DOM) */}
-      <Container className="pt-24 md:pt-28">
+      <Container className="pt-14 md:pt-28">
         <div ref={headRef}>
           <SectionLabel num="07">{t.label}</SectionLabel>
           <SectionH2>{t.h2}</SectionH2>
@@ -220,7 +220,7 @@ export function HowItWorks() {
                 <span
                   key={i}
                   data-active={i === 0 ? "true" : "false"}
-                  className="how-progress-dot num absolute top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-strongline bg-surface text-[10px] text-mute transition-colors duration-300 data-[active=true]:border-blue data-[active=true]:text-blue-soft"
+                  className="how-progress-dot num absolute top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-strongline bg-surface text-[13px] md:text-[10px] text-mute transition-colors duration-300 data-[active=true]:border-blue data-[active=true]:text-blue-soft"
                   style={{ left: `${i * 50}%`, transform: `translate(-${i * 50}%, -50%)` }}
                 >
                   0{i + 1}
@@ -233,7 +233,7 @@ export function HowItWorks() {
       </div>
 
       {/* Mobile + reduced: pion ze sticky progress-line */}
-      <div className="pb-24 md:hidden motion-reduce:md:block">
+      <div className="pb-14 md:hidden motion-reduce:md:block">
         <Container>
           <div className="relative mt-12 border-l border-hairline pl-7">
             <div className="flex flex-col gap-16">
