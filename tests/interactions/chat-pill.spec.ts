@@ -6,13 +6,13 @@ import { gotoAndSettle, lastActiveInView, SEL } from "../helpers";
  *  Cały spec = kontrakt F1 (feature nie istnieje w V6). */
 
 test("odpięcie scrolla → pigułka; klik → powrót na żywą krawędź", async ({ page }) => {
-  test.fail(true, "kontrakt F1: pinned-heurystyka + .chat-pill");
-
+  // F1: pinned-heurystyka + pigułka „Nowa wiadomość"
   await gotoAndSettle(page);
+  // czekaj aż log FAKTYCZNIE się przewinie (stick zepchnął treść w dół) — inaczej
+  // nie ma dokąd scrollować w górę i wheel-up jest no-opem
   await page.waitForFunction(
-    (sel) =>
-      [...document.querySelectorAll(sel)].filter((e) => parseFloat(getComputedStyle(e).opacity) > 0.5).length >= 3,
-    SEL.heroSteps,
+    (sel) => (document.querySelector(sel) as HTMLElement | null)?.scrollTop! > 40,
+    SEL.heroLog,
     { timeout: 30_000 }
   );
 

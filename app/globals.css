@@ -263,6 +263,37 @@
 .chat-dot:nth-child(3) { animation-delay: 0.3s; }
 @media (prefers-reduced-motion: reduce) { .chat-dot { animation: none; } }
 
+/* Log czatu: momentum-scroll na iOS + łamanie długich ciągów w bąblach */
+[role="log"] { -webkit-overflow-scrolling: touch; }
+.chat-msg { overflow-wrap: anywhere; }
+
+/* Pigułka „Nowa wiadomość" (V7) — gdy user przewinął log w GÓRĘ w trakcie playbacku:
+   silnik nie szarpie, tylko podnosi pigułkę; klik wraca na żywą krawędź. */
+.chat-pill {
+  position: absolute;
+  left: 50%;
+  bottom: 4.5rem; /* nad stopką-inputem okna czatu */
+  transform: translateX(-50%);
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-on-blue);
+  background: var(--blue-500);
+  box-shadow: var(--shadow-l2);
+  cursor: pointer;
+  animation: chat-pill-in 0.22s var(--ease-out);
+}
+@keyframes chat-pill-in {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .chat-pill { animation: none; } }
+
 /* Wskaźnik przewijania w hero — delikatne bujanie */
 @keyframes cue-bob {
   0%, 100% { transform: translateY(0); }

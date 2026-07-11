@@ -63,10 +63,7 @@ test("stale-done: po skończonej rozmowie zmiana taba nie trzyma dna", async ({ 
 });
 
 test("replay → scrollTop=0 i start od zera", async ({ page }) => {
-  // Kontrakt F1 (D8): dziś replay przegrywa wyścig ze smooth-scrollem efektu
-  // [done] (dojazd do chipów) — scrollTop po replay > 0. Zmierzone w F0.
-  test.fail(true, "kontrakt F1: replay vs wiszący smooth-scroll [done]");
-
+  // F1: replay resetuje pinned/anchor/unread + efekt [done] jest warunkowy (instant)
   await gotoAndSettle(page);
   await page.waitForFunction(
     (sel) => {
@@ -76,7 +73,7 @@ test("replay → scrollTop=0 i start od zera", async ({ page }) => {
     SEL.heroLog,
     { timeout: 60_000 }
   );
-  await page.getByRole("button", { name: pl.chatUi.replay }).click();
+  await page.getByRole("button", { name: pl.hero.chat.replay }).click();
   await page.waitForTimeout(250);
   const scrollTop = await page.evaluate((sel) => document.querySelector(sel)!.scrollTop, SEL.heroLog);
   expect(scrollTop, "scrollTop po replay").toBeLessThanOrEqual(2);

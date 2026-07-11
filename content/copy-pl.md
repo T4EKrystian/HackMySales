@@ -88,6 +88,7 @@ Mobile: hamburger, pełnoekranowe menu.
 - **Atrapa pola wiadomości (stopka okna czatu):** Napisz wiadomość…
 - **Aria potwierdzenia odczytu:** Wiadomość wyświetlona przez klienta
 - **Aria plakietki:** Rozmowę prowadzi AI
+- **Pigułka nowej wiadomości (gdy log przewinięty w górę, V7):** Nowa wiadomość
 
 ---
 

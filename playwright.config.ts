@@ -7,6 +7,10 @@ import { defineConfig } from "@playwright/test";
 const DESKTOP = { viewport: { width: 1440, height: 900 } };
 const MOBILE = { viewport: { width: 390, height: 844 }, hasTouch: true };
 
+// QA_BASE pozwala testować na ŻYWYM dev (:5341) bez produkcyjnego buildu — build
+// kasuje .next dev-servera (gotcha). Domyślnie serwer statyczny out/ na :5343.
+const QA_BASE = process.env.QA_BASE;
+
 export default defineConfig({
   testDir: "tests",
   outputDir: "qa/test-results",
@@ -16,16 +20,21 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   reporter: [["list"], ["json", { outputFile: "qa/last-run.json" }]],
   use: {
-    baseURL: "http://localhost:5343",
+    baseURL: QA_BASE ?? "http://localhost:5343",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
-  webServer: {
-    command: "node scripts/serve-out.mjs",
-    port: 5343,
-    reuseExistingServer: true,
-    timeout: 15_000,
-  },
+  // gdy QA_BASE ustawione (dev już działa) — nie startuj serwera statycznego
+  ...(QA_BASE
+    ? {}
+    : {
+        webServer: {
+          command: "node scripts/serve-out.mjs",
+          port: 5343,
+          reuseExistingServer: true,
+          timeout: 15_000,
+        },
+      }),
   projects: [
     { name: "interactions", testMatch: "interactions/**/*.spec.ts", use: DESKTOP },
     { name: "scroll-desktop", testMatch: "scroll/**/*.spec.ts", use: DESKTOP },

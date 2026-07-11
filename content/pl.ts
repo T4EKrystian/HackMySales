@@ -159,6 +159,7 @@ const raw = {
     inputPlaceholder: "Napisz wiadomość…",
     receiptAria: "Wiadomość wyświetlona przez klienta",
     aiBadgeAria: "Rozmowę prowadzi AI",
+    newMessage: "Nowa wiadomość",
   },
 
   problem: {

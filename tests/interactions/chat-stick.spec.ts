@@ -5,10 +5,8 @@ import { gotoAndSettle, lastActiveInView, trackConsole, SEL } from "../helpers";
  *  intersectionRatio ≥ 0.9 względem kontenera czatu (nigdy niewidoczne pisanie). */
 
 test("chat hero: stick-to-bottom — pisanie nigdy poza widokiem", async ({ page }) => {
-  // Kontrakt F1 (D8): zmierzone dziś worst ratio 0.14 — silnik follow-scrolluje
-  // tylko PO wiadomości. Marker zdejmuje F1.
-  test.fail(true, "kontrakt F1: stick-to-bottom (dziś worst ratio 0.14)");
-
+  // F1: stick-to-bottom kotwiczony w dole aktywnego kroku (dots/wiadomość), pomiar
+  // w rAF po paincie. Było worst ratio 0.14 (follow tylko PO wiadomości).
   const con = trackConsole(page);
   await gotoAndSettle(page);
 

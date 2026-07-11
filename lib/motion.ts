@@ -103,7 +103,7 @@ export function typeInto(
 export function typeIntoPunct(
   tl: gsap.core.Timeline,
   el: HTMLElement | null,
-  opts?: { caret?: HTMLElement | null; max?: number }
+  opts?: { caret?: HTMLElement | null; max?: number; onTick?: () => void }
 ) {
   if (!el) return;
   const full = el.dataset.full ?? el.textContent ?? "";
@@ -121,8 +121,10 @@ export function typeIntoPunct(
   }
   const total = Math.min(acc, opts?.max ?? 3.6);
   const proxy = { t: 0 };
+  let lastN = -1;
   tl.call(() => {
     el.textContent = "";
+    lastN = -1;
     if (opts?.caret) opts.caret.style.display = "inline-block";
   })
     .to(proxy, {
@@ -132,10 +134,16 @@ export function typeIntoPunct(
       onUpdate: () => {
         let n = 0;
         while (n < times.length && times[n] <= proxy.t) n++;
-        el.textContent = full.slice(0, n);
+        if (n !== lastN) {
+          lastN = n;
+          el.textContent = full.slice(0, n);
+          // stick-to-bottom przy każdym dołożonym znaku (bąbel usera rośnie przy zawijaniu)
+          opts?.onTick?.();
+        }
       },
       onComplete: () => {
         el.textContent = full;
+        opts?.onTick?.();
       },
     })
     .call(() => {

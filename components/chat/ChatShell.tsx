@@ -86,7 +86,7 @@ function BubbleShell({
   const scope = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  const { done, replay } = useChatPlayback({
+  const { done, setDone, replay, unread, jumpToLatest } = useChatPlayback({
     scope,
     bodyRef,
     mode,
@@ -97,13 +97,20 @@ function BubbleShell({
     onDone,
   });
 
-  // zmiana scenariusza = powrót na górę okna; koniec rozmowy = dojazd do chipów
+  // zmiana scenariusza = powrót na górę + RESET done (inaczej efekt [done] niżej
+  // trzymałby dno POPRZEDNIEJ, dłuższej rozmowy — zgłoszony bug „kontener na dole,
+  // wiadomość wyżej poza widokiem")
   useEffect(() => {
     bodyRef.current?.scrollTo({ top: 0 });
-  }, [script.key]);
+    setDone(false);
+  }, [script.key, setDone]);
+  // koniec rozmowy = dojazd do chipów, ale TYLKO gdy user jest przy dole (pinned);
+  // gdy przewinął w górę — pigułka wisi, nie szarpiemy
   useEffect(() => {
     if (!done) return;
-    bodyRef.current?.scrollTo({ top: bodyRef.current.scrollHeight, behavior: "smooth" });
+    const b = bodyRef.current;
+    if (!b || b.dataset.pinned === "false") return;
+    requestAnimationFrame(() => b.scrollTo({ top: b.scrollHeight, behavior: "auto" }));
   }, [done]);
 
   const lastBotIdx = (() => {
@@ -147,7 +154,7 @@ function BubbleShell({
             )}
             <div className="min-w-0">
               {step.role === "bot" && cfg.dots && <TypingDots />}
-              <div className={`chat-msg ${step.role === "user" ? "ml-auto max-w-[85%]" : "max-w-[85%]"}`}>
+              <div className={`chat-msg ${step.role === "user" ? "ml-auto max-w-[78%]" : "max-w-[78%]"}`}>
                 <div
                   data-flip-id={flipMsgs ? `ch-msg-${i}` : undefined}
                   className={`px-4 py-3 text-sm leading-relaxed ${step.role === "user" ? cfg.bubbleUser : cfg.bubbleBot}`}
@@ -239,6 +246,15 @@ function BubbleShell({
         {headerExtra}
       </div>
       {body}
+      {/* Pigułka „Nowa wiadomość" (V7): tylko gdy user przewinął log w górę podczas
+          playbacku. Sibling body — element scrollowany zostaje [role="log"] (kontrakt
+          morphu Kanałów). Bez JS/unread nie istnieje. */}
+      {unread && (
+        <button type="button" onClick={jumpToLatest} className="chat-pill" aria-live="polite">
+          <Glyph name="chevron-down" size={14} />
+          {ui.newMessage}
+        </button>
+      )}
       {footer}
       {/* pasek narzędzi wzorca komunikatora — tylko gdy skin go ma, a rodzic nie dał stopki */}
       {!footer && cfg.inputTools && (

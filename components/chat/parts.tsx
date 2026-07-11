@@ -83,8 +83,10 @@ export function PersonaRow({ presence, clock, ring = false }: { presence?: strin
 }
 
 export function TypingDots() {
+  // inline-flex + w-max + nowrap: bąbel pisania NIGDY się nie zawija (w-fit=fit-content
+  // kurczył się pod min-w-0/max-w rodzica do 2 linii — V7 zgłoszony bug)
   return (
-    <div className="chat-typing mb-2 flex w-fit items-center gap-1 rounded-2xl bg-elevated px-3.5 py-3">
+    <div className="chat-typing mb-2 inline-flex w-max items-center gap-1 whitespace-nowrap rounded-2xl bg-elevated px-3.5 py-3">
       <span className="chat-dot" />
       <span className="chat-dot" />
       <span className="chat-dot" />
@@ -112,7 +114,7 @@ export function ReadReceipt() {
 export function AttachmentProductCard({ card }: { card: ChatCard }) {
   return (
     <div
-      className="mt-3 flex items-center gap-3 rounded-xl border border-hairline bg-card p-3 transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:[box-shadow:var(--highlight-top),var(--shadow-l2)]"
+      className="mt-3 flex min-w-[240px] items-center gap-3 rounded-xl border border-hairline bg-card p-3 transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:[box-shadow:var(--highlight-top),var(--shadow-l2)]"
       style={{ transitionTimingFunction: "var(--ease-out)" }}
     >
       {card.slug ? (
