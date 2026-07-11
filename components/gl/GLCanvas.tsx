@@ -34,14 +34,20 @@ export default function GLCanvas() {
   const [active, setActive] = useState(true);
 
   // Globalny kursor dla scen (repulsja rdzenia) — jeden listener zamiast N.
+  // Guard `pointerType==="mouse"`: dotyk podczas scrollu NIE rusza glPointer
+  // (rdzeń/sceny nie skaczą za palcem — V7-F3 budżet mobile).
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
       glPointer.x = e.clientX;
       glPointer.y = e.clientY;
     };
     window.addEventListener("pointermove", onMove, { passive: true });
     return () => window.removeEventListener("pointermove", onMove);
   }, []);
+
+  // DPR: mobile ≤1.4 (mniej pikseli do rasteryzacji na gęstych ekranach) / desktop 1.75
+  const maxDpr = typeof window !== "undefined" && window.innerWidth < 768 ? 1.4 : 1.75;
 
   // v5: ambient żyje na CAŁEJ stronie → pętla gaśnie tylko przy karcie w tle.
   // Views same się kulują (drei pomija render poza viewportem); budżet passu <0,3 ms.
@@ -60,7 +66,7 @@ export default function GLCanvas() {
   return (
     <Canvas
       frameloop={active ? "always" : "never"}
-      dpr={[1, 1.75]}
+      dpr={[1, maxDpr]}
       gl={{ antialias: false, alpha: true, powerPreference: "high-performance", stencil: false, depth: false }}
       style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}
       aria-hidden="true"

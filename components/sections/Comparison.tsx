@@ -296,7 +296,7 @@ export function Comparison() {
       </div>
 
       {/* Mobile + reduced-motion: rundy pionowo */}
-      <Container className="mt-12 flex max-w-[980px] flex-col gap-16 md:hidden motion-reduce:md:flex">
+      <Container className="mt-10 flex max-w-[980px] flex-col gap-10 md:hidden motion-reduce:md:flex">
         {rounds.map((r, i) => (
           <div key={i} className="arena-round-m">
             <p className="label mb-5">
