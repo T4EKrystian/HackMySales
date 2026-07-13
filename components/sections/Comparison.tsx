@@ -176,7 +176,7 @@ export function Comparison() {
             pin: true,
             start: "top top",
             invalidateOnRefresh: true,
-            end: "+=360%",
+            end: "+=240%",
             scrub: 0.8,
             snap: { snapTo: "labels", duration: 0.4, ease: "power2.inOut" },
             onUpdate(self) {

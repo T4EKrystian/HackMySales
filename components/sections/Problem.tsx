@@ -59,7 +59,7 @@ export function Problem() {
             pin: true,
             start: "top top",
             invalidateOnRefresh: true,
-            end: "+=300%",
+            end: "+=200%",
             scrub: 0.8,
             snap: { snapTo: "labels", duration: 0.4, ease: "power2.inOut" },
             onUpdate(self) {
