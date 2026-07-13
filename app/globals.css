@@ -251,8 +251,8 @@
 }
 .hero-floatchip {
   position: absolute;
-  left: -1rem;
-  bottom: 2.25rem;
+  left: -1.25rem;
+  bottom: 6rem; /* nad stopką-composerem czatu — nie zasłania „Napisz wiadomość" */
   z-index: 3;
   display: inline-flex;
   align-items: center;

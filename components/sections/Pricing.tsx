@@ -46,7 +46,7 @@ function PlanCard({
           {off ? (
             <Glyph name="minus" size={15} className="shrink-0 text-mute" />
           ) : (
-            <Glyph name="check" size={15} className="shrink-0 text-blue" />
+            <Glyph name="check" size={15} className={`shrink-0 ${plan.featured ? "text-blue" : "text-sub"}`} />
           )}
           {label}
           {off && <span className="sr-only">— niedostępne w tym planie</span>}
