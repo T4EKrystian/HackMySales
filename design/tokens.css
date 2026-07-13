@@ -31,7 +31,8 @@
   --bg-input: #FFFFFF;              /* pola formularzy */
 
   /* --- Akcent (jedyny kolor marki — nie dodawaj drugiego) --- */
-  --blue-300: #3D5BFC;       /* akcent „nigdy", tekst na blue-tint, wykresy (na jasnym = pełny akcent) */
+  --blue-300: #2E45E0;       /* akcent „nigdy", tekst na blue-tint, wykresy — ciemniejszy niż blue-500,
+                                by tekst na blue-tint trzymał ≥4.5:1 na jasnym (axe: aktywny tab 4.08→OK) */
   --blue-400: #2E45E0;       /* hover przycisków (ciemnieje), linki hover */
   --blue-500: #3D5BFC;       /* PRIMARY: przyciski, logo, akcenty */
   --blue-600: #2E45E0;       /* active/pressed */

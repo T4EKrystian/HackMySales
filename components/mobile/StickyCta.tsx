@@ -67,6 +67,7 @@ export function StickyCta() {
     <div
       data-sticky-cta
       aria-hidden={!visible}
+      inert={!visible}
       className={`fixed inset-x-0 bottom-0 z-40 md:hidden transition-transform duration-300 ${
         visible ? "translate-y-0" : "pointer-events-none translate-y-[130%]"
       }`}
