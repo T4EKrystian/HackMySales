@@ -32,6 +32,8 @@ const raw = {
     ctaSecondary: "Zobacz, jak sprzedaje",
     scrollCue: "Przewiń",
     proof: "Wdrożenie w 1 dzień · Bez zmiany platformy · 14 dni testów za darmo",
+    // §1c (V8 jasny motyw): żywa pastylka przychodu pod CTA (dowód, dane demo — kwota 1:1 z §4)
+    livePill: { amount: demo.revenueMonth, label: "z rozmów w tym miesiącu", tag: "demo" },
     chat: {
       title: "HackMySales — doradca",
       status: "online",

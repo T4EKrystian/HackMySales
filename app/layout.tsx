@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05060B", // pasek przeglądarki mobilnej w kolorze tła strony
+  themeColor: "#FAFAF7", // pasek przeglądarki mobilnej w kolorze tła strony (jasny motyw)
   viewportFit: "cover", // env(safe-area-inset-*) dostępne (sticky CTA / sheet iOS)
 };
 

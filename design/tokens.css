@@ -1,61 +1,62 @@
 /* ============================================================
    HackMySales — Design Tokens (jedyne źródło prawdy o kolorach)
-   Ciemny motyw domyślny, zgodny z portalem klienta.
-   Import w globals.css. Nigdy nie hardkoduj hexów w komponentach.
+   MOTYW DOMYŚLNY: JASNY (Aurora·Light) — decyzja klienta 2026-07 (bake-off 3/3).
+   Ciepła biel #FAFAF7 (NIE pure white), jeden akcent niebieski #3D5BFC.
+   Rozjaśniony ciemny („Aurora Dark") żyje w [data-theme="dark"] jako opcja
+   (portal-sibling, login handoff, OG). Import w globals.css. Nigdy nie hardkoduj hexów.
    ============================================================ */
 
 :root {
-  /* --- Tła (od najgłębszego) --- */
-  --bg-page: #05060B;        /* tło strony */
+  /* --- Tło --- */
+  --bg-page: #FAFAF7;        /* ciepła biel — NIE pure white (anti-slop) */
 
   /* --- System elewacji v4 (hms-design-dna „Powierzchnie") ---
-     Poziomy liczone od tła chłodną bielą (utrzymuje niebieski cast serii).
-     Stare tokeny niżej są ALIASAMI poziomów — komponenty przechodzą na system
-     bez zmian; nowy kod używa tokenów surface-N i stroke-N
-     (klasy bg-l1, bg-l2, bg-l3, border-line-1, border-line-2). */
-  --lift: #E8EDFF;
-  --surface-1: color-mix(in srgb, var(--lift) 3%, var(--bg-page));  /* poziom 1 */
-  --surface-2: color-mix(in srgb, var(--lift) 6%, var(--bg-page));  /* poziom 2 */
-  --surface-3: color-mix(in srgb, var(--lift) 9%, var(--bg-page));  /* hover/elevated */
-  --stroke-1: rgba(255, 255, 255, 0.06);
-  --stroke-2: rgba(255, 255, 255, 0.08);
-  --highlight-top: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --shadow-l2: 0 1px 2px rgba(0, 0, 0, 0.5), 0 12px 40px -12px rgba(0, 0, 0, 0.6);
+     W jasnym: panele = czysta biel na ciepłej bieli, głębia z hairline'ów +
+     miękkiego cienia. --lift trzymane pod [data-theme=dark] (color-mix surfaces).
+     Stare tokeny --bg-* są ALIASAMI poziomów. */
+  --lift: #0B1020;
+  --surface-1: #FFFFFF;   /* poziom 1 — wyróżnione sekcje, nav po scrollu */
+  --surface-2: #FFFFFF;   /* poziom 2 — karty, panele, okno czatu */
+  --surface-3: #F1F0EA;   /* poziom 3 — hover, dropdowny, bąbel bota */
+  --stroke-1: rgba(17, 22, 42, 0.10);
+  --stroke-2: rgba(17, 22, 42, 0.15);
+  --highlight-top: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --shadow-l2: 0 1px 2px rgba(18, 22, 45, 0.05), 0 22px 56px -18px rgba(18, 22, 45, 0.20);
 
-  /* Aliasy (deprecation path): */
+  /* Aliasy (deprecation path) — muszą być re-deklarowane w [data-theme]! */
   --bg-surface: var(--surface-1);   /* sekcje wyróżnione, nav po scrollu */
   --bg-card: var(--surface-2);      /* karty, panele */
   --bg-elevated: var(--surface-3);  /* hover kart, dropdowny, tooltips */
-  --bg-input: #0E1119;              /* pola formularzy */
+  --bg-input: #FFFFFF;              /* pola formularzy */
 
   /* --- Akcent (jedyny kolor marki — nie dodawaj drugiego) --- */
-  --blue-300: #93A5FF;       /* tekst na niebieskich tłach-tintach, wykresy */
-  --blue-400: #5C77FF;       /* hover przycisków, linki hover */
+  --blue-300: #3D5BFC;       /* akcent „nigdy", tekst na blue-tint, wykresy (na jasnym = pełny akcent) */
+  --blue-400: #2E45E0;       /* hover przycisków (ciemnieje), linki hover */
   --blue-500: #3D5BFC;       /* PRIMARY: przyciski, logo, akcenty */
   --blue-600: #2E45E0;       /* active/pressed */
-  --blue-tint: rgba(61, 91, 252, 0.12);  /* tła badge'y, ghost hover */
-  --blue-glow: rgba(61, 91, 252, 0.35);  /* poświaty, cienie CTA */
+  --blue-tint: rgba(61, 91, 252, 0.09);  /* tła badge'y, ghost hover */
+  --blue-glow: rgba(61, 91, 252, 0.22);  /* poświaty, cienie CTA */
 
   /* --- Tekst --- */
-  --text-primary: #F4F6FC;
-  --text-secondary: #AEB4C9;
-  --text-muted: #7E859B;     /* labelki, captions — min. 12px; ≥4.5:1 na każdym tle (audyt axe) */
+  --text-primary: #0C0E16;
+  --text-secondary: #444B60;
+  --text-muted: #5B6277;     /* labelki, captions — ≥4.5:1 na bieli (audyt axe) */
   --text-on-blue: #FFFFFF;
 
   /* --- Linie i obrysy --- */
-  --border-hairline: var(--stroke-1); /* alias poziomu 1 (alpha samo-adaptuje kontrast) */
-  --border-strong: #2A3042;  /* NIE aliasować: używany też jako KOLOR TEKSTU (wordmark) i scrollbar */
-  --border-focus: #7C90FF;   /* focus ring, 2px + offset 2px */
+  --border-hairline: var(--stroke-1);
+  --border-strong: #C6CBDA;  /* NIE aliasować: też KOLOR TEKSTU (wordmark, wyciszony) i scrollbar */
+  --border-focus: #2E45E0;   /* focus ring, 2px + offset 2px */
 
   /* --- Semantyczne (używaj oszczędnie) --- */
-  --success: #33D69F;
-  --warning: #FFB454;
-  --danger: #FF5C7A;
+  --success: #0E9F6E;        /* „odzyskane/online/✓" — pogłębiony pod jasne tło */
+  --warning: #C2760A;
+  --danger: #E5484D;         /* strata w sekcji problemu */
 
   /* --- Gradienty (tylko w rodzinie niebieskiego — nigdy fiolet/róż) --- */
   --gradient-hero: linear-gradient(135deg, #3D5BFC 0%, #2E45E0 60%, #1B2A9E 100%);
-  --gradient-text: linear-gradient(100deg, #F4F6FC 30%, #93A5FF 100%);
-  --gradient-glow: radial-gradient(ellipse 800px 400px at 50% -10%, rgba(61,91,252,0.22), transparent 70%);
+  --gradient-text: linear-gradient(100deg, #0C0E16 30%, #3D5BFC 100%);
+  --gradient-glow: radial-gradient(ellipse 900px 500px at 68% -6%, rgba(61, 91, 252, 0.13), transparent 66%);
 
   /* --- Typografia --- */
   --font-display: "Schibsted Grotesk", "Inter", -apple-system, system-ui, sans-serif;
@@ -72,8 +73,8 @@
   --text-label: 0.75rem;                           /* uppercase, ls 0.08em, mono */
 
   /* --- Rytm i geometria (siatka 4px) --- */
-  --space-section: clamp(7rem, 14vw, 12rem);       /* pion między sekcjami */
-  --space-section-tight: clamp(3.5rem, 7vw, 6rem); /* pasy: ticker, marquee, metryki */
+  --space-section: clamp(6rem, 11vw, 9.5rem);      /* pion między sekcjami (zbity dla gęstości) */
+  --space-section-tight: clamp(3rem, 6vw, 5rem);   /* pasy: ticker, marquee, metryki */
   --container-max: 1240px;
   --container-pad: clamp(1.25rem, 4vw, 2.5rem);
   --radius-sm: 8px;
@@ -94,36 +95,59 @@
   --dur-slow: 700ms;    /* reveals scrollowe */
 }
 
-/* ── Mobile (<768px): typografia i rytm pionowy (V7-F2) ──────────────
-   Nadpisania w UNLAYERED :root (tokens importowany bez @layer) wygrywają
-   kaskadę nad @layer theme Tailwinda — jedna dźwignia na 61×text-sm + 51×text-xs,
-   desktop nietknięty z konstrukcji. Proza 14→16, labelki 12→13, H1 pod vw,
-   rytm sekcji 224→~96-128 px. */
+/* ── Ciemny motyw OPCJONALNY — „Aurora Dark" (rozjaśniony, NIE stary #05060B).
+   Portal-sibling / login handoff / OG. Aliasy re-deklarowane (Chromium zapieka
+   :root-substytuowaną wartość aliasu — bez tego nadpisanie --surface-* nie przepływa). */
+[data-theme="dark"] {
+  --bg-page: #0B0D14;
+  --lift: #E9EDFF;
+  --surface-1: color-mix(in srgb, var(--lift) 5%, var(--bg-page));
+  --surface-2: color-mix(in srgb, var(--lift) 9%, var(--bg-page));
+  --surface-3: color-mix(in srgb, var(--lift) 14%, var(--bg-page));
+  --stroke-1: rgba(233, 237, 255, 0.10);
+  --stroke-2: rgba(233, 237, 255, 0.15);
+  --highlight-top: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow-l2: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 70px -22px rgba(0, 0, 0, 0.75);
+  --bg-surface: var(--surface-1);
+  --bg-card: var(--surface-2);
+  --bg-elevated: var(--surface-3);
+  --bg-input: #141826;
+
+  --blue-300: #93A5FF;
+  --blue-400: #5C77FF;
+  --blue-500: #3D5BFC;
+  --blue-600: #2E45E0;
+  --blue-tint: rgba(61, 91, 252, 0.14);
+  --blue-glow: rgba(61, 91, 252, 0.42);
+
+  --text-primary: #F4F6FC;
+  --text-secondary: #AEB4C9;
+  --text-muted: #7E859B;
+  --text-on-blue: #FFFFFF;
+
+  --border-hairline: var(--stroke-1);
+  --border-strong: #2A3042;
+  --border-focus: #7C90FF;
+
+  --success: #33D69F;
+  --warning: #FFB454;
+  --danger: #FF5C7A;
+
+  --gradient-text: linear-gradient(100deg, #F4F6FC 25%, #93A5FF 100%);
+  --gradient-glow: radial-gradient(ellipse 900px 520px at 68% -6%, rgba(61, 91, 252, 0.30), transparent 68%);
+}
+
+/* ── Mobile (<768px): typografia i rytm pionowy (V7-F2) — paleta bez zmian ──
+   Nadpisania w UNLAYERED :root wygrywają kaskadę nad @layer theme Tailwinda. */
 @media (max-width: 767px) {
   :root {
-    /* Tailwind theme-vars (utilities .text-sm/.text-xs czytają je bezpośrednio) */
     --text-sm: 1rem;
     --text-sm--line-height: 1.6;
     --text-xs: 0.8125rem;
     --text-xs--line-height: 1.5;
-    /* tokeny własne */
     --text-label: 0.8125rem;                    /* .label 12→13 */
-    --text-hero: clamp(2.75rem, 13vw, 4.5rem);  /* H1 mobilny — brief V7 */
-    --space-section: clamp(2.5rem, 10vw, 3.25rem);  /* 224 → 80-104 px/sekcję */
+    --text-hero: clamp(2.75rem, 13vw, 4.5rem);  /* H1 mobilny */
+    --space-section: clamp(2.5rem, 10vw, 3.25rem);
     --space-section-tight: clamp(1.75rem, 7vw, 2.5rem);
   }
-}
-
-/* Jasny motyw — na później (landing startuje w dark). Struktura gotowa: */
-[data-theme="light"] {
-  --bg-page: #FAFBFE;
-  --bg-surface: #FFFFFF;
-  --bg-card: #FFFFFF;
-  --bg-elevated: #F2F4FA;
-  --bg-input: #FFFFFF;
-  --text-primary: #0B0D14;
-  --text-secondary: #4A5065;
-  --text-muted: #667089;
-  --border-hairline: #E4E7F0;
-  --border-strong: #CDD2E0;
 }

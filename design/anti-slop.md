@@ -4,7 +4,12 @@ Bramka jakości. Przed oddaniem każdej sekcji przejdź listę. Jedno „tak” 
 
 ## ZAKAZANE (natychmiast zdradzają AI)
 
-- Gradient fioletowo-różowy lub „aurora” w tle. Nasz gradient istnieje tylko w rodzinie niebieskiego.
+- Gradient fioletowo-różowy lub „aurora” w tle. Nasz gradient istnieje tylko w rodzinie niebieskiego (pojedyncza miękka poświata — NIGDY multi-stop aurora, która dryfuje w indygo/fiolet).
+- **Pure white `#FFFFFF` jako tło strony.** Motyw jasny startuje z ciepłej bieli `#FAFAF7` — pure white czyta się jak nieukończony template.
+- **Identyczne rzędy kart z obrysem** (3–4 karty tej samej wysokości i ramki obok siebie) — podręcznikowy AI-tell („monotonia ramek = generyk", DNA). Łam rytm: różne rozmiary, asymetria, jedna karta wiodąca, bento z logiką.
+- **Spotlight-border** (radial gradient podążający za kursorem po obrysie) i **border-beam** (świetlik conic biegnący po ramce) — dwa najczęściej klonowane komponenty MagicUI/shadcn-demo. Kto widział jedną stronę z 2024, rozpozna. Zastąp ownable detalem (nasz: żywe UI + mono-liczby + ticker Radaru).
+- **Dwa przeciwbieżne marquee logotypów** — uniwersalny trop SaaS. Jeśli marquee, to jedno, z narracją, a nie „ozdoba dla ozdoby".
+- Stos motion-clichés naraz (particle field + radar sweep + scramble + film grain + custom cursor) — każdy z osobna to „portfolio-template" sygnał; razem czytają się jako „ruch dla ruchu" (motion.md §1: ruch opowiada produkt, nigdy nie jest ozdobą).
 - Emoji w nagłówkach, karcie funkcji, przyciskach. Gdziekolwiek.
 - Trzy karty z ikonką 🚀/⚡/✨ i tekstem „Szybkość / Prostota / Bezpieczeństwo” — generyczne trio bez treści.
 - Glassmorphism na wszystkim (blur + przezroczystość na każdej karcie). Dozwolone: tylko nav po scrollu.
