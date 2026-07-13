@@ -205,9 +205,14 @@ export function Results() {
           </div>
         </div>
 
-        <div className="mt-5 grid grid-cols-2 gap-4 md:gap-5 lg:grid-cols-4">
+        {/* Pas metryk (jeden panel, 4 kolumny z hairline-dzielnikami) — anti-slop:
+            NIE 4 identyczne karty z obrysem, tylko spójna listwa danych */}
+        <div className="mt-5 grid grid-cols-2 overflow-hidden rounded-[var(--radius-lg)] border border-hairline bg-card lg:grid-cols-4">
           {t.counters.map((c, i) => (
-            <div key={i} className="js-reveal rounded-[var(--radius-lg)] border border-hairline bg-card p-5 md:p-7">
+            <div
+              key={i}
+              className="js-reveal border-hairline p-5 md:p-7 [&:nth-child(-n+2)]:border-b [&:nth-child(odd)]:border-r lg:border-b-0 lg:[&:nth-child(4n)]:border-r-0 lg:[&:nth-child(even)]:border-r"
+            >
               <p className="font-display text-ink">
                 {"static" in c && c.static ? (
                   <span className="num text-3xl font-bold tracking-tight md:text-4xl">{c.static}</span>

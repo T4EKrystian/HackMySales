@@ -33,7 +33,7 @@ export function Logo({ withWord = true, markSize = 30, className = "", status = 
         {status && (
           <span
             aria-hidden="true"
-            className="logo-pulse absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-ok"
+            className="logo-pulse absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-blue"
           />
         )}
       </span>

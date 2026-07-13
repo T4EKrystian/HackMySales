@@ -151,7 +151,7 @@ export function MorningPanel() {
                     {bars.map((h, i) => (
                       <div
                         key={i}
-                        className={`mp-bar flex-1 rounded-t-[3px] ${i === n - 2 ? "bg-blue" : "bg-blue-tint"}`}
+                        className={`mp-bar flex-1 rounded-t-[3px] ${i === n - 2 ? "bg-blue" : "bg-blue-soft/25"}`}
                         style={{ height: `${h}%` }}
                       />
                     ))}

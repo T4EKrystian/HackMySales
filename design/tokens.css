@@ -8,7 +8,8 @@
 
 :root {
   /* --- Tło --- */
-  --bg-page: #FAFAF7;        /* ciepła biel — NIE pure white (anti-slop) */
+  --bg-page: #F4F3EE;        /* ciepła miękka biel — NIE pure white; głębsza niż karty (#fff),
+                                żeby białe panele MIAŁY krawędź na jasnym (audyt: wash-out) */
 
   /* --- System elewacji v4 (hms-design-dna „Powierzchnie") ---
      W jasnym: panele = czysta biel na ciepłej bieli, głębia z hairline'ów +
@@ -17,9 +18,9 @@
   --lift: #0B1020;
   --surface-1: #FFFFFF;   /* poziom 1 — wyróżnione sekcje, nav po scrollu */
   --surface-2: #FFFFFF;   /* poziom 2 — karty, panele, okno czatu */
-  --surface-3: #F1F0EA;   /* poziom 3 — hover, dropdowny, bąbel bota */
-  --stroke-1: rgba(17, 22, 42, 0.10);
-  --stroke-2: rgba(17, 22, 42, 0.15);
+  --surface-3: #ECEAE2;   /* poziom 3 — hover, dropdowny, bąbel bota (odróżnialny od #fff karty) */
+  --stroke-1: rgba(17, 22, 42, 0.14);  /* hairline widoczny na ciepłej bieli (audyt: karty pływały) */
+  --stroke-2: rgba(17, 22, 42, 0.20);
   --highlight-top: inset 0 1px 0 rgba(255, 255, 255, 0.85);
   --shadow-l2: 0 1px 2px rgba(18, 22, 45, 0.05), 0 22px 56px -18px rgba(18, 22, 45, 0.20);
 

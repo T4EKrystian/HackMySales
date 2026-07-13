@@ -241,8 +241,8 @@
   width: 7px;
   height: 7px;
   border-radius: 999px;
-  background: var(--success);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--success) 55%, transparent);
+  background: var(--blue-500);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--blue-500) 55%, transparent);
   animation: hero-livepulse 2.4s var(--ease-in-out) infinite;
 }
 @keyframes hero-livepulse {
@@ -283,7 +283,7 @@
 }
 .logo-pulse {
   animation: logo-pulse 2s var(--ease-in-out) infinite;
-  box-shadow: 0 0 8px color-mix(in srgb, var(--success) 55%, transparent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--blue-500) 55%, transparent);
 }
 @media (prefers-reduced-motion: reduce) {
   .logo-pulse { animation: none; }

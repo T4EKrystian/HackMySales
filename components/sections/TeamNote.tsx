@@ -96,8 +96,8 @@ export function TeamNote() {
         className="tn-mark pointer-events-none absolute inset-y-0 right-[-4%] hidden select-none flex-col items-end justify-center md:flex"
         aria-hidden="true"
       >
-        <span className="num text-[22vw] font-bold leading-[0.85] text-ink opacity-[0.045]">2017</span>
-        <span className="num text-[22vw] font-bold leading-[0.85] text-ink opacity-[0.045]">40+</span>
+        <span className="num text-[22vw] font-bold leading-[0.85] text-ink opacity-[0.08]">2017</span>
+        <span className="num text-[22vw] font-bold leading-[0.85] text-ink opacity-[0.08]">40+</span>
       </div>
 
       <Container className="relative py-16 md:py-32">
