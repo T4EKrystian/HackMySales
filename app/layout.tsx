@@ -1,12 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/geist";
 import "@fontsource-variable/jetbrains-mono";
 import "lenis/dist/lenis.css";
 import "./globals.css";
+import { fraunces, generalSans } from "./fonts";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
-import { Cursor } from "@/components/motion/Cursor";
-import { ChapterTint } from "@/components/motion/ChapterTint";
-import { GLStage } from "@/components/gl/GLStage";
 
 export const metadata: Metadata = {
   // [PLACEHOLDER] docelowa domena produkcyjna
@@ -43,7 +40,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F5F5F7", // pasek przeglądarki mobilnej w kolorze tła strony (szary Apple)
+  themeColor: "#F7F5EF", // pasek przeglądarki mobilnej w kolorze tła (papier)
   viewportFit: "cover", // env(safe-area-inset-*) dostępne (sticky CTA / sheet iOS)
 };
 
@@ -51,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     // Inline skrypt niżej dodaje klasę .js PRZED hydracją — React 19 zgłasza mismatch
     // atrybutów <html>; tłumimy ostrzeżenie tylko na tym elemencie (wzorzec theme-script).
-    <html lang="pl" suppressHydrationWarning>
+    <html lang="pl" suppressHydrationWarning className={`${generalSans.variable} ${fraunces.variable}`}>
       <body className="bg-page text-ink">
         {/* Klasa .js przed renderem treści — steruje stanem startowym animacji (no-JS: wszystko widoczne) */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
@@ -59,10 +56,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Przejdź do treści
         </a>
         <SmoothScroll>{children}</SmoothScroll>
-        <GLStage />
-        <Cursor />
-        <ChapterTint />
-        <div className="grain" aria-hidden="true" />
       </body>
     </html>
   );

@@ -1,14 +1,9 @@
 @import "tailwindcss";
 @import "../design/tokens.css";
 
-/* Fonty self-hosted przez @fontsource-variable (deterministycznie, bez CDN Google —
-   przyjaźniej pod RODO). Nadpisują stacki z tokens.css nazwami rodzin variable. */
-:root {
-  /* Apple = jeden neutralny grotesk klasy SF na wszystko (Geist zamiast Schibsted+Inter) */
-  --font-display: "Geist Variable", Geist, -apple-system, system-ui, sans-serif;
-  --font-body: "Geist Variable", Geist, -apple-system, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-}
+/* Fonty: next/font (app/fonts.ts) wystawia --font-general (General Sans, local) i
+   --font-fraunces (Fraunces, self-hosted) jako zmienne na <html>. tokens.css mapuje je
+   na --font-display/--font-body/--font-serif. JetBrains Mono (@fontsource) = liczby. */
 
 /* Mapowanie tokenów na theme Tailwinda (inline = utility czyta nasz var bezpośrednio).
    W komponentach używamy WYŁĄCZNIE tych nazw — zero hexów. */
@@ -40,7 +35,21 @@
   --color-ok: var(--success);
   --color-warn: var(--warning);
   --color-danger: var(--danger);
+  /* Paleta redesignu (Paper / Forest / Acid) */
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-acid: var(--acid);
+  --color-acid-press: var(--acid-press);
+  --color-onacid: var(--text-on-acid);
+  --color-onforest: var(--text-on-forest);
+  --color-forest-950: var(--forest-950);
+  --color-forest-900: var(--forest-900);
+  --color-forest-700: var(--forest-700);
+  --color-sage: var(--sage-200);
+  --color-line: var(--line);
+  --color-line-dark: var(--line-dark);
   --font-sans: var(--font-body);
+  --font-serif: var(--font-serif);
   --font-mono: var(--font-mono);
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
@@ -52,11 +61,11 @@
   body {
     /* V6: tint rozdziałów (ChapterTint scrubuje --chapter-tint 0→~2,5%) —
        „niewidoczna ręka" między makro-blokami; 0% = czysty --bg-page */
-    background: color-mix(in oklab, var(--bg-page) calc(100% - var(--chapter-tint, 0%)), var(--blue-500));
+    background: var(--bg-page);
     color: var(--text-primary);
     font-family: var(--font-body);
-    font-size: var(--text-body); /* 17px — Apple body */
-    line-height: 1.47;
+    font-size: var(--text-body); /* 17px */
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     font-feature-settings: "kern" 1, "calt" 1, "liga" 1;
@@ -69,8 +78,8 @@
   }
   p { text-wrap: pretty; }
   ::selection {
-    background: color-mix(in srgb, var(--blue-500) 35%, transparent);
-    color: var(--text-primary);
+    background: var(--acid);
+    color: var(--text-on-acid);
   }
   :focus-visible {
     outline: 2px solid var(--border-focus);
@@ -126,11 +135,24 @@
 .section-pad-tight { padding-block: var(--space-section-tight); }
 
 .font-display { font-family: var(--font-display); }
+.font-serif { font-family: var(--font-serif); }
+
+/* Akcent kwasowy jako zakreślacz Magdy (NIE fill) — podpis marki na papierze */
+.acid-mark {
+  background-image: linear-gradient(var(--acid), var(--acid));
+  background-repeat: no-repeat;
+  background-position: 0 82%;
+  background-size: 100% 0.34em;
+  padding: 0 0.04em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
 
 /* Skala typografii Apple jako KLASY (nie inline) — przeżywają GSAP clearProps:"all"
    w reduced-motion (inline font-size był kasowany → H2 spadały do 17px). */
-.t-hero { font-size: var(--text-hero); line-height: 1.05; letter-spacing: -0.015em; }
-.t-h2 { font-size: var(--text-h2); line-height: 1.08; letter-spacing: -0.02em; }
+.t-hero { font-size: var(--text-hero); line-height: 0.98; letter-spacing: -0.035em; }
+.t-h2 { font-size: var(--text-h2); line-height: 1.05; letter-spacing: -0.025em; }
+.t-stat { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: var(--text-stat); line-height: 0.95; letter-spacing: -0.03em; }
 .t-h3 { font-size: var(--text-h3); line-height: 1.2; letter-spacing: -0.015em; }
 .t-lead { font-size: var(--text-lead); line-height: 1.5; letter-spacing: 0; }
 .t-quote { font-size: clamp(1.7rem, 3.4vw, 3rem); line-height: 1.25; letter-spacing: -0.015em; }
@@ -483,6 +505,53 @@
   background-size: 96px 96px;
   opacity: 0.05;
   pointer-events: none;
+}
+
+/* Hero: siatka cienkich LINII (nie kropek) + radialna maska + powolny dryf 40s */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 38px 38px;
+  -webkit-mask-image: radial-gradient(ellipse 78% 66% at 50% 42%, #000 28%, transparent 80%);
+  mask-image: radial-gradient(ellipse 78% 66% at 50% 42%, #000 28%, transparent 80%);
+  animation: grid-drift 40s var(--ease-in-out) infinite alternate;
+}
+.hero-grid.on-forest {
+  background-image:
+    linear-gradient(to right, var(--line-dark) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line-dark) 1px, transparent 1px);
+}
+@keyframes grid-drift {
+  to { transform: translate(8px, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-grid { animation: none; }
+}
+
+/* Szum pasm leśnych — dark bands nigdy jako płaskie wypełnienie (CHECKLIST #18) */
+.noise-forest {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.05;
+  mix-blend-mode: soft-light;
+}
+
+/* Hero: pływające chipy statystyk (ref-3) — powolny dryf, desynchronizowany delay */
+@keyframes chip-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.hero-chip { animation: chip-float 6s var(--ease-in-out) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-chip { animation: none; }
 }
 
 /* ---------- Custom cursor (tylko pointer:fine, bez reduced-motion) ---------- */

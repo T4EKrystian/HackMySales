@@ -13,6 +13,7 @@
     "qa:v6": "node scripts/qa-v6.mjs",
     "qa:scroll": "node scripts/qa-scroll.mjs",
     "serve:out": "node scripts/serve-out.mjs",
+    "shoot": "node scripts/shoot.mjs",
     "qa:interactions": "playwright test --project=interactions",
     "qa:scroll:suite": "playwright test --project=scroll-desktop --project=scroll-mobile",
     "qa:mobile": "playwright test --project=mobile",
