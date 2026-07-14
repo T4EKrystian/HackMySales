@@ -245,6 +245,10 @@ export function CoreParticles({ entry, variant }: { entry: GLViewEntry; variant:
   const orbitCount = Math.round(ORBIT_COUNT * (isMobile ? 0.4 : 1));
   const mouseForce = isMobile ? 0 : conf.mouse;
   const withOrbit = conf.orbit && !isMobile;
+  // Jasny motyw domyślny (:root); dark = [data-theme=dark]. Additive blending „dodaje
+  // światło" → na ciepłej bieli halo bloomu robi jasną smugę. Na jasnym: niższa alfa
+  // cząstek + mocno przygaszony glow, żeby rdzeń był elegancki, nie „particle cliché".
+  const light = typeof document !== "undefined" && document.documentElement.dataset.theme !== "dark";
 
   const matRef = useRef<THREE.ShaderMaterial>(null);
   const orbitMatRef = useRef<THREE.ShaderMaterial>(null);
@@ -265,6 +269,7 @@ export function CoreParticles({ entry, variant }: { entry: GLViewEntry; variant:
         uSize: { value: conf.size },
         uMode: { value: variant === "converge" ? 1 : 0 },
         uMouseForce: { value: mouseForce },
+        uAlpha: { value: light ? 0.7 : 1 },
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -278,7 +283,7 @@ export function CoreParticles({ entry, variant }: { entry: GLViewEntry; variant:
             uFlat: { value: 0.35 },
             uScatter: { value: 1.4 },
             uBeatAmp: { value: 0.5 },
-            uAlpha: { value: 0.45 },
+            uAlpha: { value: light ? 0.28 : 0.45 },
             uColA: { value: tokenColor("--blue-400") },
             uColB: { value: tokenColor("--blue-300") },
           })
@@ -344,7 +349,8 @@ export function CoreParticles({ entry, variant }: { entry: GLViewEntry; variant:
     const gm = glowMatRef.current;
     if (gm) {
       gm.uniforms.uTime.value = t * conf.time;
-      gm.uniforms.uIntensity.value = intensity;
+      // jasny motyw: additive halo mocno przygaszone (inaczej jasna smuga na bieli)
+      gm.uniforms.uIntensity.value = intensity * (light ? 0.35 : 1);
       gm.uniforms.uProgress.value = smooth.current;
     }
 

@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/schibsted-grotesk";
-import "@fontsource-variable/inter";
+import "@fontsource-variable/geist";
 import "@fontsource-variable/jetbrains-mono";
 import "lenis/dist/lenis.css";
 import "./globals.css";
@@ -16,14 +15,14 @@ export const metadata: Metadata = {
   description:
     "Czat AI, wyszukiwarka i rekomendacje podłączone do Twojego sklepu. Doradza klientom 24/7, ratuje koszyki i pokazuje przychód co do złotówki. Wdrożenie bez developera.",
   alternates: { canonical: "/" },
-  // ?v=2 — favicony cache'ują się agresywnie (hms-design-dna „Znak")
+  // ?v=3 — favicony cache'ują się agresywnie (hms-design-dna „Znak")
   icons: {
     icon: [
-      { url: "/icon.svg?v=2", type: "image/svg+xml" },
-      { url: "/favicon-32.png?v=2", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16.png?v=2", sizes: "16x16", type: "image/png" },
+      { url: "/icon.svg?v=3", type: "image/svg+xml" },
+      { url: "/favicon-32.png?v=3", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png?v=3", sizes: "16x16", type: "image/png" },
     ],
-    apple: [{ url: "/apple-icon.png?v=2", sizes: "180x180", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png?v=3", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
     type: "website",
@@ -44,7 +43,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05060B", // pasek przeglądarki mobilnej w kolorze tła strony
+  themeColor: "#F5F5F7", // pasek przeglądarki mobilnej w kolorze tła strony (szary Apple)
   viewportFit: "cover", // env(safe-area-inset-*) dostępne (sticky CTA / sheet iOS)
 };
 

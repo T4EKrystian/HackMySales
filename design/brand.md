@@ -1,56 +1,62 @@
-# HackMySales — Brand Book
+# HackMySales — Brand Book (v3, stylistyka Apple)
 
-Źródło: portal klienta (portal.185-238-74-109.nip.io). Landing ma wyglądać jak starszy brat portalu — ta sama rodzina, wyższa liga wykonania.
+Landing **jest jasny w stylistyce Apple** (restyle 2026-07, ref: iPhone Air): chłodne neutrale, Geist, akcent **Apple blue #0071E3**. Portal klienta (portal.185-238-74-109.nip.io) jest ciemny z firmowym #3D5BFC — rodzeństwo trzyma **wspólny znak i geometrię**; akcent kolorystyczny landingu (#0071E3) świadomie rozjeżdża się z portalem (decyzja klienta), most to „Zaloguj się". Poprzeczka: rzemiosło Apple / linear.app / stripe.com.
 
 ## 1. Logo
 
-**Konstrukcja:** dymek czatu (obrys, zaokrąglone rogi, ogonek w lewym dolnym rogu) + trzy rosnące słupki w środku. Znaczenie: rozmowa, która podnosi sprzedaż. Pliki: `assets/logomark.svg`, `assets/logo-full.svg`, `assets/favicon.svg`.
+**Konstrukcja (znak v3 — zwycięzca bake-offu 2026-07):** pełny dymek czatu (Apple blue, zaokrąglone rogi, ogonek w lewym dolnym rogu) ze **strzałką wzrostu ↗ w kontrze** (biała, jeden czysty skos + grot). Znaczenie: rozmowa → sprzedaż w górę. Pliki: `assets/logomark.svg` (znak), `assets/favicon.svg` = `app/icon.svg` (kafel app-icon: niebieski squircle + biały dymek + strzałka), `assets/logo-full.svg` (lockup). Poprzedni znak (dymek + 3 słupki) porzucony — klient uznał go za mało profesjonalny.
 
-**Wordmark:** `Hack` (biały) + `My` (niebieski #3D5BFC) + `Sales` (biały), Schibsted Grotesk Bold, tracking -0.5. Na stronie renderuj jako komponent: SVG mark + tekst w HTML (nie obrazek — ostrzej się skaluje i można animować).
+**Wordmark:** `Hack` (ciemny #1D1D1F na jasnym) + `My` (**Apple blue #0071E3**) + `Sales` (ciemny), **Geist Semibold**, tracking -0.02em. Renderuj jako komponent: SVG mark + tekst HTML.
 
-**Tagline:** „AI chatbot & recommendations that increase sales” — tylko przy dużym lockupie (footer, OG image). Uppercase, `--text-label`, `--text-muted`.
+**Tagline:** „AI chatbot & recommendations that increase sales" — tylko przy dużym lockupie (footer, OG). Uppercase, `--text-label`, `--text-muted`.
 
-**Zasady:** pole ochronne = wysokość jednego słupka wokół znaku. Nie zmieniaj proporcji słupków (to wykres wzrostu — musi rosnąć w prawo). Nie koloruj znaku poza: niebieski na ciemnym, niebieski na białym, biały na niebieskim. Min. rozmiar znaku: 24px.
+**Zasady:** pole ochronne = ~0,5× szerokości znaku wokół. Nie zmieniaj kąta/proporcji strzałki (rośnie w prawo-górę). Wersje: znak niebieski na jasnym; kafel (biały dymek na niebieskim) jako favicon/app-icon/avatar; mono/kontra dostępne w assetach. Min. 24px. **Kanon — nie redesignować w polish passach.**
 
 ## 2. Kolor
 
-Filozofia: **jeden akcent**. Niebieski #3D5BFC to jedyny kolor marki — cała reszta to skala szarości z niebieskim podtonem. Strona ma być głęboko ciemna, spokojna, a niebieski uderza tylko tam, gdzie chcemy akcji (CTA, liczby, hover). Pełna paleta i role: `design/tokens.css` — **jedyne źródło prawdy**.
+Filozofia: **jeden akcent**. Niebieski #3D5BFC to jedyny kolor marki — reszta to ciepła skala neutralna (ciepła biel → grafit). Strona jest jasna, otwarta i spokojna; niebieski uderza tam, gdzie chcemy akcji lub dowodu (CTA, liczby-pieniądze, hover, akcent nagłówka). Pełna paleta i role: `design/tokens.css` — **jedyne źródło prawdy**. Domyślny motyw jasny (`:root`); ciemny „Aurora Dark" żyje w `[data-theme="dark"]` (portal-sibling / OG).
 
-Proporcje na oko: ~85% tła/neutrale, ~10% tekst, ~5% niebieski. Jeśli sekcja ma więcej niż 2 niebieskie elementy naraz — za dużo.
+**Budżet życia (zamiast dawnej reguły „85/10/5 · max 2 niebieskie"):** akcent może być hojny w **strefach akcji i danych** (CTA, panele przychodów, wykresy, żywe pastylki), ale strefy **czytania** (nagłówki proza, akapity) zostają spokojne, neutralne. Zasada kciuka: w jednym kadrze niebieski ma być *scarce and punchy* — jeśli konkuruje sam ze sobą (H1-akcent + CTA + bąbel + glow + pill naraz), zneutralizuj jeden element. Więcej życia robimy **kontrastem powierzchni, hairline'ami, ciepłym światłem i ruchem**, nie drugim kolorem.
 
-Zakazane: fioletowo-różowe gradienty, neonowe zielenie, tęczowe wykresy, kolorowe ikonki. Semantyczne (success/danger) tylko w UI demo produktu.
+Zakazane: fioletowo-różowe gradienty, „aurora" blob, neonowe zielenie, tęczowe wykresy, kolorowe ikonki, **pure `#FFFFFF` jako tło strony** (używamy ciepłej bieli `#FAFAF7`). Semantyczne (success/danger) tylko w UI demo produktu.
 
 ## 3. Typografia
 
+Kierunek Apple: **jeden neutralny grotesk klasy SF na wszystko** (nagłówki i tekst), tak jak Apple używa SF Pro. Charakter niesie skala, tracking i waga — nie krój.
+
 | Rola | Font | Uwagi |
 |---|---|---|
-| Nagłówki (H1–H3) | **Schibsted Grotesk** 600/700 | Google Fonts, ma polskie znaki. Charakterny, ale nie krzyczy. Tracking ujemny. |
-| Tekst | **Inter** 400/500 | lh 1.65, max szerokość akapitu 65ch |
-| Liczby, KPI, labelki, kod | **JetBrains Mono** 400/500 | KPI i kwoty zawsze w mono — to nasz tik wizualny |
+| Nagłówki (H1–H3) | **Geist** 600 | neutralny grotesk (Vercel), klasa SF Pro. Semibold (NIE 700), tracking ciasny (-0.015…-0.025em). |
+| Tekst | **Geist** 400/500 | body **17px** lh 1.47 (Apple), max szerokość akapitu 65ch |
+| Liczby, KPI, labelki, kod | **JetBrains Mono** 400/500 | KPI i kwoty ZAWSZE w mono — nasz tik wizualny (podpis marki); `tnum`/`lnum` (kolumny cyfr) |
 
-Ładowanie przez `next/font/google` (subset `latin-ext` — obowiązkowo, inaczej znikną ą/ę/ł). Skala rozmiarów: w `tokens.css`.
+Ładowanie: **self-hosted przez `@fontsource-variable`** (geist / jetbrains-mono) — deterministycznie, bez CDN Google, przyjaźniej pod RODO. **NIE wracać do next/font/google.** (Poprzednio Schibsted Grotesk + Inter — wymienione na Geist w restyle Apple; Inter/Schibsted mniej „SF‑neutralne".)
 
-Detal, który robi robotę: kwoty i procenty w copy („47 218 zł”, „+23%”) owijaj w `<span class="num">` z fontem mono i kolorem `--blue-300` lub `--text-primary`.
+Detal: kwoty i procenty w prozie („47 218 zł", „+23%") owijaj w mono (`.num`) z kolorem `--blue-300`/`--text-primary`; separator tysięcy = nbsp (`47 218 zł`), `zł` z nbsp przed, przecinek dziesiętny.
 
 ## 4. Ikony
 
-Jeden zestaw: **Lucide** (stroke 1.75, rozmiar 20/24). Zawsze outline, zawsze `--text-secondary` lub niebieski. Zero emoji w UI i copy. Zero ilustracji 3D ze stocka.
+**Własne mikro-glify** (`components/ui/Glyph.tsx`): pathy 24×24, stroke 1.5, round caps, zawsze `aria-hidden` (sens niesie tekst obok). **Zero bibliotek ikon (Lucide itp.)** i zero emoji w UI/copy. Kolor: `--text-secondary` lub niebieski.
 
 ## 5. Obrazy i grafika
 
-Grafiką strony jest **UI produktu**: okno czatu, panel przychodów, radar popytu — budowane w HTML/CSS jako żywe komponenty (nie screenshoty, nie mockupy PNG). Tła: bardzo subtelna siatka kropek/linii + `--gradient-glow` za hero. Żadnych zdjęć stockowych ludzi.
+Grafiką strony jest **żywe UI produktu**: okno czatu, panel przychodów, radar popytu — budowane w HTML/CSS jako żywe komponenty (nie screenshoty PNG, nie ilustracje 3D ze stocka). Uzupełnienie (decyzja v5):
+
+- **Realne fotografie produktów** (packshoty, neutralne tło) z Pexels/Unsplash (licencja komercyjna bez atrybucji) w kartach czatu / wynikach — wspólny grade: crop 1:1, desaturacja −8%, winieta 3%. Manifest `public/products/*.webp` + `products.json`. ZAKAZ inicjałów/ilustracji tam, gdzie klient spodziewa się zdjęcia produktu.
+- **Persona „Magda"** (doradczyni) — jeden przyjazny headshot w CAŁYM serwisie, zawsze z plakietką „AI" przy imieniu, NIGDY jako „opinia klienta"/zdjęcie zespołu.
+- Tła: subtelna siatka kropek + `--gradient-glow` (pojedyncza miękka poświata w rodzinie niebieskiego, na jasnym ledwo widoczna). Żadnych zdjęć stockowych ludzi jako „klientów".
 
 ## 6. Głos marki (voice & tone)
 
-Piszemy jak doświadczony handlowiec, nie jak dział marketingu:
+Piszemy jak doświadczony handlowiec, nie dział marketingu:
 
-- **Konkret zamiast przymiotnika.** Nie „niesamowicie skuteczny bot”, tylko „bot, który w zeszłym miesiącu sprzedał za 47 218 zł”.
-- **Po polsku, po ludzku.** „Gdzie moja paczka?” zamiast „zapytania o status realizacji zamówienia”.
-- **Krótkie zdania.** Jedno zdanie = jedna myśl.
-- **Zero wykrzykników, zero emoji, zero „rewolucji”.** Słowa zakazane: rewolucyjny, przełomowy, odkryj moc, supercharge, wynieś na wyższy poziom, magia, ekosystem.
-- **Mówimy do właściciela sklepu na „Ty”.** On liczy pieniądze, nie „engagement”.
-- Angielski tylko tam, gdzie branża tak mówi: AOV, konwersja OK; „boostować” — nie.
+- **Konkret zamiast przymiotnika.** Nie „niesamowicie skuteczny bot", tylko „bot, który w zeszłym miesiącu sprzedał za 47 218 zł".
+- **Po polsku, po ludzku.** „Gdzie moja paczka?" zamiast „zapytania o status realizacji".
+- **Krótkie zdania.** Jedno zdanie = jedna myśl. Max 2 zdania na akapit.
+- **Zero wykrzykników, zero emoji, zero „rewolucji".** Słowa zakazane: rewolucyjny, przełomowy, odkryj moc, supercharge, wynieś na wyższy poziom, magia, ekosystem (pełna lista: `content/copy-pl.md` §14).
+- **Do właściciela sklepu na „Ty".** On liczy pieniądze, nie „engagement".
+- Bot: spokojny, konkretny doradca — 1 zdanie kontekstu + konkret (produkt/liczba/akcja). Klient może pisać naturalnie (literówki, mała litera, max 1 emoji) — to uwiarygadnia demo.
 
 ## 7. Relacja z portalem
 
-Landing i portal dzielą: paletę, logo, ciemny motyw, zaokrąglenia. Landing dodaje: większą typografię, animacje, gradient glow. Link „Zaloguj się” w nav prowadzi do portalu.
+Landing (jasny) i portal (ciemny) dzielą: **logo, akcent #3D5BFC, zaokrąglenia, mono-liczby, głos**. Landing dodaje: większą typografię, animacje, ciepłe światło. Link „Zaloguj się" w nav prowadzi do portalu i jest świadomym mostem jasny→ciemny.

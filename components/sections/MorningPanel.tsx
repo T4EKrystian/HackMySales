@@ -112,7 +112,7 @@ export function MorningPanel() {
       <Container>
         <SectionLabel num="08">{t.label}</SectionLabel>
         <SectionH2 className="max-w-[24ch]">{t.h2}</SectionH2>
-        <p className="js-reveal mt-5 max-w-[58ch] text-sub" style={{ fontSize: "var(--text-lead)", lineHeight: 1.6 }}>
+        <p className="t-lead js-reveal mt-5 max-w-[58ch] text-sub">
           {t.lead}
         </p>
 
@@ -151,7 +151,7 @@ export function MorningPanel() {
                     {bars.map((h, i) => (
                       <div
                         key={i}
-                        className={`mp-bar flex-1 rounded-t-[3px] ${i === n - 2 ? "bg-blue" : "bg-blue-tint"}`}
+                        className={`mp-bar flex-1 rounded-t-[3px] ${i === n - 2 ? "bg-blue" : "bg-blue-soft/25"}`}
                         style={{ height: `${h}%` }}
                       />
                     ))}

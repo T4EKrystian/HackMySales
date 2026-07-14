@@ -89,6 +89,8 @@ Mobile: hamburger, pełnoekranowe menu.
 - **Aria potwierdzenia odczytu:** Wiadomość wyświetlona przez klienta
 - **Aria plakietki:** Rozmowę prowadzi AI
 - **Pigułka nowej wiadomości (gdy log przewinięty w górę, V7):** Nowa wiadomość
+- **Hero — pastylka żywego przychodu (V8 jasny motyw, dowód pod CTA, dane demo):** 47 218 zł · z rozmów w tym miesiącu · demo (kwota 1:1 z §4 Panel przychodów; „demo” = tryb makiety)
+- **Hero — pływająca pastylka zdarzenia (na oknie czatu, V8):** treść 1:1 z §1b Proof ticker (pierwsza pozycja: „22:41 — koszyk uratowany · 214 zł”)
 
 ### 1d. Interfejs mobilny (V7 — karuzele, sheet czatu, sticky CTA; stringi UI/aria)
 

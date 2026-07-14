@@ -75,18 +75,15 @@ export function Integrations() {
     setResult(hit ? { hit } : { miss: true });
   };
 
-  const reversed = [...t.platforms].reverse();
-
   return (
     <section ref={ref} data-ambient="integracje" className="section-pad-tight bg-surface">
       <Container>
         <SectionH2 className="mt-0 max-w-[22ch]">{t.h2}</SectionH2>
       </Container>
 
-      {/* Dwa przeciwbieżne pasy logotypów */}
-      <div className="js-reveal mt-12 flex flex-col gap-[-1px]">
+      {/* Jeden pas logotypów z narracją (H2) — anti-slop: bez dual-marquee */}
+      <div className="js-reveal mt-12">
         <MarqueeRow items={t.platforms} />
-        <MarqueeRow items={reversed} reverse />
       </div>
 
       <Container>

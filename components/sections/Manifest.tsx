@@ -51,7 +51,7 @@ export function Manifest() {
   );
 
   return (
-    <section ref={scope} className="relative md:h-[240vh]">
+    <section ref={scope} className="relative md:h-[130vh]">
       <div className="flex items-center py-20 md:sticky md:top-0 md:h-svh md:py-0">
         <Container>
           <blockquote

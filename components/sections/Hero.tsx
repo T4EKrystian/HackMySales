@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
+import { fmtZl } from "@/lib/typography";
 import { Button } from "@/components/ui/Button";
 import { ChatDemo } from "@/components/sections/ChatDemo";
 import { HeroChatMobile } from "@/components/mobile/HeroChatMobile";
@@ -82,7 +83,7 @@ export function Hero() {
           tl.fromTo(".hero-lead", { y: 20 }, { y: 0, duration: 0.7, clearProps: "transform" }, 0.3);
         }
         tl.fromTo(
-          [".hero-eyebrow", ".hero-cta", ".hero-proof", ".hero-cue"],
+          [".hero-eyebrow", ".hero-cta", ".hero-proof", ".hero-pill", ".hero-cue"],
           { y: 24, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.7, stagger: STAG.base },
           0.38
@@ -146,20 +147,18 @@ export function Hero() {
         className="pointer-events-none absolute -top-[20%] bottom-[-20%] left-[-30%] right-[-30%] md:-top-[22%] md:bottom-[-22%] md:left-[34%] md:right-[-16%]"
       />
 
-      <div className="container-hms relative grid w-full items-center gap-8 py-12 md:gap-14 md:py-20 lg:grid-cols-[55fr_45fr]">
-        <div>
+      <div className="container-hms relative grid w-full items-center gap-8 py-12 md:gap-14 md:py-20 lg:grid-cols-[52fr_48fr]">
+        <div className="min-w-0">
           <p className="hero-eyebrow hero-el label">{t.eyebrow}</p>
           <h1
-            className="mt-5 font-display font-bold tracking-[-0.03em] text-ink"
-            style={{ fontSize: "var(--text-hero)", lineHeight: 1.05 }}
+            className="t-hero mt-5 font-display font-semibold text-ink"
           >
             {/* bez .hero-el — H1 to kandydat LCP, musi malować się od SSR */}
             <span className="hero-line block">{t.h1Line1}</span>
             <span className="hero-line block">{t.h1Line2}</span>
           </h1>
           <p
-            className="hero-lead mt-6 max-w-[36rem] text-sub"
-            style={{ fontSize: "var(--text-lead)", lineHeight: 1.6 }}
+            className="hero-lead t-lead mt-6 max-w-[36rem] text-sub"
           >
             {t.lead}
           </p>
@@ -178,13 +177,27 @@ export function Hero() {
             </a>
           </div>
           <p className="hero-proof hero-el mt-7 text-sm text-mute">{t.proof}</p>
+          {/* Żywy dowód: pastylka przychodu (dane demo, kwota 1:1 z §4) — wypełnia dno kolumny */}
+          <div className="hero-pill hero-el mt-6">
+            <div className="hero-livepill">
+              <span className="hero-livedot" aria-hidden="true" />
+              <span className="num text-sm text-ink">{fmtZl(t.livePill.amount)}</span>
+              <span className="hero-livepill-label">
+                {t.livePill.label} · {t.livePill.tag}
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div id="chat-demo" className="hero-demo" data-cursor-label={pl.ui.cursorDemo}>
-          {/* Desktop: pełne okno czatu. Mobile: kompaktowa karta → tap otwiera sheet
-              (hero 1497→~900 px, pełne demo w bottom-sheet). */}
-          <div className="hidden md:block">
+        <div id="chat-demo" className="hero-demo min-w-0" data-cursor-label={pl.ui.cursorDemo}>
+          {/* Desktop: pełne okno czatu + pływająca pastylka zdarzenia. Mobile: kompaktowa
+              karta → tap otwiera sheet (hero ~900 px, pełne demo w bottom-sheet). */}
+          <div className="relative hidden md:block">
             <ChatDemo />
+            <div className="hero-floatchip" aria-hidden="true">
+              <span className="hero-livedot" />
+              {pl.proofTicker.items[0]}
+            </div>
           </div>
           <div className="md:hidden">
             <HeroChatMobile />

@@ -96,15 +96,14 @@ export function TeamNote() {
         className="tn-mark pointer-events-none absolute inset-y-0 right-[-4%] hidden select-none flex-col items-end justify-center md:flex"
         aria-hidden="true"
       >
-        <span className="num text-[22vw] font-bold leading-[0.85] text-ink opacity-[0.045]">2017</span>
-        <span className="num text-[22vw] font-bold leading-[0.85] text-ink opacity-[0.045]">40+</span>
+        <span className="num text-[22vw] font-bold leading-[0.85] text-ink opacity-[0.08]">2017</span>
+        <span className="num text-[22vw] font-bold leading-[0.85] text-ink opacity-[0.08]">40+</span>
       </div>
 
-      <Container className="relative py-20 md:py-56">
+      <Container className="relative py-16 md:py-32">
         <p className="tn-label label js-reveal">{t.label}</p>
         <blockquote
-          className="tn-quote js-reveal mt-8 max-w-[24ch] font-display font-semibold tracking-tight text-ink"
-          style={{ fontSize: "clamp(1.6rem, 3.4vw, 2.9rem)", lineHeight: 1.3 }}
+          className="t-quote tn-quote js-reveal mt-8 max-w-[24ch] font-display font-semibold text-ink"
         >
           {t.body}
         </blockquote>

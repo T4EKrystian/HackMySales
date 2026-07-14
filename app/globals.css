@@ -4,8 +4,9 @@
 /* Fonty self-hosted przez @fontsource-variable (deterministycznie, bez CDN Google —
    przyjaźniej pod RODO). Nadpisują stacki z tokens.css nazwami rodzin variable. */
 :root {
-  --font-display: "Schibsted Grotesk Variable", "Schibsted Grotesk", "Inter Variable", system-ui, sans-serif;
-  --font-body: "Inter Variable", Inter, -apple-system, system-ui, sans-serif;
+  /* Apple = jeden neutralny grotesk klasy SF na wszystko (Geist zamiast Schibsted+Inter) */
+  --font-display: "Geist Variable", Geist, -apple-system, system-ui, sans-serif;
+  --font-body: "Geist Variable", Geist, -apple-system, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
@@ -54,11 +55,16 @@
     background: color-mix(in oklab, var(--bg-page) calc(100% - var(--chapter-tint, 0%)), var(--blue-500));
     color: var(--text-primary);
     font-family: var(--font-body);
-    line-height: 1.65;
+    font-size: var(--text-body); /* 17px — Apple body */
+    line-height: 1.47;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1, "calt" 1, "liga" 1;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
+    font-weight: 600; /* Apple semibold (nie 700) */
+    letter-spacing: -0.02em;
     text-wrap: balance;
   }
   p { text-wrap: pretty; }
@@ -120,6 +126,14 @@
 .section-pad-tight { padding-block: var(--space-section-tight); }
 
 .font-display { font-family: var(--font-display); }
+
+/* Skala typografii Apple jako KLASY (nie inline) — przeżywają GSAP clearProps:"all"
+   w reduced-motion (inline font-size był kasowany → H2 spadały do 17px). */
+.t-hero { font-size: var(--text-hero); line-height: 1.05; letter-spacing: -0.015em; }
+.t-h2 { font-size: var(--text-h2); line-height: 1.08; letter-spacing: -0.02em; }
+.t-h3 { font-size: var(--text-h3); line-height: 1.2; letter-spacing: -0.015em; }
+.t-lead { font-size: var(--text-lead); line-height: 1.5; letter-spacing: 0; }
+.t-quote { font-size: clamp(1.7rem, 3.4vw, 3rem); line-height: 1.25; letter-spacing: -0.015em; }
 
 .label {
   font-family: var(--font-mono);
@@ -214,7 +228,63 @@
 /* Akcent „nigdy" w H1 — sam kolor; poświatę viewportu hero DAJE rdzeń
    (anti-kitsch V6: budżet 1 glow na viewport — text-shadow OUT) */
 .hero-nigdy {
-  color: var(--blue-300);
+  color: var(--blue-500); /* akcent hero = żywy Apple blue (duży tekst → kontrast OK) */
+}
+
+/* ── Hero V8 (jasny): żywa pastylka przychodu + pływająca pastylka zdarzenia
+   (życie w martwym dnie lewej kolumny + dowód na oknie czatu; dane demo) ── */
+.hero-livepill {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 100%;
+  gap: 0.45rem 0.625rem;
+  padding: 0.5rem 0.9rem 0.5rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--stroke-1);
+  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.hero-livepill-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.hero-livedot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--blue-500);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--blue-500) 55%, transparent);
+  animation: hero-livepulse 2.4s var(--ease-in-out) infinite;
+}
+@keyframes hero-livepulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.32); opacity: 0.6; }
+}
+.hero-floatchip {
+  position: absolute;
+  left: -1.25rem;
+  bottom: 6rem; /* nad stopką-composerem czatu — nie zasłania „Napisz wiadomość" */
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--stroke-2);
+  background: color-mix(in srgb, var(--surface-1) 92%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-l2);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-livedot { animation: none; }
 }
 
 /* Kursor pisania klienta w czacie (na niebieskim bąblu) */
@@ -227,7 +297,7 @@
 }
 .logo-pulse {
   animation: logo-pulse 2s var(--ease-in-out) infinite;
-  box-shadow: 0 0 8px color-mix(in srgb, var(--success) 55%, transparent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--blue-500) 55%, transparent);
 }
 @media (prefers-reduced-motion: reduce) {
   .logo-pulse { animation: none; }

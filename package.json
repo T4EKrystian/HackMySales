@@ -23,6 +23,7 @@
     "qa:all": "npm run build && npm run check:photos && npm run check:numbers && playwright test && npm run qa:perf"
   },
   "dependencies": {
+    "@fontsource-variable/geist": "^5.2.9",
     "@fontsource-variable/inter": "^5.2.5",
     "@fontsource-variable/jetbrains-mono": "^5.2.5",
     "@fontsource-variable/schibsted-grotesk": "^5.2.5",

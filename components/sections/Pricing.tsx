@@ -46,7 +46,7 @@ function PlanCard({
           {off ? (
             <Glyph name="minus" size={15} className="shrink-0 text-mute" />
           ) : (
-            <Glyph name="check" size={15} className="shrink-0 text-blue" />
+            <Glyph name="check" size={15} className={`shrink-0 ${plan.featured ? "text-blue" : "text-sub"}`} />
           )}
           {label}
           {off && <span className="sr-only">— niedostępne w tym planie</span>}
@@ -143,7 +143,7 @@ export function Pricing() {
       <Container>
         <SectionLabel num="11">{t.label}</SectionLabel>
         <SectionH2>{t.h2}</SectionH2>
-        <p className="js-reveal mt-5 max-w-[62ch] text-sub" style={{ fontSize: "var(--text-lead)", lineHeight: 1.6 }}>
+        <p className="t-lead js-reveal mt-5 max-w-[62ch] text-sub">
           {t.lead}
         </p>
 
