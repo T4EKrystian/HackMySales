@@ -11,7 +11,6 @@ import { Channels } from "@/components/sections/Channels";
 import { ForWho } from "@/components/sections/ForWho";
 import { MorningPanel } from "@/components/sections/MorningPanel";
 import { NightShift } from "@/components/sections/NightShift";
-import { ProgressDots } from "@/components/ui/ProgressDots";
 import { ProductVisualDefs } from "@/components/ui/ProductVisual";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { Results } from "@/components/sections/Results";
@@ -53,8 +52,6 @@ export default function Home() {
     <>
       <ProductVisualDefs />
       <Nav />
-      <ProgressDots />
-      {/* Wrapper z-[1]: treść ponad globalnym Canvasem WebGL (z-0, fixed za contentem) */}
       <main id="tresc" className="relative z-[1]">
         <Hero />
         <ProofTicker />
