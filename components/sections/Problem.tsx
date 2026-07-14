@@ -139,7 +139,7 @@ export function Problem() {
                       {c.suffix.trim()}
                     </span>
                   </p>
-                  <p className="mt-7 max-w-[44ch] text-sub" style={{ fontSize: "var(--text-lead)", lineHeight: 1.55 }}>
+                  <p className="t-lead mt-7 max-w-[44ch] text-sub">
                     {c.text}
                   </p>
                 </div>

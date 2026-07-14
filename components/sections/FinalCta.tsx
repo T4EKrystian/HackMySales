@@ -104,13 +104,10 @@ export function FinalCta() {
       <div ref={glRef} aria-hidden="true" className="pointer-events-none absolute inset-x-[-10%] top-[34%] bottom-[-42%]" />
 
       <Container className="relative max-w-[760px] py-16 text-center md:py-40">
-        <h2
-          className="js-reveal font-display font-bold tracking-tight text-ink"
-          style={{ fontSize: "var(--text-h2)", lineHeight: 1.1 }}
-        >
+        <h2 className="t-h2 js-reveal font-display font-semibold text-ink">
           {t.h2}
         </h2>
-        <p className="js-reveal mx-auto mt-5 max-w-[52ch] text-sub" style={{ fontSize: "var(--text-lead)", lineHeight: 1.6 }}>
+        <p className="t-lead js-reveal mx-auto mt-5 max-w-[52ch] text-sub">
           {t.lead}
         </p>
 

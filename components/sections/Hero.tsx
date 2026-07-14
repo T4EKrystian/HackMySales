@@ -151,16 +151,14 @@ export function Hero() {
         <div className="min-w-0">
           <p className="hero-eyebrow hero-el label">{t.eyebrow}</p>
           <h1
-            className="mt-5 font-display font-bold tracking-[-0.03em] text-ink"
-            style={{ fontSize: "var(--text-hero)", lineHeight: 1.05 }}
+            className="t-hero mt-5 font-display font-semibold text-ink"
           >
             {/* bez .hero-el — H1 to kandydat LCP, musi malować się od SSR */}
             <span className="hero-line block">{t.h1Line1}</span>
             <span className="hero-line block">{t.h1Line2}</span>
           </h1>
           <p
-            className="hero-lead mt-6 max-w-[36rem] text-sub"
-            style={{ fontSize: "var(--text-lead)", lineHeight: 1.6 }}
+            className="hero-lead t-lead mt-6 max-w-[36rem] text-sub"
           >
             {t.lead}
           </p>

@@ -22,13 +22,15 @@ Zakazane: fioletowo-różowe gradienty, „aurora" blob, neonowe zielenie, tęcz
 
 ## 3. Typografia
 
+Kierunek Apple: **jeden neutralny grotesk klasy SF na wszystko** (nagłówki i tekst), tak jak Apple używa SF Pro. Charakter niesie skala, tracking i waga — nie krój.
+
 | Rola | Font | Uwagi |
 |---|---|---|
-| Nagłówki (H1–H3) | **Schibsted Grotesk** 600/700 | ma polskie znaki. Charakterny, tracking ujemny (-0.03…-0.01em). |
-| Tekst | **Inter** 400/500 | lh 1.65, max szerokość akapitu 65ch, body min 16px (mobile)/17px |
-| Liczby, KPI, labelki, kod | **JetBrains Mono** 400/500 | KPI i kwoty ZAWSZE w mono — nasz tik wizualny (podpis marki) |
+| Nagłówki (H1–H3) | **Geist** 600 | neutralny grotesk (Vercel), klasa SF Pro. Semibold (NIE 700), tracking ciasny (-0.015…-0.025em). |
+| Tekst | **Geist** 400/500 | body **17px** lh 1.47 (Apple), max szerokość akapitu 65ch |
+| Liczby, KPI, labelki, kod | **JetBrains Mono** 400/500 | KPI i kwoty ZAWSZE w mono — nasz tik wizualny (podpis marki); `tnum`/`lnum` (kolumny cyfr) |
 
-Ładowanie: **self-hosted przez `@fontsource-variable`** (schibsted-grotesk / inter / jetbrains-mono) — deterministycznie, bez CDN Google, przyjaźniej pod RODO, z latin-ext (ą/ę/ł). **NIE wracać do next/font/google.**
+Ładowanie: **self-hosted przez `@fontsource-variable`** (geist / jetbrains-mono) — deterministycznie, bez CDN Google, przyjaźniej pod RODO. **NIE wracać do next/font/google.** (Poprzednio Schibsted Grotesk + Inter — wymienione na Geist w restyle Apple; Inter/Schibsted mniej „SF‑neutralne".)
 
 Detal: kwoty i procenty w prozie („47 218 zł", „+23%") owijaj w mono (`.num`) z kolorem `--blue-300`/`--text-primary`; separator tysięcy = nbsp (`47 218 zł`), `zł` z nbsp przed, przecinek dziesiętny.
 

@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/schibsted-grotesk";
-import "@fontsource-variable/inter";
+import "@fontsource-variable/geist";
 import "@fontsource-variable/jetbrains-mono";
 import "lenis/dist/lenis.css";
 import "./globals.css";
@@ -44,7 +43,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F4F3EE", // pasek przeglądarki mobilnej w kolorze tła strony (jasny motyw)
+  themeColor: "#F5F5F7", // pasek przeglądarki mobilnej w kolorze tła strony (szary Apple)
   viewportFit: "cover", // env(safe-area-inset-*) dostępne (sticky CTA / sheet iOS)
 };
 

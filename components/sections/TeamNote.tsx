@@ -103,8 +103,7 @@ export function TeamNote() {
       <Container className="relative py-16 md:py-32">
         <p className="tn-label label js-reveal">{t.label}</p>
         <blockquote
-          className="tn-quote js-reveal mt-8 max-w-[24ch] font-display font-semibold tracking-tight text-ink"
-          style={{ fontSize: "clamp(1.6rem, 3.4vw, 2.9rem)", lineHeight: 1.3 }}
+          className="t-quote tn-quote js-reveal mt-8 max-w-[24ch] font-display font-semibold text-ink"
         >
           {t.body}
         </blockquote>

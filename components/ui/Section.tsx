@@ -29,8 +29,7 @@ export function SectionLabel({
 export function SectionH2({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
     <h2
-      className={`js-reveal mt-4 font-display font-bold tracking-tight text-ink ${className}`}
-      style={{ fontSize: "var(--text-h2)", lineHeight: 1.1 }}
+      className={`t-h2 js-reveal mt-4 font-display font-semibold text-ink ${className}`}
     >
       {children}
     </h2>

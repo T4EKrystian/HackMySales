@@ -143,7 +143,7 @@ export function Pricing() {
       <Container>
         <SectionLabel num="11">{t.label}</SectionLabel>
         <SectionH2>{t.h2}</SectionH2>
-        <p className="js-reveal mt-5 max-w-[62ch] text-sub" style={{ fontSize: "var(--text-lead)", lineHeight: 1.6 }}>
+        <p className="t-lead js-reveal mt-5 max-w-[62ch] text-sub">
           {t.lead}
         </p>
 
