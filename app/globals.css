@@ -228,7 +228,7 @@
 /* Akcent „nigdy" w H1 — sam kolor; poświatę viewportu hero DAJE rdzeń
    (anti-kitsch V6: budżet 1 glow na viewport — text-shadow OUT) */
 .hero-nigdy {
-  color: var(--blue-300);
+  color: var(--blue-500); /* akcent hero = żywy Apple blue (duży tekst → kontrast OK) */
 }
 
 /* ── Hero V8 (jasny): żywa pastylka przychodu + pływająca pastylka zdarzenia

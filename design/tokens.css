@@ -30,7 +30,7 @@
   --bg-input: #FFFFFF;              /* pola formularzy */
 
   /* --- Akcent = Apple blue (jedyny kolor marki) --- */
-  --blue-300: #0068D1;       /* tekst na blue-tint / mały akcent — ciemniejszy dla ≥4.5:1 na jasnym */
+  --blue-300: #005EBB;       /* tekst na blue-tint / mały akcent — ciemniejszy dla ≥4.5:1 na tincie (axe) */
   --blue-400: #0077ED;       /* hover przycisków (jaśnieje), linki hover */
   --blue-500: #0071E3;       /* PRIMARY: przyciski, logo, akcenty (Apple blue) */
   --blue-600: #0062C4;       /* active/pressed */

@@ -16,8 +16,8 @@ const variants: Record<Variant, string> = {
 };
 
 const sizes: Record<Size, string> = {
-  md: "px-5 py-2.5 text-[0.9375rem]",
-  lg: "px-7 py-3 text-[1.0625rem]",
+  md: "min-h-11 px-5 py-2.5 text-[0.9375rem]", // ≥44px tap target (Apple)
+  lg: "min-h-12 px-7 py-3 text-[1.0625rem]",
 };
 
 type ButtonProps = { variant?: Variant; size?: Size } & (
