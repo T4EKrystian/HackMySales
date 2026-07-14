@@ -11,7 +11,7 @@ import { useRef } from "react";
 import { pl } from "@/content/pl";
 import { demo } from "@/content/demo-data";
 import { fmtIntPl } from "@/lib/typography";
-import { gsap, useGSAP, NO_REDUCE } from "@/lib/motion";
+import { gsap, useGSAP } from "@/lib/motion";
 
 // Gwiazdy — deterministycznie (seeded LCG → brak hydration-mismatch)
 function makeStars(n: number) {
@@ -38,7 +38,8 @@ export function NightShift() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add(NO_REDUCE, () => {
+      // Pin/cinematyka TYLKO desktop + motion (CLAUDE.md: mobile bez pinów).
+      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
         const setClock = (mins: number) => {
           const h = Math.floor(mins / 60) % 24;
           const m = Math.floor(mins % 60);
@@ -75,10 +76,10 @@ export function NightShift() {
   );
 
   return (
-    <section ref={scope} aria-label="Nocna zmiana — bot sprzedaje, gdy śpisz" className="relative h-[440vh]">
-      <div className="nz-stage sticky top-0 flex h-svh items-center overflow-hidden bg-page">
+    <section ref={scope} aria-label="Nocna zmiana — bot sprzedaje, gdy śpisz" className="relative bg-page motion-safe:md:h-[440vh]">
+      <div className="nz-stage relative flex min-h-[80vh] items-center overflow-hidden bg-page py-20 motion-safe:md:sticky motion-safe:md:top-0 motion-safe:md:h-svh motion-safe:md:min-h-0 motion-safe:md:py-0">
         {/* PAYOFF świtu (jasny, pod niebem — odsłaniany gdy niebo znika) */}
-        <div className="nz-dawn container-hms pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 text-center">
+        <div className="nz-dawn container-hms pointer-events-none absolute inset-x-0 top-1/2 hidden -translate-y-1/2 text-center motion-safe:md:block motion-safe:md:opacity-0">
           <p className="label">08:00</p>
           <h2 className="t-h2 mt-3 font-display font-semibold text-ink">{pl.results.night.title}</h2>
           <p className="num mt-6 font-semibold leading-none tracking-tight text-blue" style={{ fontSize: "clamp(4rem,11vw,9rem)" }}>
@@ -117,7 +118,7 @@ export function NightShift() {
               <p className="label">CZAT AI · NOC</p>
               <div className="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
                 <span ref={clockRef} className="num font-semibold tracking-tight text-ink" style={{ fontSize: "clamp(3rem,7vw,5.5rem)" }}>
-                  22:41
+                  08:00
                 </span>
                 <span className="t-h3 font-display font-semibold text-mute">sklep śpi. bot sprzedaje.</span>
               </div>
@@ -135,7 +136,7 @@ export function NightShift() {
             <div className="text-center lg:text-left">
               <p className="label">PRZYCHÓD Z NOCY — NARASTAJĄCO</p>
               <p className="num mt-3 font-semibold leading-none tracking-tight text-blue" style={{ fontSize: "clamp(4rem,13vw,11rem)", textShadow: "0 0 60px var(--blue-glow)" }}>
-                <span ref={moneyRef}>0</span>
+                <span ref={moneyRef}>{fmtIntPl(TOTAL)}</span>
                 <span className="text-blue-soft" style={{ fontSize: "0.4em" }}> zł</span>
               </p>
               <div className="mt-8 flex justify-center gap-10 lg:justify-start">
@@ -154,8 +155,7 @@ export function NightShift() {
         </div>
       </div>
 
-      <style>{`@keyframes nz-tw{0%,100%{opacity:.22}50%{opacity:.85}}
-        @media (prefers-reduced-motion: reduce){ .nz-sky{display:none} .nz-dawn{opacity:1!important;transform:translateY(-50%)!important} }`}</style>
+      <style>{`@keyframes nz-tw{0%,100%{opacity:.22}50%{opacity:.85}}`}</style>
     </section>
   );
 }
