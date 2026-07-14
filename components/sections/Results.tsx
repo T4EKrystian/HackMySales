@@ -179,30 +179,9 @@ export function Results() {
         <SectionLabel num="09">{t.label}</SectionLabel>
         <SectionH2>{t.h2}</SectionH2>
 
-        {/* Kolejność bloków: kalkulator → nocna zmiana → liczniki (motion.md, 2026-07-10) */}
+        {/* Kalkulator → metryki. „Nocna zmiana" = osobna sekcja NightShift (richness 2026-07). */}
         <div className="mt-10 md:mt-14">
           <RoiCalculator />
-        </div>
-
-        {/* Licznik nocnej zmiany (features.md §L4) */}
-        <div className="js-reveal mt-5 rounded-[var(--radius-lg)] border border-hairline bg-card p-7">
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <p className="flex items-center gap-3 font-display text-lg font-semibold tracking-tight text-ink">
-              <Glyph name="moon" size={20} className="text-blue-soft" />
-              {t.night.title}
-            </p>
-            <dl className="grid grid-cols-3 gap-8">
-              {t.night.stats.map((s, i) => (
-                <div key={i}>
-                  <dd className="font-display text-2xl font-bold tracking-tight text-ink">
-                    <Counter value={s.value} suffix={s.unit ? ` ${s.unit}` : ""} />
-                  </dd>
-                  <dt className="mt-1 text-xs text-mute">{s.label}</dt>
-                </div>
-              ))}
-            </dl>
-            <p className="label">{t.night.caption}</p>
-          </div>
         </div>
 
         {/* Pas metryk (jeden panel, 4 kolumny z hairline-dzielnikami) — anti-slop:

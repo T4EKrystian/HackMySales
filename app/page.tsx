@@ -10,6 +10,7 @@ import { Comparison } from "@/components/sections/Comparison";
 import { Channels } from "@/components/sections/Channels";
 import { ForWho } from "@/components/sections/ForWho";
 import { MorningPanel } from "@/components/sections/MorningPanel";
+import { NightShift } from "@/components/sections/NightShift";
 import { ProgressDots } from "@/components/ui/ProgressDots";
 import { ProductVisualDefs } from "@/components/ui/ProductVisual";
 import { HowItWorks } from "@/components/sections/HowItWorks";
@@ -65,6 +66,7 @@ export default function Home() {
         <Channels />
         <ForWho />
         <HowItWorks />
+        <NightShift />
         <MorningPanel />
         <Results />
         <Integrations />

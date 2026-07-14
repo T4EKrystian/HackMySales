@@ -96,46 +96,46 @@
   --dur-slow: 700ms;    /* reveals scrollowe */
 }
 
-/* ── Ciemny motyw OPCJONALNY — „Aurora Dark" (rozjaśniony, NIE stary #05060B).
-   Portal-sibling / login handoff / OG. Aliasy re-deklarowane (Chromium zapieka
-   :root-substytuowaną wartość aliasu — bez tego nadpisanie --surface-* nie przepływa). */
+/* ── Ciemny motyw = Apple-dark (czerń #000, karty #1D1D1F, żywy niebieski #0A84FF).
+   Używany jako scope na sekcji „Nocna Zmiana" (dramatyczny akt) + opcja portal/OG.
+   Aliasy re-deklarowane (Chromium zapieka :root-substytuowaną wartość aliasu). */
 [data-theme="dark"] {
-  --bg-page: #0B0D14;
-  --lift: #E9EDFF;
-  --surface-1: color-mix(in srgb, var(--lift) 5%, var(--bg-page));
-  --surface-2: color-mix(in srgb, var(--lift) 9%, var(--bg-page));
-  --surface-3: color-mix(in srgb, var(--lift) 14%, var(--bg-page));
-  --stroke-1: rgba(233, 237, 255, 0.10);
-  --stroke-2: rgba(233, 237, 255, 0.15);
+  --bg-page: #000000;
+  --lift: #FFFFFF;
+  --surface-1: #1D1D1F;   /* karta Apple-dark */
+  --surface-2: #1D1D1F;
+  --surface-3: #2C2C2E;
+  --stroke-1: rgba(255, 255, 255, 0.14);
+  --stroke-2: rgba(255, 255, 255, 0.20);
   --highlight-top: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  --shadow-l2: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 70px -22px rgba(0, 0, 0, 0.75);
+  --shadow-l2: 0 1px 2px rgba(0, 0, 0, 0.6), 0 24px 70px -22px rgba(0, 0, 0, 0.85);
   --bg-surface: var(--surface-1);
   --bg-card: var(--surface-2);
   --bg-elevated: var(--surface-3);
-  --bg-input: #141826;
+  --bg-input: #1D1D1F;
 
-  --blue-300: #93A5FF;
-  --blue-400: #5C77FF;
-  --blue-500: #3D5BFC;
-  --blue-600: #2E45E0;
-  --blue-tint: rgba(61, 91, 252, 0.14);
-  --blue-glow: rgba(61, 91, 252, 0.42);
+  --blue-300: #64AEFF;    /* jaśniejszy — tekst/liczby na czerni (glow) */
+  --blue-400: #409CFF;
+  --blue-500: #0A84FF;    /* Apple system blue (dark) */
+  --blue-600: #0071E3;
+  --blue-tint: rgba(10, 132, 255, 0.16);
+  --blue-glow: rgba(10, 132, 255, 0.45);
 
-  --text-primary: #F4F6FC;
-  --text-secondary: #AEB4C9;
-  --text-muted: #7E859B;
+  --text-primary: #F5F5F7;
+  --text-secondary: #98989D;
+  --text-muted: #86868B;
   --text-on-blue: #FFFFFF;
 
   --border-hairline: var(--stroke-1);
-  --border-strong: #2A3042;
-  --border-focus: #7C90FF;
+  --border-strong: #38383A;
+  --border-focus: #0A84FF;
 
-  --success: #33D69F;
-  --warning: #FFB454;
-  --danger: #FF5C7A;
+  --success: #30D158;   /* Apple green (dark) */
+  --warning: #FFD60A;
+  --danger: #FF453A;
 
-  --gradient-text: linear-gradient(100deg, #F4F6FC 25%, #93A5FF 100%);
-  --gradient-glow: radial-gradient(ellipse 900px 520px at 68% -6%, rgba(61, 91, 252, 0.30), transparent 68%);
+  --gradient-text: linear-gradient(100deg, #F5F5F7 25%, #64AEFF 100%);
+  --gradient-glow: radial-gradient(ellipse 900px 520px at 68% -6%, rgba(10, 132, 255, 0.30), transparent 68%);
 }
 
 /* ── Mobile (<768px): typografia i rytm pionowy (V7-F2) — paleta bez zmian ──
