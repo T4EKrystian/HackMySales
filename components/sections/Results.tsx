@@ -107,12 +107,12 @@ function RoiCalculator() {
 
         <div ref={resultBoxRef} className="flex flex-col justify-center rounded-[var(--radius-lg)] border border-hairline bg-surface p-6 md:p-7">
           <p className="text-sm leading-relaxed text-sub">{t.resultIntro}</p>
-          <p aria-live="polite" className="mt-4 font-display font-bold tracking-tight text-ink">
-            <span className="num text-4xl md:text-5xl">
+          <p aria-live="polite" className="mt-3 font-display font-semibold leading-none tracking-tight text-ink">
+            <span className="num" style={{ fontSize: "clamp(2.5rem, 5vw, 4.25rem)" }}>
               +<RollingNumber value={gain} /> zł
             </span>
-            <span className="ml-2 text-base font-normal text-sub">{t.resultSuffix}</span>
           </p>
+          <p className="mt-2 text-sm text-sub">{t.resultSuffix}</p>
 
           {/* Pasek: ile razy odzysk przekracza koszt narzędzia (§6b) */}
           <div className="mt-6" aria-hidden="true">
@@ -129,7 +129,7 @@ function RoiCalculator() {
           </div>
 
           <p className="mt-5 flex items-baseline gap-3">
-            <span className="num text-3xl font-bold tracking-tight text-blue-soft">×{mult}</span>
+            <span className="num text-4xl font-semibold tracking-tight text-blue-soft md:text-5xl">×{mult}</span>
             <span className="max-w-[24ch] text-xs leading-snug text-mute">{t.roiCaption}</span>
           </p>
 
@@ -194,13 +194,13 @@ export function Results() {
             >
               <p className="font-display text-ink">
                 {"static" in c && c.static ? (
-                  <span className="num text-3xl font-bold tracking-tight md:text-4xl">{c.static}</span>
+                  <span className="num text-4xl font-semibold tracking-tight md:text-5xl">{c.static}</span>
                 ) : (
                   <Counter
                     value={(c as { value: number }).value}
                     prefix={(c as { prefix?: string }).prefix}
                     suffix={(c as { suffix?: string }).suffix}
-                    className="text-3xl font-bold tracking-tight md:text-4xl"
+                    className="text-4xl font-semibold tracking-tight md:text-5xl"
                   />
                 )}
               </p>

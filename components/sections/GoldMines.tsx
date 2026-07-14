@@ -54,7 +54,7 @@ function RevenueMiniPanel() {
     <div ref={ref} className="rounded-[var(--radius-lg)] border border-hairline bg-surface p-6">
       <p className="label">{t.panelTitle}</p>
       <p className="mt-3 font-display text-ink">
-        <Counter value={t.panelAmount} suffix=" zł" className="whitespace-nowrap text-3xl font-bold tracking-tight lg:text-4xl" />
+        <Counter value={t.panelAmount} suffix=" zł" className="whitespace-nowrap font-semibold tracking-tight text-[clamp(2.5rem,4.5vw,4.25rem)] leading-none" />
       </p>
       <div className="relative mt-6 h-24" aria-hidden="true">
         <div className="flex h-full items-end gap-2">
