@@ -20,15 +20,15 @@ export function Logo({ withWord = true, markSize = 30, className = "", status = 
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
+          {/* Dymek (rozmowa) + strzałka wzrostu w kontrze (rozmowa → sprzedaż) — bake-off winner */}
           <path
             d="M22 8 H42 A14 14 0 0 1 56 22 V34 A14 14 0 0 1 42 48 H26 L13.2 58.6 C11.2 60.2 8 58.9 8 56.3 V22 A14 14 0 0 1 22 8 Z"
-            stroke="var(--blue-500)"
-            strokeWidth="4.5"
-            strokeLinejoin="round"
+            fill="var(--blue-500)"
           />
-          <rect x="18.5" y="30" width="6" height="10" rx="3" fill="var(--blue-500)" />
-          <rect x="29" y="23" width="6" height="17" rx="3" fill="var(--blue-500)" />
-          <rect x="39.5" y="16" width="6" height="24" rx="3" fill="var(--blue-500)" />
+          <g stroke="var(--text-on-blue)" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 35L42 20" />
+            <path d="M34 20H42V28" />
+          </g>
         </svg>
         {status && (
           <span

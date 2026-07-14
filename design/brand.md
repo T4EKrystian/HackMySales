@@ -1,16 +1,16 @@
-# HackMySales — Brand Book (v2, jasny motyw)
+# HackMySales — Brand Book (v3, stylistyka Apple)
 
-Źródło marki: portal klienta (portal.185-238-74-109.nip.io, ciemny, niebieski #3D5BFC). Landing **jest jasny** (decyzja klienta 2026-07, bake-off) — rodzeństwo z portalem trzyma nie kolor tła, lecz **wspólny znak, akcent #3D5BFC i geometria**; most między światami to „Zaloguj się" (jasny landing → ciemny portal). Poprzeczka bez zmian: rzemiosło poziomu linear.app / vercel.com / stripe.com.
+Landing **jest jasny w stylistyce Apple** (restyle 2026-07, ref: iPhone Air): chłodne neutrale, Geist, akcent **Apple blue #0071E3**. Portal klienta (portal.185-238-74-109.nip.io) jest ciemny z firmowym #3D5BFC — rodzeństwo trzyma **wspólny znak i geometrię**; akcent kolorystyczny landingu (#0071E3) świadomie rozjeżdża się z portalem (decyzja klienta), most to „Zaloguj się". Poprzeczka: rzemiosło Apple / linear.app / stripe.com.
 
 ## 1. Logo
 
-**Konstrukcja:** dymek czatu (obrys, zaokrąglone rogi, ogonek w lewym dolnym rogu) + trzy rosnące słupki w środku. Znaczenie: rozmowa, która podnosi sprzedaż. Pliki: `assets/logomark.svg`, `assets/logo-full.svg`, `assets/favicon.svg`.
+**Konstrukcja (znak v3 — zwycięzca bake-offu 2026-07):** pełny dymek czatu (Apple blue, zaokrąglone rogi, ogonek w lewym dolnym rogu) ze **strzałką wzrostu ↗ w kontrze** (biała, jeden czysty skos + grot). Znaczenie: rozmowa → sprzedaż w górę. Pliki: `assets/logomark.svg` (znak), `assets/favicon.svg` = `app/icon.svg` (kafel app-icon: niebieski squircle + biały dymek + strzałka), `assets/logo-full.svg` (lockup). Poprzedni znak (dymek + 3 słupki) porzucony — klient uznał go za mało profesjonalny.
 
-**Wordmark:** `Hack` (ciemny na jasnym) + `My` (niebieski #3D5BFC) + `Sales` (ciemny), Schibsted Grotesk Bold, tracking -0.5. Renderuj jako komponent: SVG mark + tekst HTML (ostrzej się skaluje, można animować).
+**Wordmark:** `Hack` (ciemny #1D1D1F na jasnym) + `My` (**Apple blue #0071E3**) + `Sales` (ciemny), **Geist Semibold**, tracking -0.02em. Renderuj jako komponent: SVG mark + tekst HTML.
 
 **Tagline:** „AI chatbot & recommendations that increase sales" — tylko przy dużym lockupie (footer, OG). Uppercase, `--text-label`, `--text-muted`.
 
-**Zasady:** pole ochronne = wysokość jednego słupka. Nie zmieniaj proporcji słupków (wykres wzrostu — rośnie w prawo). Znak: niebieski na jasnym, niebieski na ciemnym, biały na niebieskim. Min. 24px. **Kanon — nie redesignować w polish passach.**
+**Zasady:** pole ochronne = ~0,5× szerokości znaku wokół. Nie zmieniaj kąta/proporcji strzałki (rośnie w prawo-górę). Wersje: znak niebieski na jasnym; kafel (biały dymek na niebieskim) jako favicon/app-icon/avatar; mono/kontra dostępne w assetach. Min. 24px. **Kanon — nie redesignować w polish passach.**
 
 ## 2. Kolor
 
