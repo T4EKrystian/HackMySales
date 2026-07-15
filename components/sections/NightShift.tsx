@@ -136,9 +136,9 @@ export function NightShift() {
             {/* licznik przychodu — kwasowo na lesie (przychód rośnie w skali) */}
             <div className="text-center lg:text-left">
               <p className="text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-onforest/55">PRZYCHÓD Z NOCY — NARASTAJĄCO</p>
-              <p className="num mt-3 font-semibold leading-none tracking-tight text-acid" style={{ fontSize: "clamp(4rem,13vw,11rem)", textShadow: "0 0 60px color-mix(in srgb, var(--acid) 24%, transparent)" }}>
+              <p className="num mt-3 whitespace-nowrap font-semibold leading-none tracking-tight text-acid" style={{ fontSize: "clamp(3.5rem,10vw,8.5rem)" }}>
                 <span ref={moneyRef}>{fmtIntPl(TOTAL)}</span>
-                <span className="text-onforest/70" style={{ fontSize: "0.4em" }}> zł</span>
+                <span className="text-onforest/70" style={{ fontSize: "0.42em" }}> zł</span>
               </p>
               <div className="mt-8 flex justify-center gap-10 lg:justify-start">
                 {[

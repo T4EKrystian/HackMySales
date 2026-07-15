@@ -60,7 +60,11 @@ export function Problem() {
     <section ref={scope} data-ambient="problem" className="section-pad bg-paper-deep">
       <Container>
         <Eyebrow className="s3-reveal">{t.label}</Eyebrow>
-        <h2 className="s3-reveal t-h2 mt-4 max-w-[22ch] font-display font-semibold text-ink">{t.h2}</h2>
+        <h2 className="s3-reveal t-h2 mt-4 max-w-[22ch] font-display font-semibold text-ink">
+          {/* akcent kwasowy = zakreślacz Magdy (sygnatura, NIE fill) — na kluczowym „po cichu" */}
+          {t.h2.slice(0, t.h2.indexOf("po cichu"))}
+          <span className="acid-mark">po cichu</span>.
+        </h2>
 
         <div className="mt-16 grid gap-10 md:grid-cols-3 md:gap-8">
           {t.cards.map((c, i) => (
