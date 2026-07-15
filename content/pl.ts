@@ -192,48 +192,44 @@ const raw = {
   },
 
   problem: {
-    label: "CO CIĘ TO KOSZTUJE",
-    h2: "Twój sklep traci klientów po cichu.",
-    cards: [
-      {
-        value: demo.problem.unanswered,
-        suffix: "%",
-        text: "tylu odwiedzających wychodzi bez zakupu. Nie dlatego, że nie chcą kupić — nikt im nie pomógł wybrać.",
-      },
-      {
-        value: demo.problem.nightShare,
-        suffix: "%",
-        text: "tyle pytań do obsługi to w kółko to samo: „gdzie moja paczka?”, „jaki rozmiar?”, „czy zdąży przed piątkiem?”.",
-      },
-      {
-        value: demo.problem.wismoShare,
-        suffix: " godzin na dobę",
-        text: "tyle czasu Twój sklep milczy, kiedy obsługa nie pracuje. Klienci kupują o 22:40. Pytają o 23:15. Odpowiedź dostają jutro — często już po zakupie u konkurencji.",
-      },
+    label: "DLACZEGO TRACISZ SPRZEDAŻ",
+    // Interest — one-sentence persuasion (docx); akcent kwasowy na „za których już zapłaciłeś"
+    persuasion: {
+      pre: "Nie musisz wydawać więcej na coraz droższe reklamy ani przebudowywać całego sklepu. Problem nie leży w Twojej ofercie, lecz w stronie, która traci klientów, ",
+      mark: "za których już zapłaciłeś",
+      post: ". HackMySales odzyskuje te konwersje i zwiększa sprzedaż z obecnego ruchu.",
+    },
+    h2: "Klient trafia do sklepu. Ale czy sklep pomaga mu podjąć decyzję?",
+    barriersLead: "Użytkownicy opuszczają sklep, gdy:",
+    barriers: [
+      "nie potrafią znaleźć odpowiedniego produktu",
+      "dostają zbyt wiele niedopasowanych wyników",
+      "nie otrzymują odpowiedzi na swoje pytania",
+      "nie wiedzą, który produkt będzie dla nich najlepszy",
     ],
-    kicker:
-      "W sklepie stacjonarnym klient, który stoi bezradnie między półkami, dostaje pomoc w minutę. W internecie dostaje ciszę.",
+    closing:
+      "HackMySales usuwa te bariery dokładnie wtedy, gdy klient podejmuje decyzję — w czasie rzeczywistym odpowiada na pytania, rekomenduje właściwe produkty i zamienia więcej opłaconego ruchu w sprzedaż.",
   },
 
   pillars: {
-    label: "CO DOSTAJESZ",
-    h2: "Jeden system. Trzy miejsca, w których zarabia.",
+    label: "SYSTEM",
+    h2: "Nie sprowadzamy więcej klientów. Sprawiamy, że więcej z nich kupuje.",
     items: [
       {
-        title: "Czat, który doradza jak handlowiec",
-        body: "Nie drzewko „wybierz 1, 2 lub 3”. AI zna cały katalog, stany i ceny — prowadzi klienta do koszyka, a do roweru dorzuci kask.",
+        title: "AI Search",
+        body: "Rozumie, czego naprawdę szuka klient — nawet gdy opisuje potrzebę własnymi słowami. Skraca drogę do produktu i ogranicza liczbę osób, które opuszczają sklep bez zakupu.",
       },
       {
-        title: "Wyszukiwarka, która rozumie polski",
-        body: "„cos cieplego dla 5latka na narty do 200zl” — klient pisze po swojemu, wyszukiwarka i tak wie, o co chodzi. Koniec z „brak wyników” przy pełnym magazynie.",
+        title: "AI Ramki rekomendacji",
+        body: "Podpowiadają produkty dopasowane do intencji klienta — zwiększają szansę na zakup, dosprzedaż i wyższą wartość koszyka.",
       },
       {
-        title: "Rekomendacje z głową do interesów",
-        body: "Podpowiada to, co klient naprawdę chce kupić — a kiedy kilka produktów pasuje tak samo, promuje ten z lepszą marżą. Twoja księgowa zauważy różnicę.",
+        title: "AI Chatbot sprzedażowy",
+        body: "Odpowiada na pytania w czasie rzeczywistym, rozwiewa wątpliwości i prowadzi klienta do zakupu, zanim stracisz opłacony ruch.",
       },
     ],
-    // Etykiety belki device-frame (copy §4c)
-    panelLabels: ["Czat", "Wyszukiwarka", "Rekomendacje"],
+    // Etykiety belki device-frame — kolejność owner: Search → Rekomendacje → Chat
+    panelLabels: ["Wyszukiwarka", "Rekomendacje", "Czat"],
     // Panele demo (żywe UI — treści robocze interfejsu, nie copy marketingowe)
     demo: {
       chat: {
@@ -260,6 +256,27 @@ const raw = {
         ],
       },
     },
+  },
+
+  // S5 Desire — 10 badań naukowych (dane w content/studies.ts; tu tylko copy sekcji)
+  studies: {
+    label: "DOWODY",
+    h2: "W 10 z 10 badań naukowych AI podniosło przychody, konwersję lub obniżyło zwroty.",
+    lead: "Recenzowane eksperymenty terenowe na prawdziwych sklepach — mierzone przychody, konwersja i zwroty.",
+    stats: [
+      { value: 16.3, decimals: 1, prefix: "+", suffix: "%", label: "wzrostu sprzedaży — Generative AI w handlu" },
+      { value: 12.4, decimals: 1, prefix: "+", suffix: "%", label: "większej skłonności do zakupu — rekomendacje" },
+      { value: 12.55, decimals: 2, prefix: "−", suffix: "%", label: "mniej zwrotów — asystent AI" },
+    ],
+    groups: [
+      { key: "search", label: "Wyszukiwarka" },
+      { key: "reco", label: "Rekomendacje" },
+      { key: "chat", label: "Chatbot" },
+    ],
+    sourceLabel: "Zobacz badanie",
+    disclaimer: "Wyniki pochodzą z cytowanych badań — efekt w Twoim sklepie zależy od wdrożenia i branży.",
+    moreLabel: "Pokaż wszystkie 10 badań",
+    lessLabel: "Zwiń",
   },
 
   comparison: {
@@ -696,27 +713,30 @@ const raw = {
     signature: "— zespół Time4Ecommerce",
   },
 
+  // S8 Action (docx) — formularz demo, 6 pól, realna wysyłka (Web3Forms → e-mail)
   finalCta: {
-    h2: "Zobacz tego sprzedawcę na swoich produktach.",
-    lead: "Podaj adres sklepu — przygotujemy demo z Twoim katalogiem. 15 minut i zobaczysz, ile bot może u Ciebie zarobić. Bez zobowiązań.",
-    urlLabel: "Adres Twojego sklepu",
-    urlPlaceholder: "twojsklep.pl",
-    emailLabel: "Twój e-mail",
-    emailPlaceholder: "imie@firma.pl",
-    submit: "Umów demo",
+    label: "UMÓW PREZENTACJĘ",
+    h2: "Sprawdź, ile sprzedaży może odzyskać Twój sklep.",
+    lead: "Umów darmową prezentację. W krótkim demo pokażemy, jak AI Search, rekomendacje i chatbot podnoszą wartość ruchu, za który już płacisz.",
+    fields: {
+      firstName: { label: "Imię", placeholder: "Jan" },
+      lastName: { label: "Nazwisko", placeholder: "Kowalski" },
+      email: { label: "Adres e-mail", placeholder: "jan@twojsklep.pl" },
+      phone: { label: "Numer telefonu", placeholder: "600 100 200" },
+      url: { label: "Strona internetowa", placeholder: "twojsklep.pl" },
+      message: { label: "Wiadomość", placeholder: "Na czym najbardziej Ci zależy (opcjonalnie)" },
+    },
+    submit: "Umów prezentację",
     sending: "Wysyłamy…",
-    below: "Odpowiadamy w 1 dzień roboczy. Bez spamu, bez „sekwencji sprzedażowych”.",
+    below: "Odpowiadamy w 1 dzień roboczy. Bez spamu i bez nachalnych sekwencji sprzedażowych.",
     errors: {
-      url: "To nie wygląda na adres sklepu — sprawdź literówkę.",
+      firstName: "Podaj imię.",
       email: "Ten e-mail wygląda na niepełny.",
-      server: "Coś poszło nie tak po naszej stronie. Spróbuj za chwilę albo napisz: kontakt@hackmysales.pl.",
+      phone: "Sprawdź numer telefonu.",
+      url: "To nie wygląda na adres sklepu — sprawdź literówkę.",
+      server: "Coś poszło nie tak po naszej stronie. Spróbuj za chwilę albo napisz na kontakt@hackmysales.pl.",
     },
-    success: "Gotowe. Sprawdzimy Twój sklep i odezwiemy się w 1 dzień roboczy.",
-    // §11b — sekwencja po adresie (teatr bez kłamstwa)
-    scan: {
-      accepted: "adres przyjęty:",
-      steps: ["przygotujemy demo z Twoim katalogiem", "zostaw e-mail — odezwiemy się w 1 dzień roboczy"],
-    },
+    success: "Gotowe. Odezwiemy się w 1 dzień roboczy z terminem prezentacji.",
   },
 
   footer: {
@@ -734,9 +754,9 @@ const raw = {
       {
         title: "Zasoby",
         links: [
-          { label: "Demo", href: "#demo" },
-          { label: "Cennik", href: "#cennik" },
-          { label: "FAQ", href: "#faq" },
+          { label: "Umów demo", href: "#demo" },
+          { label: "Badania", href: "#badania" },
+          { label: "Funkcje", href: "#funkcje" },
           // [PLACEHOLDER] adres portalu
           { label: "Portal klienta", href: "https://portal.185-238-74-109.nip.io/portal/login" },
         ],

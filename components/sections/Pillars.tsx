@@ -8,16 +8,16 @@ import {
   SearchPanelContent,
   RecoPanelContent,
   buildPanelTl,
-  KINDS,
   DeviceFrame,
 } from "@/components/sections/feature-panels";
 import { gsap, useGSAP, useReveal, ScrollTrigger, NO_REDUCE, REDUCE } from "@/lib/motion";
 
-/** Filary (redesign): TRZY naprzemienne wiersze hairline. Każda winieta pokazana w całości
- *  i gra raz on-enter (czat przez ChatShell, wyszukiwarka/reco mikro-timeline). Bez pinu.
- *  Panele współdzielone z artefaktem hero (components/sections/feature-panels). */
+/** Filary (AIDA): TRZY naprzemienne wiersze hairline w kolejności owner
+ *  (Wyszukiwarka → Rekomendacje → Chat). Każda winieta gra raz on-enter
+ *  (search/reco mikro-timeline, czat przez ChatShell). Panele współdzielone z hero. */
 
-const PANELS = [ChatPanelContent, SearchPanelContent, RecoPanelContent];
+const PANELS = [SearchPanelContent, RecoPanelContent, ChatPanelContent];
+const KINDS = ["search", "reco", "chat"] as const;
 
 export function Pillars() {
   const t = pl.pillars;
@@ -38,7 +38,7 @@ export function Pillars() {
             start: "top 72%",
             once: true,
             onEnter: () => {
-              if (i === 0) setChatOn(true);
+              if (KINDS[i] === "chat") setChatOn(true);
               else if (panel) buildPanelTl(panel, KINDS[i]);
             },
           });
@@ -73,7 +73,7 @@ export function Pillars() {
                 </div>
                 <div className={reverse ? "lg:order-1" : ""} data-cursor-label={pl.ui.cursorDemo}>
                   <DeviceFrame label={t.panelLabels[i]}>
-                    {i === 0 ? <ChatPanelContent active={chatOn} /> : <Panel />}
+                    {KINDS[i] === "chat" ? <ChatPanelContent active={chatOn} /> : <Panel />}
                   </DeviceFrame>
                 </div>
               </div>
