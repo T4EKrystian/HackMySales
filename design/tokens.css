@@ -79,7 +79,7 @@
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace; /* liczby, KPI, folio */
 
   /* Skala (clamp = płynne RWD) — brief. Nagłówki: waga 600, tracking ciasny. */
-  --text-hero: clamp(3rem, 6.6vw, 6.25rem);    /* H1, lh 0.98, ls -0.035em */
+  --text-hero: clamp(2.9rem, 5.2vw, 4.9rem);    /* H1, lh 0.98, ls -0.035em */
   --text-h2: clamp(2.1rem, 4.4vw, 3.6rem);     /* lh 1.05, ls -0.025em */
   --text-h3: clamp(1.35rem, 2vw, 1.7rem);      /* lh 1.2, ls -0.015em */
   --text-lead: clamp(1.15rem, 1.6vw, 1.35rem); /* lead pod nagłówkami, lh 1.5 */

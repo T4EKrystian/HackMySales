@@ -80,8 +80,8 @@ export function Hero() {
         tl.fromTo(
           ".hero-demo",
           { y: 14, opacity: 0, scale: 0.99 },
-          { y: 0, opacity: 1, scale: 1, duration: 0.9, clearProps: "transform" },
-          0.5
+          { y: 0, opacity: 1, scale: 1, duration: 0.6, clearProps: "transform" },
+          0.3
         );
         tl.play();
 
@@ -111,11 +111,11 @@ export function Hero() {
   );
 
   return (
-    <section ref={scope} id="top" className="relative flex min-h-svh items-start overflow-hidden pt-[112px] pb-16 md:items-center md:pt-[128px]">
+    <section ref={scope} id="top" className="relative flex min-h-svh items-start overflow-hidden pt-[96px] pb-14 md:items-center md:pt-[112px]">
       {/* Ciepła poświata radialna (paper-deep → transparent) */}
       <div className="hero-glow glow-bg absolute inset-x-0 -top-24 h-[130%]" aria-hidden="true" />
 
-      <div className="container-hms relative grid w-full items-center gap-10 py-6 md:gap-14 md:py-10 lg:grid-cols-[58fr_42fr]">
+      <div className="container-hms relative grid w-full items-center gap-8 py-4 md:gap-12 md:py-8 lg:grid-cols-[58fr_42fr]">
         {/* LEWA kolumna */}
         <div className="min-w-0">
           <p className="hero-eyebrow text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-mute">
