@@ -101,7 +101,7 @@
   background: var(--surface-2);
   border: 1px solid var(--stroke-2);
   border-radius: var(--radius-lg);
-  box-shadow: var(--highlight-top), var(--shadow-l2);
+  box-shadow: var(--shadow-l2);
 }
 
 /* Glass header device-frame'ów: blur ma rozmywać treść przewijaną POD headerem */

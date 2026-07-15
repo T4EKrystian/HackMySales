@@ -28,7 +28,7 @@ function BentoCard({
     <div
       className={`relative flex h-full flex-col rounded-[var(--radius-lg)] border ${
         level === 2
-          ? "border-line-2 bg-l2 [box-shadow:var(--highlight-top),var(--shadow-l2)]"
+          ? "border-line-2 bg-l2 [box-shadow:var(--shadow-l2)]"
           : "border-line-1 bg-l1"
       } ${className}`}
     >

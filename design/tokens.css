@@ -19,7 +19,6 @@
   --surface-3: var(--paper-deep); /* poziom 3 — hover, bąbel bota */
   --stroke-1: rgb(16 22 19 / 0.10);   /* = --line */
   --stroke-2: rgb(16 22 19 / 0.18);
-  --highlight-top: inset 0 1px 0 rgb(255 255 255 / 0.6);
   --shadow-float: 0 1px 2px rgb(16 22 19 / 0.06), 0 12px 32px -12px rgb(16 22 19 / 0.18);
   --shadow-l2: var(--shadow-float);
 

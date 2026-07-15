@@ -114,7 +114,7 @@ export function ReadReceipt({ seen = true }: { seen?: boolean }) {
 export function AttachmentProductCard({ card }: { card: ChatCard }) {
   return (
     <div
-      className="mt-3 flex min-w-[240px] items-center gap-3 rounded-xl border border-hairline bg-card p-3 transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:[box-shadow:var(--highlight-top),var(--shadow-l2)]"
+      className="mt-3 flex min-w-[240px] items-center gap-3 rounded-xl border border-hairline bg-card p-3 transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:[box-shadow:var(--shadow-l2)]"
       style={{ transitionTimingFunction: "var(--ease-out)" }}
     >
       {card.slug ? (
