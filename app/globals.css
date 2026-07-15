@@ -223,6 +223,11 @@
   .js .js-reveal, .js .hero-el, .js .chat-step, .js .hero-bg-el, .js .hero-demo,
   .js .chat-step .chat-msg { opacity: 1; }
 }
+/* Pre-seed (P0.1): pierwsza wymiana (pytanie klienta + odpowiedź Magdy) widoczna
+   OD RAZU — żadne okno czatu nie jest puste w polu widzenia; playback dokłada resztę. */
+.js .chat-step[data-seed="1"],
+.js .chat-step[data-seed="1"] .chat-msg { opacity: 1; }
+.js .chat-step[data-seed="1"] .chat-typing { display: none; }
 
 /* Manifest: słowa startują przygaszone tylko przy działającym JS */
 .js .man-word { opacity: 0.12; }

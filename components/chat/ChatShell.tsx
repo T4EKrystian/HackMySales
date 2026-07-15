@@ -120,6 +120,9 @@ function BubbleShell({
     });
     return idx;
   })();
+  // Pre-seed (P0.1): pierwsza wymiana (do 1. odpowiedzi bota włącznie) renderowana
+  // od razu — okno czatu nigdy puste; silnik animuje dopiero od kolejnego kroku.
+  const firstBotIdx = script.steps.findIndex((s) => s.role === "bot");
 
   const body = (
     <div
@@ -138,6 +141,7 @@ function BubbleShell({
           <div
             key={`${script.key}-${i}`}
             data-role={step.role}
+            data-seed={firstBotIdx >= 0 && i <= firstBotIdx ? "1" : undefined}
             className={`chat-step ${step.role === "user" ? "self-end" : "self-start"} ${
               step.role === "bot" && cfg.avatar ? "flex max-w-full items-end gap-2" : ""
             }`}
