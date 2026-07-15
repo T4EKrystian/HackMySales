@@ -45,7 +45,7 @@ export function Comparison() {
                   className="js-reveal grid grid-cols-2 items-start gap-6 border-b border-hairline py-5 sm:gap-14"
                 >
                   <p className="flex items-start gap-2.5 text-sm leading-relaxed text-mute">
-                    <Glyph name="x" size={15} className="mt-0.5 shrink-0" />
+                    <Glyph name="x" size={16} className="mt-0.5 shrink-0 text-sub" strokeWidth={1.75} />
                     {row.left}
                   </p>
                   <p className="flex items-start gap-2.5 text-sm font-medium leading-relaxed text-ink sm:pl-5">

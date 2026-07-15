@@ -128,10 +128,12 @@ export function Glyph({
   name,
   size = 16,
   className = "",
+  strokeWidth = 1.5,
 }: {
   name: GlyphName;
   size?: number;
   className?: string;
+  strokeWidth?: number;
 }) {
   return (
     <svg
@@ -140,7 +142,7 @@ export function Glyph({
       height={size}
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
