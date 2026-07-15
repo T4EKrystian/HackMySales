@@ -205,7 +205,17 @@ function BubbleShell({
                   {step.card && <AttachmentProductCard card={step.card} />}
                   {step.after && <p className="mt-3">{step.after}</p>}
                 </div>
-                {cfg.receipt && i === lastBotIdx && <ReadReceipt />}
+                {(meta.time || (cfg.receipt && i === lastUserIdx)) && (
+                  <div
+                    className={`chat-meta mt-1 flex items-center gap-1.5 text-[11px] leading-none text-mute ${
+                      step.role === "user" ? "justify-end" : "justify-start"
+                    }`}
+                  >
+                    {cfg.receipt && i === lastUserIdx && <ReadReceipt seen={lastBotIdx > lastUserIdx} />}
+                    {cfg.receipt && i === lastUserIdx && meta.time && <span aria-hidden="true">·</span>}
+                    {meta.time && <span className="num">{meta.time}</span>}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -256,20 +266,27 @@ function BubbleShell({
     <div ref={scope} data-flip-id={flipId} className={`frame-l2 relative w-full ${className}`}>
       <div data-flip-id={flipId ? "ch-head" : undefined} className="glass-head absolute inset-x-0 top-0 z-10 rounded-t-[19px]">
         <div className="flex items-center justify-between gap-3 px-5 py-3.5">
-          {skin === "legacy" ? (
-            <p className="chat-legacy-font text-sm text-sub">{ui.legacyName}</p>
-          ) : (
-            <PersonaRow presence={presence} clock={clock} ring={cfg.avatarRing} />
-          )}
-          {replayable && done && (
-            <button
-              onClick={replay}
-              className="flex shrink-0 items-center gap-1.5 rounded-full border border-line-2 px-3 py-1.5 text-xs text-sub hover:bg-l3"
-            >
-              <Glyph name="replay" size={13} />
-              {pl.hero.chat.replay}
-            </button>
-          )}
+          <div className="flex min-w-0 items-center gap-2.5">
+            {/* wzorzec aplikacji telefonu (messenger/IG): back-chevron */}
+            {cfg.inputTools && <Glyph name="chevron-left" size={18} className="shrink-0 text-mute" />}
+            {skin === "legacy" ? (
+              <p className="chat-legacy-font text-sm text-sub">{ui.legacyName}</p>
+            ) : (
+              <PersonaRow presence={presence} clock={clock} ring={cfg.avatarRing} />
+            )}
+          </div>
+          <div className="flex shrink-0 items-center gap-3">
+            {replayable && done && (
+              <button
+                onClick={replay}
+                className="flex shrink-0 items-center gap-1.5 rounded-full border border-line-2 px-3 py-1.5 text-xs text-sub hover:bg-l3"
+              >
+                <Glyph name="replay" size={13} />
+                {pl.hero.chat.replay}
+              </button>
+            )}
+            {cfg.inputTools && <Glyph name="more" size={18} className="text-mute" />}
+          </div>
         </div>
         {headerExtra}
       </div>
@@ -286,11 +303,13 @@ function BubbleShell({
       {footer}
       {/* pasek narzędzi wzorca komunikatora — tylko gdy skin go ma, a rodzic nie dał stopki */}
       {!footer && cfg.inputTools && (
-        <div className="flex items-center gap-3 border-t border-hairline p-4">
+        <div className="flex items-center gap-2.5 border-t border-hairline p-3.5">
           <InputTools />
-          <span className="flex-1 rounded-full border border-hairline bg-field px-5 py-2.5 text-sm text-mute">
-            {ui.inputPlaceholder}
+          <span className="flex min-w-0 flex-1 items-center gap-2 rounded-full border border-hairline bg-field px-4 py-2.5 text-sm text-mute">
+            <span className="min-w-0 flex-1 truncate">{ui.inputPlaceholder}</span>
+            <Glyph name="smiley" size={17} className="shrink-0" />
           </span>
+          <Glyph name="send" size={19} className="shrink-0 text-sub" />
         </div>
       )}
     </div>

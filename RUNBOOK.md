@@ -125,10 +125,10 @@ Szczegóły „co/dlaczego" są w `POPRAWKI.md`. Tu jest „w jakiej kolejności
 - [x] 1.2 czaty niepuste (globalnie) — pre-seed 1. wymiany (data-seed) + trigger top 90%; hero/Pillars/Kanały/ForWho pełne
 - [x] 1.3 hero-chat < 1 s — reveal artefaktu 0.3/0.6 s; seed widoczny ~0,9 s
 - [x] 1.4 nightshift pin — fazy rozłączne: sky-out 5.4→6.4, dawn dopiero od 6.4; brak 2× „6 840 zł" (scrub-frames)
-- [ ] 2.1 grupowanie+ogonki+godziny
-- [ ] 2.2 statusy receipt
-- [ ] 2.3 pasek inputu
-- [ ] 2.4 skiny+morph
+- [x] 2.1 grupowanie+ogonki+godziny — ogonek na run-end (messenger/onsite), godziny per-tura, back-chevron/⋯ w app-skinach
+- [x] 2.2 statusy receipt — „Wyświetlone/Dostarczono" pod ostatnim bąblem KLIENTA (messenger); zweryfikowane DOM
+- [x] 2.3 pasek inputu — camera/plus + emoji w pigułce + wyślij (paper-plane), 1.5px SVG
+- [x] 2.4 skiny+morph — 4 czytelnie różne sylwetki (onsite widget / messenger app+receipt / IG ring+reply-quote+pills / email); Flip zachowany
 - [ ] 2.5 kompozycja Kanałów
 - [ ] 3.1 frame-l2
 - [ ] 3.2 newsletter krata
