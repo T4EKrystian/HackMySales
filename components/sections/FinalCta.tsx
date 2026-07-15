@@ -5,7 +5,6 @@ import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
-import { HeroGridTexture } from "@/components/ui/kit";
 import { gsap, useGSAP, useReveal, NO_REDUCE, EASE } from "@/lib/motion";
 
 type Errors = { url?: string; email?: string };
@@ -87,7 +86,6 @@ export function FinalCta() {
   return (
     <section ref={ref} id="demo" className="relative overflow-hidden bg-forest-950 text-onforest">
       <div className="noise-forest" aria-hidden="true" />
-      <HeroGridTexture onForest />
 
       <Container className="relative z-[1] max-w-[760px] py-24 text-center md:py-36">
         <h2 className="t-h2 js-reveal font-display font-semibold text-onforest">{t.h2}</h2>
