@@ -207,7 +207,7 @@ function BubbleShell({
                 </div>
                 {(meta.time || (cfg.receipt && i === lastUserIdx)) && (
                   <div
-                    className={`chat-meta mt-1 flex items-center gap-1.5 text-[11px] leading-none text-mute ${
+                    className={`chat-meta mt-1 flex items-center gap-1.5 text-[13px] leading-none text-mute md:text-[11px] ${
                       step.role === "user" ? "justify-end" : "justify-start"
                     }`}
                   >

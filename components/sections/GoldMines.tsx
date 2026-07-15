@@ -257,7 +257,7 @@ function SizeAdvisor() {
       {/* Skala dopasowania — instrument zamiast foto (kom. klienta): marker jedzie do
           wybranego rozmiaru, strefa „w sam raz" podświetlona, akcent gdy rozmiar bezpieczny. */}
       <div className="mt-6" aria-hidden="true">
-        <div className="num flex justify-between text-[10px] uppercase tracking-[0.14em] text-mute">
+        <div className="num flex justify-between text-[13px] uppercase tracking-[0.14em] text-mute md:text-[10px]">
           <span className="whitespace-nowrap">za ciasno</span>
           <span className={`hidden whitespace-nowrap md:inline ${opt.ok ? "text-blue-soft" : ""}`}>w sam raz</span>
           <span className="whitespace-nowrap">za luźno</span>
@@ -277,7 +277,7 @@ function SizeAdvisor() {
                 opt.ok ? "border-blue" : "border-strongline"
               }`}
             >
-              <span className={`num text-[11px] font-medium ${opt.ok ? "text-blue-soft" : "text-ink"}`}>{opt.size}</span>
+              <span className={`num text-[13px] font-medium md:text-[11px] ${opt.ok ? "text-blue-soft" : "text-ink"}`}>{opt.size}</span>
             </span>
           </div>
         </div>

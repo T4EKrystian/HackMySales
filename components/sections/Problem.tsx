@@ -79,7 +79,7 @@ export function Problem() {
         </div>
 
         <blockquote
-          className="s3-kicker mx-auto mt-20 max-w-[30ch] text-center font-display font-medium text-ink md:mt-28"
+          className="s3-kicker mx-auto mt-14 max-w-[34ch] text-center font-display font-medium text-ink md:mt-20"
           style={{ fontSize: "clamp(1.7rem, 3.6vw, 3rem)", lineHeight: 1.28, letterSpacing: "-0.02em" }}
         >
           {words.map((w, i) => {
