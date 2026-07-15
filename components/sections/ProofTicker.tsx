@@ -13,7 +13,7 @@ export function ProofTicker() {
   const trust = pl.trustBar;
 
   return (
-    <div ref={ref} className="border-y border-hairline bg-surface">
+    <div ref={ref} className="border-y border-hairline bg-page">
       {/* Feed nocy */}
       <div className="ticker js-reveal border-b border-hairline py-3.5" aria-label={t.caption}>
         <div className="ticker-track">
@@ -21,7 +21,7 @@ export function ProofTicker() {
             <ul key={String(clone)} aria-hidden={clone} className="flex shrink-0 items-center gap-10">
               {t.items.map((item, i) => (
                 <li key={i} className="num flex items-center gap-3 whitespace-nowrap text-[13px] text-sub">
-                  <span className="inline-block h-1 w-1 rounded-full bg-blue" aria-hidden="true" />
+                  <span className="inline-block h-1 w-1 rounded-full bg-forest-700" aria-hidden="true" />
                   {item}
                 </li>
               ))}

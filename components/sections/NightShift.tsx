@@ -91,8 +91,9 @@ export function NightShift() {
           </p>
         </div>
 
-        {/* NIEBO nocy (Apple-dark scope) — na wierzchu, znika o świcie */}
-        <div data-theme="dark" className="nz-sky absolute inset-0 flex items-center bg-page text-ink">
+        {/* NIEBO nocy — pasmo LEŚNE (tentpole środka strony), znika o świcie */}
+        <div className="nz-sky absolute inset-0 flex items-center overflow-hidden bg-forest-950 text-onforest">
+          <div className="noise-forest" aria-hidden="true" />
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">
             {STARS.map((s, i) => (
               <span
@@ -103,9 +104,9 @@ export function NightShift() {
                   top: `${s.y}%`,
                   width: s.sz,
                   height: s.sz,
-                  background: s.blue ? "var(--blue-300)" : "var(--text-secondary)",
+                  background: s.blue ? "var(--acid)" : "var(--sage-200)",
                   opacity: s.o,
-                  boxShadow: s.blue ? "0 0 6px var(--blue-500)" : "none",
+                  boxShadow: s.blue ? "0 0 6px var(--acid)" : "none",
                   animation: `nz-tw ${s.tw}s ease-in-out ${i % 5}s infinite`,
                 }}
               />
@@ -115,29 +116,29 @@ export function NightShift() {
           <div className="container-hms relative grid w-full items-center gap-12 lg:grid-cols-2">
             {/* zegar + zdarzenia */}
             <div>
-              <p className="label">CZAT AI · NOC</p>
+              <p className="text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-onforest/55">CZAT AI · NOC</p>
               <div className="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <span ref={clockRef} className="num font-semibold tracking-tight text-ink" style={{ fontSize: "clamp(3rem,7vw,5.5rem)" }}>
+                <span ref={clockRef} className="num font-semibold tracking-tight text-onforest" style={{ fontSize: "clamp(3rem,7vw,5.5rem)" }}>
                   08:00
                 </span>
-                <span className="t-h3 font-display font-semibold text-mute">sklep śpi. bot sprzedaje.</span>
+                <span className="t-h3 font-display font-semibold text-onforest/65">sklep śpi. bot sprzedaje.</span>
               </div>
               <ul className="mt-10 flex flex-col gap-3">
                 {NIGHT.map((ev, i) => (
-                  <li key={i} className={`nz-event nz-event-${i} num flex items-center gap-3 text-sm text-sub`}>
-                    <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-blue" style={{ boxShadow: "0 0 8px var(--blue-glow)" }} />
+                  <li key={i} className={`nz-event nz-event-${i} num flex items-center gap-3 text-sm text-onforest/75`}>
+                    <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-acid" style={{ boxShadow: "0 0 8px color-mix(in srgb, var(--acid) 45%, transparent)" }} />
                     {ev}
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* licznik przychodu — niebiesko na czerni */}
+            {/* licznik przychodu — kwasowo na lesie (przychód rośnie w skali) */}
             <div className="text-center lg:text-left">
-              <p className="label">PRZYCHÓD Z NOCY — NARASTAJĄCO</p>
-              <p className="num mt-3 font-semibold leading-none tracking-tight text-blue" style={{ fontSize: "clamp(4rem,13vw,11rem)", textShadow: "0 0 60px var(--blue-glow)" }}>
+              <p className="text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-onforest/55">PRZYCHÓD Z NOCY — NARASTAJĄCO</p>
+              <p className="num mt-3 font-semibold leading-none tracking-tight text-acid" style={{ fontSize: "clamp(4rem,13vw,11rem)", textShadow: "0 0 60px color-mix(in srgb, var(--acid) 24%, transparent)" }}>
                 <span ref={moneyRef}>{fmtIntPl(TOTAL)}</span>
-                <span className="text-blue-soft" style={{ fontSize: "0.4em" }}> zł</span>
+                <span className="text-onforest/70" style={{ fontSize: "0.4em" }}> zł</span>
               </p>
               <div className="mt-8 flex justify-center gap-10 lg:justify-start">
                 {[
@@ -145,8 +146,8 @@ export function NightShift() {
                   { v: fmtIntPl(demo.night.tickets), l: "ticketów mniej" },
                 ].map((s) => (
                   <div key={s.l} className="nz-stat">
-                    <span className="num block font-semibold text-ink" style={{ fontSize: "2rem" }}>{s.v}</span>
-                    <span className="label mt-1 block">{s.l}</span>
+                    <span className="num block font-semibold text-onforest" style={{ fontSize: "2rem" }}>{s.v}</span>
+                    <span className="mt-1 block text-[0.8125rem] uppercase tracking-[0.14em] text-onforest/55">{s.l}</span>
                   </div>
                 ))}
               </div>

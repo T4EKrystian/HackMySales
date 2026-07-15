@@ -2,190 +2,94 @@
 
 import { useRef } from "react";
 import { pl } from "@/content/pl";
-import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
+import { Container } from "@/components/ui/Section";
+import { Eyebrow } from "@/components/ui/kit";
 import { Counter } from "@/components/ui/Counter";
-import { SnapRow } from "@/components/mobile/SnapRow";
-import { gsap, useGSAP, DESKTOP_MOTION, REDUCE } from "@/lib/motion";
-import { fmtIntPl } from "@/lib/typography";
-import { useGLView } from "@/lib/glRegistry";
+import { gsap, useGSAP, NO_REDUCE, REDUCE } from "@/lib/motion";
 
-/** Problem v3 (motion.md §3): pin 300% — trzy statystyki KOLEJNO jako gigantyczne
- *  liczby scrubowane progresem, w tle pole kropek-klientów, które gasną falami
- *  (scena `field`). Progress-rail 01→03. Zero kart, zero ikon.
- *  Mobile / reduced-motion: trzy pełnoekranowe bloki z counterami on-enter. */
+/** S3 Manifesto (redesign): zwija dawny Problem (3 gigantyczne liczby) + Manifest
+ *  (odsłona słów kickera) w JEDNĄ sekcję na papierze-deep. Bez pinów, bez GL —
+ *  liczby liczą się on-enter, kicker rozjaśnia słowo po słowie (scrub), akcent
+ *  serif na „ciszę.". Left-aligned, editorialny oddech. */
 export function Problem() {
   const t = pl.problem;
   const scope = useRef<HTMLElement>(null);
-  const { ref: fieldRef, glState } = useGLView("problem-field", "field");
+  const words = t.kicker.split(" ");
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-
-      // Nagłówek (label + H2) — standardowy reveal w obu wariantach layoutu
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
+      mm.add(NO_REDUCE, () => {
         gsap.fromTo(
-          scope.current!.querySelectorAll<HTMLElement>(".js-reveal"),
-          { y: 32, opacity: 0 },
+          scope.current!.querySelectorAll<HTMLElement>(".s3-reveal"),
+          { y: 28, opacity: 0 },
           {
             y: 0,
             opacity: 1,
             duration: 0.8,
             ease: "power3.out",
-            stagger: 0.1,
+            stagger: 0.08,
             clearProps: "transform",
-            scrollTrigger: { trigger: scope.current, start: "top 80%", once: true },
+            scrollTrigger: { trigger: scope.current, start: "top 78%", once: true },
+          }
+        );
+        // kicker: odsłona słowo-po-słowie (scrub, odwracalna) — jedyny scrub tekstu na stronie
+        gsap.fromTo(
+          gsap.utils.toArray<HTMLElement>(".man-word", scope.current!),
+          { opacity: 0.16 },
+          {
+            opacity: 1,
+            duration: 0.5,
+            stagger: 0.06,
+            ease: "none",
+            scrollTrigger: { trigger: ".s3-kicker", start: "top 82%", end: "top 42%", scrub: 0.5 },
           }
         );
       });
       mm.add(REDUCE, () => {
-        gsap.set(scope.current!.querySelectorAll<HTMLElement>(".js-reveal"), { clearProps: "all", opacity: 1 });
-      });
-
-      mm.add(DESKTOP_MOTION, () => {
-        const root = scope.current!;
-        const stage = root.querySelector<HTMLElement>(".prob-stage");
-        const stats = gsap.utils.toArray<HTMLElement>(".prob-stat", root);
-        const railSegs = gsap.utils.toArray<HTMLElement>(".prob-rail-seg", root);
-        const railLine = root.querySelector<HTMLElement>(".prob-rail-line");
-        if (!stage || stats.length < 3) return;
-
-        gsap.set(stats, { autoAlpha: 0, yPercent: 12, filter: "blur(8px)" });
-
-        const tl = gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: {
-            trigger: stage,
-            pin: true,
-            start: "top top",
-            invalidateOnRefresh: true,
-            end: "+=200%",
-            scrub: 0.8,
-            snap: { snapTo: "labels", duration: 0.4, ease: "power2.inOut" },
-            onUpdate(self) {
-              const idx = Math.min(2, Math.floor(self.progress * 3));
-              railSegs.forEach((el, i) => el.setAttribute("data-active", String(i === idx)));
-            },
-          },
+        gsap.set(scope.current!.querySelectorAll<HTMLElement>(".s3-reveal, .man-word"), {
+          clearProps: "all",
+          opacity: 1,
         });
-
-        // Pole kropek gaśnie przez cały pin; rail rośnie równolegle
-        // labels brzegowe: snap nie „wciąga" przy wejściu ani nie więzi przy wyjściu
-        tl.addLabel("start", 0);
-        tl.addLabel("end", 9);
-        tl.to(glState, { progress: 1, duration: 9 }, 0);
-        if (railLine) {
-          tl.fromTo(railLine, { scaleY: 0 }, { scaleY: 1, duration: 9, transformOrigin: "top" }, 0);
-        }
-
-        stats.forEach((stat, i) => {
-          const at = i * 3 + 0.2;
-          const numEl = stat.querySelector<HTMLElement>(".prob-num");
-          const proxy = { v: 0 };
-          tl.to(stat, { autoAlpha: 1, yPercent: 0, filter: "blur(0px)", duration: 0.5, ease: "power2.out" }, at);
-          tl.to(
-            proxy,
-            {
-              v: t.cards[i].value,
-              duration: 1.5,
-              onUpdate() {
-                if (numEl) numEl.textContent = fmtIntPl(Math.round(proxy.v));
-              },
-              // koniec odcinka = zawsze DOKŁADNIE wartość z decku (snap dociąga resztę)
-              onComplete() {
-                if (numEl) numEl.textContent = fmtIntPl(t.cards[i].value);
-              },
-            },
-            at + 0.3
-          );
-          // snap celuje w środek „pełnej" ekspozycji statystyki
-          tl.addLabel(`stat${i}`, at + 1.9);
-          if (i < stats.length - 1) {
-            tl.to(stat, { autoAlpha: 0, yPercent: -10, duration: 0.45, ease: "power2.in" }, at + 2.35);
-          }
-        });
-      });
-
-      // Reduced-motion: pole „utraty" pokazuje stan końcowy (gdyby GL istniał — nie istnieje),
-      // countery i layout załatwia wariant stackowany + komponent Counter.
-      mm.add(REDUCE, () => {
-        glState.progress = 1;
       });
     },
     { scope }
   );
 
   return (
-    <section ref={scope} data-ambient="problem" className="relative">
-      {/* JEDEN wspólny header nad wariantami (v5: koniec z duchami H2 w DOM) */}
-      <Container className="pt-14 md:pt-28">
-        <SectionLabel num="01">{t.label}</SectionLabel>
-        <SectionH2 className="max-w-[24ch]">{t.h2}</SectionH2>
-      </Container>
+    <section ref={scope} data-ambient="problem" className="section-pad bg-paper-deep">
+      <Container>
+        <Eyebrow className="s3-reveal">{t.label}</Eyebrow>
+        <h2 className="s3-reveal t-h2 mt-4 max-w-[22ch] font-display font-semibold text-ink">{t.h2}</h2>
 
-      {/* Desktop: pinowana scena 300% */}
-      <div className="hidden md:block motion-reduce:md:hidden">
-        <div className="prob-stage relative h-svh overflow-hidden">
-          {/* Pole kropek-klientów (WebGL, scissorowane do tego DIV-a) */}
-          <div ref={fieldRef} aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-[4%] top-[10%]" />
-
-          <Container className="relative flex h-full flex-col pb-16 pt-20">
-            <div className="relative flex-1">
-              {t.cards.map((c, i) => (
-                <div key={i} className="prob-stat absolute inset-0 flex flex-col justify-center will-change-[filter,transform]">
-                  <p className="text-ink">
-                    <span className="prob-num num text-[15vw] font-bold leading-[0.95] tracking-[-0.04em]">0</span>
-                    <span className="num ml-4 text-[clamp(1.5rem,3vw,2.6rem)] text-blue-soft">
-                      {c.suffix.trim()}
-                    </span>
-                  </p>
-                  <p className="t-lead mt-7 max-w-[44ch] text-sub">
-                    {c.text}
-                  </p>
-                </div>
-              ))}
+        <div className="mt-16 grid gap-10 md:grid-cols-3 md:gap-8">
+          {t.cards.map((c, i) => (
+            <div key={i} className="s3-reveal border-t border-hairline pt-6">
+              <p className="flex items-baseline text-ink">
+                <Counter value={c.value} className="t-stat" />
+                <span className="num ml-1.5 text-lg text-forest-700">{c.suffix.trim()}</span>
+              </p>
+              <p className="mt-4 max-w-[34ch] text-[0.95rem] leading-relaxed text-sub">{c.text}</p>
             </div>
-          </Container>
-
-          {/* Progress-rail 01→03 */}
-          <div className="prob-rail absolute left-7 top-1/2 hidden -translate-y-1/2 lg:block" aria-hidden="true">
-            <div className="relative h-64 w-px bg-hairline">
-              <div className="prob-rail-line absolute inset-0 origin-top bg-blue" style={{ transform: "scaleY(0)" }} />
-              {["01", "02", "03"].map((n, i) => (
-                <span
-                  key={n}
-                  data-active={i === 0 ? "true" : "false"}
-                  className="prob-rail-seg num absolute left-4 -translate-y-1/2 text-xs text-mute transition-colors duration-300 data-[active=true]:text-blue-soft"
-                  style={{ top: `${i * 50}%` }}
-                >
-                  {n}
-                </span>
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
 
-      {/* Mobile + desktop reduced-motion: karuzela snap-x 3 statów (koniec z pasami
-          pustki po 3× min-h-[62svh] justify-center — zgłoszone 300-380 px) */}
-      <div className="md:hidden motion-reduce:md:block">
-        <Container>
-          <SnapRow
-            ariaLabel={pl.mobile.carousel.stats}
-            goToLabel={pl.mobile.carousel.goTo}
-            className="mt-10"
-            items={t.cards.map((c, i) => (
-              <div key={i} className="flex min-h-[46svh] flex-col justify-center">
-                <p className="text-ink">
-                  <Counter value={c.value} className="text-[26vw] font-bold leading-none tracking-[-0.04em] md:text-[10rem]" />
-                  <span className="num ml-3 text-xl text-blue-soft">{c.suffix.trim()}</span>
-                </p>
-                <p className="mt-5 max-w-[40ch] text-sm leading-relaxed text-sub">{c.text}</p>
-              </div>
-            ))}
-          />
-        </Container>
-      </div>
+        <blockquote
+          className="s3-kicker mt-20 max-w-[26ch] font-display font-medium text-ink md:mt-28"
+          style={{ fontSize: "clamp(1.7rem, 3.6vw, 3rem)", lineHeight: 1.28, letterSpacing: "-0.02em" }}
+        >
+          {words.map((w, i) => {
+            const clean = w.replace(/[.,]/g, "").toLowerCase();
+            const isAccent = clean === "ciszę";
+            return (
+              <span key={i} className={`man-word ${isAccent ? "font-serif font-normal italic" : ""}`}>
+                {w}
+                {i < words.length - 1 ? " " : ""}
+              </span>
+            );
+          })}
+        </blockquote>
+      </Container>
     </section>
   );
 }

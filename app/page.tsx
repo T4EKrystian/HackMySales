@@ -3,7 +3,6 @@ import { Nav } from "@/components/sections/Nav";
 import { Hero } from "@/components/sections/Hero";
 import { ProofTicker } from "@/components/sections/ProofTicker";
 import { Problem } from "@/components/sections/Problem";
-import { Manifest } from "@/components/sections/Manifest";
 import { Pillars } from "@/components/sections/Pillars";
 import { GoldMines } from "@/components/sections/GoldMines";
 import { Comparison } from "@/components/sections/Comparison";
@@ -18,7 +17,6 @@ import { Integrations } from "@/components/sections/Integrations";
 import { Trust } from "@/components/sections/Trust";
 import { Pricing } from "@/components/sections/Pricing";
 import { Faq } from "@/components/sections/Faq";
-import { TeamNote } from "@/components/sections/TeamNote";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Footer } from "@/components/sections/Footer";
 import { StickyCta } from "@/components/mobile/StickyCta";
@@ -56,7 +54,6 @@ export default function Home() {
         <Hero />
         <ProofTicker />
         <Problem />
-        <Manifest />
         <Pillars />
         <GoldMines />
         <Comparison />
@@ -70,7 +67,6 @@ export default function Home() {
         <Trust />
         <Pricing />
         <Faq />
-        <TeamNote />
         <FinalCta />
       </main>
       <Footer />
