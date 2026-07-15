@@ -309,9 +309,11 @@ export function Channels() {
           {/* Centralny węzeł: jeden „mózg" (Magda) zasilający cztery kanały — label,
               żeby diagram coś mówił, nie był pustą dekoracją (kom. klienta). */}
           <div className="ch-center relative z-10 mx-auto flex h-44 w-44 items-center justify-center">
-            <div className="relative flex h-28 w-28 flex-col items-center justify-center gap-1.5 rounded-full border border-strongline bg-card shadow-[var(--shadow-float)]">
-              <Logo withWord={false} markSize={30} />
-              <span className="label text-[10px] text-sub">Jedna Magda</span>
+            {/* halo koncentryczne — czyta się jako HUB sieci, nie naklejka/clip-art */}
+            <div className="absolute h-40 w-40 rounded-full border border-line-1 opacity-50" aria-hidden="true" />
+            <div className="relative flex h-28 w-28 flex-col items-center justify-center gap-1.5 rounded-full border border-hairline bg-surface shadow-[var(--shadow-float)]">
+              <Logo withWord={false} markSize={28} />
+              <span className="label text-[10px] text-mute">Jedna Magda</span>
             </div>
           </div>
 
@@ -330,10 +332,11 @@ export function Channels() {
                 key={n.key}
                 onClick={() => beginSwitch(i, false)}
                 aria-pressed={i === activeCh}
-                className={`inline-flex min-h-11 items-center rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 md:min-h-0 ${
+                className={`inline-flex min-h-11 items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 md:min-h-0 ${
                   i === activeCh ? "bg-blue-tint text-blue-soft" : "text-mute hover:bg-l3 hover:text-sub"
                 }`}
               >
+                <Glyph name={GLYPHS[n.key]} size={15} className="shrink-0" />
                 {n.name}
               </button>
             ))}

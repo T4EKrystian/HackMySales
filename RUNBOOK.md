@@ -129,7 +129,7 @@ Szczegóły „co/dlaczego" są w `POPRAWKI.md`. Tu jest „w jakiej kolejności
 - [x] 2.2 statusy receipt — „Wyświetlone/Dostarczono" pod ostatnim bąblem KLIENTA (messenger); zweryfikowane DOM
 - [x] 2.3 pasek inputu — camera/plus + emoji w pigułce + wyślij (paper-plane), 1.5px SVG
 - [x] 2.4 skiny+morph — 4 czytelnie różne sylwetki (onsite widget / messenger app+receipt / IG ring+reply-quote+pills / email); Flip zachowany
-- [ ] 2.5 kompozycja Kanałów
+- [x] 2.5 kompozycja Kanałów — mini-ikony kanałów w pigułkach switchera; hub „Jedna Magda" z halo (mniej clip-artu); fix w-fit bąbla
 - [ ] 3.1 frame-l2
 - [ ] 3.2 newsletter krata
 - [ ] 3.3 footer wordmark

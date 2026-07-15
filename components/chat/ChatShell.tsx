@@ -182,7 +182,7 @@ function BubbleShell({
             )}
             <div className="min-w-0">
               {step.role === "bot" && cfg.dots && <TypingDots />}
-              <div className={`chat-msg ${step.role === "user" ? "ml-auto max-w-[78%]" : "max-w-[78%]"}`}>
+              <div className={`chat-msg w-fit max-w-[78%] ${step.role === "user" ? "ml-auto" : ""}`}>
                 <div
                   data-flip-id={flipMsgs ? `ch-msg-${i}` : undefined}
                   className={`px-4 py-3 text-sm leading-relaxed ${step.role === "user" ? cfg.bubbleUser : cfg.bubbleBot} ${tailCls}`}
