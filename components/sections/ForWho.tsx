@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { ChatShell } from "@/components/chat/ChatShell";
@@ -9,16 +8,9 @@ import { exchangeToScript } from "@/components/chat/script";
 import { PersonaRow } from "@/components/chat/parts";
 import { useReveal } from "@/lib/motion";
 
-/** Foto kontekstu branży (V5-F5 pkt 10) — packshoty z products.json per zakładka. */
-const SEGMENT_PHOTO: Record<string, string> = {
-  moda: "sukienka",
-  dom: "dom",
-  elektronika: "elektronika",
-  b2b: "b2b",
-};
-
-/** Sekcja „Dla kogo” (copy §3c, features §L12): 4 branże,
- *  każda z bólem, przykładową wymianą i chipem efektu. Zmiana zakładki = CSS fade-up. */
+/** Sekcja „Dla kogo” (copy §3c, features §L12): 4 branże, każda z bólem, przykładową
+ *  wymianą i chipem efektu. Zmiana zakładki = CSS fade-up. v2 (kom. klienta): bez packshotu
+ *  — editorialny label branży + ból prowadzą, ramka lżejsza (koniec „AI-mockup"). */
 export function ForWho() {
   const t = pl.forWho;
   const ref = useReveal<HTMLElement>(0.08);
@@ -50,21 +42,14 @@ export function ForWho() {
         </div>
 
         {/* Panel branży */}
-        <div className="js-reveal mt-6 rounded-[var(--radius-xl)] border border-hairline bg-card p-7 md:p-9">
+        <div className="js-reveal mt-6 rounded-[var(--radius-xl)] border border-hairline bg-surface p-7 md:p-9">
           <div key={seg.key} className="fade-in-panel grid items-center gap-8 md:grid-cols-[1fr_1.1fr]">
             <div>
-              {/* foto kontekstu branży (crossfade z panelem — klucz na rodzicu) */}
-              <Image
-                src={`/products/${SEGMENT_PHOTO[seg.key]}.webp`}
-                alt=""
-                width={72}
-                height={72}
-                unoptimized
-                aria-hidden="true"
-                className="mb-5 h-[72px] w-[72px] rounded-xl border border-line-1 object-cover"
-              />
-              <p className="font-display text-lg font-semibold tracking-tight text-ink">{seg.pain}</p>
-              <p className="num mt-5 inline-block rounded-full bg-blue-tint px-3.5 py-1.5 text-xs text-blue-soft">
+              <p className="label text-forest-700">{seg.label}</p>
+              <p className="mt-3 font-display text-xl font-semibold leading-snug tracking-tight text-ink md:text-2xl">
+                {seg.pain}
+              </p>
+              <p className="num mt-6 inline-block rounded-full bg-blue-tint px-3.5 py-1.5 text-xs text-blue-soft">
                 {seg.chip}
               </p>
             </div>

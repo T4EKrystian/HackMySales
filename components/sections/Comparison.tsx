@@ -20,32 +20,42 @@ export function Comparison() {
         <SectionLabel num="04">{t.label}</SectionLabel>
         <SectionH2 className="max-w-[24ch]">{t.h2}</SectionH2>
 
-        {/* Nagłówek kolumn */}
-        <div className="mt-14 grid grid-cols-2 gap-6 border-b border-hairline pb-4 sm:gap-14">
-          <p className="label">{t.colLeft}</p>
-          <p className="label flex items-center gap-2 text-ink">
-            <Logo withWord={false} markSize={16} />
-            {t.colRight}
-          </p>
-        </div>
-
-        {/* Wiersze — separacja hairline (nie boxy) */}
-        <div>
-          {t.rows.map((row, i) => (
-            <div
-              key={i}
-              className="js-reveal grid grid-cols-2 items-start gap-6 border-b border-hairline py-5 sm:gap-14"
-            >
-              <p className="flex items-start gap-2.5 text-sm leading-relaxed text-mute">
-                <Glyph name="x" size={15} className="mt-0.5 shrink-0" />
-                {row.left}
-              </p>
-              <p className="flex items-start gap-2.5 text-sm leading-relaxed text-ink">
-                <CheckGlyph className="mt-1 shrink-0 text-forest-700" />
-                {row.right}
+        {/* Tabela: wiersz po wierszu na hairline. Kolumnę HackMySales podbija panel
+            paper-deep (świadome „to dobra strona") — desktop; mobile zostaje czyste. */}
+        <div className="relative mt-14">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-[calc(50%+1.75rem)] right-[-1.75rem] hidden rounded-2xl bg-paper-deep sm:block"
+          />
+          <div className="relative">
+            {/* Nagłówek kolumn */}
+            <div className="grid grid-cols-2 gap-6 border-b border-hairline pb-4 sm:gap-14">
+              <p className="label">{t.colLeft}</p>
+              <p className="label flex items-center gap-2 text-ink sm:pl-5">
+                <Logo withWord={false} markSize={16} />
+                {t.colRight}
               </p>
             </div>
-          ))}
+
+            {/* Wiersze — separacja hairline (nie boxy) */}
+            <div>
+              {t.rows.map((row, i) => (
+                <div
+                  key={i}
+                  className="js-reveal grid grid-cols-2 items-start gap-6 border-b border-hairline py-5 sm:gap-14"
+                >
+                  <p className="flex items-start gap-2.5 text-sm leading-relaxed text-mute">
+                    <Glyph name="x" size={15} className="mt-0.5 shrink-0" />
+                    {row.left}
+                  </p>
+                  <p className="flex items-start gap-2.5 text-sm font-medium leading-relaxed text-ink sm:pl-5">
+                    <CheckGlyph className="mt-1 shrink-0 text-forest-700" />
+                    {row.right}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <p className="js-reveal mt-10 text-sm text-mute">{t.footer}</p>

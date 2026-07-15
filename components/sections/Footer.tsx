@@ -35,16 +35,17 @@ export function Footer() {
         </div>
       </Container>
 
-      {/* Wielki znak wodny — sage, przycięty dolną krawędzią (sygnatura premium) */}
+      {/* Wielki znak wodny — sage, zakotwiczony od lewej, świadomie schodzący za prawą
+          krawędź (sygnatura premium). Kadr pionowo pełny (nie tnie liter w pół — kom. klienta). */}
       <Container className="mt-20">
         <div
           className="relative overflow-hidden"
-          style={{ height: "clamp(2.4rem, 10vw, 9rem)" }}
+          style={{ height: "clamp(3rem, 13vw, 11.5rem)" }}
           aria-hidden="true"
         >
           <p
-            className="absolute inset-x-0 top-0 select-none whitespace-nowrap text-center font-display font-semibold leading-none tracking-[-0.03em] text-sage"
-            style={{ fontSize: "clamp(3.5rem, 15.5vw, 15rem)" }}
+            className="absolute bottom-[-0.06em] left-0 select-none whitespace-nowrap text-left font-display font-semibold leading-[0.8] tracking-[-0.04em] text-sage"
+            style={{ fontSize: "clamp(4rem, 17vw, 15rem)" }}
           >
             HackMySales
           </p>

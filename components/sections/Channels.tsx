@@ -292,7 +292,7 @@ export function Channels() {
           <svg className="pointer-events-none absolute inset-0 hidden h-full w-full md:block" aria-hidden="true">
             {t.nodes.map((n) => (
               <g key={n.key}>
-                <path className="ch-beam" fill="none" stroke="var(--border-strong)" strokeWidth="1.25" />
+                <path className="ch-beam" fill="none" stroke="var(--border-strong)" strokeWidth="1.5" />
                 <path className="ch-pulse" fill="none" stroke="var(--blue-400)" strokeWidth="1.5" strokeLinecap="round" opacity="0.9" />
                 {/* jednorazowy puls-klik (V6): jaśniejsza nakładka hub→nod przed morphem */}
                 <path className="ch-pulse-click" fill="none" stroke="var(--blue-300)" strokeWidth="2" strokeLinecap="round" opacity="0" />
@@ -306,10 +306,12 @@ export function Channels() {
             <NodeCard nodeKey={t.nodes[1].key} name={t.nodes[1].name} idx={1} orbit="md:translate-x-10 md:translate-y-2" />
           </div>
 
-          {/* Centralny węzeł: mini-rdzeń (scena `mini`) + znak */}
+          {/* Centralny węzeł: jeden „mózg" (Magda) zasilający cztery kanały — label,
+              żeby diagram coś mówił, nie był pustą dekoracją (kom. klienta). */}
           <div className="ch-center relative z-10 mx-auto flex h-44 w-44 items-center justify-center">
-            <div className="relative flex h-24 w-24 items-center justify-center rounded-full border border-hairline bg-card/70 backdrop-blur-sm">
-              <Logo withWord={false} markSize={34} />
+            <div className="relative flex h-28 w-28 flex-col items-center justify-center gap-1.5 rounded-full border border-strongline bg-card shadow-[var(--shadow-float)]">
+              <Logo withWord={false} markSize={30} />
+              <span className="label text-[10px] text-sub">Jedna Magda</span>
             </div>
           </div>
 
@@ -362,7 +364,7 @@ export function Channels() {
                 flipId="ch-frame"
                 flipMsgs
                 script={scriptA}
-                bodyClassName="max-h-[440px] min-h-[380px] p-5 pt-[86px]"
+                bodyClassName="max-h-[440px] min-h-[280px] p-5 pt-[86px]"
                 className={seen ? "" : "fade-in-fast"}
               />
             )}
