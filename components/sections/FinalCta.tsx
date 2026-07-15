@@ -84,7 +84,7 @@ export function FinalCta() {
     "w-full rounded-full border bg-forest-900 px-6 py-4 text-center text-base text-onforest placeholder:text-onforest/45 disabled:opacity-70";
 
   return (
-    <section ref={ref} id="demo" className="relative overflow-hidden bg-forest-950 text-onforest">
+    <section ref={ref} id="demo" className="relative overflow-hidden bg-forest-950 text-onforest shadow-[0_-22px_48px_-28px_rgb(10_31_22/0.3)]">
       <div className="noise-forest" aria-hidden="true" />
 
       <Container className="relative z-[1] max-w-[760px] py-24 text-center md:py-36">

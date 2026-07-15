@@ -133,8 +133,8 @@ Szczegóły „co/dlaczego" są w `POPRAWKI.md`. Tu jest „w jakiej kolejności
 - [x] 3.1 frame-l2 — usunięty --highlight-top (frame-l2 + 2 inline + token); martwy SpotlightCard skasowany; hairline + jeden cień
 - [x] 3.2 newsletter krata — usunięty HeroGridTexture z FinalCta (zostaje noise-forest); pole border-only
 - [x] 3.3 footer wordmark — mask-image bocznego fade (dissolve, nie ucięcie)
-- [ ] 3.4 rytm sekcji
-- [ ] 3.5 przejścia pasm
+- [x] 3.4 rytm sekcji — Problem: skrócony gap kickera; mobilny --space-section ↓ (bliżej celu ≤22); mobilne labelki ≥13px (regresja timestampów 2.1 + GoldMines skala/rozmiar)
+- [x] 3.5 przejścia pasm — mostek papier↔las: subtelny shadow-feather nad FinalCta (zgodny z banlistą „tylko 2 gradienty"); wejście NightShift bridżowane pinem
 - [ ] 4.1 proofticker logo
 - [ ] 4.2 comparison kontrast
 - [ ] 4.3 goldmines karta+liczby
