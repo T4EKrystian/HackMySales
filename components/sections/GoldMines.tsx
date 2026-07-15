@@ -53,8 +53,9 @@ function RevenueMiniPanel() {
   return (
     <div ref={ref} className="rounded-[var(--radius-lg)] border border-hairline bg-surface p-6">
       <p className="label">{t.panelTitle}</p>
-      <p className="mt-3 font-display text-ink">
-        <Counter value={t.panelAmount} suffix=" zł" className="whitespace-nowrap font-semibold tracking-tight text-[clamp(2.5rem,4.5vw,4.25rem)] leading-none" />
+      <p className="mt-3 flex items-baseline gap-1.5 font-display text-ink">
+        <Counter value={t.panelAmount} className="whitespace-nowrap font-semibold tracking-tight text-[clamp(1.9rem,3.2vw,3rem)] leading-none" />
+        <span className="text-lg font-medium text-sub">zł</span>
       </p>
       <div className="relative mt-6 h-24" aria-hidden="true">
         <div className="flex h-full items-end gap-2">
