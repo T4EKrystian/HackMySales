@@ -22,18 +22,12 @@ for (const speed of [1200, 3000]) {
 
     // (a) ekspozycja stanów pinów — tylko wolny przebieg na desktopie
     if (speed === 1200 && isDesktop) {
-      const dwells = [dwell(samples, "probIdx"), dwell(samples, "pillarIdx"), dwell(samples, "round"), dwell(samples, "howIdx")];
+      // [redesign] arena (round) de-pinowana → gęsta tabela hairline; probIdx zwinięty do S3.
+      const dwells = [dwell(samples, "pillarIdx"), dwell(samples, "howIdx")];
       const values = dwells.flatMap((d) => Object.values(d)).filter((v) => v > 0);
       const min = values.length ? Math.min(...values) : 0;
       expect(min, `każdy stan pinu ≥500 ms (min ${min} ms; ${JSON.stringify(dwells)})`).toBeGreaterThanOrEqual(500);
-
-      // (a2) arena (F4): pojedynek gra WSZYSTKIE 4 rundy, licznik bije 0:0 → 0:4.
-      // round-no = `${n}/4`, score = `0 : ${done}` (Comparison onUpdate). Dowód V6 —
-      // asercja tylko zamyka regres (numer rundy zsynchronizowany z werdyktami tabeli).
-      const rounds = [...new Set(samples.map((s) => s.round).filter(Boolean))];
-      const scores = [...new Set(samples.map((s) => s.score).filter(Boolean))];
-      expect(rounds, `rundy areny: ${JSON.stringify(rounds)}`).toEqual(expect.arrayContaining(["1/4", "4/4"]));
-      expect(scores, `wynik areny: ${JSON.stringify(scores)}`).toContain("0 : 4");
+      // [redesign] arena de-pinowana → gęsta tabela hairline (Comparison bez pinu/rund).
     }
 
     // (b) puste ramy wyszukiwarki. @1200 (reprezentatywna prędkość): 0. @3000 (szybki

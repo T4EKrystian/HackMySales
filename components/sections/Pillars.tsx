@@ -268,7 +268,7 @@ export function Pillars() {
             start: "top top",
             invalidateOnRefresh: true,
             // budżet ≥90vh/stan: 3 stany × ~93% = end 280% (motion-craft)
-            end: "+=280%",
+            end: "+=200%",
             scrub: 0.8,
             snap: { snapTo: "labels", duration: 0.4, ease: "power2.inOut" },
             onEnter: () => {

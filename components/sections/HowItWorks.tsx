@@ -131,7 +131,7 @@ export function HowItWorks() {
             pin: true,
             start: "top top",
             invalidateOnRefresh: true,
-            end: "+=200%",
+            end: "+=190%",
             scrub: 0.8,
             snap: { snapTo: "labels", duration: 0.4, ease: "power2.inOut" },
             onToggle(self) {

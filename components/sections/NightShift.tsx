@@ -55,7 +55,7 @@ export function NightShift() {
           scrollTrigger: {
             trigger: scope.current,
             start: "top top",
-            end: "+=340%",
+            end: "+=150%",
             scrub: 0.6,
             pin: ".nz-stage",
             pinSpacing: true,
@@ -76,7 +76,7 @@ export function NightShift() {
   );
 
   return (
-    <section ref={scope} aria-label="Nocna zmiana — bot sprzedaje, gdy śpisz" className="relative bg-page motion-safe:md:h-[440vh]">
+    <section ref={scope} aria-label="Nocna zmiana — bot sprzedaje, gdy śpisz" className="relative bg-page motion-safe:md:h-[250vh]">
       <div className="nz-stage relative flex min-h-[80vh] items-center overflow-hidden bg-page py-20 motion-safe:md:sticky motion-safe:md:top-0 motion-safe:md:h-svh motion-safe:md:min-h-0 motion-safe:md:py-0">
         {/* PAYOFF świtu (jasny, pod niebem — odsłaniany gdy niebo znika) */}
         <div className="nz-dawn container-hms pointer-events-none absolute inset-x-0 top-1/2 hidden -translate-y-1/2 text-center motion-safe:md:block motion-safe:md:opacity-0">
