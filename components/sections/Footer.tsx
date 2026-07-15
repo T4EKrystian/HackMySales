@@ -40,7 +40,11 @@ export function Footer() {
       <Container className="mt-20">
         <div
           className="relative overflow-hidden"
-          style={{ height: "clamp(3rem, 13vw, 11.5rem)" }}
+          style={{
+            height: "clamp(3rem, 13vw, 11.5rem)",
+            maskImage: "linear-gradient(90deg, #000 0%, #000 80%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(90deg, #000 0%, #000 80%, transparent 100%)",
+          }}
           aria-hidden="true"
         >
           <p

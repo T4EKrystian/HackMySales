@@ -130,9 +130,9 @@ Szczegóły „co/dlaczego" są w `POPRAWKI.md`. Tu jest „w jakiej kolejności
 - [x] 2.3 pasek inputu — camera/plus + emoji w pigułce + wyślij (paper-plane), 1.5px SVG
 - [x] 2.4 skiny+morph — 4 czytelnie różne sylwetki (onsite widget / messenger app+receipt / IG ring+reply-quote+pills / email); Flip zachowany
 - [x] 2.5 kompozycja Kanałów — mini-ikony kanałów w pigułkach switchera; hub „Jedna Magda" z halo (mniej clip-artu); fix w-fit bąbla
-- [ ] 3.1 frame-l2
-- [ ] 3.2 newsletter krata
-- [ ] 3.3 footer wordmark
+- [x] 3.1 frame-l2 — usunięty --highlight-top (frame-l2 + 2 inline + token); martwy SpotlightCard skasowany; hairline + jeden cień
+- [x] 3.2 newsletter krata — usunięty HeroGridTexture z FinalCta (zostaje noise-forest); pole border-only
+- [x] 3.3 footer wordmark — mask-image bocznego fade (dissolve, nie ucięcie)
 - [ ] 3.4 rytm sekcji
 - [ ] 3.5 przejścia pasm
 - [ ] 4.1 proofticker logo
