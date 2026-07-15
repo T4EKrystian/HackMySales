@@ -9,31 +9,33 @@ import { demo } from "@/content/demo-data";
 const raw = {
   nav: {
     links: [
-      { label: "Produkt", href: "#produkt" },
       { label: "Funkcje", href: "#funkcje" },
+      { label: "Badania", href: "#badania" },
       { label: "Wyniki", href: "#wyniki" },
-      { label: "Cennik", href: "#cennik" },
-      { label: "FAQ", href: "#faq" },
     ],
     login: "Zaloguj się",
     // [PLACEHOLDER] docelowy adres portalu klienta
     loginHref: "https://portal.185-238-74-109.nip.io/portal/login",
-    cta: "Wypróbuj za darmo",
+    cta: "Umów prezentację",
     menuOpen: "Otwórz menu",
     menuClose: "Zamknij menu",
   },
 
   hero: {
-    eyebrow: "CZAT AI · WYSZUKIWARKA · REKOMENDACJE",
-    h1Line1: "Twój sklep śpi.",
-    h1Line2: "Twoja sprzedaż nie musi.",
-    // akcent serif (Fraunces italic) na „Twoja sprzedaż" — sygnaturowy ruch typografii
-    h1: { pre: "Twój sklep śpi.", accent: "Twoja sprzedaż", post: "nie musi." },
-    lead: "HackMySales podpina się do Twojego sklepu i doradza klientom jak najlepszy handlowiec — w czacie, w wyszukiwarce i w rekomendacjach. A co poniedziałek pokazuje, ile na tym zarobiłeś. Co do złotówki.",
-    ctaPrimary: "Wypróbuj za darmo",
-    ctaSecondary: "Zobacz, jak sprzedaje",
+    eyebrow: "WYSZUKIWARKA · REKOMENDACJE · CHATBOT AI",
+    h1Line1: "Zwiększ sprzedaż",
+    h1Line2: "bez zwiększania budżetu reklamowego",
+    // akcent serif (Fraunces italic) na „bez zwiększania budżetu" — hak ROAS (jeden word-paint)
+    h1: { pre: "Zwiększ sprzedaż", accent: "bez zwiększania budżetu", post: "reklamowego" },
+    lead: "HackMySales zamienia więcej odwiedzających w klientów. Inteligentna wyszukiwarka, rekomendacje produktowe i chatbot AI skracają drogę do zakupu i pozwalają wykorzystać każdą złotówkę wydaną na reklamę.",
+    ctaPrimary: "Zwiększ konwersję w swoim sklepie",
+    ctaSecondary: "Zobacz, jak to działa",
     scrollCue: "Przewiń",
-    proof: "Bez karty · Wdrożenie w 1 dzień · 14 dni testów za darmo",
+    proof: "Time4Ecommerce · w e-commerce od 2017 · ponad 40 sklepów · wdrożenie w 1 dzień",
+    // Zakładki żywego artefaktu hero — 3 funkcje w jednym demie
+    demoTabs: ["Wyszukiwarka", "Rekomendacje", "Chat"],
+    // Hak do sekcji dowodów (S5) — mały dowód pod CTA
+    studiesHook: { value: "10/10", label: "badań naukowych potwierdza skuteczność AI", href: "#badania" },
     // 3 pływające chipy statystyk wokół artefaktu (ref-3) — liczby z truth-table (demo)
     chips: [
       { value: "+18%", label: "konwersji" },
@@ -723,10 +725,10 @@ const raw = {
       {
         title: "Produkt",
         links: [
-          { label: "Czat AI", href: "#produkt" },
-          { label: "Wyszukiwarka", href: "#produkt" },
-          { label: "Rekomendacje", href: "#produkt" },
-          { label: "Panel przychodów", href: "#funkcje" },
+          { label: "Wyszukiwarka", href: "#funkcje" },
+          { label: "Rekomendacje", href: "#funkcje" },
+          { label: "Czat AI", href: "#funkcje" },
+          { label: "Wyniki", href: "#wyniki" },
         ],
       },
       {

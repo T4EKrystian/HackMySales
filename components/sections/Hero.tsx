@@ -4,8 +4,7 @@ import { useRef } from "react";
 import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Button } from "@/components/ui/Button";
-import { ChatDemo } from "@/components/sections/ChatDemo";
-import { HeroChatMobile } from "@/components/mobile/HeroChatMobile";
+import { HeroDemo } from "@/components/sections/HeroDemo";
 import {
   gsap,
   useGSAP,
@@ -19,10 +18,10 @@ import {
 } from "@/lib/motion";
 import { armIntroGate, markIntroDone } from "@/lib/introGate";
 
-/** Hero v2 (redesign, paper): ciepła poświata radialna (zamiast GL), H1 z akcentem
- *  serif (Fraunces italic), żywy czat Magdy. Bez pływających chipów, bez siatki —
- *  jeden spokojny artefakt (kom. klienta). Choreografia wejścia ≤1,6 s.
- *  LCP: H1 malowany od SSR; late tweeny tylko na dekoracjach; czat budzi bramka intro. */
+/** Hero (redesign, paper): H1 właściciela (hak ROAS w italiku Fraunces), żywy artefakt
+ *  3 funkcji (HeroDemo: wyszukiwarka · rekomendacje · chat). Cały tekst od SSR, widoczny
+ *  natychmiast — jedyny orkiestrowany ruch to mask-reveal H1 (gdy FCP świeży) + wjazd
+ *  artefaktu; eyebrow/lead/CTA/proof są STATYCZNE (owner: „cały tekst od razu widoczny"). */
 export function Hero() {
   const t = pl.hero;
   const scope = useRef<HTMLElement>(null);
@@ -41,47 +40,34 @@ export function Hero() {
         const lines = gsap.utils.toArray<HTMLElement>(".hero-line", scope.current!);
         let split: SplitText | null = null;
         let played = false;
-        if (!lines.length || !scope.current) {
-          markIntroDone();
-          return;
-        }
-        split = SplitText.create(lines, {
-          type: "lines",
-          mask: "lines",
-          autoSplit: true,
-          aria: "none",
-          onSplit(self) {
-            if (played || !fast) {
+        if (lines.length && scope.current) {
+          split = SplitText.create(lines, {
+            type: "lines",
+            mask: "lines",
+            autoSplit: true,
+            aria: "none",
+            onSplit(self) {
+              if (played || !fast) {
+                played = true;
+                gsap.set(self.lines, { yPercent: 0 });
+                return;
+              }
               played = true;
-              gsap.set(self.lines, { yPercent: 0 });
-              return;
-            }
-            played = true;
-            const tl = gsap.timeline({ delay: 0.1 });
-            tl.from(self.lines, { yPercent: 112, duration: 0.9, ease: EASE.out, stagger: STAG.base });
-            return tl;
-          },
-        });
+              const tl = gsap.timeline({ delay: 0.1 });
+              tl.from(self.lines, { yPercent: 112, duration: 0.9, ease: EASE.out, stagger: STAG.base });
+              return tl;
+            },
+          });
+        }
 
-        // Choreografia (~1,3 s): poświata → treść → artefakt
-        const tl = gsap.timeline({
-          paused: true,
-          defaults: { ease: EASE.soft },
-          onComplete: markIntroDone,
-        });
+        // Choreografia (~1,2 s): poświata + wjazd artefaktu; treść już widoczna od SSR
+        const tl = gsap.timeline({ paused: true, defaults: { ease: EASE.soft }, onComplete: markIntroDone });
         tl.fromTo(".hero-glow", { opacity: 0 }, { opacity: 1, duration: 1.1 }, 0);
-        if (fast) tl.fromTo(".hero-lead", { y: 20 }, { y: 0, duration: 0.7, clearProps: "transform" }, 0.3);
-        tl.fromTo(
-          [".hero-eyebrow", ".hero-cta", ".hero-proof"],
-          { y: 24, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.7, stagger: STAG.base },
-          0.38
-        );
         tl.fromTo(
           ".hero-demo",
           { y: 14, opacity: 0, scale: 0.99 },
           { y: 0, opacity: 1, scale: 1, duration: 0.6, clearProps: "transform" },
-          0.3
+          0.28
         );
         tl.play();
 
@@ -89,18 +75,7 @@ export function Hero() {
       });
 
       mm.add(REDUCE, () => {
-        gsap.set(
-          [
-            ".hero-eyebrow",
-            ".hero-lead",
-            ".hero-cta",
-            ".hero-proof",
-            ".hero-demo",
-            ".hero-line",
-            ".hero-glow",
-          ],
-          { clearProps: "all", opacity: 1 }
-        );
+        gsap.set([".hero-demo", ".hero-line", ".hero-glow"], { clearProps: "all", opacity: 1 });
         markIntroDone();
       });
 
@@ -115,15 +90,15 @@ export function Hero() {
       {/* Ciepła poświata radialna (paper-deep → transparent) */}
       <div className="hero-glow glow-bg absolute inset-x-0 -top-24 h-[130%]" aria-hidden="true" />
 
-      <div className="container-hms relative grid w-full items-center gap-8 py-4 md:gap-12 md:py-8 lg:grid-cols-[58fr_42fr]">
-        {/* LEWA kolumna */}
+      <div className="container-hms relative grid w-full items-center gap-8 py-4 md:gap-12 md:py-8 lg:grid-cols-[56fr_44fr]">
+        {/* LEWA kolumna — treść (statyczna, widoczna od SSR) */}
         <div className="min-w-0">
           <p className="hero-eyebrow text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-mute">
             {t.eyebrow}
           </p>
           <h1 className="t-hero mt-5 font-display font-semibold text-ink">
-            {/* 3 linie: łamanie kontrolowane (bez sieroty „Twój"), akcent serif w osobnej linii.
-                H1 to kandydat LCP — malowany od SSR; maska tylko dla animacji. */}
+            {/* 3 linie: pre / akcent serif / post. H1 = kandydat LCP — malowany od SSR;
+                maska tylko dla mask-reveal (gdy FCP świeży). */}
             <span className="hero-line block">{t.h1.pre}</span>
             <span className="hero-line block">
               <em className="font-serif font-normal italic tracking-[-0.01em]">{t.h1.accent}</em>
@@ -131,14 +106,14 @@ export function Hero() {
             <span className="hero-line block">{t.h1.post}</span>
           </h1>
           <p className="hero-lead t-lead mt-6 max-w-[38rem] text-sub">{t.lead}</p>
-          <div className="hero-cta mt-9 flex flex-wrap items-center gap-5">
+          <div className="hero-cta mt-8 flex flex-wrap items-center gap-5">
             <div ref={ctaRef} className="will-change-transform">
-              <Button href="#cennik" size="lg">
+              <Button href="#demo" size="lg">
                 {t.ctaPrimary}
               </Button>
             </div>
             <a
-              href="#chat-demo"
+              href="#funkcje"
               className="group inline-flex items-center gap-2 py-3 text-sm font-medium text-sub transition-colors duration-150 hover:text-ink"
             >
               {t.ctaSecondary}
@@ -149,27 +124,31 @@ export function Hero() {
               />
             </a>
           </div>
-          <p className="hero-proof mt-7 text-sm text-mute">{t.proof}</p>
+          {/* Hak do dowodów — 10/10 badań (forest, bez acid) */}
+          <a
+            href={t.studiesHook.href}
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-hairline bg-card px-3.5 py-1.5 text-sm text-sub transition-colors duration-150 hover:border-strongline hover:text-ink"
+          >
+            <span className="num font-medium text-forest-700">{t.studiesHook.value}</span>
+            <span>{t.studiesHook.label}</span>
+            <Glyph name="arrow-right" size={14} className="text-mute" />
+          </a>
+          <p className="hero-proof mt-5 text-sm text-mute">{t.proof}</p>
         </div>
 
-        {/* PRAWA kolumna — artefakt czatu (bez chipów) */}
-        <div id="chat-demo" className="relative min-w-0">
+        {/* PRAWA kolumna — żywy artefakt 3 funkcji (desktop + mobile) */}
+        <div className="relative min-w-0">
           <div className="hero-demo relative">
-            <div className="hidden md:block">
-              <ChatDemo />
-            </div>
-            <div className="md:hidden">
-              <HeroChatMobile />
-            </div>
+            <HeroDemo />
           </div>
         </div>
       </div>
 
       {/* Wskaźnik przewijania — znika po ~180 px scrolla */}
       <a
-        href="#produkt"
+        href="#funkcje"
         className="hero-cue absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-mute transition-colors duration-150 hover:text-sub md:flex"
-        aria-label="Przewiń do sekcji Produkt"
+        aria-label="Przewiń do sekcji Funkcje"
       >
         <span className="text-[0.8125rem] uppercase tracking-[0.14em]">{t.scrollCue}</span>
         <span className="cue-bob flex h-9 w-9 items-center justify-center rounded-full border border-hairline">
