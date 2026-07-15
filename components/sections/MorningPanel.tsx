@@ -138,7 +138,7 @@ export function MorningPanel() {
                       <Counter
                         value={k.value}
                         suffix={k.unit ? ` ${k.unit}` : ""}
-                        className="text-2xl font-bold tracking-tight"
+                        className="text-2xl font-semibold tracking-tight"
                       />
                     </p>
                   </div>

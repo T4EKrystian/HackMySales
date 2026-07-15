@@ -52,7 +52,7 @@ function ReportDemo() {
       <p className="mt-1 text-xs text-mute">{m.subjectLabel}: <span className="font-medium text-ink">{m.subject}</span></p>
       <div className="mt-4 border-t border-hairline pt-4">
         <p className="text-xs text-mute">{d.reportKpi}</p>
-        <p className="num mt-1 text-2xl font-bold tracking-tight text-ink">{fmtIntPl(kpi.value)} zł</p>
+        <p className="num mt-1 text-2xl font-semibold tracking-tight text-ink">{fmtIntPl(kpi.value)} zł</p>
       </div>
     </div>
   );

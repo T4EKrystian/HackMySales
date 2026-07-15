@@ -709,7 +709,7 @@ const raw = {
       email: "Ten e-mail wygląda na niepełny.",
       server: "Coś poszło nie tak po naszej stronie. Spróbuj za chwilę albo napisz: kontakt@hackmysales.pl.",
     },
-    success: "Jest! Sprawdzimy Twój sklep i odezwiemy się w 1 dzień roboczy.",
+    success: "Gotowe. Sprawdzimy Twój sklep i odezwiemy się w 1 dzień roboczy.",
     // §11b — sekwencja po adresie (teatr bez kłamstwa)
     scan: {
       accepted: "adres przyjęty:",
