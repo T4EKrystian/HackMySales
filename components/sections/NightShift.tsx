@@ -65,9 +65,11 @@ export function NightShift() {
         tl.to(money, { v: TOTAL, duration: 5, ease: "none", onUpdate: () => { if (moneyRef.current) moneyRef.current.textContent = fmtIntPl(Math.round(money.v)); } }, 0.4);
         NIGHT.forEach((_, i) => tl.to(`.nz-event-${i}`, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 0.3 + i * 0.72));
         gsap.utils.toArray<HTMLElement>(".nz-stat").forEach((el, i) => tl.to(el, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 4.6 + i * 0.25));
-        // ŚWIT — ciemne niebo znika (odsłania jasny payoff pod spodem), payoff wjeżdża
-        tl.to(".nz-sky", { opacity: 0, duration: 1.1, ease: "power2.inOut" }, 5.5);
-        tl.to(".nz-dawn", { opacity: 1, scale: 1, y: 0, duration: 0.9, ease: "expo.out" }, 5.9);
+        // ŚWIT — fazy ROZŁĄCZNE (P0.3): najpierw ciemne niebo znika CAŁKOWICIE,
+        // dopiero potem payoff wjeżdża → w żadnej klatce nie ma 2× „6 840 zł" ani
+        // nakładania nagłówka/statów (sky-out 5.4→6.4, dawn-in dopiero od 6.4).
+        tl.to(".nz-sky", { opacity: 0, duration: 1.0, ease: "power2.inOut" }, 5.4);
+        tl.to(".nz-dawn", { opacity: 1, scale: 1, y: 0, duration: 0.9, ease: "expo.out" }, 6.4);
 
         return () => tl.scrollTrigger?.kill();
       });

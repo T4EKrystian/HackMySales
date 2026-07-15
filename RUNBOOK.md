@@ -124,7 +124,7 @@ Szczegóły „co/dlaczego" są w `POPRAWKI.md`. Tu jest „w jakiej kolejności
 - [x] 1.1 hero H1+layout — --text-hero 6.25→4.9rem, pt/py/gap ↓; cały hero+czat w 100svh @1440
 - [x] 1.2 czaty niepuste (globalnie) — pre-seed 1. wymiany (data-seed) + trigger top 90%; hero/Pillars/Kanały/ForWho pełne
 - [x] 1.3 hero-chat < 1 s — reveal artefaktu 0.3/0.6 s; seed widoczny ~0,9 s
-- [ ] 1.4 nightshift pin
+- [x] 1.4 nightshift pin — fazy rozłączne: sky-out 5.4→6.4, dawn dopiero od 6.4; brak 2× „6 840 zł" (scrub-frames)
 - [ ] 2.1 grupowanie+ogonki+godziny
 - [ ] 2.2 statusy receipt
 - [ ] 2.3 pasek inputu
