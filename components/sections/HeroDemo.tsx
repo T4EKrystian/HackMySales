@@ -5,7 +5,7 @@ import { pl } from "@/content/pl";
 import {
   HeroChatPanel,
   SearchPanelContent,
-  RecoPanelContent,
+  RecoGrid,
   buildPanelTl,
 } from "@/components/sections/feature-panels";
 import { gsap } from "@/lib/motion";
@@ -16,7 +16,7 @@ import { gsap } from "@/lib/motion";
  *  Zakładki reużywają paneli z feature-panels (współdzielone z sekcją filarów). */
 
 const HERO_KINDS = ["search", "reco", "chat"] as const;
-const DWELL = [5200, 4800, 7000]; // czas na zakładce (ms) — chat dłużej (playback)
+const DWELL = [5200, 8600, 7000]; // czas na zakładce (ms) — reco dłużej (kilka re-ranków), chat playback
 
 export function HeroDemo() {
   const labels = pl.hero.demoTabs;
@@ -65,8 +65,8 @@ export function HeroDemo() {
     const panel = panelRef.current;
     if (!panel) return;
     const k = HERO_KINDS[tab];
-    if (k !== "search" && k !== "reco") return;
-    const ctx = gsap.context(() => buildPanelTl(panel, k), panel);
+    if (k !== "search") return; // reco (RecoGrid) i chat animują się same
+    const ctx = gsap.context(() => buildPanelTl(panel, "search"), panel);
     return () => ctx.revert();
   }, [tab, reduced]);
 
@@ -114,7 +114,7 @@ export function HeroDemo() {
           ) : kind === "search" ? (
             <SearchPanelContent />
           ) : (
-            <RecoPanelContent />
+            <RecoGrid />
           )}
         </div>
       </div>

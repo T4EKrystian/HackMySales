@@ -4,6 +4,7 @@ import { Hero } from "@/components/sections/Hero";
 import { ProofTicker } from "@/components/sections/ProofTicker";
 import { Problem } from "@/components/sections/Problem";
 import { Pillars } from "@/components/sections/Pillars";
+import { Channels } from "@/components/sections/Channels";
 import { Studies } from "@/components/sections/Studies";
 import { Trust } from "@/components/sections/Trust";
 import { Results } from "@/components/sections/Results";
@@ -36,6 +37,7 @@ export default function Home() {
         <ProofTicker />
         <Problem />
         <Pillars />
+        <Channels />
         <Studies />
         <Trust />
         <Results />

@@ -218,14 +218,17 @@ const raw = {
       {
         title: "AI Search",
         body: "Rozumie, czego naprawdę szuka klient — nawet gdy opisuje potrzebę własnymi słowami. Skraca drogę do produktu i ogranicza liczbę osób, które opuszczają sklep bez zakupu.",
+        caps: ["literówki i polska odmiana", "filtry po cechach i cenie", "zero pustych wyników przy pełnym magazynie"],
       },
       {
         title: "AI Ramki rekomendacji",
         body: "Podpowiadają produkty dopasowane do intencji klienta — zwiększają szansę na zakup, dosprzedaż i wyższą wartość koszyka.",
+        caps: ["re-ranking na sygnałach klienta", "cross-sell i dosprzedaż w koszyku", "podbicie produktów z lepszą marżą"],
       },
       {
         title: "AI Chatbot sprzedażowy",
         body: "Odpowiada na pytania w czasie rzeczywistym, rozwiewa wątpliwości i prowadzi klienta do zakupu, zanim stracisz opłacony ruch.",
+        caps: ["dobór rozmiaru z historii zwrotów", "status paczki bez udziału zespołu", "eskalacja do człowieka ze streszczeniem"],
       },
     ],
     // Etykiety belki device-frame — kolejność owner: Search → Rekomendacje → Chat
@@ -247,12 +250,20 @@ const raw = {
         note: "Intencja rozpoznana mimo literówek i odmiany",
       },
       reco: {
-        context: "Klient ogląda: Rower górski M29",
-        sliderLeft: "trafność",
-        sliderRight: "marża",
-        items: [
-          { name: "Kask MTB Ridge", price: "219 zł", note: "dopasowany", highlight: false, kind: "kask" as const },
-          { name: "Kask MTB Core", price: "189 zł", note: "dopasowany · lepsza marża", highlight: true, kind: "kask" as const },
+        title: "Polecane dla Ciebie",
+        signalPrefix: "Sygnał",
+        badge: "Polecane",
+        // Sygnały zmieniają się co ~2,8 s → grid re-rankuje się (FLIP)
+        signals: [
+          { key: "fit", label: "dopasowanie do klienta" },
+          { key: "price", label: "wrażliwość na cenę" },
+          { key: "margin", label: "lepsza marża" },
+        ],
+        products: [
+          { name: "Kask MTB Ridge", price: "219 zł", kind: "kask" as const, fit: 5, priceVal: 219, margin: 3 },
+          { name: "Kask MTB Core", price: "189 zł", kind: "kask" as const, fit: 4, priceVal: 189, margin: 5 },
+          { name: "Zapięcie U-lock", price: "89 zł", fit: 3, priceVal: 89, margin: 4 },
+          { name: "Plecak trekkingowy", price: "199 zł", fit: 2, priceVal: 199, margin: 2 },
         ],
       },
     },
@@ -506,8 +517,8 @@ const raw = {
   },
 
   results: {
-    label: "POLICZALNOŚĆ",
-    h2: "Nie wierz nam. Policz.",
+    label: "WYNIKI",
+    h2: "Efekty, które widać w panelu.",
     counters: [
       { prefix: "+", value: demo.counters.conv, suffix: "%", label: "konwersji u klientów po 3 miesiącach" },
       { prefix: "+", value: demo.counters.aov, suffix: "%", label: "średniej wartości koszyka (AOV)" },

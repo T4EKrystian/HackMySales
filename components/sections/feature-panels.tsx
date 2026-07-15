@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { type ProductKind } from "@/components/ui/ProductVisual";
@@ -18,7 +19,7 @@ export function ChatPanelContent({ active }: { active?: boolean }) {
   return (
     <ChatShell
       chrome="bare"
-      skin="onsite"
+      skin="messenger"
       active={active}
       script={exchangeToScript("pillars-chat", pl.pillars.demo.chat)}
       className="h-full"
@@ -33,7 +34,7 @@ export function HeroChatPanel({ active }: { active?: boolean }) {
   return (
     <ChatShell
       chrome="bare"
-      skin="onsite"
+      skin="messenger"
       active={active}
       script={scenarioToScript(pl.hero.chat.scenarios[0])}
       className="h-full"
@@ -91,43 +92,101 @@ export function SearchPanelContent({ photo = true }: { photo?: boolean }) {
   );
 }
 
-export function RecoPanelContent({ photo = true }: { photo?: boolean }) {
+type RecoProduct = (typeof pl.pillars.demo.reco.products)[number];
+
+/** RecoGrid — dynamiczny product grid: co ~2,8 s zmienia się SYGNAŁ klienta
+ *  (dopasowanie / cena / marża) → grid re-rankuje się FLIP-em, top-produkt dostaje
+ *  wyróżnienie „Polecane". Realne foto. Pauza off-screen; reduced-motion = statyczny. */
+export function RecoGrid({ photo = true }: { photo?: boolean }) {
   const d = pl.pillars.demo.reco;
+  const sortFor = useCallback(
+    (key: string): RecoProduct[] =>
+      [...d.products].sort((a, b) =>
+        key === "price" ? a.priceVal - b.priceVal : key === "margin" ? b.margin - a.margin : b.fit - a.fit
+      ),
+    [d.products]
+  );
+
+  const [signalIdx, setSignalIdx] = useState(0);
+  const [order, setOrder] = useState<RecoProduct[]>(() => sortFor(d.signals[0].key));
+  const gridRef = useRef<HTMLDivElement>(null);
+  const flipState = useRef<ReturnType<typeof Flip.getState> | null>(null);
+  const idxRef = useRef(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { threshold: 0.3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const advance = useCallback(() => {
+    const next = (idxRef.current + 1) % d.signals.length;
+    idxRef.current = next;
+    const cards = gridRef.current?.querySelectorAll<HTMLElement>(".reco-card");
+    if (cards && cards.length) flipState.current = Flip.getState(cards);
+    setSignalIdx(next);
+    setOrder(sortFor(d.signals[next].key));
+  }, [d.signals, sortFor]);
+
+  useEffect(() => {
+    if (!visible || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setInterval(advance, 2800);
+    return () => window.clearInterval(id);
+  }, [visible, advance]);
+
+  useLayoutEffect(() => {
+    if (!flipState.current) return;
+    Flip.from(flipState.current, { duration: 0.5, ease: EASE.soft, stagger: 0.05, absolute: true });
+    flipState.current = null;
+  }, [order]);
+
+  const topName = order[0]?.name;
+
   return (
-    <div className="flex h-full flex-col justify-center gap-4">
-      <p className="text-sm text-sub">{d.context}</p>
-      <ul className="pp-reco-list flex flex-col gap-3">
-        {d.items.map((it) => (
-          <li
-            key={it.name}
-            className={`pp-reco flex items-center gap-3 rounded-xl border px-4 py-3 ${
-              it.highlight ? "pp-reco-hl border-blue bg-blue-tint" : "border-hairline bg-card"
-            }`}
-          >
-            <ProductThumb
-              name={it.name}
-              kind={"kind" in it ? (it.kind as ProductKind) : undefined}
-              size={48}
-              tint={it.highlight ? "blue" : undefined}
-              photo={photo}
-            />
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium text-ink">{it.name}</p>
-              <p className={`truncate text-xs ${it.highlight ? "text-blue-soft" : "text-mute"}`}>{it.note}</p>
+    <div className="flex h-full flex-col gap-3">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-sm font-medium text-ink">{d.title}</p>
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-tint px-2.5 py-1 text-xs text-blue-soft">
+          <span className="h-1.5 w-1.5 rounded-full bg-blue" aria-hidden="true" />
+          {d.signalPrefix}: {d.signals[signalIdx].label}
+        </span>
+      </div>
+      <div ref={gridRef} className="grid flex-1 content-start grid-cols-2 gap-2.5">
+        {order.map((p) => {
+          const top = p.name === topName;
+          return (
+            <div
+              key={p.name}
+              data-id={p.name}
+              className={`reco-card flex flex-col gap-2 rounded-xl border p-3 transition-colors duration-200 ${
+                top ? "border-blue bg-blue-tint" : "border-hairline bg-card"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <ProductThumb
+                  name={p.name}
+                  kind={"kind" in p ? (p.kind as ProductKind) : undefined}
+                  size={44}
+                  tint={top ? "blue" : undefined}
+                  photo={photo}
+                />
+                {top && (
+                  <span className="ml-auto rounded-full bg-blue px-2 py-0.5 text-[10px] font-medium text-onblue">
+                    {d.badge}
+                  </span>
+                )}
+              </div>
+              <p className="truncate text-xs font-medium text-ink">{p.name}</p>
+              <div className="mt-auto flex items-center justify-between gap-2">
+                <span className="num text-xs text-sub">{p.price}</span>
+                <span className="h-1 w-8 shrink-0 rounded-full bg-blue-soft" aria-hidden="true" />
+              </div>
             </div>
-            <span className="num shrink-0 text-sm text-ink">{it.price}</span>
-          </li>
-        ))}
-      </ul>
-      <div aria-hidden="true" className="mt-2">
-        <div className="pp-slider relative h-1 rounded-full bg-elevated">
-          <div className="pp-slider-fill absolute inset-y-0 left-0 w-full origin-left rounded-full bg-blue" style={{ transform: "scaleX(0.7)" }} />
-          <div className="pp-slider-thumb absolute left-0 top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full border-2 border-blue bg-card" style={{ transform: "translate(-50%,-50%)" }} />
-        </div>
-        <div className="mt-2 flex justify-between">
-          <span className="label">{d.sliderLeft}</span>
-          <span className="label text-blue-soft">{d.sliderRight}</span>
-        </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -157,26 +216,6 @@ export function buildPanelTl(panel: HTMLElement, kind: "chat" | "search" | "reco
     if (skel && realUl) tl.to(skel, { autoAlpha: 0, duration: 0.2 }, "+=0.1").set(realUl, { autoAlpha: 1 });
     tl.fromTo(rows, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.08, ease: EASE.soft }, "+=0.05")
       .fromTo(note, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, "+=0.1");
-  }
-
-  if (kind === "reco") {
-    const list = q<HTMLElement>(".pp-reco-list")[0];
-    const items = q<HTMLElement>(".pp-reco");
-    const hl = q<HTMLElement>(".pp-reco-hl")[0];
-    const fill = q<HTMLElement>(".pp-slider-fill")[0];
-    const thumb = q<HTMLElement>(".pp-slider-thumb")[0];
-    const track = q<HTMLElement>(".pp-slider")[0];
-    if (list && hl && list.lastElementChild !== hl) list.appendChild(hl);
-    tl.fromTo(items, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.09, ease: EASE.soft });
-    if (fill) tl.fromTo(fill, { scaleX: 0.3 }, { scaleX: 0.7, duration: 0.7, ease: EASE.inOut }, "+=0.4");
-    if (thumb && track) tl.fromTo(thumb, { x: track.clientWidth * 0.3 }, { x: track.clientWidth * 0.7, duration: 0.7, ease: EASE.inOut }, "<");
-    if (list && hl) {
-      tl.add(() => {
-        const state = Flip.getState(items);
-        list.prepend(hl);
-        Flip.from(state, { duration: 0.55, ease: EASE.soft });
-      }, "-=0.15");
-    }
   }
 
   return tl;

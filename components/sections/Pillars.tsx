@@ -3,20 +3,21 @@
 import { useRef, useState } from "react";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
+import { CheckGlyph } from "@/components/ui/kit";
 import {
   ChatPanelContent,
   SearchPanelContent,
-  RecoPanelContent,
+  RecoGrid,
   buildPanelTl,
   DeviceFrame,
 } from "@/components/sections/feature-panels";
 import { gsap, useGSAP, useReveal, ScrollTrigger, NO_REDUCE, REDUCE } from "@/lib/motion";
 
 /** Filary (AIDA): TRZY naprzemienne wiersze hairline w kolejności owner
- *  (Wyszukiwarka → Rekomendacje → Chat). Każda winieta gra raz on-enter
- *  (search/reco mikro-timeline, czat przez ChatShell). Panele współdzielone z hero. */
+ *  (Wyszukiwarka → Rekomendacje → Chat). Wyszukiwarka gra mikro-timeline on-enter;
+ *  RecoGrid i czat animują się same. Panele współdzielone z hero. */
 
-const PANELS = [SearchPanelContent, RecoPanelContent, ChatPanelContent];
+const PANELS = [SearchPanelContent, RecoGrid, ChatPanelContent];
 const KINDS = ["search", "reco", "chat"] as const;
 
 export function Pillars() {
@@ -39,7 +40,7 @@ export function Pillars() {
             once: true,
             onEnter: () => {
               if (KINDS[i] === "chat") setChatOn(true);
-              else if (panel) buildPanelTl(panel, KINDS[i]);
+              else if (KINDS[i] === "search" && panel) buildPanelTl(panel, "search");
             },
           });
         });
@@ -70,6 +71,14 @@ export function Pillars() {
                   <p className="num text-xs text-forest-700">0{i + 1}</p>
                   <h3 className="mt-3 font-display text-2xl font-semibold tracking-tight text-ink">{item.title}</h3>
                   <p className="mt-3 max-w-[46ch] leading-relaxed text-sub">{item.body}</p>
+                  <ul className="mt-5 flex flex-col gap-2.5">
+                    {item.caps.map((c) => (
+                      <li key={c} className="flex items-center gap-2.5 text-sm text-sub">
+                        <CheckGlyph className="shrink-0 text-blue-soft" />
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
                 <div className={reverse ? "lg:order-1" : ""} data-cursor-label={pl.ui.cursorDemo}>
                   <DeviceFrame label={t.panelLabels[i]}>

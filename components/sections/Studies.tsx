@@ -25,17 +25,17 @@ export function Studies() {
         <SectionH2 className="max-w-[26ch]">{t.h2}</SectionH2>
         <p className="js-reveal t-lead mt-5 max-w-[60ch] text-sub">{t.lead}</p>
 
-        {/* 3 liczby flagowe — count-up on-enter */}
-        <div className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-8">
+        {/* 3 liczby flagowe — count-up on-enter (rozmiar spokojny, nie „krzyczący") */}
+        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-10">
           {t.stats.map((s, i) => (
             <div key={i} className="js-reveal border-t border-hairline pt-6">
-              <p className="text-ink">
+              <p className="font-display text-forest-700">
                 <Counter
                   value={s.value}
                   decimals={s.decimals}
                   prefix={s.prefix}
                   suffix={s.suffix}
-                  className="t-stat"
+                  className="text-[clamp(2.25rem,4.2vw,3.25rem)] font-semibold leading-none tracking-tight"
                 />
               </p>
               <p className="mt-3 max-w-[26ch] text-sm leading-relaxed text-sub">{s.label}</p>
