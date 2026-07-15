@@ -22,12 +22,14 @@ for (const speed of [1200, 3000]) {
 
     // (a) ekspozycja stanów pinów — tylko wolny przebieg na desktopie
     if (speed === 1200 && isDesktop) {
-      // [redesign] arena (round) de-pinowana → gęsta tabela hairline; probIdx zwinięty do S3.
+      // [redesign] sekcje scrollytelling (Problem/Comparison/Pillars/HowItWorks) de-pinowane
+      // do gęstych układów hairline — brak pinów dwellowanych. Asercja gra tylko, gdy pin istnieje.
       const dwells = [dwell(samples, "pillarIdx"), dwell(samples, "howIdx")];
       const values = dwells.flatMap((d) => Object.values(d)).filter((v) => v > 0);
-      const min = values.length ? Math.min(...values) : 0;
-      expect(min, `każdy stan pinu ≥500 ms (min ${min} ms; ${JSON.stringify(dwells)})`).toBeGreaterThanOrEqual(500);
-      // [redesign] arena de-pinowana → gęsta tabela hairline (Comparison bez pinu/rund).
+      if (values.length) {
+        const min = Math.min(...values);
+        expect(min, `każdy stan pinu ≥500 ms (min ${min} ms; ${JSON.stringify(dwells)})`).toBeGreaterThanOrEqual(500);
+      }
     }
 
     // (b) puste ramy wyszukiwarki. @1200 (reprezentatywna prędkość): 0. @3000 (szybki
