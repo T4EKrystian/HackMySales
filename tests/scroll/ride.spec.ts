@@ -63,11 +63,9 @@ for (const speed of [1200, 3000]) {
       testInfo.annotations.push({ type: "known-fail-F2", description: `mobile countery ≠ final (Counter v4): ${JSON.stringify(badC)}` });
     }
 
-    // (c2) prob-num po przejeździe — wyłącznie desktop (pin z proxy-tweenem)
-    if (isDesktop) {
-      const probNums = await page.evaluate(() => [...document.querySelectorAll(".prob-num")].map((el) => el.textContent));
-      expect(probNums).toEqual([String(demo.problem.unanswered), String(demo.problem.nightShare), String(demo.problem.wismoShare)]);
-    }
+    // (c2) [redesign] dawny pinowany .prob-num zwinięty do S3 Manifesto — liczby problemu
+    // to teraz zwykłe Countery, pokryte asercją (c) [data-counter]==final powyżej.
+    void demo;
 
     // (d) zero duplikatów H2 (duchy nagłówków)
     const h2 = await page.evaluate(() => {

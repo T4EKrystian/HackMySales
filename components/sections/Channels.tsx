@@ -9,7 +9,6 @@ import { Logo } from "@/components/ui/Logo";
 import { ChatShell } from "@/components/chat/ChatShell";
 import { scenarioToScript, type ChatScript } from "@/components/chat/script";
 import { gsap, useGSAP, useReveal, Flip, DESKTOP_MOTION, REDUCE, EASE } from "@/lib/motion";
-import { useGLView } from "@/lib/glRegistry";
 
 /** Kanały (copy §4e, features/motion v3 + v5): centralny mini-rdzeń + beams SVG.
  *  v5: klik nodu / taba przełącza switcher pod diagramem — TA SAMA rozmowa (§1 scenariusz A)
@@ -52,7 +51,6 @@ export function Channels() {
   const t = pl.channels;
   const scope = useRef<HTMLElement>(null);
   const headRef = useReveal<HTMLDivElement>(0.08);
-  const { ref: coreRef } = useGLView("channels-core", "mini");
   const exchanges = nodeExchanges();
   const [activeCh, setActiveCh] = useState(0);
   // V6: rozmowa gra RAZ — po pierwszym odtworzeniu przełączenia są statyczne
@@ -310,7 +308,6 @@ export function Channels() {
 
           {/* Centralny węzeł: mini-rdzeń (scena `mini`) + znak */}
           <div className="ch-center relative z-10 mx-auto flex h-44 w-44 items-center justify-center">
-            <div ref={coreRef} aria-hidden="true" className="pointer-events-none absolute inset-[-40%]" />
             <div className="relative flex h-24 w-24 items-center justify-center rounded-full border border-hairline bg-card/70 backdrop-blur-sm">
               <Logo withWord={false} markSize={34} />
             </div>

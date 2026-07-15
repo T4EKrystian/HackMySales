@@ -716,7 +716,7 @@ const raw = {
   },
 
   footer: {
-    tagline: "AI CHATBOT & RECOMMENDATIONS THAT INCREASE SALES",
+    tagline: "Czat AI, wyszukiwarka i rekomendacje, które sprzedają.",
     columns: [
       {
         title: "Produkt",

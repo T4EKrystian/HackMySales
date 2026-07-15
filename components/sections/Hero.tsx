@@ -89,7 +89,7 @@ export function Hero() {
         );
         tl.fromTo(
           ".hero-demo",
-          { y: 40, opacity: 0, scale: 0.97 },
+          { y: 14, opacity: 0, scale: 0.99 },
           { y: 0, opacity: 1, scale: 1, duration: 0.9, clearProps: "transform" },
           0.5
         );
