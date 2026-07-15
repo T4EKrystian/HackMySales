@@ -51,7 +51,7 @@
   /* --- Tekst (atrament zielono-czarny) --- */
   --text-primary: #101613;   /* ink */
   --text-secondary: #3D4640; /* ink-soft */
-  --text-muted: #6B756E;     /* ink-mute (captions, meta) */
+  --text-muted: #656E67;     /* ink-mute (captions, meta) — AA ≥4.5:1 na papierze (~4.9:1) */
   --text-on-blue: var(--text-on-forest);
 
   /* --- Linie i obrysy --- */
