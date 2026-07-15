@@ -13,9 +13,9 @@ export function ProofTicker() {
   const trust = pl.trustBar;
 
   return (
-    <div ref={ref} className="border-y border-hairline bg-page">
-      {/* Feed nocy */}
-      <div className="ticker js-reveal border-b border-hairline py-3.5" aria-label={t.caption}>
+    <div ref={ref} className="border-y border-hairline">
+      {/* Feed nocy — bg-page */}
+      <div className="ticker js-reveal border-b border-hairline bg-page py-3.5" aria-label={t.caption}>
         <div className="ticker-track">
           {[false, true].map((clone) => (
             <ul key={String(clone)} aria-hidden={clone} className="flex shrink-0 items-center gap-10">
@@ -31,20 +31,22 @@ export function ProofTicker() {
         </div>
       </div>
 
-      {/* Linia zaufania (dawny TrustBar — copy §1) */}
-      <div className="container-hms flex flex-col items-center gap-4 py-5 md:flex-row md:justify-between">
-        <p className="js-reveal text-sm text-mute">{trust.line}</p>
-        {/* v5: realne monochromatyczne loga (nominative use) — 55%→100% na hover */}
-        <ul className="flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
-          {trust.platforms.map((p) => (
-            <li
-              key={p}
-              className="js-reveal text-[13px] text-sub opacity-55 transition-opacity duration-200 hover:opacity-100"
-            >
-              <PlatformLogo name={p} iconSize={15} />
-            </li>
-          ))}
-        </ul>
+      {/* Linia zaufania (dawny TrustBar) — oddzielona tonalnie (paper-deep) od marquee */}
+      <div className="bg-paper-deep">
+        <div className="container-hms flex flex-col items-center gap-5 py-5 md:flex-row md:justify-between">
+          <p className="js-reveal max-w-[40ch] text-sm text-mute md:max-w-none">{trust.line}</p>
+          {/* realne monochromatyczne loga (nominative use) — siatka zbalansowana 3×2 / 6×1, bez samotnego logo */}
+          <ul className="grid grid-cols-3 place-items-center gap-x-6 gap-y-3 sm:grid-cols-6 md:gap-x-7">
+            {trust.platforms.map((p) => (
+              <li
+                key={p}
+                className="js-reveal text-[13px] text-sub opacity-55 transition-opacity duration-200 hover:opacity-100"
+              >
+                <PlatformLogo name={p} iconSize={15} />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

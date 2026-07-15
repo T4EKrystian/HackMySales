@@ -135,7 +135,7 @@ Szczegóły „co/dlaczego" są w `POPRAWKI.md`. Tu jest „w jakiej kolejności
 - [x] 3.3 footer wordmark — mask-image bocznego fade (dissolve, nie ucięcie)
 - [x] 3.4 rytm sekcji — Problem: skrócony gap kickera; mobilny --space-section ↓ (bliżej celu ≤22); mobilne labelki ≥13px (regresja timestampów 2.1 + GoldMines skala/rozmiar)
 - [x] 3.5 przejścia pasm — mostek papier↔las: subtelny shadow-feather nad FinalCta (zgodny z banlistą „tylko 2 gradienty"); wejście NightShift bridżowane pinem
-- [ ] 4.1 proofticker logo
+- [x] 4.1 proofticker logo — 6 platform w jednym zbalansowanym rzędzie (grid 3×2/6×1), bez samotnego Magento; pasek zaufania oddzielony tonalnie (paper-deep)
 - [ ] 4.2 comparison kontrast
 - [ ] 4.3 goldmines karta+liczby
 - [ ] 4.4 pillars miniatury
