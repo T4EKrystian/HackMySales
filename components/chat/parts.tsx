@@ -102,11 +102,11 @@ export function DayDivider() {
   );
 }
 
-export function ReadReceipt() {
+export function ReadReceipt({ seen = true }: { seen?: boolean }) {
   return (
-    <p className="chat-receipt mt-1 text-right text-[13px] md:text-[11px] text-mute" aria-label={ui.receiptAria}>
-      {ui.seen}
-    </p>
+    <span className="chat-receipt text-mute" aria-label={seen ? ui.receiptAria : ui.deliveredAria}>
+      {seen ? ui.seen : ui.delivered}
+    </span>
   );
 }
 

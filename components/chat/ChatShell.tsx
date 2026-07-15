@@ -123,6 +123,28 @@ function BubbleShell({
   // Pre-seed (P0.1): pierwsza wymiana (do 1. odpowiedzi bota włącznie) renderowana
   // od razu — okno czatu nigdy puste; silnik animuje dopiero od kolejnego kroku.
   const firstBotIdx = script.steps.findIndex((s) => s.role === "bot");
+  // 2.1 — tury komunikatora: run-end = ostatni bąbel ciągu tej samej strony
+  // (ogonek + godzina). Czasy deterministyczne od stałej bazy (nie od żywego zegara,
+  // inaczej „skakałyby" przy ticku); +1 min na turę → czyta się jak realny wątek.
+  const baseMin = 15 * 60 + 8;
+  let runSeq = 0;
+  const stepMeta = script.steps.map((s, i) => {
+    const runEnd = i === script.steps.length - 1 || script.steps[i + 1]?.role !== s.role;
+    let time: string | undefined;
+    if (runEnd) {
+      const t = baseMin + runSeq;
+      runSeq += 1;
+      time = `${String(Math.floor(t / 60) % 24).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}`;
+    }
+    return { runEnd, time };
+  });
+  const lastUserIdx = (() => {
+    let idx = -1;
+    script.steps.forEach((s, i) => {
+      if (s.role === "user") idx = i;
+    });
+    return idx;
+  })();
 
   const body = (
     <div
@@ -137,6 +159,8 @@ function BubbleShell({
 
       {script.steps.map((step, i) => {
         const prevUser = i > 0 && script.steps[i - 1].role === "user" ? script.steps[i - 1].text : null;
+        const meta = stepMeta[i];
+        const tailCls = meta.runEnd && cfg.tail ? (step.role === "user" ? "rounded-br-md" : "rounded-bl-md") : "";
         return (
           <div
             key={`${script.key}-${i}`}
@@ -161,7 +185,7 @@ function BubbleShell({
               <div className={`chat-msg ${step.role === "user" ? "ml-auto max-w-[78%]" : "max-w-[78%]"}`}>
                 <div
                   data-flip-id={flipMsgs ? `ch-msg-${i}` : undefined}
-                  className={`px-4 py-3 text-sm leading-relaxed ${step.role === "user" ? cfg.bubbleUser : cfg.bubbleBot}`}
+                  className={`px-4 py-3 text-sm leading-relaxed ${step.role === "user" ? cfg.bubbleUser : cfg.bubbleBot} ${tailCls}`}
                 >
                   {step.role === "bot" && cfg.replyQuote && prevUser && (
                     <p className="mb-1.5 truncate border-l-2 border-line-2 pl-2 text-[13px] md:text-[11px] text-mute">
