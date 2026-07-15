@@ -9,7 +9,6 @@ import { Logo } from "@/components/ui/Logo";
 import { ChatShell } from "@/components/chat/ChatShell";
 import { scenarioToScript, type ChatScript } from "@/components/chat/script";
 import { gsap, useGSAP, useReveal, Flip, DESKTOP_MOTION, REDUCE, EASE } from "@/lib/motion";
-import { useGLView } from "@/lib/glRegistry";
 
 /** Kanały (copy §4e, features/motion v3 + v5): centralny mini-rdzeń + beams SVG.
  *  v5: klik nodu / taba przełącza switcher pod diagramem — TA SAMA rozmowa (§1 scenariusz A)
@@ -52,7 +51,6 @@ export function Channels() {
   const t = pl.channels;
   const scope = useRef<HTMLElement>(null);
   const headRef = useReveal<HTMLDivElement>(0.08);
-  const { ref: coreRef } = useGLView("channels-core", "mini");
   const exchanges = nodeExchanges();
   const [activeCh, setActiveCh] = useState(0);
   // V6: rozmowa gra RAZ — po pierwszym odtworzeniu przełączenia są statyczne
@@ -294,7 +292,7 @@ export function Channels() {
           <svg className="pointer-events-none absolute inset-0 hidden h-full w-full md:block" aria-hidden="true">
             {t.nodes.map((n) => (
               <g key={n.key}>
-                <path className="ch-beam" fill="none" stroke="var(--border-strong)" strokeWidth="1.25" />
+                <path className="ch-beam" fill="none" stroke="var(--border-strong)" strokeWidth="1.5" />
                 <path className="ch-pulse" fill="none" stroke="var(--blue-400)" strokeWidth="1.5" strokeLinecap="round" opacity="0.9" />
                 {/* jednorazowy puls-klik (V6): jaśniejsza nakładka hub→nod przed morphem */}
                 <path className="ch-pulse-click" fill="none" stroke="var(--blue-300)" strokeWidth="2" strokeLinecap="round" opacity="0" />
@@ -308,11 +306,14 @@ export function Channels() {
             <NodeCard nodeKey={t.nodes[1].key} name={t.nodes[1].name} idx={1} orbit="md:translate-x-10 md:translate-y-2" />
           </div>
 
-          {/* Centralny węzeł: mini-rdzeń (scena `mini`) + znak */}
+          {/* Centralny węzeł: jeden „mózg" (Magda) zasilający cztery kanały — label,
+              żeby diagram coś mówił, nie był pustą dekoracją (kom. klienta). */}
           <div className="ch-center relative z-10 mx-auto flex h-44 w-44 items-center justify-center">
-            <div ref={coreRef} aria-hidden="true" className="pointer-events-none absolute inset-[-40%]" />
-            <div className="relative flex h-24 w-24 items-center justify-center rounded-full border border-hairline bg-card/70 backdrop-blur-sm">
-              <Logo withWord={false} markSize={34} />
+            {/* halo koncentryczne — czyta się jako HUB sieci, nie naklejka/clip-art */}
+            <div className="absolute h-40 w-40 rounded-full border border-line-1 opacity-50" aria-hidden="true" />
+            <div className="relative flex h-28 w-28 flex-col items-center justify-center gap-1.5 rounded-full border border-hairline bg-surface shadow-[var(--shadow-float)]">
+              <Logo withWord={false} markSize={28} />
+              <span className="label text-[10px] text-mute">Jedna Magda</span>
             </div>
           </div>
 
@@ -331,10 +332,11 @@ export function Channels() {
                 key={n.key}
                 onClick={() => beginSwitch(i, false)}
                 aria-pressed={i === activeCh}
-                className={`inline-flex min-h-11 items-center rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 md:min-h-0 ${
+                className={`inline-flex min-h-11 items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 md:min-h-0 ${
                   i === activeCh ? "bg-blue-tint text-blue-soft" : "text-mute hover:bg-l3 hover:text-sub"
                 }`}
               >
+                <Glyph name={GLYPHS[n.key]} size={15} className="shrink-0" />
                 {n.name}
               </button>
             ))}
@@ -365,7 +367,7 @@ export function Channels() {
                 flipId="ch-frame"
                 flipMsgs
                 script={scriptA}
-                bodyClassName="max-h-[440px] min-h-[380px] p-5 pt-[86px]"
+                bodyClassName="max-h-[440px] min-h-[280px] p-5 pt-[86px]"
                 className={seen ? "" : "fade-in-fast"}
               />
             )}

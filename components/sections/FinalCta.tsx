@@ -6,37 +6,27 @@ import { pl } from "@/content/pl";
 import { Container } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { gsap, useGSAP, useReveal, NO_REDUCE, EASE } from "@/lib/motion";
-import { useGLView } from "@/lib/glRegistry";
 
 type Errors = { url?: string; email?: string };
 type Stage = "url" | "scanning" | "email" | "sent";
 
-/** CTA końcowe v3 (copy §11 + §11b) — MAKIETA (bez backendu; zgłoszenie w console.log).
- *  Po walidacji adresu: ~2 s uczciwej sekwencji (echo domeny + kroki z §11), potem pole
- *  e-mail. W tle scena `converge` — cząstki rdzenia zbiegają się ku formularzowi
- *  (domknięcie klamry z hero). Reduced-motion / no-JS: klasyczny formularz od razu. */
+/** S10 CTA końcowe (redesign): pasmo LEŚNE pełnej szerokości (tentpole domknięcia) —
+ *  siatka line-dark + szum, jeden akcent kwasowy (submit). MAKIETA: adres sklepu →
+ *  ~2 s uczciwej sekwencji (echo domeny + kroki §11) → pole e-mail. Bez GL, bez backendu
+ *  (zgłoszenie w console.log). Reduced-motion / no-JS: klasyczny formularz od razu. */
 export function FinalCta() {
   const t = pl.finalCta;
   const ref = useReveal<HTMLElement>(0.08);
   const scope = useRef<HTMLDivElement>(null);
-  const { ref: glRef, glState } = useGLView("cta-converge", "converge");
   const [errors, setErrors] = useState<Errors>({});
   const [stage, setStage] = useState<Stage>("url");
   const [domain, setDomain] = useState("");
   const [enhanced, setEnhanced] = useState(false);
 
-  // Cząstki zbiegają się w miarę zbliżania do formularza
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add(NO_REDUCE, () => {
-        setEnhanced(true); // JS + motion: sekwencja skanu aktywna
-        gsap.to(glState, {
-          progress: 1,
-          ease: "none",
-          scrollTrigger: { trigger: ref.current, start: "top 85%", end: "center 55%", scrub: 0.5 },
-        });
-      });
+      mm.add(NO_REDUCE, () => setEnhanced(true)); // JS + motion: sekwencja skanu aktywna
     },
     { scope: ref }
   );
@@ -47,9 +37,6 @@ export function FinalCta() {
   const runScan = (url: string) => {
     setDomain(url.replace(/^https?:\/\//i, "").replace(/[/?#].*$/, ""));
     setStage("scanning");
-    glState.boost = 1;
-    gsap.to(glState, { boost: 0, duration: 1.6, ease: EASE.soft });
-
     // Kroki renderują się dopiero PO zmianie stage — timeline budujemy po commicie Reacta
     requestAnimationFrame(() => {
       const root = scope.current;
@@ -88,35 +75,28 @@ export function FinalCta() {
 
     console.log("demo-request (makieta)", { shop: url, email });
     setStage("sent");
-    // V6: pojedynczy „ignition" chmury — echo zapłonu hero (klamra otwarcie↔domknięcie)
-    gsap.fromTo(glState, { ignition: 0.4 }, { ignition: 1, duration: 0.9, ease: EASE.out });
   };
 
   const showEmail = !enhanced || stage === "email" || stage === "sent";
   const scanning = stage === "scanning";
 
-  return (
-    <section ref={ref} id="demo" className="relative overflow-hidden">
-      <div className="glow-bg absolute inset-x-0 bottom-0 h-full rotate-180" aria-hidden="true" />
-      {/* Scena `converge` — cząstki zbiegają się w płaską elipsę („lądowisko")
-          PONIŻEJ microcopy: pas przesunięty w pustą strefę dołu sekcji, żeby
-          elipsa nie przecinała tekstu (v6r-20/21: kolizja z „Odpowiadamy…"). */}
-      <div ref={glRef} aria-hidden="true" className="pointer-events-none absolute inset-x-[-10%] top-[34%] bottom-[-42%]" />
+  const field =
+    "w-full rounded-full border bg-forest-900 px-6 py-4 text-center text-base text-onforest placeholder:text-onforest/45 disabled:opacity-70";
 
-      <Container className="relative max-w-[760px] py-16 text-center md:py-40">
-        <h2 className="t-h2 js-reveal font-display font-semibold text-ink">
-          {t.h2}
-        </h2>
-        <p className="t-lead js-reveal mx-auto mt-5 max-w-[52ch] text-sub">
-          {t.lead}
-        </p>
+  return (
+    <section ref={ref} id="demo" className="relative overflow-hidden bg-forest-950 text-onforest shadow-[0_-22px_48px_-28px_rgb(10_31_22/0.3)]">
+      <div className="noise-forest" aria-hidden="true" />
+
+      <Container className="relative z-[1] max-w-[760px] py-24 text-center md:py-36">
+        <h2 className="t-h2 js-reveal font-display font-semibold text-onforest">{t.h2}</h2>
+        <p className="t-lead js-reveal mx-auto mt-5 max-w-[52ch] text-onforest/75">{t.lead}</p>
 
         {stage === "sent" ? (
           <p
             role="status"
-            className="mx-auto mt-12 flex w-fit items-center gap-3 rounded-full border border-hairline bg-card px-6 py-4 text-sm text-ink"
+            className="mx-auto mt-12 flex w-fit items-center gap-3 rounded-full border border-line-dark bg-forest-900 px-6 py-4 text-sm text-onforest"
           >
-            <Glyph name="check" size={16} className="text-ok" />
+            <Glyph name="check" size={16} className="text-acid" />
             {t.success}
           </p>
         ) : (
@@ -133,18 +113,10 @@ export function FinalCta() {
                   disabled={scanning}
                   aria-invalid={!!errors.url}
                   aria-describedby={errors.url ? "cta-shop-err" : undefined}
-                  // v5: focus-attract — chmura ciaśnieje wokół formularza (istniejący boost)
-                  onFocus={() => gsap.to(glState, { boost: 0.45, duration: 0.6, ease: EASE.soft })}
-                  onBlur={() => {
-                    if (stage === "url") gsap.to(glState, { boost: 0, duration: 0.9, ease: EASE.soft });
-                  }}
-                  className={`w-full rounded-full border bg-field px-6 py-4 text-center text-base text-ink placeholder:text-mute disabled:opacity-70 ${
-                    errors.url ? "border-danger" : "border-hairline focus:border-strongline"
-                  }`}
+                  className={`${field} ${errors.url ? "border-danger" : "border-line-dark focus:border-onforest/40"}`}
                 />
-                {/* linia skanu */}
                 {scanning && (
-                  <span className="scan-line pointer-events-none absolute inset-x-6 bottom-2 h-px bg-blue" aria-hidden="true" />
+                  <span className="scan-line pointer-events-none absolute inset-x-6 bottom-2 h-px bg-acid" aria-hidden="true" />
                 )}
                 {errors.url && (
                   <p id="cta-shop-err" role="alert" className="mt-2 px-2 text-xs text-danger">{errors.url}</p>
@@ -154,15 +126,15 @@ export function FinalCta() {
               {/* Sekwencja §11b — uczciwe kroki, zero udawanej detekcji */}
               {(scanning || (enhanced && stage === "email")) && (
                 <ul className="mt-2 flex flex-col gap-2 text-left" role="status" aria-live="polite">
-                  <li className="scan-step flex items-center gap-2 text-sm text-sub">
-                    <Glyph name="check" size={14} className="shrink-0 text-ok" />
+                  <li className="scan-step flex items-center gap-2 text-sm text-onforest/80">
+                    <Glyph name="check" size={14} className="shrink-0 text-acid" />
                     <span>
-                      {t.scan.accepted} <span className="num text-ink">{domain}</span>
+                      {t.scan.accepted} <span className="num text-onforest">{domain}</span>
                     </span>
                   </li>
                   {t.scan.steps.map((s) => (
-                    <li key={s} className="scan-step flex items-center gap-2 text-sm text-sub">
-                      <Glyph name="arrow-right" size={14} className="shrink-0 text-blue-soft" />
+                    <li key={s} className="scan-step flex items-center gap-2 text-sm text-onforest/80">
+                      <Glyph name="arrow-right" size={14} className="shrink-0 text-onforest/50" />
                       {s}
                     </li>
                   ))}
@@ -179,9 +151,7 @@ export function FinalCta() {
                     placeholder={t.emailPlaceholder}
                     aria-invalid={!!errors.email}
                     aria-describedby={errors.email ? "cta-email-err" : undefined}
-                    className={`w-full rounded-full border bg-field px-6 py-4 text-center text-base text-ink placeholder:text-mute ${
-                      errors.email ? "border-danger" : "border-hairline focus:border-strongline"
-                    }`}
+                    className={`${field} ${errors.email ? "border-danger" : "border-line-dark focus:border-onforest/40"}`}
                   />
                   {errors.email && (
                     <p id="cta-email-err" role="alert" className="mt-2 px-2 text-xs text-danger">{errors.email}</p>
@@ -190,7 +160,7 @@ export function FinalCta() {
               </div>
 
               {!scanning && (
-                <Button type="submit" size="lg" className="w-full sm:mx-auto sm:w-auto sm:px-12">
+                <Button type="submit" variant="primary" size="lg" className="w-full sm:mx-auto sm:w-auto sm:px-12">
                   {t.submit}
                 </Button>
               )}
@@ -198,7 +168,7 @@ export function FinalCta() {
           </div>
         )}
 
-        <p className="js-reveal mt-8 text-sm text-mute">{t.below}</p>
+        <p className="js-reveal mt-8 text-sm text-onforest/55">{t.below}</p>
       </Container>
     </section>
   );

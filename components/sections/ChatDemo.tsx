@@ -42,14 +42,16 @@ export function ChatDemo({ size = "hero" }: { size?: "hero" | "sheet" }) {
           : "max-h-[556px] min-h-[476px] p-5 pt-[112px]"
       }
       headerExtra={
-        <div className="flex gap-1.5 px-5 pb-2.5" role="group" aria-label="Scenariusze demo">
+        <div className="flex gap-5 px-5 pb-2.5" role="group" aria-label="Scenariusze demo">
           {t.scenarios.map((s, i) => (
             <button
               key={s.key}
               onClick={() => switchScenario(i)}
               aria-pressed={i === scenario}
-              className={`inline-flex min-h-11 items-center rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors duration-150 md:min-h-0 ${
-                i === scenario ? "bg-blue-tint text-blue-soft" : "text-mute hover:bg-l3 hover:text-sub"
+              className={`relative inline-flex min-h-11 items-center px-0.5 pb-1.5 text-xs font-medium transition-colors duration-150 md:min-h-0 ${
+                i === scenario
+                  ? "text-ink after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-ink after:content-['']"
+                  : "text-mute hover:text-sub"
               }`}
             >
               {s.label}

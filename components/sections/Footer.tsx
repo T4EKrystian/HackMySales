@@ -35,19 +35,25 @@ export function Footer() {
         </div>
       </Container>
 
-      {/* Wielki wordmark — fill-wipe od lewej na hover */}
-      <Container className="mt-16">
-        <a
-          href="#top"
-          aria-label="HackMySales — na górę strony"
-          className="wordmark-wipe block select-none whitespace-nowrap text-center font-display font-bold leading-none tracking-tight"
-          style={{ fontSize: "clamp(3rem, 11.5vw, 10.5rem)" }}
+      {/* Wielki znak wodny — sage, zakotwiczony od lewej, świadomie schodzący za prawą
+          krawędź (sygnatura premium). Kadr pionowo pełny (nie tnie liter w pół — kom. klienta). */}
+      <Container className="mt-20">
+        <div
+          className="relative overflow-hidden"
+          style={{
+            height: "clamp(3rem, 13vw, 11.5rem)",
+            maskImage: "linear-gradient(90deg, #000 0%, #000 80%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(90deg, #000 0%, #000 80%, transparent 100%)",
+          }}
+          aria-hidden="true"
         >
-          <span aria-hidden="true">HackMySales</span>
-          <span className="wipe-fill" aria-hidden="true">
-            Hack<span className="text-blue">My</span>Sales
-          </span>
-        </a>
+          <p
+            className="absolute bottom-[-0.06em] left-0 select-none whitespace-nowrap text-left font-display font-semibold leading-[0.8] tracking-[-0.04em] text-sage"
+            style={{ fontSize: "clamp(4rem, 17vw, 15rem)" }}
+          >
+            HackMySales
+          </p>
+        </div>
       </Container>
 
       <Container className="pb-8">

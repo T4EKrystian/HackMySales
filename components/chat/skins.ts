@@ -26,12 +26,15 @@ export type ChatSkinConfig = {
   bodyClass: string;
   /** IG: gradientowy 1px ring avatara (jedyny ślad gradientu — anti-kitsch V6) */
   avatarRing?: boolean;
+  /** ogonek (rounded-br/bl-md) TYLKO na ostatnim bąblu ciągu tej samej strony */
+  tail?: boolean;
 };
 
 export const CHAT_SKINS: Record<Exclude<ChatSkinName, "email">, ChatSkinConfig> = {
   onsite: {
-    bubbleUser: "rounded-2xl rounded-br-md bg-blue text-onblue",
-    bubbleBot: "rounded-2xl rounded-bl-md bg-elevated text-ink",
+    // ogonek tylko na ostatnim bąblu ciągu (grupowanie) — nie na każdym
+    bubbleUser: "rounded-2xl bg-blue text-onblue",
+    bubbleBot: "rounded-2xl bg-elevated text-ink",
     avatar: true,
     dots: true,
     receipt: false,
@@ -40,9 +43,10 @@ export const CHAT_SKINS: Record<Exclude<ChatSkinName, "email">, ChatSkinConfig> 
     replyQuote: false,
     inputTools: false,
     bodyClass: "",
+    tail: true,
   },
   messenger: {
-    // pełne zaokrąglenia bez ogonków — sylwetka komunikatora; kolor wyciszony (V6)
+    // pełne zaokrąglenia + ogonek na ostatnim bąblu ciągu (sylwetka Messenger)
     bubbleUser: "rounded-3xl chat-user-quiet",
     bubbleBot: "rounded-3xl bg-elevated text-ink",
     avatar: true,
@@ -53,6 +57,7 @@ export const CHAT_SKINS: Record<Exclude<ChatSkinName, "email">, ChatSkinConfig> 
     replyQuote: false,
     inputTools: true,
     bodyClass: "",
+    tail: true,
   },
   instagram: {
     // pigułki; gradient TYLKO jako ring avatara (V6) — bąbel wyciszony solid

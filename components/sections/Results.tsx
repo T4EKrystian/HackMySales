@@ -107,12 +107,12 @@ function RoiCalculator() {
 
         <div ref={resultBoxRef} className="flex flex-col justify-center rounded-[var(--radius-lg)] border border-hairline bg-surface p-6 md:p-7">
           <p className="text-sm leading-relaxed text-sub">{t.resultIntro}</p>
-          <p aria-live="polite" className="mt-4 font-display font-bold tracking-tight text-ink">
-            <span className="num text-4xl md:text-5xl">
+          <p aria-live="polite" className="mt-3 font-display font-semibold leading-none tracking-tight text-ink">
+            <span className="num" style={{ fontSize: "clamp(2.5rem, 5vw, 4.25rem)" }}>
               +<RollingNumber value={gain} /> zł
             </span>
-            <span className="ml-2 text-base font-normal text-sub">{t.resultSuffix}</span>
           </p>
+          <p className="mt-2 text-sm text-sub">{t.resultSuffix}</p>
 
           {/* Pasek: ile razy odzysk przekracza koszt narzędzia (§6b) */}
           <div className="mt-6" aria-hidden="true">
@@ -129,7 +129,7 @@ function RoiCalculator() {
           </div>
 
           <p className="mt-5 flex items-baseline gap-3">
-            <span className="num text-3xl font-bold tracking-tight text-blue-soft">×{mult}</span>
+            <span className="num text-4xl font-semibold tracking-tight text-blue-soft md:text-5xl">×{mult}</span>
             <span className="max-w-[24ch] text-xs leading-snug text-mute">{t.roiCaption}</span>
           </p>
 
@@ -179,30 +179,9 @@ export function Results() {
         <SectionLabel num="09">{t.label}</SectionLabel>
         <SectionH2>{t.h2}</SectionH2>
 
-        {/* Kolejność bloków: kalkulator → nocna zmiana → liczniki (motion.md, 2026-07-10) */}
+        {/* Kalkulator → metryki. „Nocna zmiana" = osobna sekcja NightShift (richness 2026-07). */}
         <div className="mt-10 md:mt-14">
           <RoiCalculator />
-        </div>
-
-        {/* Licznik nocnej zmiany (features.md §L4) */}
-        <div className="js-reveal mt-5 rounded-[var(--radius-lg)] border border-hairline bg-card p-7">
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <p className="flex items-center gap-3 font-display text-lg font-semibold tracking-tight text-ink">
-              <Glyph name="moon" size={20} className="text-blue-soft" />
-              {t.night.title}
-            </p>
-            <dl className="grid grid-cols-3 gap-8">
-              {t.night.stats.map((s, i) => (
-                <div key={i}>
-                  <dd className="font-display text-2xl font-bold tracking-tight text-ink">
-                    <Counter value={s.value} suffix={s.unit ? ` ${s.unit}` : ""} />
-                  </dd>
-                  <dt className="mt-1 text-xs text-mute">{s.label}</dt>
-                </div>
-              ))}
-            </dl>
-            <p className="label">{t.night.caption}</p>
-          </div>
         </div>
 
         {/* Pas metryk (jeden panel, 4 kolumny z hairline-dzielnikami) — anti-slop:
@@ -215,13 +194,13 @@ export function Results() {
             >
               <p className="font-display text-ink">
                 {"static" in c && c.static ? (
-                  <span className="num text-3xl font-bold tracking-tight md:text-4xl">{c.static}</span>
+                  <span className="num text-4xl font-semibold tracking-tight md:text-5xl">{c.static}</span>
                 ) : (
                   <Counter
                     value={(c as { value: number }).value}
                     prefix={(c as { prefix?: string }).prefix}
                     suffix={(c as { suffix?: string }).suffix}
-                    className="text-3xl font-bold tracking-tight md:text-4xl"
+                    className="text-4xl font-semibold tracking-tight md:text-5xl"
                   />
                 )}
               </p>

@@ -28,8 +28,9 @@ test("zmiana taba w połowie playbacku → scrollTop=0 i sekwencja od zera", asy
   await page.waitForTimeout(200);
   const scrollTop = await page.evaluate((sel) => document.querySelector(sel)!.scrollTop, SEL.heroLog);
   expect(scrollTop, "scrollTop po zmianie taba").toBeLessThanOrEqual(2);
+  const seed = await page.evaluate(() => document.querySelectorAll('#chat-demo .chat-step[data-seed="1"]').length);
   const early = await visibleSteps(page);
-  expect(early, "sekwencja wystartowała od zera (≤1 widoczny krok)").toBeLessThanOrEqual(1);
+  expect(early, `po zmianie taba: widoczny tylko pre-seed pierwszej wymiany, nie cała rozmowa (early=${early}, seed=${seed})`).toBeLessThanOrEqual(seed + 1);
   // i rośnie
   await page.waitForFunction(
     (sel) =>
@@ -77,6 +78,7 @@ test("replay → scrollTop=0 i start od zera", async ({ page }) => {
   await page.waitForTimeout(250);
   const scrollTop = await page.evaluate((sel) => document.querySelector(sel)!.scrollTop, SEL.heroLog);
   expect(scrollTop, "scrollTop po replay").toBeLessThanOrEqual(2);
+  const seed = await page.evaluate(() => document.querySelectorAll('#chat-demo .chat-step[data-seed="1"]').length);
   const early = await visibleSteps(page);
-  expect(early, "replay startuje od zera").toBeLessThanOrEqual(1);
+  expect(early, `replay startuje od pre-seed pierwszej wymiany (early=${early}, seed=${seed})`).toBeLessThanOrEqual(seed + 1);
 });

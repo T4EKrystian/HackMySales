@@ -22,18 +22,14 @@ for (const speed of [1200, 3000]) {
 
     // (a) ekspozycja stanów pinów — tylko wolny przebieg na desktopie
     if (speed === 1200 && isDesktop) {
-      const dwells = [dwell(samples, "probIdx"), dwell(samples, "pillarIdx"), dwell(samples, "round"), dwell(samples, "howIdx")];
+      // [redesign] sekcje scrollytelling (Problem/Comparison/Pillars/HowItWorks) de-pinowane
+      // do gęstych układów hairline — brak pinów dwellowanych. Asercja gra tylko, gdy pin istnieje.
+      const dwells = [dwell(samples, "pillarIdx"), dwell(samples, "howIdx")];
       const values = dwells.flatMap((d) => Object.values(d)).filter((v) => v > 0);
-      const min = values.length ? Math.min(...values) : 0;
-      expect(min, `każdy stan pinu ≥500 ms (min ${min} ms; ${JSON.stringify(dwells)})`).toBeGreaterThanOrEqual(500);
-
-      // (a2) arena (F4): pojedynek gra WSZYSTKIE 4 rundy, licznik bije 0:0 → 0:4.
-      // round-no = `${n}/4`, score = `0 : ${done}` (Comparison onUpdate). Dowód V6 —
-      // asercja tylko zamyka regres (numer rundy zsynchronizowany z werdyktami tabeli).
-      const rounds = [...new Set(samples.map((s) => s.round).filter(Boolean))];
-      const scores = [...new Set(samples.map((s) => s.score).filter(Boolean))];
-      expect(rounds, `rundy areny: ${JSON.stringify(rounds)}`).toEqual(expect.arrayContaining(["1/4", "4/4"]));
-      expect(scores, `wynik areny: ${JSON.stringify(scores)}`).toContain("0 : 4");
+      if (values.length) {
+        const min = Math.min(...values);
+        expect(min, `każdy stan pinu ≥500 ms (min ${min} ms; ${JSON.stringify(dwells)})`).toBeGreaterThanOrEqual(500);
+      }
     }
 
     // (b) puste ramy wyszukiwarki. @1200 (reprezentatywna prędkość): 0. @3000 (szybki
@@ -63,11 +59,9 @@ for (const speed of [1200, 3000]) {
       testInfo.annotations.push({ type: "known-fail-F2", description: `mobile countery ≠ final (Counter v4): ${JSON.stringify(badC)}` });
     }
 
-    // (c2) prob-num po przejeździe — wyłącznie desktop (pin z proxy-tweenem)
-    if (isDesktop) {
-      const probNums = await page.evaluate(() => [...document.querySelectorAll(".prob-num")].map((el) => el.textContent));
-      expect(probNums).toEqual([String(demo.problem.unanswered), String(demo.problem.nightShare), String(demo.problem.wismoShare)]);
-    }
+    // (c2) [redesign] dawny pinowany .prob-num zwinięty do S3 Manifesto — liczby problemu
+    // to teraz zwykłe Countery, pokryte asercją (c) [data-counter]==final powyżej.
+    void demo;
 
     // (d) zero duplikatów H2 (duchy nagłówków)
     const h2 = await page.evaluate(() => {

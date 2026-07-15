@@ -127,6 +127,15 @@ export function useChatPlayback(opts: {
           const msg = step.querySelector<HTMLElement>(".chat-msg");
           if (!msg) return;
 
+          // Pre-seed (P0.1): pierwsza wymiana już widoczna (CSS) — silnik jej nie
+          // animuje; utwierdza stan, chowa dots i rusza timeline od kolejnego kroku.
+          if (step.dataset.seed === "1") {
+            gsap.set(step, { opacity: 1 });
+            gsap.set(msg, { autoAlpha: 1, y: 0 });
+            if (dots) dots.style.display = "none";
+            return;
+          }
+
           if (role === "bot" && dots && !legacy) {
             // dots 600–900 ms — deterministycznie (bez Math.random, stabilne replaye)
             const hold = 0.6 + 0.3 * (((i * 37) % 100) / 100);
@@ -224,7 +233,7 @@ export function useChatPlayback(opts: {
             gsap.timeline({
               scrollTrigger: {
                 trigger: root,
-                start: "top 72%",
+                start: "top 90%",
                 once: true,
                 onEnter: () => {
                   if (!startedRef.current) start();

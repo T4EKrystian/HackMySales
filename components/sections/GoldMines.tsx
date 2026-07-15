@@ -6,13 +6,36 @@ import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Counter } from "@/components/ui/Counter";
-import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { ChatShell } from "@/components/chat/ChatShell";
 import { gsap, useGSAP, useReveal, NO_REDUCE, REDUCE, EASE } from "@/lib/motion";
 
-/** Kopalnie złota v3 (features §L19): asymetryczne bento 2 duże + 4 małe.
+/** Kopalnie złota v4 (kom. klienta): asymetryczne bento 2 duże + 4 małe.
  *  Każda karta = żywe mikro-demo (pętla albo interakcja), zero ikon.
- *  Spotlight-border + tilt daje SpotlightCard. Stringi dem: copy §4c. */
+ *  Płaska BentoCard — bez tiltu/spotlightu (banlist), równe wysokości (flex h-full),
+ *  treść rozłożona (mt-auto) → zero pływających pustek. Stringi dem: copy §4c. */
+
+/* Płaska karta bento — hairline + tint, radius, zero motion (anti-kicz). */
+function BentoCard({
+  children,
+  className = "",
+  level = 1,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  level?: 1 | 2;
+}) {
+  return (
+    <div
+      className={`relative flex h-full flex-col rounded-[var(--radius-lg)] border ${
+        level === 2
+          ? "border-line-2 bg-l2 [box-shadow:var(--shadow-l2)]"
+          : "border-line-1 bg-l1"
+      } ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
 
 /* ---------- Mini-panel przychodów (L5+L9, bez zmian koncepcji) ---------- */
 
@@ -51,10 +74,11 @@ function RevenueMiniPanel() {
   );
 
   return (
-    <div ref={ref} className="rounded-[var(--radius-lg)] border border-hairline bg-surface p-6">
+    <div ref={ref} className="w-full">
       <p className="label">{t.panelTitle}</p>
-      <p className="mt-3 font-display text-ink">
-        <Counter value={t.panelAmount} suffix=" zł" className="whitespace-nowrap text-3xl font-bold tracking-tight lg:text-4xl" />
+      <p className="mt-3 flex items-baseline gap-1.5 font-display text-ink">
+        <Counter value={t.panelAmount} className="whitespace-nowrap font-semibold tracking-tight text-[clamp(1.9rem,3.2vw,3rem)] leading-none" />
+        <span className="text-lg font-medium text-sub">zł</span>
       </p>
       <div className="relative mt-6 h-24" aria-hidden="true">
         <div className="flex h-full items-end gap-2">
@@ -223,24 +247,43 @@ function SizeAdvisor() {
   const t = pl.goldMines.demos.size;
   const [active, setActive] = useState(2);
   const opt = t.options[active];
-  const widths = [0.82, 0.92, 1.04];
+  // pozycja na skali dopasowania (0 = za ciasno, 1 = za luźno); L ląduje w „w sam raz"
+  const fitPos = [0.13, 0.37, 0.6];
 
   return (
     <div className="mt-5">
       <p className="num text-xs text-mute">{t.input}</p>
-      {/* v5: foto kurtki zamiast sylwetki — nadal „oddycha" szerokością wg rozmiaru */}
-      <div className="mt-3 flex h-20 items-end justify-center" aria-hidden="true">
-        <Image
-          src="/products/kurtka-3l.webp"
-          alt=""
-          width={72}
-          height={72}
-          unoptimized
-          className="h-[72px] w-[72px] rounded-xl border border-line-1 object-cover transition-transform duration-500"
-          style={{ transform: `scaleX(${widths[active]})`, transformOrigin: "center bottom", transitionTimingFunction: "var(--ease-out)" }}
-        />
+
+      {/* Skala dopasowania — instrument zamiast foto (kom. klienta): marker jedzie do
+          wybranego rozmiaru, strefa „w sam raz" podświetlona, akcent gdy rozmiar bezpieczny. */}
+      <div className="mt-6" aria-hidden="true">
+        <div className="num flex justify-between text-[13px] uppercase tracking-[0.14em] text-mute md:text-[10px]">
+          <span className="whitespace-nowrap">za ciasno</span>
+          <span className={`hidden whitespace-nowrap md:inline ${opt.ok ? "text-blue-soft" : ""}`}>w sam raz</span>
+          <span className="whitespace-nowrap">za luźno</span>
+        </div>
+        <div className="relative mt-3 h-7">
+          <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-strongline" />
+          <div
+            className="absolute top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-blue-tint"
+            style={{ left: "40%", right: "22%" }}
+          />
+          <div
+            className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 transition-[left] duration-500 motion-reduce:transition-none"
+            style={{ left: `${fitPos[active] * 100}%`, transitionTimingFunction: "var(--ease-out)" }}
+          >
+            <span
+              className={`flex h-7 w-7 items-center justify-center rounded-full border bg-surface ${
+                opt.ok ? "border-blue" : "border-strongline"
+              }`}
+            >
+              <span className={`num text-[13px] font-medium md:text-[11px] ${opt.ok ? "text-blue-soft" : "text-ink"}`}>{opt.size}</span>
+            </span>
+          </div>
+        </div>
       </div>
-      <div className="mt-4 flex gap-1.5" role="group" aria-label="Wybierz rozmiar">
+
+      <div className="mt-6 flex gap-1.5" role="group" aria-label="Wybierz rozmiar">
         {t.options.map((o, i) => (
           <button
             key={o.size}
@@ -381,18 +424,18 @@ export function GoldMines() {
         {/* Bento: mobile 2 pełne (duże) + 4 mini w 2×2 (grid-cols-2); desktop lg:cols-4 */}
         <div className="mt-10 grid grid-cols-2 gap-4 md:mt-14 md:gap-5 lg:grid-cols-4">
           {/* Panel przychodów — duża karta */}
-          <SpotlightCard level={2} className="js-reveal col-span-2 p-6 md:p-8 lg:col-span-2">
-            <div className="grid h-full items-center gap-6 md:grid-cols-2 md:gap-8">
+          <BentoCard level={2} className="js-reveal col-span-2 p-6 md:p-8 lg:col-span-2">
+            <div className="grid h-full flex-1 items-center gap-6 md:grid-cols-2 md:gap-8">
               <div>
                 <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{t.revenue.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-sub">{t.revenue.body}</p>
               </div>
               <RevenueMiniPanel />
             </div>
-          </SpotlightCard>
+          </BentoCard>
 
           {/* Radar popytu */}
-          <SpotlightCard className="js-reveal p-4 md:p-7">
+          <BentoCard className="js-reveal p-4 md:p-7">
             <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{t.radar.title}</h3>
             <RadarDial />
             <ul className="mt-6 divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline">
@@ -403,39 +446,39 @@ export function GoldMines() {
                 </li>
               ))}
             </ul>
-          </SpotlightCard>
+          </BentoCard>
 
           {/* Ratownik koszyka */}
-          <SpotlightCard className="js-reveal p-4 md:p-7">
+          <BentoCard className="js-reveal p-4 md:p-7">
             <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{rescue.title}</h3>
             <RescueLoop />
-            <p className="mt-7 text-xs leading-relaxed text-sub">{rescue.body}</p>
-          </SpotlightCard>
+            <p className="mt-auto pt-7 text-xs leading-relaxed text-sub">{rescue.body}</p>
+          </BentoCard>
 
           {/* Doradca rozmiaru — interaktywny */}
-          <SpotlightCard className="js-reveal p-4 md:p-7">
+          <BentoCard className="js-reveal p-4 md:p-7">
             <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{size.title}</h3>
             <SizeAdvisor />
-            <p className="mt-4 text-xs leading-relaxed text-sub">{size.body}</p>
-          </SpotlightCard>
+            <p className="mt-auto pt-4 text-xs leading-relaxed text-sub">{size.body}</p>
+          </BentoCard>
 
           {/* Autopilot „gdzie moja paczka" */}
-          <SpotlightCard className="js-reveal p-4 md:p-7">
+          <BentoCard className="js-reveal p-4 md:p-7">
             <h3 className="font-display text-lg font-semibold tracking-tight text-ink">{wismo.title}</h3>
             <WismoPath />
-            <p className="mt-5 text-xs leading-relaxed text-sub">{wismo.body}</p>
-          </SpotlightCard>
+            <p className="mt-auto pt-5 text-xs leading-relaxed text-sub">{wismo.body}</p>
+          </BentoCard>
 
           {/* Raport nocnej zmiany — duża karta z e-mailem */}
-          <SpotlightCard level={2} className="js-reveal col-span-2 p-6 md:p-8 lg:col-span-2">
-            <div className="grid h-full items-center gap-6 md:grid-cols-[1fr_1.2fr] md:gap-8">
+          <BentoCard level={2} className="js-reveal col-span-2 p-6 md:p-8 lg:col-span-2">
+            <div className="grid h-full flex-1 items-center gap-6 md:grid-cols-[1fr_1.2fr] md:gap-8">
               <div>
                 <h3 className="font-display text-xl font-semibold tracking-tight text-ink">{report.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-sub">{report.body}</p>
               </div>
               <NightMailPreview />
             </div>
-          </SpotlightCard>
+          </BentoCard>
         </div>
       </Container>
     </section>

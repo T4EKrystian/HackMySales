@@ -18,20 +18,28 @@ const raw = {
     login: "Zaloguj się",
     // [PLACEHOLDER] docelowy adres portalu klienta
     loginHref: "https://portal.185-238-74-109.nip.io/portal/login",
-    cta: "Umów demo",
+    cta: "Wypróbuj za darmo",
     menuOpen: "Otwórz menu",
     menuClose: "Zamknij menu",
   },
 
   hero: {
     eyebrow: "CZAT AI · WYSZUKIWARKA · REKOMENDACJE",
-    h1Line1: "Sprzedawca,",
-    h1Line2: "który nigdy nie śpi.",
+    h1Line1: "Twój sklep śpi.",
+    h1Line2: "Twoja sprzedaż nie musi.",
+    // akcent serif (Fraunces italic) na „Twoja sprzedaż" — sygnaturowy ruch typografii
+    h1: { pre: "Twój sklep śpi.", accent: "Twoja sprzedaż", post: "nie musi." },
     lead: "HackMySales podpina się do Twojego sklepu i doradza klientom jak najlepszy handlowiec — w czacie, w wyszukiwarce i w rekomendacjach. A co poniedziałek pokazuje, ile na tym zarobiłeś. Co do złotówki.",
-    ctaPrimary: "Umów demo na swoich produktach",
+    ctaPrimary: "Wypróbuj za darmo",
     ctaSecondary: "Zobacz, jak sprzedaje",
     scrollCue: "Przewiń",
-    proof: "Wdrożenie w 1 dzień · Bez zmiany platformy · 14 dni testów za darmo",
+    proof: "Bez karty · Wdrożenie w 1 dzień · 14 dni testów za darmo",
+    // 3 pływające chipy statystyk wokół artefaktu (ref-3) — liczby z truth-table (demo)
+    chips: [
+      { value: "+18%", label: "konwersji" },
+      { value: "< 3 s", label: "czas odpowiedzi" },
+      { value: "24/7", label: "bez przerw" },
+    ],
     // §1c (V8 jasny motyw): żywa pastylka przychodu pod CTA (dowód, dane demo — kwota 1:1 z §4)
     livePill: { amount: demo.revenueMonth, label: "z rozmów w tym miesiącu", tag: "demo" },
     chat: {
@@ -155,11 +163,13 @@ const raw = {
   chatUi: {
     today: "Dzisiaj",
     seen: "Wyświetlone",
+    delivered: "Dostarczono",
     activeNow: "Aktywna teraz",
     replyLabel: "Odpowiedź na",
     legacyName: "Bot v1.2",
     inputPlaceholder: "Napisz wiadomość…",
-    receiptAria: "Wiadomość wyświetlona przez klienta",
+    receiptAria: "Wiadomość wyświetlona przez Magdę",
+    deliveredAria: "Wiadomość dostarczona",
     aiBadgeAria: "Rozmowę prowadzi AI",
     newMessage: "Nowa wiadomość",
   },
@@ -699,7 +709,7 @@ const raw = {
       email: "Ten e-mail wygląda na niepełny.",
       server: "Coś poszło nie tak po naszej stronie. Spróbuj za chwilę albo napisz: kontakt@hackmysales.pl.",
     },
-    success: "Jest! Sprawdzimy Twój sklep i odezwiemy się w 1 dzień roboczy.",
+    success: "Gotowe. Sprawdzimy Twój sklep i odezwiemy się w 1 dzień roboczy.",
     // §11b — sekwencja po adresie (teatr bez kłamstwa)
     scan: {
       accepted: "adres przyjęty:",
@@ -708,7 +718,7 @@ const raw = {
   },
 
   footer: {
-    tagline: "AI CHATBOT & RECOMMENDATIONS THAT INCREASE SALES",
+    tagline: "Czat AI, wyszukiwarka i rekomendacje, które sprzedają.",
     columns: [
       {
         title: "Produkt",

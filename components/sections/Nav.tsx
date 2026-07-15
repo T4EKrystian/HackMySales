@@ -138,7 +138,7 @@ export function Nav() {
       ref={scopeRef}
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter,transform] duration-300 ${
         scrolled
-          ? "border-b border-hairline bg-surface/80 backdrop-blur-md"
+          ? "border-b border-hairline bg-page/85 backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
       } ${hidden ? "-translate-y-full" : "translate-y-0"}`}
       style={{ transitionTimingFunction: "var(--ease-out)" }}
@@ -180,7 +180,8 @@ export function Nav() {
             {t.login}
           </Button>
           <span ref={ctaWrapRef} className="inline-block will-change-transform">
-            <Button href="#demo" variant="primary" size="md">
+            {/* forest (nie acid) — acid zarezerwowany dla CTA hero; zero duplikacji na 1. ekranie */}
+            <Button href="#demo" variant="dark" size="md">
               {t.cta}
             </Button>
           </span>

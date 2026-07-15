@@ -120,6 +120,31 @@ function BubbleShell({
     });
     return idx;
   })();
+  // Pre-seed (P0.1): pierwsza wymiana (do 1. odpowiedzi bota włącznie) renderowana
+  // od razu — okno czatu nigdy puste; silnik animuje dopiero od kolejnego kroku.
+  const firstBotIdx = script.steps.findIndex((s) => s.role === "bot");
+  // 2.1 — tury komunikatora: run-end = ostatni bąbel ciągu tej samej strony
+  // (ogonek + godzina). Czasy deterministyczne od stałej bazy (nie od żywego zegara,
+  // inaczej „skakałyby" przy ticku); +1 min na turę → czyta się jak realny wątek.
+  const baseMin = 15 * 60 + 8;
+  let runSeq = 0;
+  const stepMeta = script.steps.map((s, i) => {
+    const runEnd = i === script.steps.length - 1 || script.steps[i + 1]?.role !== s.role;
+    let time: string | undefined;
+    if (runEnd) {
+      const t = baseMin + runSeq;
+      runSeq += 1;
+      time = `${String(Math.floor(t / 60) % 24).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}`;
+    }
+    return { runEnd, time };
+  });
+  const lastUserIdx = (() => {
+    let idx = -1;
+    script.steps.forEach((s, i) => {
+      if (s.role === "user") idx = i;
+    });
+    return idx;
+  })();
 
   const body = (
     <div
@@ -134,10 +159,13 @@ function BubbleShell({
 
       {script.steps.map((step, i) => {
         const prevUser = i > 0 && script.steps[i - 1].role === "user" ? script.steps[i - 1].text : null;
+        const meta = stepMeta[i];
+        const tailCls = meta.runEnd && cfg.tail ? (step.role === "user" ? "rounded-br-md" : "rounded-bl-md") : "";
         return (
           <div
             key={`${script.key}-${i}`}
             data-role={step.role}
+            data-seed={firstBotIdx >= 0 && i <= firstBotIdx ? "1" : undefined}
             className={`chat-step ${step.role === "user" ? "self-end" : "self-start"} ${
               step.role === "bot" && cfg.avatar ? "flex max-w-full items-end gap-2" : ""
             }`}
@@ -154,10 +182,10 @@ function BubbleShell({
             )}
             <div className="min-w-0">
               {step.role === "bot" && cfg.dots && <TypingDots />}
-              <div className={`chat-msg ${step.role === "user" ? "ml-auto max-w-[78%]" : "max-w-[78%]"}`}>
+              <div className={`chat-msg w-fit max-w-[78%] ${step.role === "user" ? "ml-auto" : ""}`}>
                 <div
                   data-flip-id={flipMsgs ? `ch-msg-${i}` : undefined}
-                  className={`px-4 py-3 text-sm leading-relaxed ${step.role === "user" ? cfg.bubbleUser : cfg.bubbleBot}`}
+                  className={`px-4 py-3 text-sm leading-relaxed ${step.role === "user" ? cfg.bubbleUser : cfg.bubbleBot} ${tailCls}`}
                 >
                   {step.role === "bot" && cfg.replyQuote && prevUser && (
                     <p className="mb-1.5 truncate border-l-2 border-line-2 pl-2 text-[13px] md:text-[11px] text-mute">
@@ -177,7 +205,17 @@ function BubbleShell({
                   {step.card && <AttachmentProductCard card={step.card} />}
                   {step.after && <p className="mt-3">{step.after}</p>}
                 </div>
-                {cfg.receipt && i === lastBotIdx && <ReadReceipt />}
+                {(meta.time || (cfg.receipt && i === lastUserIdx)) && (
+                  <div
+                    className={`chat-meta mt-1 flex items-center gap-1.5 text-[13px] leading-none text-mute md:text-[11px] ${
+                      step.role === "user" ? "justify-end" : "justify-start"
+                    }`}
+                  >
+                    {cfg.receipt && i === lastUserIdx && <ReadReceipt seen={lastBotIdx > lastUserIdx} />}
+                    {cfg.receipt && i === lastUserIdx && meta.time && <span aria-hidden="true">·</span>}
+                    {meta.time && <span className="num">{meta.time}</span>}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -228,20 +266,27 @@ function BubbleShell({
     <div ref={scope} data-flip-id={flipId} className={`frame-l2 relative w-full ${className}`}>
       <div data-flip-id={flipId ? "ch-head" : undefined} className="glass-head absolute inset-x-0 top-0 z-10 rounded-t-[19px]">
         <div className="flex items-center justify-between gap-3 px-5 py-3.5">
-          {skin === "legacy" ? (
-            <p className="chat-legacy-font text-sm text-sub">{ui.legacyName}</p>
-          ) : (
-            <PersonaRow presence={presence} clock={clock} ring={cfg.avatarRing} />
-          )}
-          {replayable && done && (
-            <button
-              onClick={replay}
-              className="flex shrink-0 items-center gap-1.5 rounded-full border border-line-2 px-3 py-1.5 text-xs text-sub hover:bg-l3"
-            >
-              <Glyph name="replay" size={13} />
-              {pl.hero.chat.replay}
-            </button>
-          )}
+          <div className="flex min-w-0 items-center gap-2.5">
+            {/* wzorzec aplikacji telefonu (messenger/IG): back-chevron */}
+            {cfg.inputTools && <Glyph name="chevron-left" size={18} className="shrink-0 text-mute" />}
+            {skin === "legacy" ? (
+              <p className="chat-legacy-font text-sm text-sub">{ui.legacyName}</p>
+            ) : (
+              <PersonaRow presence={presence} clock={clock} ring={cfg.avatarRing} />
+            )}
+          </div>
+          <div className="flex shrink-0 items-center gap-3">
+            {replayable && done && (
+              <button
+                onClick={replay}
+                className="flex shrink-0 items-center gap-1.5 rounded-full border border-line-2 px-3 py-1.5 text-xs text-sub hover:bg-l3"
+              >
+                <Glyph name="replay" size={13} />
+                {pl.hero.chat.replay}
+              </button>
+            )}
+            {cfg.inputTools && <Glyph name="more" size={18} className="text-mute" />}
+          </div>
         </div>
         {headerExtra}
       </div>
@@ -258,11 +303,13 @@ function BubbleShell({
       {footer}
       {/* pasek narzędzi wzorca komunikatora — tylko gdy skin go ma, a rodzic nie dał stopki */}
       {!footer && cfg.inputTools && (
-        <div className="flex items-center gap-3 border-t border-hairline p-4">
+        <div className="flex items-center gap-2.5 border-t border-hairline p-3.5">
           <InputTools />
-          <span className="flex-1 rounded-full border border-hairline bg-field px-5 py-2.5 text-sm text-mute">
-            {ui.inputPlaceholder}
+          <span className="flex min-w-0 flex-1 items-center gap-2 rounded-full border border-hairline bg-field px-4 py-2.5 text-sm text-mute">
+            <span className="min-w-0 flex-1 truncate">{ui.inputPlaceholder}</span>
+            <Glyph name="smiley" size={17} className="shrink-0" />
           </span>
+          <Glyph name="send" size={19} className="shrink-0 text-sub" />
         </div>
       )}
     </div>

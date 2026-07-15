@@ -117,7 +117,7 @@ export function MorningPanel() {
         </p>
 
         {/* Dashboard — frame prostujący się z perspektywy (v3) */}
-        <div ref={frameRef} className="frame-l2 relative mt-14 overflow-hidden will-change-transform">
+        <div ref={frameRef} className="frame-l2 relative mt-10 overflow-hidden will-change-transform">
           {/* Glass belka okna (elewacje v4) */}
           <div className="glass-head absolute inset-x-0 top-0 z-10 flex items-center justify-between rounded-t-[19px] px-6 py-4">
             <div className="flex items-center gap-3">
@@ -130,7 +130,7 @@ export function MorningPanel() {
           <div className="grid gap-px bg-[var(--stroke-1)] pt-[57px] lg:grid-cols-[1.7fr_1fr]">
             {/* Lewa kolumna: KPI + wykres */}
             <div className="flex flex-col gap-px">
-              <div className="mp-layer grid grid-cols-2 gap-px bg-[var(--border-hairline)] md:grid-cols-4" data-depth="8">
+              <div className="mp-layer grid grid-cols-2 gap-px bg-[var(--surface-2)] md:grid-cols-4" data-depth="8">
                 {t.kpis.map((k) => (
                   <div key={k.label} className="bg-l1 px-5 py-5">
                     <p className="text-xs text-mute">{k.label}</p>
@@ -138,7 +138,7 @@ export function MorningPanel() {
                       <Counter
                         value={k.value}
                         suffix={k.unit ? ` ${k.unit}` : ""}
-                        className="text-2xl font-bold tracking-tight"
+                        className="text-2xl font-semibold tracking-tight"
                       />
                     </p>
                   </div>

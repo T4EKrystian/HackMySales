@@ -20,7 +20,12 @@ export type GlyphName =
   | "instagram"
   | "mail"
   | "camera"
-  | "plus";
+  | "plus"
+  | "chevron-left"
+  | "more"
+  | "smiley"
+  | "mic"
+  | "send";
 
 const PATHS: Record<GlyphName, React.ReactNode> = {
   "arrow-right": <path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5" />,
@@ -88,16 +93,47 @@ const PATHS: Record<GlyphName, React.ReactNode> = {
     </>
   ),
   plus: <path d="M12 5.5v13M5.5 12h13" />,
+  "chevron-left": <path d="m14.5 6-6 6 6 6" />,
+  more: (
+    <>
+      <circle cx="5.5" cy="12" r="1.3" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none" />
+      <circle cx="18.5" cy="12" r="1.3" fill="currentColor" stroke="none" />
+    </>
+  ),
+  smiley: (
+    <>
+      <circle cx="12" cy="12" r="8" />
+      <path d="M8.5 14a4.2 4.2 0 0 0 7 0" />
+      <circle cx="9.2" cy="10" r="0.95" fill="currentColor" stroke="none" />
+      <circle cx="14.8" cy="10" r="0.95" fill="currentColor" stroke="none" />
+    </>
+  ),
+  mic: (
+    <>
+      <rect x="9.25" y="3.5" width="5.5" height="10.5" rx="2.75" />
+      <path d="M6.5 11.5a5.5 5.5 0 0 0 11 0" />
+      <path d="M12 17v3.5" />
+    </>
+  ),
+  send: (
+    <>
+      <path d="M20.5 3.5 3.5 10.9l6.6 2.4 2.4 6.6 8-16.4Z" />
+      <path d="m20.5 3.5-10.4 9.8" />
+    </>
+  ),
 };
 
 export function Glyph({
   name,
   size = 16,
   className = "",
+  strokeWidth = 1.5,
 }: {
   name: GlyphName;
   size?: number;
   className?: string;
+  strokeWidth?: number;
 }) {
   return (
     <svg
@@ -106,7 +142,7 @@ export function Glyph({
       height={size}
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
