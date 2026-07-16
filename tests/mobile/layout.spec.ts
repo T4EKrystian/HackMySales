@@ -33,12 +33,12 @@ test("typografia: proza ≥16 px, labelki ≥13 px", async ({ page }) => {
       if (t.length < 40 || !vis(el)) return;
       if (el.closest(".chat-step, .chat-msg, [role='log'], .glass-head")) return;
       const cls = (el as HTMLElement).className;
-      if (/text-xs|text-\[\d/.test(cls)) return; // fine-print — reguła labelek
+      if (/text-xs|text-\[\d|\bt-(meta|ui)\b/.test(cls)) return; // fine-print/UI (.t-meta/.t-ui) — reguła labelek
       const size = parseFloat(getComputedStyle(el).fontSize);
       if (size < 16) out.push({ kind: "proza", size, text: t.slice(0, 40) });
     });
     // labelki + fine-print: .label + text-xs + arbitrary małe — ≥13 px
-    document.querySelectorAll("main .label, main [class*='text-xs'], main [class*='text-[1']").forEach((el) => {
+    document.querySelectorAll("main .label, main .t-meta, main .t-ui, main [class*='text-xs'], main [class*='text-[1']").forEach((el) => {
       const t = el.textContent?.trim() ?? "";
       if (!t || !vis(el)) return;
       const size = parseFloat(getComputedStyle(el).fontSize);

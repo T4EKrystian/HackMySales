@@ -81,6 +81,7 @@ export function HeroDemo() {
   return (
     <div
       ref={frameRef}
+      id="chat-demo"
       className="frame-l2 relative w-full overflow-hidden rounded-[var(--radius-xl)]"
       aria-label="Demo na żywo: wyszukiwarka, rekomendacje, chat"
     >
