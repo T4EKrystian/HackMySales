@@ -40,6 +40,8 @@ export const NAME_TO_SLUG: Record<string, string> = {
   "Komplet termoaktywny 104–116": "komplet-termo",
   "Kask MTB Ridge": "kask-ridge",
   "Kask MTB Core": "kask-core",
+  "Zapięcie U-lock": "u-lock",
+  "Plecak trekkingowy": "plecak",
 };
 
 /** deepNbsp podmienia zwykłe spacje na twarde — dopasowanie nazw musi być odporne. */

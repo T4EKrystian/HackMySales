@@ -7,7 +7,7 @@ import { pl } from "@/content/pl";
 import { type ProductKind } from "@/components/ui/ProductVisual";
 import { ProductThumb } from "@/components/ui/ProductThumb";
 import { ChatShell } from "@/components/chat/ChatShell";
-import { exchangeToScript, scenarioToScript } from "@/components/chat/script";
+import { exchangeToScript, scenarioToScript, productSlug } from "@/components/chat/script";
 import { gsap, typeInto, Flip, EASE } from "@/lib/motion";
 
 /** Wspólne panele 3 funkcji (czat · wyszukiwarka · rekomendacje z re-rankiem).
@@ -17,8 +17,8 @@ import { gsap, typeInto, Flip, EASE } from "@/lib/motion";
  *  ZDJĘCIA vs INSTRUMENTY: dopóki brak SPÓJNEGO zestawu packshotów (białe/neutralne tło,
  *  jak w makiecie klienta) — cały hero używa czystych instrumentów ProductVisual (obecne
  *  zdjęcia mają niespójne tła i logo marek → tandetnie). Gdy klient dostarczy jednolity
- *  zestaw do public/products, wystarczy przełączyć FLAGĘ poniżej na true. */
-const USE_REAL_PHOTOS = false;
+ *  zestaw do public/products, wystarczy przełączyć FLAGĘ poniżej na false. */
+const USE_REAL_PHOTOS = true;
 
 export function ChatPanelContent({ active }: { active?: boolean }) {
   return (
@@ -89,18 +89,27 @@ export function HeroChatShowcase() {
         <div className="max-w-[95%] self-start rounded-2xl rounded-bl-md bg-elevated px-4 py-3">
           <p className="text-sm leading-relaxed text-ink">{s.botIntro}</p>
           <div className="mt-3 grid grid-cols-3 gap-2.5">
-            {s.products.map((pr) => (
-              <div key={pr.name} className="flex flex-col overflow-hidden rounded-xl border border-hairline bg-surface">
-                {/* czysty instrument (spójny, bez tandetnych teł zdjęć) */}
-                <div className="flex items-center justify-center bg-elevated p-3">
-                  <ProductThumb name={pr.name} kind={pr.kind as ProductKind} size={56} photo={USE_REAL_PHOTOS} tint="graphite" />
+            {s.products.map((pr) => {
+              const slug = USE_REAL_PHOTOS ? productSlug(pr.name) : undefined;
+              return (
+                <div key={pr.name} className="flex flex-col overflow-hidden rounded-xl border border-hairline bg-surface">
+                  {/* zdjęcie wypełnia kartę (realna karta produktu, nie miniaturka) */}
+                  <div className="relative aspect-square w-full bg-elevated">
+                    {slug ? (
+                      <Image src={`/products/${slug}-112.webp`} alt="" fill sizes="120px" unoptimized className="object-cover" />
+                    ) : (
+                      <span className="flex h-full items-center justify-center">
+                        <ProductThumb name={pr.name} kind={pr.kind as ProductKind} size={48} photo={false} tint="graphite" />
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center justify-between gap-1 border-t border-hairline px-2.5 py-2">
+                    <span className="num text-[13px] font-medium text-ink">{pr.price}</span>
+                    <span className="h-1 w-6 shrink-0 rounded-full bg-blue" aria-hidden="true" />
+                  </div>
                 </div>
-                <div className="flex items-center justify-between gap-1 border-t border-hairline px-2.5 py-2">
-                  <span className="num text-[13px] font-medium text-ink">{pr.price}</span>
-                  <span className="h-1 w-6 shrink-0 rounded-full bg-blue" aria-hidden="true" />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
