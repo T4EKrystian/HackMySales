@@ -7,12 +7,14 @@ import { Pillars } from "@/components/sections/Pillars";
 import { Channels } from "@/components/sections/Channels";
 import { Crescendo } from "@/components/sections/Crescendo";
 import { Studies } from "@/components/sections/Studies";
-import { SocialProof } from "@/components/sections/SocialProof";
-import { Trust } from "@/components/sections/Trust";
 import { Results } from "@/components/sections/Results";
+import { Trust } from "@/components/sections/Trust";
 import { Steps } from "@/components/sections/Steps";
 import { Faq } from "@/components/sections/Faq";
+import { TeamNote } from "@/components/sections/TeamNote";
 import { FinalCta } from "@/components/sections/FinalCta";
+// SocialProof (#referencje) chwilowo niewpięty — sekcja wraca z realnymi logami/cytatami klientów.
+// import { SocialProof } from "@/components/sections/SocialProof";
 import { Footer } from "@/components/sections/Footer";
 import { ProductVisualDefs } from "@/components/ui/ProductVisual";
 import { StickyCta } from "@/components/mobile/StickyCta";
@@ -55,11 +57,11 @@ export default function Home() {
         <Channels />
         <Crescendo />
         <Studies />
-        <SocialProof />
-        <Trust />
         <Results />
+        <Trust />
         <Steps />
         <Faq />
+        <TeamNote />
         <FinalCta />
       </main>
       <Footer />

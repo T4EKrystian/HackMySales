@@ -6,7 +6,9 @@ import { useReveal } from "@/lib/motion";
 
 /** Dowód społeczny — STRUKTURA do uzupełnienia realnymi danymi (drugi najczęstszy blocker
  *  w teście person po cenie). Loga/cytaty/mini-case to placeholdery [...] — właściciel podmienia
- *  za zgodą klientów. Do tego czasu sekcja jasno sygnalizuje „w przygotowaniu" (bez fałszywego proof). */
+ *  za zgodą klientów. Do tego czasu sekcja jasno sygnalizuje „w przygotowaniu" (bez fałszywego proof).
+ *  E4: komponent chwilowo NIE jest renderowany w app/page.tsx (koniec placeholderów [LOGO] na
+ *  produkcji) — sekcja wraca z realnymi logami/cytatami klientów. */
 export function SocialProof() {
   const t = pl.proof;
   const ref = useReveal<HTMLElement>(0.05);
