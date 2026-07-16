@@ -62,7 +62,7 @@ export function ProductCard({
           <p className="truncate t-ui font-medium text-ink">{name}</p>
           {meta && <p className="t-meta truncate text-mute">{meta}</p>}
         </div>
-        {price && <span className="num ml-auto shrink-0 t-ui font-medium text-ink">{price}</span>}
+        {price && <span className="num ml-auto shrink-0 whitespace-nowrap t-ui font-medium text-ink">{price}</span>}
       </div>
     );
   }
@@ -105,8 +105,8 @@ export function ProductCard({
           <p className="line-clamp-2 t-ui font-medium leading-snug text-ink">{name}</p>
         )}
         <p className="flex items-baseline gap-1.5">
-          {oldPrice && <span className="num t-meta text-mute line-through">{oldPrice}</span>}
-          {price && <span className="num t-ui font-medium text-ink">{price}</span>}
+          {oldPrice && <span className="num whitespace-nowrap t-meta text-mute line-through">{oldPrice}</span>}
+          {price && <span className="num whitespace-nowrap t-ui font-medium text-ink">{price}</span>}
           {saleLabel && oldPrice && <span className="sr-only">{saleLabel}</span>}
         </p>
       </div>

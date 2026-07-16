@@ -47,7 +47,7 @@ export function LegalShell({
             {sections.map((s, i) => (
               <section key={i} className="border-t border-hairline pt-8">
                 <h2 className="flex items-baseline gap-3 font-display text-xl font-semibold text-ink">
-                  <span className="num text-sm text-blue-soft">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="ledger text-blue-soft">{String(i + 1).padStart(2, "0")}</span>
                   {s.h}
                 </h2>
                 <div className="mt-4 flex flex-col gap-3">

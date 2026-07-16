@@ -101,7 +101,7 @@ export function SearchPanelContent({ photo = USE_REAL_PHOTOS }: { photo?: boolea
       {/* pole wyszukiwania — czyste, bez dekoracyjnych ikon AI */}
       <div className="flex items-center gap-3 rounded-full border border-strongline bg-field px-4 py-3">
         <Glyph name="search" size={16} className="shrink-0 text-mute" />
-        <span className="num relative min-w-0 flex-1 truncate t-ui text-ink">
+        <span className="relative min-w-0 flex-1 truncate t-ui text-ink">
           <span className="pp-query" data-full={d.query}>
             {d.query}
           </span>
@@ -200,7 +200,7 @@ export function RecoGrid({ photo = USE_REAL_PHOTOS }: { photo?: boolean }) {
   return (
     <div className="flex h-full flex-col gap-3">
       <div className="flex items-baseline justify-between gap-3">
-        <p className="text-sm font-medium text-ink">{d.title}</p>
+        <p className="t-ui font-medium text-ink">{d.title}</p>
         {/* cichy podpis kryterium (zamiast krzykliwego chipu AI) — zmienia się z re-rankiem */}
         <span className="t-meta text-mute">
           {d.signalPrefix} {d.signals[signalIdx].label}

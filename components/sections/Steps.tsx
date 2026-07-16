@@ -17,7 +17,7 @@ export function Steps() {
         <ol className="mt-14 grid gap-8 md:grid-cols-3 md:gap-10">
           {t.steps.map((s, i) => (
             <li key={i} className="js-reveal border-t border-hairline pt-6">
-              <p className="num text-xs text-mute">0{i + 1}</p>
+              <p className="ledger text-mute">0{i + 1}</p>
               <h3 className="mt-3 font-display text-xl font-semibold tracking-tight text-ink">{s.title}</h3>
               <p className="mt-2 max-w-[42ch] leading-relaxed text-sub">{s.body}</p>
             </li>

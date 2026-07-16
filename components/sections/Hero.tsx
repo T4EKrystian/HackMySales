@@ -87,7 +87,7 @@ export function Hero() {
       <div className="container-hms relative grid w-full items-center gap-8 py-4 md:gap-12 md:py-8 lg:grid-cols-[55fr_45fr]">
         {/* LEWA kolumna — treść (statyczna, widoczna od SSR) */}
         <div className="min-w-0">
-          <p className="hero-eyebrow t-meta font-medium uppercase tracking-[0.14em] text-mute">
+          <p className="hero-eyebrow label">
             {t.eyebrow}
           </p>
           <h1 className="t-hero mt-5 font-display font-semibold text-ink">

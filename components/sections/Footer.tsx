@@ -27,7 +27,7 @@ export function Footer() {
                 className="group inline-flex items-center gap-2 text-sm text-sub transition-colors duration-150 hover:text-ink"
               >
                 <Glyph name="mail" size={16} className="text-mute transition-colors group-hover:text-blue-soft" />
-                <span className="num">{t.email}</span>
+                <span>{t.email}</span>
               </a>
             </div>
             <p className="mt-6 text-xs leading-relaxed text-mute">{t.company}</p>
@@ -79,7 +79,7 @@ export function Footer() {
       {/* Pas prawny */}
       <Container className="pb-8">
         <div className="mt-10 flex flex-col gap-3 border-t border-hairline pt-6 text-xs text-mute sm:flex-row sm:items-center sm:justify-between">
-          <span className="num">
+          <span>
             © {year} {t.copyright}
           </span>
           <nav aria-label="Informacje prawne" className="flex flex-wrap items-center gap-x-5 gap-y-2">

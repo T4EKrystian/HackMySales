@@ -27,13 +27,13 @@ export function Results() {
             >
               <p className="font-display text-ink">
                 {"static" in c && c.static ? (
-                  <span className="num text-4xl font-semibold tracking-tight md:text-5xl">{c.static}</span>
+                  <span className="t-stat-sm font-semibold">{c.static}</span>
                 ) : (
                   <Counter
                     value={(c as { value: number }).value}
                     prefix={(c as { prefix?: string }).prefix}
                     suffix={(c as { suffix?: string }).suffix}
-                    className="text-4xl font-semibold tracking-tight md:text-5xl"
+                    className="t-stat-sm font-semibold"
                   />
                 )}
               </p>

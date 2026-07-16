@@ -20,7 +20,7 @@ export function PersonaAvatar({ size = 28, ring = false }: { size?: number; ring
       aria-hidden="true"
     >
       {/* fallback-inicjał pod spodem — obrazek przykrywa go po załadowaniu */}
-      <span className="num absolute t-meta text-blue-soft">{persona.name[0]}</span>
+      <span className="absolute t-meta text-blue-soft">{persona.name[0]}</span>
       <Image
         src={persona.avatar}
         alt=""
@@ -46,7 +46,7 @@ export function AiBadge() {
     <span
       role="img"
       aria-label={ui.aiBadgeAria}
-      className="num t-meta rounded-sm border border-line-1 px-1.5 py-px uppercase tracking-[0.1em] text-mute"
+      className="label rounded-sm border border-line-1 px-1.5 py-px"
     >
       {persona.aiBadge}
     </span>
@@ -59,7 +59,7 @@ export function PersonaRow({ presence, clock, ring = false }: { presence?: strin
     <div className="flex min-w-0 items-center gap-3">
       <PersonaAvatar ring={ring} />
       <div className="min-w-0 leading-tight">
-        <p className="flex items-center gap-2 truncate text-sm font-medium text-ink">
+        <p className="flex items-center gap-2 truncate t-ui font-medium text-ink">
           {persona.name}
           <AiBadge />
         </p>

@@ -68,7 +68,7 @@ export function Studies() {
                         className="group inline-flex shrink-0 items-center gap-1.5 text-sm text-sub transition-colors duration-150 hover:text-ink"
                       >
                         {t.sourceLabel}
-                        <span className="num text-xs text-mute">{s.urlType}</span>
+                        <span className="ledger text-mute">{s.urlType}</span>
                         <Glyph name="arrow-right" size={14} className="-rotate-45 transition-transform duration-150 group-hover:translate-x-0.5" />
                       </a>
                     </li>

@@ -26,10 +26,10 @@ export function SectionShell({
   );
 }
 
-// Eyebrow / caption — sans, wersaliki, ink-mute (brief: +0.06–0.16em)
+// Eyebrow / caption — JEDYNY standard: klasa .label (General Sans 500, wersaliki, ls +0.08em)
 export function Eyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <p className={`t-meta font-medium uppercase tracking-[0.14em] text-mute ${className}`}>
+    <p className={`label ${className}`}>
       {children}
     </p>
   );
@@ -40,9 +40,9 @@ export function Card({ children, className = "" }: { children: ReactNode; classN
   return <div className={`rounded-lg border border-hairline bg-l2 ${className}`}>{children}</div>;
 }
 
-// Folio — numer sekcji w mono (podpis: liczby zawsze mono)
+// Folio — numer sekcji w mono (ledger: folio/numeracje = sygnatura mono)
 export function Folio({ n, className = "" }: { n: string; className?: string }) {
-  return <span className={`num text-mute ${className}`}>{n}</span>;
+  return <span className={`ledger text-mute ${className}`}>{n}</span>;
 }
 
 // Custom check glyph (NIE ✓ emoji) — stroke = currentColor (kolor ustawia rodzic)

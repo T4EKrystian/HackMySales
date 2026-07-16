@@ -68,7 +68,7 @@ export function Pillars() {
                 className="pillar-row grid items-center gap-8 border-t border-hairline py-10 lg:grid-cols-2 lg:gap-16 lg:py-16"
               >
                 <div className={reverse ? "lg:order-2" : ""}>
-                  <p className="num text-xs text-mute">0{i + 1}</p>
+                  <p className="ledger text-mute">0{i + 1}</p>
                   <h3 className="mt-3 font-display text-2xl font-semibold tracking-tight text-ink">{item.title}</h3>
                   <p className="mt-3 max-w-[46ch] leading-relaxed text-sub">{item.body}</p>
                   <ul className="mt-5 flex flex-col gap-2.5">

@@ -20,7 +20,7 @@ export function ProofTicker() {
           {[false, true].map((clone) => (
             <ul key={String(clone)} aria-hidden={clone} className="flex shrink-0 items-center gap-10">
               {t.items.map((item, i) => (
-                <li key={i} className="num flex items-center gap-3 whitespace-nowrap t-meta text-sub">
+                <li key={i} className="ledger flex items-center gap-3 whitespace-nowrap text-sub">
                   <span className="inline-block h-1 w-1 rounded-full bg-strongline" aria-hidden="true" />
                   {item}
                 </li>
