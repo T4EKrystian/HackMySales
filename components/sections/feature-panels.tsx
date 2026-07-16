@@ -70,7 +70,7 @@ export function HeroChatShowcase() {
         <div className="min-w-0">
           <p className="flex items-center gap-1.5 text-sm font-medium text-ink">
             {persona.name}
-            <span className="text-[11px] font-medium uppercase tracking-[0.12em] text-mute">
+            <span className="text-xs font-medium uppercase tracking-[0.12em] text-mute">
               {persona.aiBadge}
             </span>
           </p>
@@ -253,15 +253,18 @@ export function RecoGrid({ photo = USE_REAL_PHOTOS, compact = false }: { photo?:
           {d.signalPrefix} {d.signals[signalIdx].label}
         </span>
       </div>
-      {/* rząd kart produktów jak listing sklepu (zdjęcie u góry · przecena · serce) */}
-      <div ref={gridRef} className="grid flex-1 content-center grid-cols-4 gap-2">
+      {/* rząd kart produktów jak listing sklepu — mobile: swipe (karty czytelne), desktop: grid 4 */}
+      <div
+        ref={gridRef}
+        className="flex flex-1 snap-x items-center gap-2.5 overflow-x-auto pb-1 [scrollbar-width:none] sm:grid sm:grid-cols-4 sm:content-center sm:gap-2 sm:overflow-visible sm:pb-0 [&::-webkit-scrollbar]:hidden"
+      >
         {order.map((p) => {
           const slug = photo ? productSlug(p.name) : undefined;
           return (
             <article
               key={p.name}
               data-id={p.name}
-              className="reco-card flex flex-col overflow-hidden rounded-lg border border-hairline bg-surface"
+              className="reco-card flex w-[46%] shrink-0 snap-start flex-col overflow-hidden rounded-lg border border-hairline bg-surface sm:w-auto"
             >
               <div className={`relative w-full bg-elevated ${compact ? "aspect-[5/6]" : "aspect-[3/4]"}`}>
                 {slug ? (
@@ -272,17 +275,17 @@ export function RecoGrid({ photo = USE_REAL_PHOTOS, compact = false }: { photo?:
                   </span>
                 )}
                 {p.oldPrice && (
-                  <span className="absolute left-1.5 top-1.5 rounded-md bg-blue-tint px-1.5 py-0.5 text-[10px] font-medium leading-none text-blue-soft">
+                  <span className="absolute left-1.5 top-1.5 rounded-md bg-blue-tint px-1.5 py-0.5 text-xs font-medium leading-none text-blue-soft">
                     {d.saleBadge}
                   </span>
                 )}
               </div>
               <div className="flex flex-col gap-0.5 px-2 py-2">
-                {p.cat && <p className="label text-[10px] text-mute">{p.cat}</p>}
-                <p className="line-clamp-2 text-[12px] font-medium leading-tight text-ink">{p.name}</p>
+                {p.cat && <p className="text-xs uppercase tracking-[0.06em] text-mute">{p.cat}</p>}
+                <p className="line-clamp-2 text-xs font-medium leading-tight text-ink">{p.name}</p>
                 <div className="flex items-baseline gap-1.5">
-                  {p.oldPrice && <span className="num text-[11px] text-mute line-through">{p.oldPrice}</span>}
-                  <span className={`num text-[13px] font-medium ${p.oldPrice ? "text-danger" : "text-ink"}`}>{p.price}</span>
+                  {p.oldPrice && <span className="num text-xs text-mute line-through">{p.oldPrice}</span>}
+                  <span className={`num text-xs font-medium ${p.oldPrice ? "text-danger" : "text-ink"}`}>{p.price}</span>
                 </div>
               </div>
             </article>

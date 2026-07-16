@@ -110,6 +110,12 @@ export function FinalCta() {
         <h2 className="t-h2 js-reveal mt-4 font-display font-semibold text-onforest">{t.h2}</h2>
         <p className="t-lead js-reveal mt-5 max-w-[54ch] text-onforest/75">{t.lead}</p>
 
+        {/* kotwica ceny — sygnał kwalifikacji przed formularzem (nie pełny cennik) */}
+        <p className="js-reveal mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className="num text-xl font-medium text-acid">{pl.priceAnchor.text}</span>
+          <span className="text-sm text-onforest/70">{pl.priceAnchor.sub}</span>
+        </p>
+
         {status === "sent" ? (
           <p
             role="status"

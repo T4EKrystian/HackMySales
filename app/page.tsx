@@ -7,8 +7,11 @@ import { Pillars } from "@/components/sections/Pillars";
 import { Channels } from "@/components/sections/Channels";
 import { Crescendo } from "@/components/sections/Crescendo";
 import { Studies } from "@/components/sections/Studies";
+import { SocialProof } from "@/components/sections/SocialProof";
 import { Trust } from "@/components/sections/Trust";
 import { Results } from "@/components/sections/Results";
+import { Steps } from "@/components/sections/Steps";
+import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Footer } from "@/components/sections/Footer";
 import { ProductVisualDefs } from "@/components/ui/ProductVisual";
@@ -28,6 +31,17 @@ const appSchema = {
   publisher: { "@type": "Organization", name: "Time4Ecommerce" },
 };
 
+// FAQPage — sekcja FAQ wróciła na stronę (realne pytania z pl.faq)
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: pl.faq.items.map((it) => ({
+    "@type": "Question",
+    name: clean(it.q),
+    acceptedAnswer: { "@type": "Answer", text: clean(it.a) },
+  })),
+};
+
 export default function Home() {
   return (
     <>
@@ -41,13 +55,17 @@ export default function Home() {
         <Channels />
         <Crescendo />
         <Studies />
+        <SocialProof />
         <Trust />
         <Results />
+        <Steps />
+        <Faq />
         <FinalCta />
       </main>
       <Footer />
       <StickyCta />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
     </>
   );
 }

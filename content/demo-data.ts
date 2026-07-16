@@ -54,16 +54,14 @@ export const demo = {
     kaskCore: 189,
   },
 
-  /** §4 Reco listing „Polecane" — ceny nowe + stare (Przecena) w kartach sklepowych */
+  /** §4 Reco listing „Polecane" — neutralny zestaw (moda/odzież/obuwie/akcesoria): nowe + stare ceny */
   recoPrices: {
-    kaskRidgeNew: 219,
-    kaskRidgeOld: 279,
-    kaskCoreNew: 189,
-    kaskCoreOld: 239,
-    uLockNew: 89,
-    uLockOld: 119,
+    sukienkaNew: 199,
+    sukienkaOld: 259,
+    kurtka3l: 449,
+    xTrail2New: 379,
+    xTrail2Old: 459,
     plecakNew: 199,
-    plecakOld: 259,
   },
 
   /** Chipy efektów branż §3c + rabaty w rozmowach */

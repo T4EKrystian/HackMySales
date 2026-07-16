@@ -274,11 +274,11 @@ const raw = {
           { key: "margin", label: "marży sklepu" },
         ],
         products: [
-          // Przecena tylko na części kart (realizm listingu, nie „wszystko na wyprzedaży")
-          { name: "Kask MTB Ridge", cat: "Kaski", price: "219 zł", oldPrice: "279 zł", kind: "kask" as const, fit: 5, priceVal: 219, margin: 3 },
-          { name: "Kask MTB Core", cat: "Kaski", price: "189 zł", oldPrice: null, kind: "kask" as const, fit: 4, priceVal: 189, margin: 5 },
-          { name: "Zapięcie U-lock", cat: "Zapięcia", price: "89 zł", oldPrice: "119 zł", kind: "kask" as const, fit: 3, priceVal: 89, margin: 4 },
-          { name: "Plecak trekkingowy", cat: "Plecaki", price: "199 zł", oldPrice: null, kind: "kask" as const, fit: 2, priceVal: 199, margin: 2 },
+          // Neutralny, wielokategoryjny zestaw (nie jedna branża); Przecena tylko na części kart
+          { name: "Sukienka letnia", cat: "Moda", price: "199 zł", oldPrice: "259 zł", kind: "odziez" as const, fit: 5, priceVal: 199, margin: 3 },
+          { name: "Kurtka 3L Shell — L", cat: "Odzież", price: "449 zł", oldPrice: null, kind: "kurtka" as const, fit: 3, priceVal: 449, margin: 5 },
+          { name: "X-Trail 2 GTX", cat: "Obuwie", price: "379 zł", oldPrice: "459 zł", kind: "but" as const, fit: 4, priceVal: 379, margin: 2 },
+          { name: "Plecak miejski", cat: "Akcesoria", price: "199 zł", oldPrice: null, kind: "odziez" as const, fit: 2, priceVal: 199, margin: 4 },
         ],
       },
     },
@@ -733,7 +733,7 @@ const raw = {
       },
       {
         q: "Mam mały ruch. Czy to się opłaci?",
-        a: "Policz w kalkulatorze wyżej. Zasada kciuka: jeśli masz ponad 5 tys. wizyt miesięcznie albo choć jedną osobę odpisującą na maile klientów — tak.",
+        a: "Zasada kciuka: jeśli masz ponad 5 tys. wizyt miesięcznie albo choć jedną osobę odpisującą na maile klientów — tak. Konkretne liczby dla Twojego sklepu policzymy na demo.",
       },
       {
         q: "Czy mogę kontrolować, co bot mówi?",
@@ -746,6 +746,41 @@ const raw = {
     label: "OD ZESPOŁU",
     body: "Sklepy internetowe prowadzimy od 2017 roku — dziś ponad 40. Te same pytania, zwroty i wieczorne koszyki znamy z pierwszej ręki. HackMySales zbudowaliśmy, żeby sklep radził sobie z nimi sam — i żeby było widać, ile na tym zarabia.",
     signature: "— zespół Time4Ecommerce",
+  },
+
+  // Dowód społeczny — STRUKTURA do uzupełnienia realnymi danymi (loga/cytaty za zgodą klientów).
+  // Placeholdery [...] podmienia właściciel; do tego czasu sekcja jasno sygnalizuje „w przygotowaniu".
+  proof: {
+    label: "ZAUFALI NAM",
+    h2: "Sklepy, które liczą więcej z tego samego ruchu.",
+    editorial: "Sekcja w przygotowaniu — loga i cytaty publikujemy wyłącznie za zgodą klientów.",
+    logos: ["[LOGO]", "[LOGO]", "[LOGO]", "[LOGO]", "[LOGO]"],
+    quotes: [
+      {
+        body: "[Cytat właściciela — 1–2 zdania o konkretnym efekcie: mniej pytań do obsługi, wyższy koszyk, odzyskane koszyki wieczorem.]",
+        author: "[Imię Nazwisko]",
+        role: "[stanowisko · nazwa sklepu]",
+        metric: "[+X% konwersji]",
+      },
+      {
+        body: "[Drugi cytat — inna branża, inny kąt: lepsze dopasowanie rozmiaru, mniej zwrotów, obsługa po godzinach.]",
+        author: "[Imię Nazwisko]",
+        role: "[stanowisko · nazwa sklepu]",
+        metric: "[−X% zwrotów]",
+      },
+    ],
+    caseLabel: "MINI-CASE",
+    caseData: {
+      shop: "[Nazwa sklepu · branża · skala, np. moda, 60 tys. wizyt/mc]",
+      before: "[Przed: np. dwie osoby na mailach, koszyki porzucane wieczorem, brak odpowiedzi po 18:00.]",
+      after: "[Po: np. bot obsługuje 80% pytań, +X% konwersji w 3 miesiące, obsługa 24/7.]",
+    },
+  },
+
+  // Kotwica ceny (decyzja: sygnał ceny + trial zamiast pełnego cennika) — 499 = demo.prices.starter.monthly
+  priceAnchor: {
+    text: "od 499 zł/mc",
+    sub: "14 dni za darmo, bez karty. Rezygnacja jednym kliknięciem.",
   },
 
   // S8 Action (docx) — formularz demo, 6 pól, realna wysyłka (Web3Forms → e-mail)
