@@ -6,13 +6,14 @@ Every item must PASS. A FAIL on item 1 or 20 means redesign, not patch.
 
 1. **Template test** — could this section be mistaken for an existing SaaS
    template? If yes: FAIL, name the offending pattern.
-2. **Acid budget** — acid (#D6F94B) appears max 2× per viewport on paper
-   sections; never as small text on paper.
+2. **Blue budget** — brand blue (#2858F0) is an interactive affordance only
+   (CTA / focus / active state / user bubble) + at most one editorial accent per
+   tentpole; ≤ ~6% of any viewport; never three independent blue elements co-visible.
 3. **Serif budget** — Fraunces italic accent words: max 3 occurrences on the page.
 4. **Layout variety** — no two adjacent sections share the same layout skeleton.
 5. **Rhythm** — section vertical padding uses the spacing scale only
    (clamp(6rem, 10vw, 10.5rem)); no rogue values.
-6. **Radii** — every rounded element uses the 12 / 20 / 28 px scale.
+6. **Radii** — every rounded element uses the 8 / 12 / 20 / 28 px token scale.
 7. **Hairlines** — separators are 1px, `--line` on paper / `--line-dark` on
    forest, consistent everywhere.
 8. **Type scale** — no font sizes outside the defined tokens.

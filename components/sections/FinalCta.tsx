@@ -112,7 +112,7 @@ export function FinalCta() {
 
         {/* kotwica ceny — sygnał kwalifikacji przed formularzem (nie pełny cennik) */}
         <p className="js-reveal mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <span className="num text-xl font-medium text-acid">{pl.priceAnchor.text}</span>
+          <span className="num t-h3 font-medium text-onforest">{pl.priceAnchor.text}</span>
           <span className="text-sm text-onforest/70">{pl.priceAnchor.sub}</span>
         </p>
 
@@ -121,7 +121,7 @@ export function FinalCta() {
             role="status"
             className="mt-12 flex w-fit items-center gap-3 rounded-full border border-line-dark bg-forest-900 px-6 py-4 text-sm text-onforest"
           >
-            <Glyph name="check" size={16} className="text-acid" />
+            <Glyph name="check" size={16} className="text-onforest" />
             {t.success}
           </p>
         ) : (

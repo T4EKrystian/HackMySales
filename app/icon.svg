@@ -1,12 +1,14 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Favicon = kafel app-icon (restyle Apple): niebieski squircle + biały dymek
-       + strzałka wzrostu w kontrze. Kolory HARDCODED (favicon nie widzi CSS). -->
-  <rect width="64" height="64" rx="14" fill="#0071E3"/>
-  <g transform="translate(11 9.5) scale(0.66)">
-    <path d="M22 8 H42 A14 14 0 0 1 56 22 V34 A14 14 0 0 1 42 48 H26 L13.2 58.6 C11.2 60.2 8 58.9 8 56.3 V22 A14 14 0 0 1 22 8 Z" fill="#ffffff"/>
-    <g stroke="#0071E3" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
-      <path d="M20 35L42 20"/>
-      <path d="M34 20H42V28"/>
+  <!-- Favicon = kafel app-icon: niebieski squircle + biały dymek (outlined w Nav)
+       + słupki wzrostu w kontrze — znak wg makiety właściciela (E7b).
+       Kolory HARDCODED (favicon nie widzi CSS): #2858F0 = blue-500. -->
+  <rect width="64" height="64" rx="15" fill="#2858F0"/>
+  <g transform="translate(6.4 8) scale(0.8)">
+    <path d="M17 7 H47 A11 11 0 0 1 58 18 V32 A11 11 0 0 1 47 43 H29 L14 53.5 L17 43 A11 11 0 0 1 6 32 V18 A11 11 0 0 1 17 7 Z" fill="#FFFFFF"/>
+    <g stroke="#2858F0" stroke-width="5.5" stroke-linecap="round">
+      <line x1="23.5" y1="34" x2="23.5" y2="25"/>
+      <line x1="32" y1="34" x2="32" y2="20"/>
+      <line x1="40.5" y1="34" x2="40.5" y2="15"/>
     </g>
   </g>
 </svg>

@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { type ProductKind } from "@/components/ui/ProductVisual";
 import { ProductThumb } from "@/components/ui/ProductThumb";
+import { ProductCard } from "@/components/ui/ProductCard";
 import { ChatShell } from "@/components/chat/ChatShell";
+import { PersonaRow } from "@/components/chat/parts";
 import { exchangeToScript, scenarioToScript, productSlug } from "@/components/chat/script";
 import { gsap, typeInto, Flip, EASE } from "@/lib/motion";
 
@@ -58,65 +59,35 @@ export function HeroChatShowcase() {
   return (
     <div className="flex h-full flex-col">
       {/* Header persony */}
-      <div className="flex items-center gap-2.5 border-b border-hairline pb-3">
-        <Image
-          src={persona.avatar}
-          alt=""
-          width={34}
-          height={34}
-          unoptimized
-          className="h-[34px] w-[34px] rounded-full object-cover"
-        />
-        <div className="min-w-0">
-          <p className="flex items-center gap-1.5 text-sm font-medium text-ink">
-            {persona.name}
-            <span className="text-xs font-medium uppercase tracking-[0.12em] text-mute">
-              {persona.aiBadge}
-            </span>
-          </p>
-          <p className="mt-0.5 flex items-center gap-1.5 text-[13px] text-mute">
-            <span className="h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
-            {persona.status}
-          </p>
-        </div>
+      <div className="border-b border-hairline pb-3">
+        <PersonaRow presence={persona.status} />
       </div>
 
       {/* Rozmowa */}
       <div className="flex flex-1 flex-col justify-center gap-3 py-4">
-        <div className="max-w-[80%] self-end rounded-2xl rounded-br-md bg-blue px-4 py-2.5 text-sm leading-relaxed text-onblue">
+        <div className="max-w-[80%] self-end rounded-lg rounded-br-sm bg-blue px-4 py-2.5 t-ui leading-relaxed text-onblue">
           {s.user}
         </div>
-        <div className="max-w-[95%] self-start rounded-2xl rounded-bl-md bg-elevated px-4 py-3">
-          <p className="text-sm leading-relaxed text-ink">{s.botIntro}</p>
+        <div className="max-w-[95%] self-start rounded-lg rounded-bl-sm bg-elevated px-4 py-3">
+          <p className="t-ui leading-relaxed text-ink">{s.botIntro}</p>
           <div className="mt-3 grid grid-cols-3 gap-2.5">
-            {s.products.map((pr) => {
-              const slug = USE_REAL_PHOTOS ? productSlug(pr.name) : undefined;
-              return (
-                <div key={pr.name} className="flex flex-col overflow-hidden rounded-xl border border-hairline bg-surface">
-                  {/* zdjęcie wypełnia kartę (realna karta produktu, nie miniaturka) */}
-                  <div className="relative aspect-square w-full bg-elevated">
-                    {slug ? (
-                      <Image src={`/products/${slug}-112.webp`} alt="" fill sizes="120px" unoptimized className="object-cover" />
-                    ) : (
-                      <span className="flex h-full items-center justify-center">
-                        <ProductThumb name={pr.name} kind={pr.kind as ProductKind} size={48} photo={false} tint="graphite" />
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center justify-between gap-1 border-t border-hairline px-2.5 py-2">
-                    <span className="num text-[13px] font-medium text-ink">{pr.price}</span>
-                    <span className="h-1 w-6 shrink-0 rounded-full bg-blue" aria-hidden="true" />
-                  </div>
-                </div>
-              );
-            })}
+            {s.products.map((pr) => (
+              <ProductCard
+                key={pr.name}
+                variant="grid"
+                name={pr.name}
+                price={pr.price}
+                kind={pr.kind as ProductKind}
+                slug={USE_REAL_PHOTOS ? productSlug(pr.name) : undefined}
+              />
+            ))}
           </div>
         </div>
       </div>
 
       {/* Atrapa inputu */}
       <div className="flex items-center gap-2 rounded-full border border-hairline bg-field px-4 py-2.5">
-        <span className="min-w-0 flex-1 truncate text-sm text-mute">{s.input}</span>
+        <span className="min-w-0 flex-1 truncate t-ui text-mute">{s.input}</span>
         <Glyph name="send" size={18} className="shrink-0 text-blue-soft" />
       </div>
     </div>
@@ -130,7 +101,7 @@ export function SearchPanelContent({ photo = USE_REAL_PHOTOS }: { photo?: boolea
       {/* pole wyszukiwania — czyste, bez dekoracyjnych ikon AI */}
       <div className="flex items-center gap-3 rounded-full border border-strongline bg-field px-4 py-3">
         <Glyph name="search" size={16} className="shrink-0 text-mute" />
-        <span className="num relative min-w-0 flex-1 truncate text-sm text-ink">
+        <span className="relative min-w-0 flex-1 truncate t-ui text-ink">
           <span className="pp-query" data-full={d.query}>
             {d.query}
           </span>
@@ -139,53 +110,34 @@ export function SearchPanelContent({ photo = USE_REAL_PHOTOS }: { photo?: boolea
       </div>
       <ul className="flex flex-wrap gap-2" aria-label="Rozpoznana intencja">
         {d.chips.map((c) => (
-          <li key={c} className="pp-chip rounded-full bg-blue-tint px-3 py-1 text-[13px] text-blue-soft">
+          <li key={c} className="pp-chip rounded-full border border-hairline px-3 py-1 t-meta text-sub">
             {c}
           </li>
         ))}
       </ul>
-      <p className="text-[13px] font-medium text-sub">{d.resultsLabel}</p>
-      <div className="relative">
-        <ul className="pp-results divide-y divide-[var(--border-hairline)] overflow-hidden rounded-xl border border-hairline">
-          {d.results.map((r, i) => {
-            const top = i === 0;
-            const rel = Math.max(30, 90 - i * 24); // niebieski pasek trafności
-            return (
-              <li
-                key={r.name}
-                className={`pp-row flex items-center gap-3 px-4 py-2.5 ${top ? "bg-blue-tint" : ""}`}
-              >
-                <ProductThumb
-                  name={r.name}
-                  kind={"kind" in r ? (r.kind as ProductKind) : undefined}
-                  size={40}
-                  photo={photo}
-                  tint={top ? "blue" : undefined}
-                />
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="truncate text-sm text-ink">{r.name}</span>
-                  </div>
-                  <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-elevated" aria-hidden="true">
-                    <div className="h-full rounded-full bg-blue" style={{ width: `${rel}%` }} />
-                  </div>
-                </div>
-                <span className={`num shrink-0 text-sm ${top ? "font-medium text-ink" : "text-sub"}`}>{r.price}</span>
-              </li>
-            );
-          })}
-        </ul>
-        <ul className="pp-skel pointer-events-none absolute inset-0 divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline opacity-0" aria-hidden="true">
-          {d.results.map((r) => (
-            <li key={r.name} className="flex items-center gap-3 px-4 py-2.5">
-              <span className="pp-skel-block h-10 w-10 shrink-0 rounded-lg" />
-              <span className="pp-skel-block h-3 flex-1 rounded-full" />
-              <span className="pp-skel-block h-3 w-12 shrink-0 rounded-full" />
+      <p className="t-meta font-medium text-sub">{d.resultsLabel}</p>
+      {/* wyniki ZAWSZE w finalnym layoucie (SSR, zero CLS); typing tylko odsłania ranking = kolejność */}
+      <ul className="pp-results divide-y divide-[var(--border-hairline)] overflow-hidden rounded-md border border-hairline">
+        {d.results.map((r, i) => {
+          const top = i === 0;
+          return (
+            <li
+              key={r.name}
+              className={`pp-row flex items-center gap-3 px-4 py-2.5 ${top ? "bg-blue-tint" : ""}`}
+            >
+              <ProductThumb
+                name={r.name}
+                kind={"kind" in r ? (r.kind as ProductKind) : undefined}
+                size={40}
+                photo={photo}
+              />
+              <span className="min-w-0 flex-1 truncate t-ui text-ink">{r.name}</span>
+              <span className={`num shrink-0 t-ui ${top ? "font-medium text-ink" : "text-sub"}`}>{r.price}</span>
             </li>
-          ))}
-        </ul>
-      </div>
-      <p className="pp-note flex items-center gap-2 text-[13px] text-mute">
+          );
+        })}
+      </ul>
+      <p className="pp-note flex items-center gap-2 t-meta text-mute">
         <Glyph name="check" size={13} className="text-ok" />
         {d.note}
       </p>
@@ -198,7 +150,7 @@ type RecoProduct = (typeof pl.pillars.demo.reco.products)[number];
 /** RecoGrid — dynamiczny product grid: co ~2,8 s zmienia się SYGNAŁ klienta
  *  (dopasowanie / cena / marża) → grid re-rankuje się FLIP-em, top-produkt dostaje
  *  wyróżnienie „Polecane". Realne foto. Pauza off-screen; reduced-motion = statyczny. */
-export function RecoGrid({ photo = USE_REAL_PHOTOS, compact = false }: { photo?: boolean; compact?: boolean }) {
+export function RecoGrid({ photo = USE_REAL_PHOTOS }: { photo?: boolean }) {
   const d = pl.pillars.demo.reco;
   const sortFor = useCallback(
     (key: string): RecoProduct[] =>
@@ -224,6 +176,7 @@ export function RecoGrid({ photo = USE_REAL_PHOTOS, compact = false }: { photo?:
   }, []);
 
   const advance = useCallback(() => {
+    if (document.hidden) return; // pauza na ukrytej karcie (CHECKLIST #16)
     const next = (idxRef.current + 1) % d.signals.length;
     idxRef.current = next;
     const cards = gridRef.current?.querySelectorAll<HTMLElement>(".reco-card");
@@ -234,7 +187,7 @@ export function RecoGrid({ photo = USE_REAL_PHOTOS, compact = false }: { photo?:
 
   useEffect(() => {
     if (!visible || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = window.setInterval(advance, 2800);
+    const id = window.setInterval(advance, 4000);
     return () => window.clearInterval(id);
   }, [visible, advance]);
 
@@ -247,50 +200,32 @@ export function RecoGrid({ photo = USE_REAL_PHOTOS, compact = false }: { photo?:
   return (
     <div className="flex h-full flex-col gap-3">
       <div className="flex items-baseline justify-between gap-3">
-        <p className="text-sm font-medium text-ink">{d.title}</p>
+        <p className="t-ui font-medium text-ink">{d.title}</p>
         {/* cichy podpis kryterium (zamiast krzykliwego chipu AI) — zmienia się z re-rankiem */}
-        <span className="text-xs text-mute">
+        <span className="t-meta text-mute">
           {d.signalPrefix} {d.signals[signalIdx].label}
         </span>
       </div>
-      {/* rząd kart produktów jak listing sklepu — mobile: swipe (karty czytelne), desktop: grid 4 */}
+      {/* listing sklepu — mobile: swipe (2 karty), desktop: grid 4; kadr 1:1 przez ProductCard */}
       <div
         ref={gridRef}
-        className="flex flex-1 snap-x items-center gap-2.5 overflow-x-auto pb-1 [scrollbar-width:none] sm:grid sm:grid-cols-4 sm:content-center sm:gap-2 sm:overflow-visible sm:pb-0 [&::-webkit-scrollbar]:hidden"
+        className="flex flex-1 snap-x snap-mandatory items-center gap-2.5 overflow-x-auto pb-1 hide-scrollbar sm:grid sm:grid-cols-4 sm:content-center sm:gap-2 sm:overflow-visible sm:pb-0"
       >
-        {order.map((p) => {
-          const slug = photo ? productSlug(p.name) : undefined;
-          return (
-            <article
-              key={p.name}
-              data-id={p.name}
-              className="reco-card flex w-[46%] shrink-0 snap-start flex-col overflow-hidden rounded-lg border border-hairline bg-surface sm:w-auto"
-            >
-              <div className={`relative w-full bg-elevated ${compact ? "aspect-[5/6]" : "aspect-[3/4]"}`}>
-                {slug ? (
-                  <Image src={`/products/${slug}.webp`} alt="" fill sizes="140px" unoptimized className="object-cover" />
-                ) : (
-                  <span className="flex h-full items-center justify-center">
-                    <ProductThumb name={p.name} kind={"kind" in p ? (p.kind as ProductKind) : undefined} size={44} photo={false} tint="graphite" />
-                  </span>
-                )}
-                {p.oldPrice && (
-                  <span className="absolute left-1.5 top-1.5 rounded-md bg-blue-tint px-1.5 py-0.5 text-xs font-medium leading-none text-blue-soft">
-                    {d.saleBadge}
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-col gap-0.5 px-2 py-2">
-                {p.cat && <p className="text-xs uppercase tracking-[0.06em] text-mute">{p.cat}</p>}
-                <p className="line-clamp-2 text-xs font-medium leading-tight text-ink">{p.name}</p>
-                <div className="flex items-baseline gap-1.5">
-                  {p.oldPrice && <span className="num text-xs text-mute line-through">{p.oldPrice}</span>}
-                  <span className={`num text-xs font-medium ${p.oldPrice ? "text-danger" : "text-ink"}`}>{p.price}</span>
-                </div>
-              </div>
-            </article>
-          );
-        })}
+        {order.map((p, idx) => (
+          <ProductCard
+            key={p.name}
+            variant="reco"
+            className="reco-card w-[calc(50%-5px)] shrink-0 snap-start sm:w-auto"
+            name={p.name}
+            category={p.cat}
+            price={p.price}
+            oldPrice={p.oldPrice}
+            kind={"kind" in p ? (p.kind as ProductKind) : undefined}
+            slug={photo ? productSlug(p.name) : undefined}
+            featured={idx === 0}
+            saleLabel={d.saleBadge}
+          />
+        ))}
       </div>
     </div>
   );
@@ -307,35 +242,25 @@ export function buildPanelTl(panel: HTMLElement, kind: "chat" | "search" | "reco
     const chips = q<HTMLElement>(".pp-chip");
     const rows = q<HTMLElement>(".pp-row");
     const note = q<HTMLElement>(".pp-note")[0];
-    const skel = q<HTMLElement>(".pp-skel")[0];
-    const realUl = q<HTMLElement>(".pp-results")[0];
-    tl.set([chips, rows, note], { autoAlpha: 0 });
-    if (skel && realUl) tl.set(realUl, { autoAlpha: 0 }, 0).set(skel, { autoAlpha: 1 }, 0);
+    // wyniki ZAWSZE widoczne (SSR) — tylko przygaszone, żeby rama nigdy nie była pusta
+    tl.set([chips, note], { autoAlpha: 0 });
+    tl.set(rows, { opacity: 0.35 });
     typeInto(tl, q<HTMLElement>(".pp-query")[0], { caret: q<HTMLElement>(".pp-caret")[0] });
-    const sweep = q<HTMLElement>(".pp-sweep")[0];
-    if (sweep) {
-      tl.fromTo(sweep, { xPercent: -110, opacity: 1 }, { xPercent: 110, opacity: 1, duration: 0.55, ease: "power1.inOut" }, "+=0.1").set(sweep, { opacity: 0 });
-    }
     tl.fromTo(chips, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.07, ease: EASE.soft }, "+=0.15");
-    if (skel && realUl) tl.to(skel, { autoAlpha: 0, duration: 0.2 }, "+=0.1").set(realUl, { autoAlpha: 1 });
-    tl.fromTo(rows, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.08, ease: EASE.soft }, "+=0.05")
+    tl.to(rows, { opacity: 1, duration: 0.35, stagger: 0.08, ease: EASE.soft }, "+=0.05")
       .fromTo(note, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, "+=0.1");
   }
 
   return tl;
 }
 
-/** Ramka „urządzenia" — glass-head z 3 kropkami + etykieta (filary). */
-export function DeviceFrame({ label, children }: { label: string; children: React.ReactNode }) {
+/** Ramka „urządzenia" — glass-head bez mac-dots: etykieta panelu + opcjonalne folio (.ledger). */
+export function DeviceFrame({ label, folio, children }: { label: string; folio?: string; children: React.ReactNode }) {
   return (
     <div className="frame-l2 relative h-[300px] overflow-hidden sm:h-[360px]">
-      <div className="glass-head absolute inset-x-0 top-0 z-10 flex items-center gap-3 rounded-t-[19px] px-5 py-3.5">
-        <span className="flex gap-1.5" aria-hidden="true">
-          <span className="h-2.5 w-2.5 rounded-full bg-l3" />
-          <span className="h-2.5 w-2.5 rounded-full bg-l3" />
-          <span className="h-2.5 w-2.5 rounded-full bg-l3" />
-        </span>
+      <div className="glass-head absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-3 rounded-t-[19px] px-5 py-3.5">
         <span className="label">{label}</span>
+        {folio && <span className="ledger text-mute">{folio}</span>}
       </div>
       <div className="pillar-panel absolute inset-0 p-6 pt-[62px]">{children}</div>
     </div>

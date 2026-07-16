@@ -27,7 +27,7 @@ export function Footer() {
                 className="group inline-flex items-center gap-2 text-sm text-sub transition-colors duration-150 hover:text-ink"
               >
                 <Glyph name="mail" size={16} className="text-mute transition-colors group-hover:text-blue-soft" />
-                <span className="num">{t.email}</span>
+                <span>{t.email}</span>
               </a>
             </div>
             <p className="mt-6 text-xs leading-relaxed text-mute">{t.company}</p>
@@ -56,7 +56,7 @@ export function Footer() {
         </div>
       </Container>
 
-      {/* Wielki znak wodny — sage, zakotwiczony od lewej, świadomie schodzący za prawą krawędź. */}
+      {/* Wielki znak wodny — watermark, zakotwiczony od lewej, świadomie schodzący za prawą krawędź. */}
       <Container className="mt-16 md:mt-20">
         <div
           className="relative overflow-hidden"
@@ -68,7 +68,7 @@ export function Footer() {
           aria-hidden="true"
         >
           <p
-            className="absolute bottom-[-0.06em] left-0 select-none whitespace-nowrap text-left font-display font-semibold leading-[0.8] tracking-[-0.04em] text-sage"
+            className="absolute bottom-[-0.06em] left-0 select-none whitespace-nowrap text-left font-display font-semibold leading-[0.8] tracking-[-0.04em] text-watermark"
             style={{ fontSize: "clamp(4rem, 17vw, 15rem)" }}
           >
             HackMySales
@@ -79,7 +79,7 @@ export function Footer() {
       {/* Pas prawny */}
       <Container className="pb-8">
         <div className="mt-10 flex flex-col gap-3 border-t border-hairline pt-6 text-xs text-mute sm:flex-row sm:items-center sm:justify-between">
-          <span className="num">
+          <span>
             © {year} {t.copyright}
           </span>
           <nav aria-label="Informacje prawne" className="flex flex-wrap items-center gap-x-5 gap-y-2">

@@ -60,7 +60,7 @@ export function Problem() {
             <ul className="mt-5">
               {t.barriers.map((b, i) => (
                 <li key={i} className="s3-reveal flex items-baseline gap-4 border-t border-hairline py-4">
-                  <span className="num shrink-0 text-sm text-forest-700">0{i + 1}</span>
+                  <span className="ledger shrink-0 text-mute">0{i + 1}</span>
                   <span className="text-lg leading-snug text-ink">{b}</span>
                 </li>
               ))}

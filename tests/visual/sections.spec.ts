@@ -23,8 +23,8 @@ test("sekcje vs baseline (pixelmatch ≤0,5%)", async ({ page }, testInfo) => {
   });
 
   // Rozgrzewka: przejedź całą stronę, żeby wyzwolić WSZYSTKIE reveals, lazy-mounty
-  // i kaskady stanu (Channels: play→setDone→quickReplies→setSeen zmienia wysokość
-  // switchera PO pierwszym paincie). Bez tego stitch tall-elementu łapie sekcję
+  // i kaskady stanu (czaty demo: play→setDone→quickReplies→setSeen zmieniają wysokość
+  // ramki PO pierwszym paincie). Bez tego stitch tall-elementu łapie sekcję
   // w trakcie osiadania → kumulatywny dryf pionowy = fałszywy diff.
   const pageH = await page.evaluate(() => document.documentElement.scrollHeight);
   for (let y = 0; y < pageH; y += 600) {

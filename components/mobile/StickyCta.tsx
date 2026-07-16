@@ -8,7 +8,7 @@ import { useOverlayOpen } from "@/lib/overlay";
 
 /** Sticky CTA mobilny (V7-F3): po opuszczeniu hero — trwały pasek „Umów demo"
  *  + status „● Magda online" (z plakietką AI — uczciwość: Magda wszędzie nosi AI).
- *  Chowa się w cenniku i finale (mają własne CTA), przy otwartym sheet i klawiaturze.
+ *  Chowa się w finale (ma własne CTA), przy otwartym sheet i klawiaturze.
  *  Element zostaje w DOM (fixed, aria-hidden gdy ukryty) — zero CLS. */
 export function StickyCta() {
   const overlayOpen = useOverlayOpen();
@@ -25,9 +25,9 @@ export function StickyCta() {
     return () => io.disconnect();
   }, []);
 
-  // strefy z własnym CTA: cennik + finał
+  // strefy z własnym CTA: finał (cennik nie jest renderowany)
   useEffect(() => {
-    const zones = ["cennik", "demo"].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    const zones = ["demo"].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     if (!zones.length) return;
     const state = new Map<Element, boolean>();
     const io = new IntersectionObserver(

@@ -28,7 +28,6 @@ export const AMBIENT_ZONES: AmbientZoneConfig[] = [
   { id: "produkt", selector: "#produkt", density: 0.3, tint: 0.2, mask: 0.7 },
   { id: "funkcje", selector: "#funkcje", density: 0.25, tint: 0.2, mask: 0.7 },
   { id: "arena", selector: "#roznica", density: 0.28, tint: 0.25, mask: 0.3, mode: "split" },
-  { id: "kanaly", selector: "#kanaly", density: 0.6, tint: 0, mask: 0, mode: "hub" },
   { id: "branze", selector: "#branze", density: 0.2, tint: 0.25, mask: 0.55 },
   { id: "kroki", selector: "[data-ambient='kroki']", density: 0.2, tint: 0.25, mask: 0.6 },
   { id: "poranek", selector: "#panel", density: 0.2, tint: 0.2, mask: 0.5 },

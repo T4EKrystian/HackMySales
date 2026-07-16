@@ -10,5 +10,5 @@ export function PlatformLogo({
   iconSize?: number;
   className?: string;
 }) {
-  return <span className={`font-sans text-[0.95rem] font-medium tracking-tight ${className}`}>{name}</span>;
+  return <span className={`font-sans t-ui font-medium tracking-tight ${className}`}>{name}</span>;
 }

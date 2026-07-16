@@ -4,13 +4,11 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
-import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { Flip } from "gsap/Flip";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger, SplitText, ScrambleTextPlugin, DrawSVGPlugin, MotionPathPlugin, Flip, useGSAP);
+// Dieta pluginów: aktywne tylko ScrollTrigger + SplitText + Flip (reszta usunięta z martwym kodem).
+gsap.registerPlugin(ScrollTrigger, SplitText, Flip, useGSAP);
 
 export const REDUCE = "(prefers-reduced-motion: reduce)";
 export const NO_REDUCE = "(prefers-reduced-motion: no-preference)";
@@ -28,9 +26,6 @@ export const EASE = {
 export const DUR = { fast: 0.3, base: 0.6, slow: 1.2 } as const;
 export const STAG = { tight: 0.06, base: 0.08, loose: 0.09 } as const;
 
-/** Znaki scramble — litery wordmarku + cyfry (sygnatura, nie losowy glitch). */
-export const SCRAMBLE_CHARS = "hackmysles01";
-
 /** Standardowy reveal sekcji: elementy .js-reveal wjeżdżają y:32→0 ze staggerem,
  *  raz, przy top 78%. Reduced-motion: od razu widoczne. */
 export function useReveal<T extends HTMLElement = HTMLElement>(stagger: number = STAG.base) {
@@ -47,11 +42,11 @@ export function useReveal<T extends HTMLElement = HTMLElement>(stagger: number =
       mm.add(NO_REDUCE, () => {
         gsap.fromTo(
           targets,
-          { y: 32, opacity: 0 },
+          { y: 16, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            duration: 0.8,
+            duration: 0.7,
             ease: EASE.soft,
             stagger,
             // uwaga: NIE czyścimy opacity — CSS trzyma stan startowy 0 pod .js

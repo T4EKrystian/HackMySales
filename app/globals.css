@@ -46,6 +46,8 @@
   --color-forest-900: var(--forest-900);
   --color-forest-700: var(--forest-700);
   --color-sage: var(--sage-200);
+  --color-watermark: var(--watermark);
+  --color-brand-blue: var(--brand-blue);
   --color-line: var(--line);
   --color-line-dark: var(--line-dark);
   --font-sans: var(--font-body);
@@ -157,17 +159,47 @@
 .t-lead { font-size: var(--text-lead); line-height: 1.5; letter-spacing: 0; }
 .t-quote { font-size: clamp(1.7rem, 3.4vw, 3rem); line-height: 1.25; letter-spacing: -0.015em; }
 
+/* JEDYNY eyebrow na stronie: General Sans 500, 13px, wersaliki, ls +0.08em.
+   Koniec mnożenia rodzin i trackingów — każdy eyebrow (SectionLabel, kit.Eyebrow,
+   AiBadge, hero) używa tej klasy. Mono zarezerwowane dla .t-stat/.t-stat-sm/.ledger. */
 .label {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: var(--text-label);
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
 
+/* Liczby inline (ceny, timestampy, meta, „10/10"): tabular, NIE mono.
+   General Sans + tabular-nums. Mono TYLKO w .t-stat/.t-stat-sm/.ledger. */
 .num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Powierzchnie demo (czat/wyszukiwarka/reco/formularz): jedna drabina, koniec zupy px.
+   .t-ui = 15px (dymki, wiersze, nazwy, pola); .t-meta = 13px (meta, PODŁOGA — nic mniej);
+   .t-stat-sm = liczby sekcyjne mono ink. Mobile: --text-ui→1rem (tokens.css). */
+.t-ui { font-size: var(--text-ui); line-height: 1.5; }
+.t-body { font-size: var(--text-body); line-height: 1.65; }
+/* .t-meta = tylko rozmiar/leading (BEZ koloru) — kolor ustawia text-mute/text-blue-soft
+   bez walki o specyficzność z klasą unlayered. */
+.t-meta { font-size: var(--text-meta); line-height: 1.4; }
+.t-stat-sm {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+  font-size: var(--text-stat-sm);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Linia księgowa (sygnatura): folio · eyebrow · datum na hairline.
+   BEZ koloru — kolor ustawia utility Tailwinda (text-mute / text-onforest) bez walki
+   o specyficzność; działa na bieli i na granacie. */
+.ledger {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  line-height: 1.3;
 }
 
 .shadow-card { box-shadow: var(--shadow-card); }
@@ -178,20 +210,7 @@
   pointer-events: none;
 }
 
-.text-gradient {
-  background: var(--gradient-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
 
-/* Siatka kropek pod hero — ledwo widoczna */
-.dot-grid {
-  background-image: radial-gradient(color-mix(in srgb, var(--text-muted) 18%, transparent) 1px, transparent 1px);
-  background-size: 28px 28px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 30%, transparent 75%);
-  pointer-events: none;
-}
 
 /* Skip link (a11y) */
 .skip-link {
@@ -229,11 +248,6 @@
 .js .chat-step[data-seed="1"] .chat-msg { opacity: 1; }
 .js .chat-step[data-seed="1"] .chat-typing { display: none; }
 
-/* Manifest: słowa startują przygaszone tylko przy działającym JS */
-.js .man-word { opacity: 0.12; }
-@media (prefers-reduced-motion: reduce) {
-  .js .man-word { opacity: 1; }
-}
 
 /* Ticker (Radar popytu) — czysty CSS marquee */
 @keyframes marquee { to { transform: translateX(-50%); } }
@@ -258,51 +272,13 @@
   color: var(--blue-500); /* akcent hero = żywy Apple blue (duży tekst → kontrast OK) */
 }
 
-/* ── Hero V8 (jasny): żywa pastylka przychodu + pływająca pastylka zdarzenia
-   (życie w martwym dnie lewej kolumny + dowód na oknie czatu; dane demo) ── */
-.hero-livepill {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  max-width: 100%;
-  gap: 0.45rem 0.625rem;
-  padding: 0.5rem 0.9rem 0.5rem 0.75rem;
-  border-radius: 999px;
-  border: 1px solid var(--stroke-1);
-  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-}
-.hero-livepill-label {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-muted);
-}
+/* Kropka „na żywo" w headerze HeroDemo (jedyny ślad po Hero V8 — pastylki
+   przychodu/zdarzenia usunięte jako AI-tell). */
 .hero-livedot {
   width: 7px;
   height: 7px;
   border-radius: 999px;
   background: var(--blue-500);
-}
-.hero-floatchip {
-  position: absolute;
-  left: -1.25rem;
-  bottom: 6rem; /* nad stopką-composerem czatu — nie zasłania „Napisz wiadomość" */
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.8rem;
-  border-radius: 999px;
-  border: 1px solid var(--stroke-2);
-  background: color-mix(in srgb, var(--surface-1) 92%, transparent);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  box-shadow: var(--shadow-l2);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-secondary);
-  white-space: nowrap;
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-livedot { animation: none; }
@@ -311,18 +287,6 @@
 /* Kursor pisania klienta w czacie (na niebieskim bąblu) */
 .chat-caret { background: var(--text-on-blue); }
 
-/* Kropka statusu online przy znaku w nav (hms-design-dna „Znak") — puls 2 s, subtelny */
-@keyframes logo-pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.35); opacity: 0.55; }
-}
-.logo-pulse {
-  animation: logo-pulse 2s var(--ease-in-out) infinite;
-  box-shadow: 0 0 8px color-mix(in srgb, var(--blue-500) 55%, transparent);
-}
-@media (prefers-reduced-motion: reduce) {
-  .logo-pulse { animation: none; }
-}
 
 /* Skiny ChatShell (v5/v6 anti-kitsch): kanały bez cukierka — rozpoznawalność
    z GEOMETRII (pigułki, receipty, statusy), kolor wyciszony w naszej palecie */
@@ -389,7 +353,7 @@
   gap: 0.375rem;
   padding: 0.375rem 0.75rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: var(--text-meta);
   font-weight: 500;
   color: var(--text-on-blue);
   background: var(--blue-500);
@@ -403,15 +367,6 @@
 }
 @media (prefers-reduced-motion: reduce) { .chat-pill { animation: none; } }
 
-/* Wskaźnik przewijania w hero — delikatne bujanie */
-@keyframes cue-bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(5px); }
-}
-.cue-bob { animation: cue-bob 2.2s var(--ease-in-out) infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .cue-bob { animation: none; }
-}
 
 /* Fade-up treści przy zmianie zakładki (sekcja Branże) */
 @keyframes fade-up-in {
@@ -424,42 +379,6 @@
   .fade-in-panel, .fade-in-fast { animation: none; }
 }
 
-/* Highlight sweep korekty literówki (Trzy miejsca — wyszukiwarka) */
-.pp-sweep {
-  position: absolute;
-  inset: -2px -6px;
-  border-radius: 6px;
-  background: linear-gradient(
-    100deg,
-    transparent 20%,
-    color-mix(in srgb, var(--blue-400) 28%, transparent) 50%,
-    transparent 80%
-  );
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Skeleton shimmer wyników wyszukiwarki (v5, motion-craft „Kalibracja scrubów") —
-   placeholder na czas typingu, żeby rama nigdy nie stała pusta */
-@keyframes skel-sweep {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(100%); }
-}
-.pp-skel-block {
-  position: relative;
-  overflow: hidden;
-  background: var(--surface-2);
-}
-.pp-skel-block::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, var(--stroke-1), transparent);
-  animation: skel-sweep 1.2s var(--ease-in-out) infinite;
-}
-@media (prefers-reduced-motion: reduce) {
-  .pp-skel-block::after { animation: none; }
-}
 
 /* Kursor „pisania” w panelu wyszukiwarki */
 @keyframes caret-blink { 50% { opacity: 0; } }
@@ -476,27 +395,6 @@
   .typing-caret { display: none; }
 }
 
-/* ---------- Warstwa filmowa: grain + vignette (motion.md v3 §2) ---------- */
-
-.grain {
-  position: fixed;
-  inset: -100%;
-  z-index: 80;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.025;
-  animation: grain-shift 1.2s steps(2) infinite;
-}
-@keyframes grain-shift {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-1.2%, 0.8%); }
-  50% { transform: translate(0.9%, -1.1%); }
-  75% { transform: translate(-0.6%, -0.7%); }
-  100% { transform: translate(0, 0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .grain { animation: none; }
-}
 
 /* Szum kafli ProductVisual — jedna rasteryzacja data-URI na stronę (DNA 4–6%) */
 .pv-noise {
@@ -506,30 +404,6 @@
   pointer-events: none;
 }
 
-/* Hero: siatka cienkich LINII (nie kropek) + radialna maska + powolny dryf 40s */
-.hero-grid {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(to right, var(--line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size: 38px 38px;
-  -webkit-mask-image: radial-gradient(ellipse 78% 66% at 50% 42%, #000 28%, transparent 80%);
-  mask-image: radial-gradient(ellipse 78% 66% at 50% 42%, #000 28%, transparent 80%);
-  animation: grid-drift 40s var(--ease-in-out) infinite alternate;
-}
-.hero-grid.on-forest {
-  background-image:
-    linear-gradient(to right, var(--line-dark) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line-dark) 1px, transparent 1px);
-}
-@keyframes grid-drift {
-  to { transform: translate(8px, 0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-grid { animation: none; }
-}
 
 /* Szum pasm leśnych — dark bands nigdy jako płaskie wypełnienie (CHECKLIST #18) */
 .noise-forest {
@@ -543,220 +417,86 @@
   mix-blend-mode: soft-light;
 }
 
-/* Hero: pływające chipy statystyk (ref-3) — powolny dryf, desynchronizowany delay */
-@keyframes chip-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-.hero-chip { animation: chip-float 6s var(--ease-in-out) infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .hero-chip { animation: none; }
-}
 
-/* ---------- Custom cursor (tylko pointer:fine, bez reduced-motion) ---------- */
 
-.has-cursor body,
-.has-cursor a,
-.has-cursor button,
-.has-cursor summary,
-.has-cursor label,
-.has-cursor [role="button"] {
-  cursor: none;
-}
-.has-cursor input,
-.has-cursor textarea,
-.has-cursor select {
-  cursor: auto;
-}
 
-.cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--text-primary);
-  mix-blend-mode: difference;
-  will-change: transform;
-}
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--text-primary) 55%, transparent);
-  mix-blend-mode: difference;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  will-change: transform;
-}
-.cursor-ring[data-mode="label"] {
-  background: color-mix(in srgb, var(--text-primary) 92%, transparent);
-  border-color: transparent;
-}
-.cursor-label {
-  font-family: var(--font-mono);
-  font-size: 4px; /* ring skalowany 2.6x -> ~10.5px optycznie */
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--bg-page);
-  opacity: 0;
-  white-space: nowrap;
-}
 
-/* ---------- Marquee wsteczne (Integracje) ---------- */
-@keyframes marquee-rev { to { transform: translateX(50%); } }
-.ticker-track-rev {
-  display: flex;
-  gap: 2.5rem;
-  width: max-content;
-  transform: translateX(-50%);
-  animation: marquee-rev 46s linear infinite;
-}
-.ticker:hover .ticker-track-rev { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce) {
-  .ticker-track-rev { animation: none; transform: none; }
-}
 
-/* ---------- Kalkulator: custom slidery z bąblem wartości (copy §6b) ---------- */
-
+/* ---------- Kalkulator ROI — suwaki (E5) ---------- */
+/* Track hairline + niebieskie wypełnienie do kciuka (--fill ustawiane inline),
+   kciuk firmowy niebieski. Wysokość inputu 44 px = pełna hit-area (WCAG 2.5.5),
+   track wizualnie 4 px, centrowany. Stany hover/active/focus wg design-brief §6. */
 .range-hms {
-  appearance: none;
   -webkit-appearance: none;
-  width: 100%;
-  height: 6px;
-  border-radius: 999px;
+  appearance: none;
+  height: 44px;
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+.range-hms:focus { outline: none; }
+
+/* WebKit / Blink */
+.range-hms::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: var(--radius-pill);
   background: linear-gradient(
     to right,
-    var(--blue-500) var(--fill, 50%),
-    var(--bg-elevated) var(--fill, 50%)
+    var(--blue-500) 0 var(--fill, 0%),
+    var(--border-hairline) var(--fill, 0%) 100%
   );
-}
-/* Mobile: hit-area 44 px (input wysoki), tor malowany jako CENTROWANY 6 px pasek */
-@media (max-width: 767px) {
-  .range-hms {
-    height: 44px;
-    background:
-      linear-gradient(to right, var(--blue-500) var(--fill, 50%), var(--bg-elevated) var(--fill, 50%))
-      center / 100% 6px no-repeat;
-  }
 }
 .range-hms::-webkit-slider-thumb {
-  appearance: none;
   -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 999px;
-  background: var(--bg-card);
-  border: 2px solid var(--blue-500);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-  transition: box-shadow 150ms var(--ease-out);
-  cursor: grab;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  margin-top: -9px; /* (22 − 4) / 2 → kciuk wyśrodkowany na 4 px tracku */
+  border-radius: var(--radius-pill);
+  background: var(--blue-500);
+  border: 3px solid var(--surface-2);
+  box-shadow: var(--shadow-float);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+.range-hms:hover::-webkit-slider-thumb { background: var(--blue-400); }
+.range-hms:active::-webkit-slider-thumb { transform: scale(0.94); background: var(--blue-600); }
+.range-hms:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 2px var(--surface-2), 0 0 0 4px var(--border-focus);
+}
+
+/* Firefox */
+.range-hms::-moz-range-track {
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--border-hairline);
+}
+.range-hms::-moz-range-progress {
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--blue-500);
 }
 .range-hms::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  border-radius: 999px;
-  background: var(--bg-card);
-  border: 2px solid var(--blue-500);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-pill);
+  background: var(--blue-500);
+  border: 3px solid var(--surface-2);
+  box-shadow: var(--shadow-float);
+  cursor: pointer;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
 }
+.range-hms:hover::-moz-range-thumb { background: var(--blue-400); }
+.range-hms:active::-moz-range-thumb { transform: scale(0.94); background: var(--blue-600); }
 .range-hms:focus-visible::-moz-range-thumb {
-  box-shadow: 0 0 0 6px var(--blue-tint);
-}
-.range-hms:hover::-webkit-slider-thumb,
-.range-hms:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 0 0 6px var(--blue-tint);
-}
-.range-wrap { position: relative; }
-.range-bubble {
-  position: absolute;
-  top: -30px;
-  left: var(--fill, 50%);
-  transform: translateX(-50%);
-  padding: 2px 8px;
-  border-radius: 8px;
-  border: 1px solid var(--border-hairline);
-  background: var(--bg-elevated);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-primary);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 150ms var(--ease-out);
-  pointer-events: none;
-}
-.range-wrap:hover .range-bubble,
-.range-wrap:focus-within .range-bubble,
-/* v5 (F5 pkt 13): bąbel widoczny także W TRAKCIE przeciągania (kursor może uciec z hoveru) */
-.range-wrap:has(.range-hms:active) .range-bubble {
-  opacity: 1;
-}
-
-/* ---------- Bento: spotlight-border + sweep radaru (features §L19) ---------- */
-
-.spot-card {
-  --spot-x: 50%;
-  --spot-y: 0%;
-  --spot-o: 0;
-  transform-style: preserve-3d;
-}
-.spot-card::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: radial-gradient(
-    240px circle at var(--spot-x) var(--spot-y),
-    color-mix(in srgb, var(--blue-400) 65%, transparent),
-    transparent 70%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  opacity: var(--spot-o);
-  transition: opacity 300ms var(--ease-out);
-  pointer-events: none;
-}
-
-/* Border-beam — świetlik biegnący po obrysie planu polecanego (copy §9b) */
-@property --beam-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-@keyframes beam-rotate {
-  to { --beam-angle: 360deg; }
-}
-.border-beam { position: relative; }
-.border-beam::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1.5px;
-  background: conic-gradient(
-    from var(--beam-angle),
-    transparent 0deg 300deg,
-    color-mix(in srgb, var(--blue-400) 80%, transparent) 340deg,
-    var(--blue-300) 358deg,
-    transparent 360deg
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  animation: beam-rotate 4.5s linear infinite;
-  pointer-events: none;
+  box-shadow: 0 0 0 2px var(--surface-2), 0 0 0 4px var(--border-focus);
 }
 @media (prefers-reduced-motion: reduce) {
-  .border-beam::before { display: none; }
+  .range-hms::-webkit-slider-thumb { transition: none; }
+  .range-hms::-moz-range-thumb { transition: none; }
 }
 
 /* Wordmark w stopce — fill-wipe od lewej na hover */
@@ -781,40 +521,4 @@
   .wordmark-wipe .wipe-fill { display: none; }
 }
 
-/* Sweep radaru — obracający się „promień" nasłuchu */
-@keyframes radar-sweep { to { transform: rotate(1turn); } }
-.radar-sweep {
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  background: conic-gradient(
-    from 0deg,
-    color-mix(in srgb, var(--blue-400) 30%, transparent) 0deg,
-    transparent 70deg
-  );
-  animation: radar-sweep 6s linear infinite;
-}
-@keyframes radar-blip {
-  0%, 8% { opacity: 0; transform: scale(0.4); }
-  12%, 55% { opacity: 1; transform: scale(1); }
-  70%, 100% { opacity: 0.25; transform: scale(1); }
-}
-.radar-blip { animation: radar-blip 4.8s infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .radar-sweep { animation: none; opacity: 0.35; }
-  .radar-blip { animation: none; opacity: 1; }
-}
 
-/* Podkreślenie linków nav */
-.nav-link { position: relative; }
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: -4px;
-  height: 1.5px;
-  background: var(--blue-400);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 180ms var(--ease-out);
-}
-.nav-link:hover::after, .nav-link:focus-visible::after { transform: scaleX(1); }

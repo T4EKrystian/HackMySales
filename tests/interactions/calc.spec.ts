@@ -1,19 +1,25 @@
 import { test, expect } from "@playwright/test";
-import { demo } from "../helpers";
-import { gotoAndSettle } from "../helpers";
+import { demo, gotoAndSettle } from "../helpers";
 
-/** Brief V7-F0: zmiana slidera aktualizuje wynik < 100 ms; wartości = demo-data.ts.
- *  Cel asercji wyniku: sr-only w RollingNumber (czysty tekst, synchroniczny ze stanem). */
+/** E5: kalkulator ROI wraca jako dowód rachunkowy. Zmiana suwaka aktualizuje wynik
+ *  < 100 ms; defaulty = demo.calc.defaults (truth-table). Cel asercji wyniku:
+ *  sr-only w RollingNumber (czysty tekst, synchroniczny ze stanem, aria-live). */
 
 const RESULT = '#wyniki p[aria-live="polite"] .sr-only';
 
-test("kalkulator: defaulty z truth-table, reakcja <100 ms", async ({ page }) => {
-  await gotoAndSettle(page);
-  const wyY = await page.evaluate(() => document.querySelector("#wyniki")!.getBoundingClientRect().top + scrollY);
+async function scrollToCalc(page: import("@playwright/test").Page) {
+  const wyY = await page.evaluate(
+    () => document.querySelector("#wyniki")!.getBoundingClientRect().top + scrollY
+  );
   await page.evaluate((y) => window.scrollTo(0, y - 200), wyY);
   await page.waitForTimeout(800);
+}
 
-  // defaulty sliderów == demo.calc.defaults
+test("kalkulator: defaulty z truth-table, reakcja <100 ms", async ({ page }) => {
+  await gotoAndSettle(page);
+  await scrollToCalc(page);
+
+  // defaulty suwaków == demo.calc.defaults
   const defaults = await page.evaluate(() => ({
     visits: Number((document.querySelector("#roi-visits") as HTMLInputElement).value),
     aov: Number((document.querySelector("#roi-aov") as HTMLInputElement).value),
@@ -44,6 +50,20 @@ test("kalkulator: defaulty z truth-table, reakcja <100 ms", async ({ page }) => 
   }
   expect(changedAt, "wynik zaktualizowany").toBeGreaterThanOrEqual(0);
   expect(changedAt, `reakcja ${changedAt} ms`).toBeLessThan(100);
-  // (kwota kosztu renderuje się rolkami RollingNumber — innerText sekcji to sieczka
-  //  reelów 0-9; twardym łącznikiem z truth-table są defaulty sliderów wyżej)
+});
+
+test("kalkulator: hit-area suwaków ≥44 px (WCAG 2.5.5)", async ({ page }) => {
+  await gotoAndSettle(page);
+  await scrollToCalc(page);
+
+  const boxes = await page.evaluate(() =>
+    ["#roi-visits", "#roi-aov", "#roi-conv"].map((sel) => {
+      const r = document.querySelector(sel)!.getBoundingClientRect();
+      return { sel, w: Math.round(r.width), h: Math.round(r.height) };
+    })
+  );
+  for (const b of boxes) {
+    expect(b.h, `${b.sel} wysokość ${b.h}px`).toBeGreaterThanOrEqual(44);
+    expect(b.w, `${b.sel} szerokość ${b.w}px`).toBeGreaterThanOrEqual(44);
+  }
 });

@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { gotoAndSettle, ride, trackConsole, installLongTasks, readLongTasks, SEL } from "../helpers";
+import { gotoAndSettle, ride, trackConsole, installLongTasks, readLongTasks } from "../helpers";
 import { mkdir, writeFile } from "node:fs/promises";
 
 /** Agent qa-console-perf: konsola 0 errors / 0 warnings na PEŁNYM przebiegu
@@ -12,21 +12,6 @@ test("konsola 0/0 na pełnym przejeździe + interakcje", async ({ page }, testIn
   await gotoAndSettle(page, "/", 3000);
 
   await ride(page, { speed: 1200 });
-
-  // interakcje na dnie: taby Kanałów (desktop ma switcher; mobile też renderuje taby)
-  const tabs = page.locator(SEL.chTabs);
-  if ((await tabs.count()) >= 4) {
-    const swY = await page.evaluate(
-      (sel) => document.querySelector(sel)!.getBoundingClientRect().top + scrollY,
-      SEL.switcher
-    );
-    await page.evaluate((y) => window.scrollTo(0, y - 400), swY);
-    await page.waitForTimeout(800);
-    for (const i of [1, 2, 3, 0]) {
-      await tabs.nth(i).click();
-      await page.waitForTimeout(600);
-    }
-  }
 
   // long tasks — raport do qa/perf/ + adnotacja (bez twardego progu; env LT_FAIL_MS wymusza)
   const lt = (await readLongTasks(page)).filter((t) => t.duration > 200);

@@ -131,3 +131,19 @@ clearProps). Mobile: bez pulsu, fade. Reduced: podmiana natychmiastowa. Taby = t
 `--chapter-tint` na body (color-mix ku akcentowi, 0→1,6→0,8→2,4%) przez CAŁĄ wysokość sekcji
 granicznej — niewidoczna ręka, nie fajerwerk. Sekcje z bg-surface świadomie przykrywają tint.
 Desktop-only (mobile/reduced: brak).
+
+## 7. Reguła dwóch momentów (V8 — kontrakt orkiestracji)
+
+**Max jeden moment orkiestrowany na etap podróży.** Home ma dokładnie **dwa**: wejście
+(**hero load**, §6.A) i sedno (**Crescendo scroll-pin**, E9) — **nigdy jednocześnie w viewporcie**.
+Rozdzielone w czasie podróży: wejście gra raz przy załadowaniu góry, Crescendo dopiero po zjechaniu
+w głąb strony. Reszta strony to **reveals** (`useReveal`, fade/mask on-enter) i **mikro-momenty**
+(hover/tap/toggle, countery on-enter, morph skinów Kanałów) — nigdy druga „duża" choreografia.
+Limit z §5 („max 2 aktywne scruby w viewport, pin liczy się jako 1") obowiązuje dalej i jest tu
+zaostrzony do orkiestracji: dwa duże momenty wolno mieć, ale nie równocześnie na ekranie.
+
+**Crescendo przejmuje slot „jedyny scrub tekstu na stronie".** Slot ten był przypisany sekcji
+„Manifest (kicker)" (§3) — Manifest nie jest już renderowany, więc jego kontrakt (SplitText na słowa,
+opacity 0.12→1 w rytmie czytania, dokładnie jeden scrub tekstu) przechodzi na **Crescendo**. Poza
+Crescendo żaden inny tekst na stronie nie scrubuje: wszystkie pozostałe wejścia tekstu to fade/mask
+reveals, niezwiązane z progresem scrolla. Reduced-motion: Crescendo statyczny 1:1, jak każdy reveal.

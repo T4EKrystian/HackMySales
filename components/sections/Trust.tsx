@@ -113,7 +113,7 @@ export function Trust() {
               <div className="flex items-center justify-between gap-4">
                 <p className="font-display text-base font-semibold tracking-tight text-ink">
                   {noInvent.title}
-                  <span className="num ml-3 rounded-full border border-hairline px-2.5 py-1 text-[13px] md:text-[10px] uppercase tracking-[0.08em] text-mute">
+                  <span className="label ml-3 rounded-full border border-hairline px-2.5 py-1">
                     {p.inventOff}
                   </span>
                 </p>
@@ -128,7 +128,7 @@ export function Trust() {
             <div className="js-reveal p-6">
               <div className="flex items-center justify-between gap-4">
                 <p className="font-display text-base font-semibold tracking-tight text-ink">{rodo.title}</p>
-                <span className="num rounded-full bg-blue-tint px-3 py-1.5 text-[13px] md:text-[11px] text-blue-soft">{p.rodoBadge}</span>
+                <span className="rounded-full bg-blue-tint px-3 py-1.5 t-meta text-blue-deep">{p.rodoBadge}</span>
               </div>
               <p className="mt-2 max-w-[52ch] text-sm leading-relaxed text-sub">{rodo.body}</p>
             </div>

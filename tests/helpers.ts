@@ -103,14 +103,13 @@ export async function ride(
         // asercja na mobile). offsetParent!==null wybiera realnie renderowany wariant.
         const pick = (sel: string) => [...document.querySelectorAll(sel)].find((el) => (el as HTMLElement).offsetParent !== null) ?? null;
         const realUl = pick(".pp-results");
-        const skel = pick(".pp-skel");
         let searchEmpty = false;
         if (realUl && vis(realUl.parentElement)) {
           const rows = [...realUl.querySelectorAll(".pp-row")];
-          const rowsHidden = rows.length > 0 && rows.every((r) => op(r) < 0.05);
+          // po redesignie wyniki są ZAWSZE widoczne z SSR (min. przygaszone opacity 0.35) —
+          // skeleton usunięty; pusta rama = ul niewidoczny albo zero wierszy.
           const ulVisible = op(realUl) > 0.05;
-          const skelVisible = op(skel) > 0.05;
-          searchEmpty = (ulVisible && rowsHidden && !skelVisible) || (!ulVisible && !skelVisible);
+          searchEmpty = !ulVisible || rows.length === 0;
         }
         return {
           y: scrollY,
@@ -216,10 +215,6 @@ export const SEL = {
   heroLog: '#chat-demo [role="log"]',
   heroTabs: '#chat-demo [role="group"] button',
   heroSteps: "#chat-demo .chat-step",
-  chTabs: '#kanaly [role="group"] button',
-  switcher: ".ch-switcher",
-  switcherLog: '.ch-switcher [role="log"]',
-  chFrame: '[data-flip-id="ch-frame"]',
   typing: ".chat-typing",
   msg: ".chat-msg",
   badge: '[data-role="badge"]',

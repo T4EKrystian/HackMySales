@@ -6,7 +6,9 @@ import { useReveal } from "@/lib/motion";
 
 /** Dowód społeczny — STRUKTURA do uzupełnienia realnymi danymi (drugi najczęstszy blocker
  *  w teście person po cenie). Loga/cytaty/mini-case to placeholdery [...] — właściciel podmienia
- *  za zgodą klientów. Do tego czasu sekcja jasno sygnalizuje „w przygotowaniu" (bez fałszywego proof). */
+ *  za zgodą klientów. Do tego czasu sekcja jasno sygnalizuje „w przygotowaniu" (bez fałszywego proof).
+ *  E4: komponent chwilowo NIE jest renderowany w app/page.tsx (koniec placeholderów [LOGO] na
+ *  produkcji) — sekcja wraca z realnymi logami/cytatami klientów. */
 export function SocialProof() {
   const t = pl.proof;
   const ref = useReveal<HTMLElement>(0.05);
@@ -33,7 +35,7 @@ export function SocialProof() {
         <div className="mt-12 grid gap-6 md:grid-cols-2">
           {t.quotes.map((q, i) => (
             <figure key={i} className="js-reveal flex flex-col gap-4 rounded-lg border border-hairline bg-surface p-6">
-              <p className="num text-2xl font-semibold text-forest-700">{q.metric}</p>
+              <p className="num text-2xl font-semibold text-ink">{q.metric}</p>
               <blockquote className="leading-relaxed text-sub">{q.body}</blockquote>
               <figcaption className="mt-auto text-sm text-ink">
                 <span className="font-medium">{q.author}</span>

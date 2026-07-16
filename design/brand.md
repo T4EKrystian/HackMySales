@@ -1,6 +1,6 @@
 # HackMySales — Brand Book (v3, stylistyka Apple)
 
-Landing **jest jasny w stylistyce Apple** (restyle 2026-07, ref: iPhone Air): chłodne neutrale, Geist, akcent **Apple blue #0071E3**. Portal klienta (portal.185-238-74-109.nip.io) jest ciemny z firmowym #3D5BFC — rodzeństwo trzyma **wspólny znak i geometrię**; akcent kolorystyczny landingu (#0071E3) świadomie rozjeżdża się z portalem (decyzja klienta), most to „Zaloguj się". Poprzeczka: rzemiosło Apple / linear.app / stripe.com.
+Landing **jest jasny w stylistyce Apple** (restyle 2026-07, ref: iPhone Air): chłodne neutrale, Geist, akcent **Apple blue #0071E3**. Portal klienta (docelowo portal.hackmysales.pl) jest ciemny z firmowym #3D5BFC — rodzeństwo trzyma **wspólny znak i geometrię**; akcent kolorystyczny landingu (#0071E3) świadomie rozjeżdża się z portalem (decyzja klienta), most to „Zaloguj się". Poprzeczka: rzemiosło Apple / linear.app / stripe.com.
 
 ## 1. Logo
 

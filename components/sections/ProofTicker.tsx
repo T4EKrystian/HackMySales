@@ -20,8 +20,8 @@ export function ProofTicker() {
           {[false, true].map((clone) => (
             <ul key={String(clone)} aria-hidden={clone} className="flex shrink-0 items-center gap-10">
               {t.items.map((item, i) => (
-                <li key={i} className="num flex items-center gap-3 whitespace-nowrap text-[13px] text-sub">
-                  <span className="inline-block h-1 w-1 rounded-full bg-forest-700" aria-hidden="true" />
+                <li key={i} className="ledger flex items-center gap-3 whitespace-nowrap text-sub">
+                  <span className="inline-block h-1 w-1 rounded-full bg-strongline" aria-hidden="true" />
                   {item}
                 </li>
               ))}
@@ -40,7 +40,7 @@ export function ProofTicker() {
             {trust.platforms.map((p) => (
               <li
                 key={p}
-                className="js-reveal text-[13px] text-sub opacity-55 transition-opacity duration-200 hover:opacity-100"
+                className="js-reveal t-meta text-sub opacity-55 transition-opacity duration-200 hover:opacity-100"
               >
                 <PlatformLogo name={p} iconSize={15} />
               </li>

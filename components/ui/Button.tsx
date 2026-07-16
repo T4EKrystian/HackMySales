@@ -9,16 +9,16 @@ const base =
   "active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 " +
   "disabled:opacity-50 disabled:pointer-events-none";
 
-// primary = kwas + atrament · ghost = hairline na papierze · dark = pasmo leśne
+// primary = niebieski + biały · ghost = hairline na papierze · dark = pasmo granatowe
 const variants: Record<Variant, string> = {
-  primary: "bg-acid text-onacid hover:bg-acid-press",
+  primary: "bg-blue text-white hover:bg-blue-deep",
   ghost: "border border-hairline text-ink hover:bg-paper-deep hover:border-strongline",
   dark: "bg-forest-950 text-onforest hover:bg-forest-900",
 };
 
 const sizes: Record<Size, string> = {
-  md: "min-h-11 px-5 py-2.5 text-[0.9375rem]", // ≥44px tap target
-  lg: "min-h-14 px-7 py-3.5 text-[1.0625rem]", // ≥56px (hero / final CTA)
+  md: "min-h-11 px-5 py-2.5 t-ui", // ≥44px tap target
+  lg: "min-h-14 px-7 py-3.5 t-body", // ≥56px (hero / final CTA)
 };
 
 type ButtonProps = { variant?: Variant; size?: Size } & (

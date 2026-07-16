@@ -13,38 +13,28 @@ const raw = {
       { label: "Badania", href: "#badania" },
       { label: "Wyniki", href: "#wyniki" },
     ],
+    // E4: „Zaloguj się" chwilowo out z Nav — klucze zostają, przywrócić po wystawieniu portal.hackmysales.pl
     login: "Zaloguj się",
-    // [PLACEHOLDER] docelowy adres portalu klienta
-    loginHref: "https://portal.185-238-74-109.nip.io/portal/login",
+    loginHref: "https://portal.hackmysales.pl/portal/login",
     cta: "Umów prezentację",
     menuOpen: "Otwórz menu",
     menuClose: "Zamknij menu",
   },
 
   hero: {
-    eyebrow: "WYSZUKIWARKA · REKOMENDACJE · CHATBOT AI",
-    h1Line1: "Zwiększ sprzedaż",
-    h1Line2: "bez zwiększania budżetu reklamowego",
-    // akcent serif (Fraunces italic) na całej frazie „bez zwiększania budżetu reklamowego"
-    // — spójny blok kursywy (bez powrotu do bold na „reklamowego"), hak ROAS
-    h1: { pre: "Zwiększ sprzedaż", accent: "bez zwiększania budżetu reklamowego", post: "" },
+    eyebrow: "Wyszukiwarka · Rekomendacje · Chatbot AI",
+    // H1 (wariant W1): pre + mid w sans (General Sans 600), akcent italic Fraunces = 2 słowa
+    // („budżetu reklamowego"). 3 osobne linie .hero-line pod mask-reveal SplitText;
+    // H1 = kandydat LCP — malowany od SSR (dyscyplina italic ≤3 słowa/stronę).
+    h1: { pre: "Zwiększ sprzedaż", mid: "bez zwiększania", accent: "budżetu reklamowego", post: "" },
     lead: "HackMySales zamienia więcej odwiedzających w klientów. Inteligentna wyszukiwarka, rekomendacje produktowe i chatbot AI skracają drogę do zakupu i pozwalają wykorzystać każdą złotówkę wydaną na reklamę.",
-    ctaPrimary: "Zwiększ konwersję w swoim sklepie",
-    ctaSecondary: "Zobacz, jak to działa",
-    scrollCue: "Przewiń",
-    proof: "Time4Ecommerce · w e-commerce od 2017 · ponad 40 sklepów · wdrożenie w 1 dzień",
+    ctaPrimary: "Umów prezentację na swoich produktach",
+    ctaSecondary: "Zobacz, jak sprzedaje",
+    proof: "Wdrożenie w 1 dzień · bez zmiany platformy · 14 dni testów za darmo",
     // Zakładki żywego artefaktu hero — 3 funkcje w jednym demie
     demoTabs: ["Wyszukiwarka", "Rekomendacje", "Chat"],
     // Hak do sekcji dowodów (S5) — mały dowód pod CTA
     studiesHook: { value: "10/10", label: "badań naukowych potwierdza skuteczność AI", href: "#badania" },
-    // 3 pływające chipy statystyk wokół artefaktu (ref-3) — liczby z truth-table (demo)
-    chips: [
-      { value: "+18%", label: "konwersji" },
-      { value: "< 3 s", label: "czas odpowiedzi" },
-      { value: "24/7", label: "bez przerw" },
-    ],
-    // §1c (V8 jasny motyw): żywa pastylka przychodu pod CTA (dowód, dane demo — kwota 1:1 z §4)
-    livePill: { amount: demo.revenueMonth, label: "z rozmów w tym miesiącu", tag: "demo" },
     chat: {
       title: "HackMySales — doradca",
       status: "online",
@@ -197,7 +187,6 @@ const raw = {
       stats: "Statystyki — przewiń w bok",
       rounds: "Rundy pojedynku — przewiń w bok",
       pillars: "Trzy miejsca — przewiń w bok",
-      channels: "Kanały — przewiń w bok",
       plans: "Plany cennika — przewiń w bok",
       goTo: (n: number) => `Przejdź do ${n}`,
     },
@@ -541,15 +530,15 @@ const raw = {
   },
 
   results: {
-    label: "WYNIKI",
-    h2: "Efekty, które widać w panelu.",
+    label: "POLICZALNOŚĆ",
+    h2: "Nie wierz nam. Policz.",
     counters: [
       { prefix: "+", value: demo.counters.conv, suffix: "%", label: "konwersji u klientów po 3 miesiącach" },
       { prefix: "+", value: demo.counters.aov, suffix: "%", label: "średniej wartości koszyka (AOV)" },
       { prefix: "−", value: demo.counters.wismo, suffix: "%", label: "zapytań „gdzie moja paczka” do obsługi" },
       { static: "24/7", label: "godziny pracy czatu, wyszukiwarki i rekomendacji" },
     ],
-    countersCaption: "Wartości poglądowe. Twoje liczby policzymy na demo.",
+    note: "Liczniki to wartości poglądowe — Twoje policzymy na prezentacji. Kalkulator liczy wyłącznie w Twojej przeglądarce, nic nie wysyłamy.",
     night: {
       title: "Kiedy spałeś, bot…",
       stats: [
@@ -569,18 +558,15 @@ const raw = {
       resultIntro:
         "Przy tych liczbach HackMySales musi podnieść konwersję tylko o 0,2 p.p., żeby zarobić na siebie. Do odzyskania przy Twoim ruchu:",
       resultSuffix: "miesięcznie",
-      assumptionsTitle: "Założenia szacunku",
-      assumptions:
-        "+0,5 p.p. konwersji i +10% AOV — wartości poglądowe dla makiety. Kalkulator liczy wyłącznie w Twojej przeglądarce, nic nie wysyłamy.",
       cta: "Sprawdź to na swoim sklepie",
-      // §6b — mnożnik ROI (dane demo: koszt = plan Growth, rejestr PLACEHOLDERS)
+      // §6b — mnożnik ROI (dane demo: koszt = HackMySales 1 299 zł/mc, rejestr PLACEHOLDERS)
       costMonthly: demo.calc.costMonthly,
-      roiCaption: "tyle razy zwraca się plan Growth przy tych liczbach",
-      costTick: "koszt planu Growth",
+      roiCaption: "tyle razy HackMySales zwraca się przy tych liczbach",
+      costTick: "koszt HackMySales",
       glowThreshold: demo.calc.glowThreshold,
       methodLabel: "jak to liczymy",
       methodText:
-        "Odzysk to różnica między przychodem dziś a przychodem przy +0,5 p.p. konwersji i +10% AOV — założenia poglądowe makiety. Mnożnik porównuje roczny odzysk z rocznym kosztem planu Growth; wszystko liczy się w Twojej przeglądarce, nic nie wysyłamy.",
+        "Odzysk to różnica między przychodem dziś a przychodem przy +0,5 p.p. konwersji i +10% AOV — założenia poglądowe. Mnożnik porównuje roczny odzysk z rocznym kosztem HackMySales (1 299 zł/mc); wszystko liczy się w Twojej przeglądarce, nic nie wysyłamy.",
     },
   },
 
@@ -750,6 +736,7 @@ const raw = {
 
   // Dowód społeczny — STRUKTURA do uzupełnienia realnymi danymi (loga/cytaty za zgodą klientów).
   // Placeholdery [...] podmienia właściciel; do tego czasu sekcja jasno sygnalizuje „w przygotowaniu".
+  // E4: blok zostaje w repo (SocialProof niewpięty w page.tsx) — sekcja wraca z realnymi logami/cytatami klientów.
   proof: {
     label: "ZAUFALI NAM",
     h2: "Sklepy, które liczą więcej z tego samego ruchu.",
@@ -822,17 +809,16 @@ const raw = {
           { label: "AI Search", href: "#funkcje" },
           { label: "Ramki rekomendacji", href: "#funkcje" },
           { label: "Chatbot sprzedażowy", href: "#funkcje" },
-          { label: "Kanały", href: "#kanaly" },
           { label: "Wyniki", href: "#wyniki" },
         ],
       },
       {
         title: "Dowody",
+        // E4: „Portal klienta" (surowe IP) out do czasu wystawienia portal.hackmysales.pl
         links: [
           { label: "10 badań naukowych", href: "#badania" },
+          { label: "Kalkulator", href: "#wyniki" },
           { label: "Umów demo", href: "#demo" },
-          // [PLACEHOLDER] adres portalu
-          { label: "Portal klienta", href: "https://portal.185-238-74-109.nip.io/portal/login" },
         ],
       },
       {

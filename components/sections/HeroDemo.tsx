@@ -81,6 +81,7 @@ export function HeroDemo() {
   return (
     <div
       ref={frameRef}
+      id="chat-demo"
       className="frame-l2 relative w-full overflow-hidden rounded-[var(--radius-xl)]"
       aria-label="Demo na żywo: wyszukiwarka, rekomendacje, chat"
     >
@@ -91,7 +92,7 @@ export function HeroDemo() {
               key={label}
               onClick={() => select(i)}
               aria-pressed={i === tab}
-              className={`relative inline-flex min-h-11 items-center px-0.5 pb-1 text-xs font-medium transition-colors duration-150 md:min-h-0 ${
+              className={`relative inline-flex min-h-11 items-center px-0.5 pb-1 t-meta font-medium transition-colors duration-150 md:min-h-0 ${
                 i === tab
                   ? "text-ink after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-ink after:content-['']"
                   : "text-mute hover:text-sub"
@@ -103,7 +104,7 @@ export function HeroDemo() {
         </div>
         <span className="hidden items-center gap-1.5 sm:inline-flex" aria-hidden="true">
           <span className="hero-livedot" />
-          <span className="font-mono text-[13px] text-mute">na żywo</span>
+          <span className="t-meta text-mute">na żywo</span>
         </span>
       </div>
 
