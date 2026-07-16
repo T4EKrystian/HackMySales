@@ -65,14 +65,29 @@ export function SearchPanelContent({ photo = true }: { photo?: boolean }) {
         ))}
       </ul>
       <div className="relative">
-        <ul className="pp-results divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline">
-          {d.results.map((r) => (
-            <li key={r.name} className="pp-row flex items-center gap-3 px-4 py-2.5">
-              <ProductThumb name={r.name} kind={"kind" in r ? (r.kind as ProductKind) : undefined} size={40} photo={photo} />
-              <span className="min-w-0 flex-1 truncate text-sm text-ink">{r.name}</span>
-              <span className="num shrink-0 text-sm text-sub">{r.price}</span>
-            </li>
-          ))}
+        <ul className="pp-results divide-y divide-[var(--border-hairline)] overflow-hidden rounded-xl border border-hairline">
+          {d.results.map((r, i) => {
+            const top = i === 0;
+            return (
+              <li
+                key={r.name}
+                className={`pp-row flex items-center gap-3 px-4 py-2.5 ${top ? "bg-blue-tint" : ""}`}
+              >
+                <ProductThumb
+                  name={r.name}
+                  kind={"kind" in r ? (r.kind as ProductKind) : undefined}
+                  size={40}
+                  photo={photo}
+                  tint={top ? "blue" : undefined}
+                />
+                <div className="min-w-0 flex-1">
+                  <span className="block truncate text-sm text-ink">{r.name}</span>
+                  {top && <span className="text-[11px] font-medium text-blue-soft">Najlepsze dopasowanie</span>}
+                </div>
+                <span className={`num shrink-0 text-sm ${top ? "font-medium text-ink" : "text-sub"}`}>{r.price}</span>
+              </li>
+            );
+          })}
         </ul>
         <ul className="pp-skel pointer-events-none absolute inset-0 divide-y divide-[var(--border-hairline)] rounded-xl border border-hairline opacity-0" aria-hidden="true">
           {d.results.map((r) => (

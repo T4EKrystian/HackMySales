@@ -94,8 +94,8 @@ export function FinalCta() {
   };
 
   const inputCls =
-    "w-full rounded-[var(--radius-md)] border bg-forest-900 px-4 py-3.5 text-base text-onforest placeholder:text-onforest/40";
-  const okBorder = "border-line-dark focus:border-onforest/45";
+    "w-full rounded-[var(--radius-md)] border bg-white/[0.06] px-4 py-3.5 text-base text-onforest placeholder:text-onforest/55";
+  const okBorder = "border-white/15 focus:border-blue-soft";
 
   return (
     <section

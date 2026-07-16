@@ -25,8 +25,9 @@ const raw = {
     eyebrow: "WYSZUKIWARKA · REKOMENDACJE · CHATBOT AI",
     h1Line1: "Zwiększ sprzedaż",
     h1Line2: "bez zwiększania budżetu reklamowego",
-    // akcent serif (Fraunces italic) na „bez zwiększania budżetu" — hak ROAS (jeden word-paint)
-    h1: { pre: "Zwiększ sprzedaż", accent: "bez zwiększania budżetu", post: "reklamowego" },
+    // akcent serif (Fraunces italic) na całej frazie „bez zwiększania budżetu reklamowego"
+    // — spójny blok kursywy (bez powrotu do bold na „reklamowego"), hak ROAS
+    h1: { pre: "Zwiększ sprzedaż", accent: "bez zwiększania budżetu reklamowego", post: "" },
     lead: "HackMySales zamienia więcej odwiedzających w klientów. Inteligentna wyszukiwarka, rekomendacje produktowe i chatbot AI skracają drogę do zakupu i pozwalają wykorzystać każdą złotówkę wydaną na reklamę.",
     ctaPrimary: "Zwiększ konwersję w swoim sklepie",
     ctaSecondary: "Zobacz, jak to działa",
@@ -751,23 +752,27 @@ const raw = {
   },
 
   footer: {
-    tagline: "Czat AI, wyszukiwarka i rekomendacje, które sprzedają.",
+    tagline: "AI, które zamienia ruch w sprzedaż — wyszukiwarka, rekomendacje i chatbot w jednym systemie.",
+    cta: { label: "Umów prezentację", href: "#demo" },
+    emailLabel: "Napisz do nas",
+    email: "kontakt@hackmysales.pl",
+    company: "W e-commerce od 2017. Ponad 40 sklepów pod opieką.",
     columns: [
       {
         title: "Produkt",
         links: [
-          { label: "Wyszukiwarka", href: "#funkcje" },
-          { label: "Rekomendacje", href: "#funkcje" },
-          { label: "Czat AI", href: "#funkcje" },
+          { label: "AI Search", href: "#funkcje" },
+          { label: "Ramki rekomendacji", href: "#funkcje" },
+          { label: "Chatbot sprzedażowy", href: "#funkcje" },
+          { label: "Kanały", href: "#kanaly" },
           { label: "Wyniki", href: "#wyniki" },
         ],
       },
       {
-        title: "Zasoby",
+        title: "Dowody",
         links: [
+          { label: "10 badań naukowych", href: "#badania" },
           { label: "Umów demo", href: "#demo" },
-          { label: "Badania", href: "#badania" },
-          { label: "Funkcje", href: "#funkcje" },
           // [PLACEHOLDER] adres portalu
           { label: "Portal klienta", href: "https://portal.185-238-74-109.nip.io/portal/login" },
         ],
@@ -775,13 +780,18 @@ const raw = {
       {
         title: "Firma",
         links: [
+          { label: "Time4Ecommerce", href: "https://time4ecommerce.pl" },
           { label: "Kontakt", href: "mailto:kontakt@hackmysales.pl" },
-          { label: "Polityka prywatności", href: "#" },
-          { label: "Regulamin", href: "#" },
+          { label: "Polityka prywatności", href: "/polityka-prywatnosci" },
+          { label: "Regulamin", href: "/regulamin" },
         ],
       },
     ],
-    copyright: "HackMySales · Time4Ecommerce. Wszystkie prawa zastrzeżone.",
+    legal: [
+      { label: "Polityka prywatności", href: "/polityka-prywatnosci" },
+      { label: "Regulamin", href: "/regulamin" },
+    ],
+    copyright: "HackMySales — projekt Time4Ecommerce. Wszystkie prawa zastrzeżone.",
   },
 
   notFound: {

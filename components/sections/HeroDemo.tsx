@@ -20,7 +20,8 @@ const DWELL = [5200, 8600, 7000]; // czas na zakładce (ms) — reco dłużej (k
 
 export function HeroDemo() {
   const labels = pl.hero.demoTabs;
-  const [tab, setTab] = useState(0);
+  // Wejscie: najpierw CHAT (index 2) — potem auto-cykl search/reco/chat
+  const [tab, setTab] = useState(2);
   const [auto, setAuto] = useState(true);
   const [visible, setVisible] = useState(true); // hero nad foldem — start od razu
   const [docVisible, setDocVisible] = useState(true);

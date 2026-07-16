@@ -103,7 +103,7 @@ export function Hero() {
             <span className="hero-line block">
               <em className="font-serif font-normal italic tracking-[-0.01em]">{t.h1.accent}</em>
             </span>
-            <span className="hero-line block">{t.h1.post}</span>
+            {t.h1.post && <span className="hero-line block">{t.h1.post}</span>}
           </h1>
           <p className="hero-lead t-lead mt-6 max-w-[38rem] text-sub">{t.lead}</p>
           <div className="hero-cta mt-8 flex flex-wrap items-center gap-5">
@@ -124,21 +124,27 @@ export function Hero() {
               />
             </a>
           </div>
-          {/* Hak do dowodów — 10/10 badań (forest, bez acid) */}
+          {/* Hak do dowodów — 10/10 badań jako inline text-link (nie trzeci przycisk) */}
           <a
             href={t.studiesHook.href}
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-hairline bg-card px-3.5 py-1.5 text-sm text-sub transition-colors duration-150 hover:border-strongline hover:text-ink"
+            className="mt-7 inline-flex items-center gap-2 text-sm text-sub transition-colors duration-150 hover:text-ink"
           >
-            <span className="num font-medium text-forest-700">{t.studiesHook.value}</span>
+            <span className="num font-semibold text-blue-soft">{t.studiesHook.value}</span>
             <span>{t.studiesHook.label}</span>
-            <Glyph name="arrow-right" size={14} className="text-mute" />
+            <Glyph name="arrow-right" size={13} className="text-mute" />
           </a>
-          <p className="hero-proof mt-5 text-sm text-mute">{t.proof}</p>
+          <p className="hero-proof mt-4 text-sm text-mute">{t.proof}</p>
         </div>
 
         {/* PRAWA kolumna — żywy artefakt 3 funkcji (desktop + mobile) */}
         <div className="relative min-w-0">
-          <div className="hero-demo relative">
+          {/* miękka niebieska poświata pod artefaktem — głębia + oddzielenie od copy */}
+          <div
+            className="pointer-events-none absolute -inset-8 z-0"
+            aria-hidden="true"
+            style={{ background: "radial-gradient(62% 58% at 62% 42%, var(--blue-tint), transparent 72%)" }}
+          />
+          <div className="hero-demo relative z-10">
             <HeroDemo />
           </div>
         </div>
