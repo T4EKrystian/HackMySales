@@ -434,6 +434,19 @@
 }
 
 
+/* Crescendo (E9) — JEDYNY scroll-pin strony (motion.md §7). Pełny viewport TYLKO pod
+   pinem (desktop ≥768 + no-preference), żeby visual-suite w reduced-motion ORAZ mobile
+   (bez pinu) widziały statyczny układ 1:1 bez zmian. Zawartość wyśrodkowana w foldzie
+   sceny → zdanie składa się w centrum, CTA ląduje pewnie. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .cres-section {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
 /* Szum pasm leśnych — dark bands nigdy jako płaskie wypełnienie (CHECKLIST #18) */
 .noise-forest {
   position: absolute;
