@@ -16,6 +16,8 @@ export type ProductCardProps = {
   variant: ProductCardVariant;
   featured?: boolean;
   saleLabel?: string;
+  /** folio rangi „01"–„04" (reco) — mono `.ledger`, aktualizuje się przy re-ranku */
+  folio?: string;
   className?: string;
 };
 
@@ -37,6 +39,7 @@ export function ProductCard({
   variant,
   featured = false,
   saleLabel,
+  folio,
   className = "",
 }: ProductCardProps) {
   // --- CZAT: poziomy wiersz w bąblu bota ---
@@ -67,49 +70,56 @@ export function ProductCard({
     );
   }
 
-  // --- RECO / GRID: pionowy kafel, kadr 1:1, hairline między zdjęciem a treścią ---
-  const src = slug ? `/products/${slug}${variant === "grid" ? "-112" : ""}.webp` : null;
+  // --- RECO: poziomy wiersz (anatomia rodziny czatu), miniatura 44→56 px, cena w prawej kolumnie ---
+  if (variant === "reco") {
+    const thumb = slug ? `/products/${slug}-112.webp` : null;
+    return (
+      <article
+        className={`flex items-center gap-3 rounded-md border bg-card p-2.5 frame-hover md:p-3 ${
+          featured ? "border-strongline" : "border-hairline"
+        } ${className}`}
+      >
+        {folio && <span className="ledger shrink-0 tabular-nums text-mute">{folio}</span>}
+        <span className="relative block h-11 w-11 shrink-0 overflow-hidden rounded-sm border border-hairline bg-l3 md:h-14 md:w-14">
+          {thumb ? (
+            <Image src={thumb} alt="" fill sizes="64px" unoptimized className="object-cover" />
+          ) : kind ? (
+            <ProductVisual kind={kind} size={64} tint="graphite" className="!rounded-none" />
+          ) : null}
+        </span>
+        <div className="min-w-0 flex-1">
+          {category && <p className="truncate t-meta text-mute">{category}</p>}
+          <p className="truncate t-ui font-medium text-ink">{name}</p>
+        </div>
+        <div className="ml-auto flex shrink-0 flex-col items-end leading-tight">
+          {oldPrice && <span className="num whitespace-nowrap t-meta text-mute line-through">{oldPrice}</span>}
+          {price && <span className="num whitespace-nowrap t-ui font-medium text-ink">{price}</span>}
+          {saleLabel && oldPrice && <span className="sr-only">{saleLabel}</span>}
+        </div>
+      </article>
+    );
+  }
+
+  // --- GRID (karty hero-chatu): pionowy kafel 4:3, hairline między zdjęciem a treścią ---
+  const src = slug ? `/products/${slug}-112.webp` : null;
   return (
     <article
       className={`flex flex-col overflow-hidden rounded-md border bg-surface frame-hover ${
         featured ? "border-strongline" : "border-hairline"
       } ${className}`}
     >
-      <div className={`relative w-full bg-l3 ${variant === "grid" ? "aspect-[4/3]" : "aspect-square"}`}>
+      <div className="relative aspect-[4/3] w-full bg-l3">
         {src ? (
-          <Image
-            src={src}
-            alt=""
-            fill
-            sizes={variant === "grid" ? "120px" : "160px"}
-            unoptimized
-            className="object-cover"
-          />
+          <Image src={src} alt="" fill sizes="120px" unoptimized className="object-cover" />
         ) : kind ? (
           <span className="flex h-full items-center justify-center">
-            <ProductVisual kind={kind} size={variant === "grid" ? 48 : 64} tint="graphite" />
+            <ProductVisual kind={kind} size={48} tint="graphite" />
           </span>
         ) : null}
       </div>
-      <div
-        className={`flex flex-col gap-0.5 border-t border-hairline ${
-          variant === "grid" ? "px-2.5 py-1.5" : "px-3 py-2.5"
-        }`}
-      >
-        {variant === "reco" && category && <p className="t-meta text-mute">{category}</p>}
-        {variant === "reco" && (
-          <p className="line-clamp-2 min-h-[2lh] t-ui font-medium leading-snug text-ink">{name}</p>
-        )}
-        {variant === "grid" && <p className="truncate t-meta font-medium text-ink">{name}</p>}
-        {variant === "grid" ? (
-          <p className="num t-meta font-medium text-ink">{price}</p>
-        ) : (
-          <p className="flex items-baseline gap-2">
-            {oldPrice && <span className="num whitespace-nowrap t-meta text-mute line-through">{oldPrice}</span>}
-            {price && <span className="num whitespace-nowrap t-ui font-medium text-ink">{price}</span>}
-            {saleLabel && oldPrice && <span className="sr-only">{saleLabel}</span>}
-          </p>
-        )}
+      <div className="flex flex-col gap-0.5 border-t border-hairline px-2.5 py-1.5">
+        <p className="truncate t-meta font-medium text-ink">{name}</p>
+        <p className="num t-meta font-medium text-ink">{price}</p>
       </div>
     </article>
   );

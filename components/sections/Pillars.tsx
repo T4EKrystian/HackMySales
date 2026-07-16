@@ -81,7 +81,11 @@ export function Pillars() {
                   </ul>
                 </div>
                 <div className={reverse ? "lg:order-1" : ""} data-cursor-label={pl.ui.cursorDemo}>
-                  <DeviceFrame label={t.panelLabels[i]} folio={`0${i + 1}`}>
+                  <DeviceFrame
+                    label={t.panelLabels[i]}
+                    folio={`0${i + 1}`}
+                    heightClass={KINDS[i] === "reco" ? "h-[432px] md:h-[360px] lg:h-[472px]" : undefined}
+                  >
                     {KINDS[i] === "chat" ? (
                       <ChatPanelContent active={chatOn} />
                     ) : KINDS[i] === "reco" ? (

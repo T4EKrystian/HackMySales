@@ -196,16 +196,19 @@ export function RecoGrid({ photo = USE_REAL_PHOTOS }: { photo?: boolean }) {
           </span>
         </span>
       </div>
-      {/* listing sklepu — mobile: swipe (2 karty), desktop: grid 4; kadr 1:1 przez ProductCard */}
+      {/* listing sklepu — poziome karty. 1 kolumna gdy panel wąski (mobile + desktop
+          lg, gdzie panel filaru = pół szerokości → nazwy w 1 linii); 2×2 gdy panel szeroki
+          (md/tablet). Re-rank FLIP wymienia miejsca wierszy (czytelniej niż w rzędzie 4 kart). */}
       <div
         ref={gridRef}
-        className="flex flex-1 snap-x snap-mandatory items-center gap-2.5 overflow-x-auto pb-1 hide-scrollbar sm:grid sm:grid-cols-4 sm:content-center sm:gap-2 sm:overflow-visible sm:pb-0"
+        className="grid flex-1 grid-cols-1 content-center gap-2 md:grid-cols-2 lg:grid-cols-1"
       >
         {order.map((p, idx) => (
           <ProductCard
             key={p.name}
             variant="reco"
-            className="reco-card w-[calc(50%-5px)] shrink-0 snap-start sm:w-auto"
+            className="reco-card"
+            folio={`0${idx + 1}`}
             name={p.name}
             category={p.cat}
             price={p.price}
@@ -244,10 +247,21 @@ export function buildPanelTl(panel: HTMLElement, kind: "chat" | "search" | "reco
   return tl;
 }
 
-/** Ramka „urządzenia" — glass-head bez mac-dots: etykieta panelu + opcjonalne folio (.ledger). */
-export function DeviceFrame({ label, folio, children }: { label: string; folio?: string; children: React.ReactNode }) {
+/** Ramka „urządzenia" — glass-head bez mac-dots: etykieta panelu + opcjonalne folio (.ledger).
+ *  heightClass pozwala reco dostać wyższą ramkę na mobile (4 poziome karty w 1 kolumnie). */
+export function DeviceFrame({
+  label,
+  folio,
+  children,
+  heightClass = "h-[300px] sm:h-[360px]",
+}: {
+  label: string;
+  folio?: string;
+  children: React.ReactNode;
+  heightClass?: string;
+}) {
   return (
-    <div className="frame-l2 relative h-[300px] overflow-hidden sm:h-[360px]">
+    <div className={`frame-l2 relative overflow-hidden ${heightClass}`}>
       <div className="glass-head absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-3 rounded-t-[19px] px-5 py-3.5">
         <span className="label">{label}</span>
         {folio && <span className="ledger text-mute">{folio}</span>}
