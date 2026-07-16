@@ -777,19 +777,18 @@ const raw = {
   // Kotwica ceny (decyzja: sygnał ceny + trial zamiast pełnego cennika) — 499 = demo.prices.starter.monthly
   priceAnchor: {
     text: "od 499 zł/mc",
-    sub: "14 dni za darmo, bez karty. Rezygnacja jednym kliknięciem.",
+    sub: "14 dni testujesz za darmo, bez karty. W cenie cały system: czat, wyszukiwarka i rekomendacje. Rezygnacja jednym kliknięciem.",
   },
 
-  // S8 Action (docx) — formularz demo, 6 pól, realna wysyłka (Web3Forms → e-mail)
+  // S8 Action (docx) — formularz demo, 5 pól (imię i nazwisko scalone, telefon opcjonalny), realna wysyłka (Web3Forms → e-mail)
   finalCta: {
     label: "UMÓW PREZENTACJĘ",
     h2: "Sprawdź, ile sprzedaży może odzyskać Twój sklep.",
     lead: "Umów darmową prezentację. W krótkim demo pokażemy, jak AI Search, rekomendacje i chatbot podnoszą wartość ruchu, za który już płacisz.",
     fields: {
-      firstName: { label: "Imię", placeholder: "Jan" },
-      lastName: { label: "Nazwisko", placeholder: "Kowalski" },
+      name: { label: "Imię i nazwisko", placeholder: "Jan Kowalski" },
       email: { label: "Adres e-mail", placeholder: "jan@twojsklep.pl" },
-      phone: { label: "Numer telefonu", placeholder: "600 100 200" },
+      phone: { label: "Numer telefonu (opcjonalnie)", placeholder: "600 100 200" },
       url: { label: "Strona internetowa", placeholder: "twojsklep.pl" },
       message: { label: "Wiadomość", placeholder: "Na czym najbardziej Ci zależy (opcjonalnie)" },
     },
@@ -797,7 +796,7 @@ const raw = {
     sending: "Wysyłamy…",
     below: "Odpowiadamy w 1 dzień roboczy. Bez spamu i bez nachalnych sekwencji sprzedażowych.",
     errors: {
-      firstName: "Podaj imię.",
+      name: "Podaj imię i nazwisko.",
       email: "Ten e-mail wygląda na niepełny.",
       phone: "Sprawdź numer telefonu.",
       url: "To nie wygląda na adres sklepu — sprawdź literówkę.",
