@@ -202,11 +202,12 @@ const raw = {
     },
     h2: "Twój sklep traci klientów po cichu.",
     barriersLead: "Użytkownicy opuszczają sklep, gdy:",
+    // każda bariera ma „koszt" — jedno zdanie odsłaniane na hover/focus/tap (bez liczb)
     barriers: [
-      "nie potrafią znaleźć odpowiedniego produktu",
-      "dostają zbyt wiele niedopasowanych wyników",
-      "nie otrzymują odpowiedzi na swoje pytania",
-      "nie wiedzą, który produkt będzie dla nich najlepszy",
+      { text: "nie potrafią znaleźć odpowiedniego produktu", cost: "Klient, który nie znajdzie — nie wraca." },
+      { text: "dostają zbyt wiele niedopasowanych wyników", cost: "Zbyt wiele opcji paraliżuje wybór i kończy się wyjściem." },
+      { text: "nie otrzymują odpowiedzi na swoje pytania", cost: "Bez szybkiej odpowiedzi klient kupuje tam, gdzie ją dostał." },
+      { text: "nie wiedzą, który produkt będzie dla nich najlepszy", cost: "Niepewność przed zakupem cofa rękę znad koszyka." },
     ],
     closing:
       "HackMySales usuwa te bariery dokładnie wtedy, gdy klient podejmuje decyzję — w czasie rzeczywistym odpowiada na pytania, rekomenduje właściwe produkty i zamienia więcej opłaconego ruchu w sprzedaż.",
@@ -482,14 +483,17 @@ const raw = {
       {
         title: "Podłączasz sklep",
         body: "wtyczka albo klucz API. 15 minut, klikasz, działa.",
+        time: "15 minut",
       },
       {
         title: "AI uczy się Twojego biznesu",
         body: "katalog, stany, ceny, dostawy, zwroty, FAQ. Odpowiada wyłącznie na podstawie Twoich danych.",
+        time: "1 dzień",
       },
       {
         title: "Sprzedaje, a Ty czytasz raporty",
         body: "czat, wyszukiwarka i rekomendacje pracują 24/7. Ty dostajesz liczby i listę rzeczy do poprawy.",
+        time: "7 dni",
       },
     ],
     note: "Bez przebudowy sklepu. Pierwsze efekty widać w 7 dni.",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { pl } from "@/content/pl";
 import { Container } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/kit";
@@ -13,6 +13,7 @@ import { gsap, useGSAP, NO_REDUCE, REDUCE } from "@/lib/motion";
 export function Problem() {
   const t = pl.problem;
   const scope = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState<number | null>(null);
 
   useGSAP(
     () => {
@@ -59,9 +60,30 @@ export function Problem() {
             <p className="s3-reveal label">{t.barriersLead}</p>
             <ul className="mt-5">
               {t.barriers.map((b, i) => (
-                <li key={i} className="s3-reveal flex items-baseline gap-4 border-t border-hairline py-4">
-                  <span className="ledger shrink-0 text-mute">0{i + 1}</span>
-                  <span className="text-lg leading-snug text-ink">{b}</span>
+                <li key={i} className="s3-reveal">
+                  {/* wiersz-disclosure: hover/focus (desktop) + tap (mobile) odsłania „koszt"
+                      i podświetla wiersz; grid-rows = akordeon (spójne z FAQ), transform/opacity-safe */}
+                  <button
+                    type="button"
+                    aria-expanded={open === i}
+                    data-open={open === i}
+                    onClick={() => setOpen((v) => (v === i ? null : i))}
+                    className="group block w-full rounded-b-sm border-t border-hairline px-2 py-4 text-left transition-[background-color,border-color] duration-[var(--dur-fast)] hover:border-strongline hover:bg-page focus-visible:border-strongline focus-visible:bg-page data-[open=true]:border-strongline data-[open=true]:bg-page"
+                  >
+                    <span className="flex items-baseline gap-4">
+                      <span className="ledger shrink-0 text-mute">0{i + 1}</span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-lg leading-snug text-ink">{b.text}</span>
+                        <span className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:grid-rows-[1fr] group-focus-visible:grid-rows-[1fr] group-data-[open=true]:grid-rows-[1fr]">
+                          <span className="overflow-hidden">
+                            <span className="mt-2 block max-w-[44ch] text-sm leading-relaxed text-blue-soft">
+                              {b.cost}
+                            </span>
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                  </button>
                 </li>
               ))}
             </ul>
