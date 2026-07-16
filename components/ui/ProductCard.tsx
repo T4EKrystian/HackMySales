@@ -20,7 +20,7 @@ export type ProductCardProps = {
 };
 
 /** Jedna karta produktu na całą stronę — zastępuje 3 rozjechane implementacje
- *  (AttachmentProductCard w czacie, RecoGrid, HeroChatShowcase).
+ *  (AttachmentProductCard w czacie, RecoGrid, listing wyszukiwarki).
  *  Zdjęcia ZAWSZE 1:1 (packshoty są kwadratowe 800×800 / 112×112 → object-cover = zero
  *  przycięcia). Hierarchia: nazwa .t-ui 500 · cena mono .t-ui 500 · meta/kategoria .t-meta.
  *  Przecena = przekreślona stara cena (BEZ czerwieni). Hover = frame-hover (bez scale-lift).

@@ -25,8 +25,9 @@ import type { ChatScript } from "./script";
 export type ChatShellProps = {
   script: ChatScript;
   skin?: ChatSkinName;
-  /** full = ramka L2 + glass header; bare = samo body (ramkę daje rodzic) */
-  chrome?: "full" | "bare";
+  /** full = ramka L2 + glass header; bare = samo body (ramkę daje rodzic);
+   *  hero = bez ramki (daje ją HeroDemo) ale z persona-row + scenario tabs + pill + input */
+  chrome?: "full" | "bare" | "hero";
   /** play = silnik; static = wszystko widoczne od razu (Trust/ForWho) */
   mode?: "play" | "static";
   /** sterowanie z zewnątrz (Pillars): true = graj (po 200 ms), false = reset */
@@ -146,14 +147,18 @@ function BubbleShell({
     return idx;
   })();
 
+  // full ORAZ hero mają przewijalny log (data-lenis-prevent + tabIndex + overflow);
+  // bare = statyczny fragment, ramkę/scroll daje rodzic
+  const scrolls = chrome === "full" || chrome === "hero";
+
   const body = (
     <div
       ref={bodyRef}
-      data-lenis-prevent={chrome === "full" ? true : undefined}
-      tabIndex={chrome === "full" ? 0 : undefined}
+      data-lenis-prevent={scrolls ? true : undefined}
+      tabIndex={scrolls ? 0 : undefined}
       role="log"
       aria-label={ariaLabel}
-      className={`flex flex-col gap-4 ${chrome === "full" ? "overflow-y-auto" : ""} ${cfg.bodyClass} ${bodyClassName}`}
+      className={`flex flex-col gap-4 ${scrolls ? "overflow-y-auto" : ""} ${cfg.bodyClass} ${bodyClassName}`}
     >
       {cfg.divider && chrome === "full" && <DayDivider />}
 
@@ -261,6 +266,36 @@ function BubbleShell({
       : cfg.presence === "activeNow"
         ? ui.activeNow
         : undefined;
+
+  // hero: bez frame-l2/glass-head (ramkę + taby funkcji daje HeroDemo). Persona-row +
+  // replay w wierszu, scenario-taby w headerExtra, log rośnie flex-1, pill nad inputem.
+  if (chrome === "hero") {
+    return (
+      <div ref={scope} className={`relative flex h-full min-h-0 flex-col ${className}`}>
+        <div className="flex items-center justify-between gap-3 pb-3">
+          <PersonaRow presence={presence} clock={clock} ring={cfg.avatarRing} />
+          {replayable && done && (
+            <button
+              onClick={replay}
+              className="flex shrink-0 items-center gap-1.5 rounded-full border border-line-2 px-3 py-1.5 t-meta text-sub transition-colors duration-150 hover:bg-l3"
+            >
+              <Glyph name="replay" size={13} />
+              {pl.hero.chat.replay}
+            </button>
+          )}
+        </div>
+        {headerExtra}
+        {body}
+        {unread && (
+          <button type="button" onClick={jumpToLatest} className="chat-pill" aria-live="polite">
+            <Glyph name="chevron-down" size={14} />
+            {ui.newMessage}
+          </button>
+        )}
+        {footer}
+      </div>
+    );
+  }
 
   return (
     <div ref={scope} data-flip-id={flipId} className={`frame-l2 relative w-full ${className}`}>
