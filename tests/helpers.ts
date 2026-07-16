@@ -39,6 +39,7 @@ export type RideSample = {
   round: string;
   score: string;
   howIdx: number;
+  cresIdx: number;
   searchEmpty: boolean;
 };
 
@@ -97,6 +98,11 @@ export async function ride(
         const howIdx = [...document.querySelectorAll(".how-progress-dot")].filter(
           (el) => (el as HTMLElement).dataset.active === "true"
         ).length;
+        // Crescendo (E9): faza pinu z data-phase na .cres-stage. Stan aktywny gdy
+        // element widoczny ORAZ phase ≥ 0 (0/1/2 = fazy scrubu). Poza pinem (mobile,
+        // reduced-motion, przed dojazdem) data-phase nie istnieje → -1 (wzorzec jak prob/pillar).
+        const cresEl = q(".cres-stage");
+        const cresPhase = cresEl ? parseInt((cresEl as HTMLElement).dataset.phase ?? "-1", 10) : -1;
         // WIDOCZNY wariant, nie pierwszy w DOM: Pillars renderuje desktopowy blok
         // (.pp-results) PRZED mobilnym; na 390px desktopowy jest display:none (rect 0×0),
         // więc querySelector zwracał ukryty węzeł → searchEmpty zawsze false (pusta
@@ -118,6 +124,7 @@ export async function ride(
           round: vis(q(".arena-stage")) ? q(".arena-round-no")?.textContent ?? "" : "",
           score: vis(q(".arena-stage")) ? (q(".arena-score") as HTMLElement | null)?.innerText.replace(/\s+/g, " ") ?? "" : "",
           howIdx: vis(q(".how-stage")) ? howIdx : -1,
+          cresIdx: vis(cresEl) && cresPhase >= 0 ? cresPhase : -1,
           searchEmpty,
         };
       })),

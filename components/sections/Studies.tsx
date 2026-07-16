@@ -13,7 +13,7 @@ import { useReveal } from "@/lib/motion";
  *  flagowe (echo liczb); toggle odsłania pozostałe. Anti-choice-overload: nie wall-at-once. */
 export function Studies() {
   const t = pl.studies;
-  const ref = useReveal<HTMLElement>(0.06);
+  const ref = useReveal<HTMLElement>(0.06, { y: 12 });
   const [expanded, setExpanded] = useState(false);
 
   const byGroup = (key: StudyGroup) => studies.filter((s) => s.group === key);
@@ -89,6 +89,15 @@ export function Studies() {
             </button>
             <p className="max-w-[52ch] text-xs leading-relaxed text-mute">{t.disclaimer}</p>
           </div>
+
+          {/* Mikro-CTA do kalkulatora — tekstowy link ze strzałką (wzorzec studiesHook z hero) */}
+          <a
+            href={t.calcHook.href}
+            className="group js-reveal mt-10 inline-flex items-center gap-2 t-ui text-sub transition-colors duration-150 hover:text-ink"
+          >
+            <span>{t.calcHook.label}</span>
+            <Glyph name="arrow-right" size={14} className="text-mute transition-transform duration-150 group-hover:translate-x-0.5" />
+          </a>
         </div>
       </Container>
     </section>

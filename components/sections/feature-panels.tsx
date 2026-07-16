@@ -7,7 +7,6 @@ import { type ProductKind } from "@/components/ui/ProductVisual";
 import { ProductThumb } from "@/components/ui/ProductThumb";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { ChatShell } from "@/components/chat/ChatShell";
-import { PersonaRow } from "@/components/chat/parts";
 import { exchangeToScript, scenarioToScript, productSlug } from "@/components/chat/script";
 import { gsap, typeInto, Flip, EASE } from "@/lib/motion";
 
@@ -34,63 +33,50 @@ export function ChatPanelContent({ active }: { active?: boolean }) {
   );
 }
 
-/** Chat do artefaktu hero — scenariusz „doradztwo" (buty trailowe → karty X-Trail
- *  z REALNYM zdjęciem). Body przewijalne wewnątrz ramki; playback trzyma dno. */
-export function HeroChatPanel({ active }: { active?: boolean }) {
+/** ŻYWY chat hero (E8): silnik ChatShell (skin onsite) + useChatPlayback ze
+ *  scenariuszami z pl.hero.chat.scenarios. Persona Magda pisze na żywo (typing dots,
+ *  karty produktów z realnym foto = ProductCard variant chat), scenario-taby
+ *  przełączają rozmowę (reset od seedu), pill „Nowa wiadomość" przy odklejeniu.
+ *  Playback rusza po intro (markIntroDone) i tylko w viewport; reduced-motion =
+ *  cała rozmowa statycznie (silnik inert). Ramkę + taby funkcji daje HeroDemo. */
+export function HeroChatLive() {
+  const t = pl.hero.chat;
+  const [scenario, setScenario] = useState(0);
+
   return (
     <ChatShell
-      chrome="bare"
-      skin="messenger"
-      active={active}
-      script={scenarioToScript(pl.hero.chat.scenarios[0])}
-      className="h-full"
-      bodyClassName="h-full overflow-y-auto pr-1"
+      chrome="hero"
+      skin="onsite"
+      waitForIntro
+      replayable
+      script={scenarioToScript(t.scenarios[scenario])}
+      ariaLabel="Rozmowa demo z doradcą HackMySales"
+      bodyClassName="min-h-0 flex-1 pr-1"
+      headerExtra={
+        <div className="flex gap-1.5 pb-3" role="group" aria-label="Scenariusze demo">
+          {t.scenarios.map((s, i) => (
+            <button
+              key={s.key}
+              onClick={() => setScenario(i)}
+              aria-pressed={i === scenario}
+              className={`min-h-11 rounded-full px-3.5 py-1.5 t-meta font-medium transition-[color,background-color,transform] duration-150 active:scale-[0.98] md:min-h-0 ${
+                i === scenario
+                  ? "bg-blue-tint text-blue-soft"
+                  : "text-mute hover:bg-elevated hover:text-sub"
+              }`}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+      }
+      footer={
+        <div className="mt-3 flex items-center gap-2 rounded-full border border-hairline bg-field px-4 py-2.5" aria-hidden="true">
+          <span className="min-w-0 flex-1 truncate t-ui text-mute">{t.inputPlaceholder}</span>
+          <Glyph name="send" size={18} className="shrink-0 text-blue-soft" />
+        </div>
+      }
     />
-  );
-}
-
-/** Chat hero w stylu makiety klienta: persona Magda + pytanie użytkownika + odpowiedź
- *  bota z RZĘDEM 3 propozycji produktów (realne foto) + atrapa inputu. Statyczny —
- *  czytelny od razu, przyjazny reduced-motion. */
-export function HeroChatShowcase() {
-  const t = pl.hero.chat;
-  const persona = t.persona;
-  const s = t.showcase;
-  return (
-    <div className="flex h-full flex-col">
-      {/* Header persony */}
-      <div className="border-b border-hairline pb-3">
-        <PersonaRow presence={persona.status} />
-      </div>
-
-      {/* Rozmowa */}
-      <div className="flex flex-1 flex-col justify-center gap-3 py-4">
-        <div className="max-w-[80%] self-end rounded-lg rounded-br-sm bg-blue px-4 py-2.5 t-ui leading-relaxed text-onblue">
-          {s.user}
-        </div>
-        <div className="max-w-[95%] self-start rounded-lg rounded-bl-sm bg-elevated px-4 py-3">
-          <p className="t-ui leading-relaxed text-ink">{s.botIntro}</p>
-          <div className="mt-3 grid grid-cols-3 gap-2.5">
-            {s.products.map((pr) => (
-              <ProductCard
-                key={pr.name}
-                variant="grid"
-                name={pr.name}
-                price={pr.price}
-                kind={pr.kind as ProductKind}
-                slug={USE_REAL_PHOTOS ? productSlug(pr.name) : undefined}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Atrapa inputu */}
-      <div className="flex items-center gap-2 rounded-full border border-hairline bg-field px-4 py-2.5">
-        <span className="min-w-0 flex-1 truncate t-ui text-mute">{s.input}</span>
-        <Glyph name="send" size={18} className="shrink-0 text-blue-soft" />
-      </div>
-    </div>
   );
 }
 
@@ -201,9 +187,13 @@ export function RecoGrid({ photo = USE_REAL_PHOTOS }: { photo?: boolean }) {
     <div className="flex h-full flex-col gap-3">
       <div className="flex items-baseline justify-between gap-3">
         <p className="t-ui font-medium text-ink">{d.title}</p>
-        {/* cichy podpis kryterium (zamiast krzykliwego chipu AI) — zmienia się z re-rankiem */}
+        {/* cichy podpis kryterium (zamiast krzykliwego chipu AI) — crossfade 150 ms
+            zsynchronizowany z re-rankiem FLIP (keyed remount = ponowny fade) */}
         <span className="t-meta text-mute">
-          {d.signalPrefix} {d.signals[signalIdx].label}
+          {d.signalPrefix}{" "}
+          <span key={signalIdx} className="reco-crit inline-block">
+            {d.signals[signalIdx].label}
+          </span>
         </span>
       </div>
       {/* listing sklepu — mobile: swipe (2 karty), desktop: grid 4; kadr 1:1 przez ProductCard */}

@@ -249,9 +249,13 @@
 .js .chat-step[data-seed="1"] .chat-typing { display: none; }
 
 
-/* Ticker (Radar popytu) — czysty CSS marquee */
+/* Ticker (Radar popytu) — czysty CSS marquee; maska krawędzi = wpływ/wypływ pasa */
 @keyframes marquee { to { transform: translateX(-50%); } }
-.ticker { overflow: hidden; }
+.ticker {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
 .ticker-track {
   display: flex;
   gap: 2.5rem;
@@ -379,6 +383,31 @@
   .fade-in-panel, .fade-in-fast { animation: none; }
 }
 
+/* RecoGrid: crossfade podpisu kryterium (150 ms, opacity only) zsynchronizowany z FLIP */
+@keyframes reco-crit-in { from { opacity: 0; } to { opacity: 1; } }
+.reco-crit { animation: reco-crit-in 150ms var(--ease-out); }
+@media (prefers-reduced-motion: reduce) { .reco-crit { animation: none; } }
+
+/* FinalCta: pigułka sukcesu — scale 0.96→1 (transform) + jednorazowy puls poświaty
+   (opacity ::after, box-shadow statyczny). Echo zapłonu, bez fałszywych liczb. */
+@keyframes status-pop { from { transform: scale(0.96); } to { transform: scale(1); } }
+@keyframes status-glow { 0% { opacity: 0; } 32% { opacity: 0.55; } 100% { opacity: 0; } }
+.status-pop { animation: status-pop 0.5s var(--ease-out); }
+.status-pop::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  box-shadow: 0 0 18px 2px color-mix(in srgb, var(--blue-500) 45%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  animation: status-glow 1.1s var(--ease-out) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .status-pop { animation: none; }
+  .status-pop::after { animation: none; display: none; }
+}
+
 
 /* Kursor „pisania” w panelu wyszukiwarki */
 @keyframes caret-blink { 50% { opacity: 0; } }
@@ -404,6 +433,19 @@
   pointer-events: none;
 }
 
+
+/* Crescendo (E9) — JEDYNY scroll-pin strony (motion.md §7). Pełny viewport TYLKO pod
+   pinem (desktop ≥768 + no-preference), żeby visual-suite w reduced-motion ORAZ mobile
+   (bez pinu) widziały statyczny układ 1:1 bez zmian. Zawartość wyśrodkowana w foldzie
+   sceny → zdanie składa się w centrum, CTA ląduje pewnie. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .cres-section {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
 
 /* Szum pasm leśnych — dark bands nigdy jako płaskie wypełnienie (CHECKLIST #18) */
 .noise-forest {

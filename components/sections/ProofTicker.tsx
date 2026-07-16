@@ -8,7 +8,7 @@ import { useReveal } from "@/lib/motion";
  *  zaufania z platformami. Jeden pas pod hero zamiast dwóch. Reduced-motion:
  *  statyczna lista pierwszych wpisów (CSS w globals). */
 export function ProofTicker() {
-  const ref = useReveal<HTMLDivElement>(0.06);
+  const ref = useReveal<HTMLDivElement>(0.06, { y: 12 });
   const t = pl.proofTicker;
   const trust = pl.trustBar;
 

@@ -26,10 +26,17 @@ export const EASE = {
 export const DUR = { fast: 0.3, base: 0.6, slow: 1.2 } as const;
 export const STAG = { tight: 0.06, base: 0.08, loose: 0.09 } as const;
 
-/** Standardowy reveal sekcji: elementy .js-reveal wjeżdżają y:32→0 ze staggerem,
- *  raz, przy top 78%. Reduced-motion: od razu widoczne. */
-export function useReveal<T extends HTMLElement = HTMLElement>(stagger: number = STAG.base) {
+/** Standardowy reveal sekcji: elementy .js-reveal wjeżdżają y→0 ze staggerem,
+ *  raz, przy top 78%. Reduced-motion: od razu widoczne.
+ *  Rodziny wejść (E8): wiersze danych `y:12` tight, ciemne pasma `y:24` wolniej —
+ *  stan KOŃCOWY zawsze identyczny (y:0, opacity:1, transform czyszczony) → reduced-motion 0 diff. */
+export function useReveal<T extends HTMLElement = HTMLElement>(
+  stagger: number = STAG.base,
+  opts?: { y?: number; duration?: number }
+) {
   const ref = useRef<T>(null);
+  const y = opts?.y ?? 16;
+  const duration = opts?.duration ?? 0.7;
 
   useGSAP(
     () => {
@@ -42,11 +49,11 @@ export function useReveal<T extends HTMLElement = HTMLElement>(stagger: number =
       mm.add(NO_REDUCE, () => {
         gsap.fromTo(
           targets,
-          { y: 16, opacity: 0 },
+          { y, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            duration: 0.7,
+            duration,
             ease: EASE.soft,
             stagger,
             // uwaga: NIE czyścimy opacity — CSS trzyma stan startowy 0 pod .js
@@ -144,30 +151,6 @@ export function typeIntoPunct(
     .call(() => {
       if (opts?.caret) opts.caret.style.display = "none";
     });
-}
-
-/** Magnetyczne przyciąganie elementu do kursora (nav CTA: max 8px, hero CTA: 4px).
- *  Wywoływać wewnątrz kontekstu matchMedia FINE_POINTER. Zwraca cleanup. */
-export function attachMagnet(el: HTMLElement, radius = 8) {
-  const xTo = gsap.quickTo(el, "x", { duration: 0.4, ease: EASE.soft });
-  const yTo = gsap.quickTo(el, "y", { duration: 0.4, ease: EASE.soft });
-  const onMove = (e: MouseEvent) => {
-    const r = el.getBoundingClientRect();
-    const dx = e.clientX - (r.left + r.width / 2);
-    const dy = e.clientY - (r.top + r.height / 2);
-    xTo(gsap.utils.clamp(-radius, radius, dx * 0.16));
-    yTo(gsap.utils.clamp(-radius, radius, dy * 0.16));
-  };
-  const onLeave = () => {
-    xTo(0);
-    yTo(0);
-  };
-  el.addEventListener("mousemove", onMove);
-  el.addEventListener("mouseleave", onLeave);
-  return () => {
-    el.removeEventListener("mousemove", onMove);
-    el.removeEventListener("mouseleave", onLeave);
-  };
 }
 
 export { gsap, ScrollTrigger, SplitText, Flip, useGSAP };

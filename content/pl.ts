@@ -193,20 +193,21 @@ const raw = {
   },
 
   problem: {
-    label: "DLACZEGO TRACISZ SPRZEDAŻ",
-    // Interest — one-sentence persuasion (docx); akcent kwasowy na „za których już zapłaciłeś"
+    label: "CO CIĘ TO KOSZTUJE",
+    // Interest — One-Sentence-Persuasion (docx): jedno zdanie, akcent kwasowy na „za których już zapłaciłeś"
     persuasion: {
-      pre: "Nie musisz wydawać więcej na coraz droższe reklamy ani przebudowywać całego sklepu. Problem nie leży w Twojej ofercie, lecz w stronie, która traci klientów, ",
+      pre: "Nie musisz wydawać więcej na coraz droższe reklamy ani przebudowywać sklepu — problem nie leży w Twojej ofercie, lecz w stronie, która traci klientów, ",
       mark: "za których już zapłaciłeś",
       post: ". HackMySales odzyskuje te konwersje i zwiększa sprzedaż z obecnego ruchu.",
     },
-    h2: "Klient trafia do sklepu. Ale czy sklep pomaga mu podjąć decyzję?",
+    h2: "Twój sklep traci klientów po cichu.",
     barriersLead: "Użytkownicy opuszczają sklep, gdy:",
+    // każda bariera ma „koszt" — jedno zdanie odsłaniane na hover/focus/tap (bez liczb)
     barriers: [
-      "nie potrafią znaleźć odpowiedniego produktu",
-      "dostają zbyt wiele niedopasowanych wyników",
-      "nie otrzymują odpowiedzi na swoje pytania",
-      "nie wiedzą, który produkt będzie dla nich najlepszy",
+      { text: "nie potrafią znaleźć odpowiedniego produktu", cost: "Klient, który nie znajdzie — nie wraca." },
+      { text: "dostają zbyt wiele niedopasowanych wyników", cost: "Zbyt wiele opcji paraliżuje wybór i kończy się wyjściem." },
+      { text: "nie otrzymują odpowiedzi na swoje pytania", cost: "Bez szybkiej odpowiedzi klient kupuje tam, gdzie ją dostał." },
+      { text: "nie wiedzą, który produkt będzie dla nich najlepszy", cost: "Niepewność przed zakupem cofa rękę znad koszyka." },
     ],
     closing:
       "HackMySales usuwa te bariery dokładnie wtedy, gdy klient podejmuje decyzję — w czasie rzeczywistym odpowiada na pytania, rekomenduje właściwe produkty i zamienia więcej opłaconego ruchu w sprzedaż.",
@@ -214,7 +215,7 @@ const raw = {
 
   pillars: {
     label: "SYSTEM",
-    h2: "Nie sprowadzamy więcej klientów. Sprawiamy, że więcej z nich kupuje.",
+    h2: "Jeden system. Trzy miejsca, w których zarabia.",
     items: [
       {
         title: "AI Search",
@@ -301,6 +302,8 @@ const raw = {
     disclaimer: "Wyniki pochodzą z cytowanych badań — efekt w Twoim sklepie zależy od wdrożenia i branży.",
     moreLabel: "Pokaż wszystkie 10 badań",
     lessLabel: "Zwiń",
+    // Mikro-CTA pod listą badań → kalkulator (#wyniki); tekstowy link, nie trzeci przycisk
+    calcHook: { label: "Policz, ile to znaczy w Twoim sklepie", href: "#wyniki" },
   },
 
   comparison: {
@@ -344,7 +347,7 @@ const raw = {
       { key: "instagram", name: "Instagram" },
       { key: "email", name: "E-mail — raport dla Ciebie" },
     ],
-    caption: "Messenger i Instagram — w planie Growth.",
+    caption: "Messenger i Instagram — w wyższych planach; włączasz bez drugiego wdrożenia.",
   },
 
   forWho: {
@@ -480,14 +483,17 @@ const raw = {
       {
         title: "Podłączasz sklep",
         body: "wtyczka albo klucz API. 15 minut, klikasz, działa.",
+        time: "15 minut",
       },
       {
         title: "AI uczy się Twojego biznesu",
         body: "katalog, stany, ceny, dostawy, zwroty, FAQ. Odpowiada wyłącznie na podstawie Twoich danych.",
+        time: "1 dzień",
       },
       {
         title: "Sprzedaje, a Ty czytasz raporty",
         body: "czat, wyszukiwarka i rekomendacje pracują 24/7. Ty dostajesz liczby i listę rzeczy do poprawy.",
+        time: "7 dni",
       },
     ],
     note: "Bez przebudowy sklepu. Pierwsze efekty widać w 7 dni.",
@@ -573,7 +579,7 @@ const raw = {
   integrations: {
     h2: "Twoja platforma jest na liście.",
     platforms: ["Shoper", "IdoSell", "PrestaShop", "WooCommerce", "Shopify", "Magento", "Sky-Shop", "REST API"],
-    note: "Sklep pisany na miarę? REST API i webhooki — podłączymy wszystko, co ma katalog i koszyk. Czat dogada się z klientem także na Messengerze i Instagramie (plan Growth).",
+    note: "Sklep pisany na miarę? REST API i webhooki — podłączymy wszystko, co ma katalog i koszyk. Czat dogada się z klientem także na Messengerze i Instagramie (w wyższych planach).",
     // §7c — finder platformy (odpowiedzi wyprowadzone z FAQ)
     finder: {
       placeholder: "Wpisz swoją platformę…",
@@ -698,12 +704,20 @@ const raw = {
         a: "Nie. Odpowiada wyłącznie na podstawie Twojego katalogu, cennika i polityk. Kiedy nie zna odpowiedzi, mówi „nie wiem” i przekazuje rozmowę człowiekowi. Każdą odpowiedź możesz prześledzić do źródła w panelu.",
       },
       {
+        q: "Ile to kosztuje?",
+        a: "Plany zaczynają się od 499 zł/mc netto. Przez 14 dni testujesz za darmo, bez karty. Dokładną wycenę pod ruch Twojego sklepu podamy na prezentacji.",
+      },
+      {
         q: "Ile trwa wdrożenie?",
         a: "Wtyczka lub API: ok. 15 minut. Indeksacja katalogu: do kilku godzin. Realnie: rano podłączasz, po południu bot sprzedaje. Nie ruszamy kodu Twojego sklepu.",
       },
       {
         q: "Czy zadziała z moją platformą?",
         a: "Shoper, IdoSell, PrestaShop, WooCommerce, Shopify, Magento — natywnie. Sklep autorski — przez REST API. Jeśli masz katalog i koszyk, podłączymy.",
+      },
+      {
+        q: "Nie prowadzę sklepu z modą. Czy to zadziała w mojej branży?",
+        a: "Tak. AI uczy się wyłącznie Twojego katalogu, nie jednej branży: płytki, elektronika, meble czy B2B działają tak samo. Jeśli Twoi klienci pytają przed zakupem, jest z czego odzyskiwać sprzedaż.",
       },
       {
         q: "Co z RODO?",
@@ -719,7 +733,7 @@ const raw = {
       },
       {
         q: "Mam mały ruch. Czy to się opłaci?",
-        a: "Zasada kciuka: jeśli masz ponad 5 tys. wizyt miesięcznie albo choć jedną osobę odpisującą na maile klientów — tak. Konkretne liczby dla Twojego sklepu policzymy na demo.",
+        a: "Zasada kciuka: jeśli masz ponad 5 tys. wizyt miesięcznie albo choć jedną osobę odpisującą na maile klientów — tak. Konkretne liczby dla Twojego sklepu policzymy na demo. Policz w kalkulatorze wyżej.",
       },
       {
         q: "Czy mogę kontrolować, co bot mówi?",
@@ -767,19 +781,18 @@ const raw = {
   // Kotwica ceny (decyzja: sygnał ceny + trial zamiast pełnego cennika) — 499 = demo.prices.starter.monthly
   priceAnchor: {
     text: "od 499 zł/mc",
-    sub: "14 dni za darmo, bez karty. Rezygnacja jednym kliknięciem.",
+    sub: "14 dni testujesz za darmo, bez karty. W cenie cały system: czat, wyszukiwarka i rekomendacje. Rezygnacja jednym kliknięciem.",
   },
 
-  // S8 Action (docx) — formularz demo, 6 pól, realna wysyłka (Web3Forms → e-mail)
+  // S8 Action (docx) — formularz demo, 5 pól (imię i nazwisko scalone, telefon opcjonalny), realna wysyłka (Web3Forms → e-mail)
   finalCta: {
     label: "UMÓW PREZENTACJĘ",
     h2: "Sprawdź, ile sprzedaży może odzyskać Twój sklep.",
     lead: "Umów darmową prezentację. W krótkim demo pokażemy, jak AI Search, rekomendacje i chatbot podnoszą wartość ruchu, za który już płacisz.",
     fields: {
-      firstName: { label: "Imię", placeholder: "Jan" },
-      lastName: { label: "Nazwisko", placeholder: "Kowalski" },
+      name: { label: "Imię i nazwisko", placeholder: "Jan Kowalski" },
       email: { label: "Adres e-mail", placeholder: "jan@twojsklep.pl" },
-      phone: { label: "Numer telefonu", placeholder: "600 100 200" },
+      phone: { label: "Numer telefonu (opcjonalnie)", placeholder: "600 100 200" },
       url: { label: "Strona internetowa", placeholder: "twojsklep.pl" },
       message: { label: "Wiadomość", placeholder: "Na czym najbardziej Ci zależy (opcjonalnie)" },
     },
@@ -787,7 +800,7 @@ const raw = {
     sending: "Wysyłamy…",
     below: "Odpowiadamy w 1 dzień roboczy. Bez spamu i bez nachalnych sekwencji sprzedażowych.",
     errors: {
-      firstName: "Podaj imię.",
+      name: "Podaj imię i nazwisko.",
       email: "Ten e-mail wygląda na niepełny.",
       phone: "Sprawdź numer telefonu.",
       url: "To nie wygląda na adres sklepu — sprawdź literówkę.",

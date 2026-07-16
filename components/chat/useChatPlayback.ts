@@ -140,15 +140,19 @@ export function useChatPlayback(opts: {
             // dots 600–900 ms — deterministycznie (bez Math.random, stabilne replaye)
             const hold = 0.6 + 0.3 * (((i * 37) % 100) / 100);
             tl.set(step, { opacity: 1 })
-              // kotwica = dots gdy się pojawiają (pętla follow trzyma je w widoku)
+              // kotwica = dots gdy się pojawiają (setAnchor pinuje synchronicznie w widoku)
               .call(() => {
                 setAnchor(dots);
               })
-              .fromTo(dots, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 })
+              // dots WIDOCZNE OD RAZU (bez rampy autoAlpha przez <0,1): na wysokim
+              // kroku rampa zostawiała okno „typing niewidoczny + krok pod krawędzią".
+              // Same kropki i tak pulsują (CSS) — liveness zachowany.
+              .set(dots, { autoAlpha: 1 })
               .to({}, { duration: hold })
-              .to(dots, { autoAlpha: 0, duration: 0.15 })
-              .set(dots, { display: "none" })
-              // po kolapsie dots kotwica → msg (layout finalny, autoAlpha rezerwuje wysokość)
+              // handoff dots→msg w JEDNYM takcie: zdejmij dots (krok kurczy się do
+              // wysokości msg) i od razu przepnij kotwicę na msg (synchroniczny dosun
+              // do ratio 1). Brak luki między zniknięciem typing a dojazdem wiadomości.
+              .set(dots, { autoAlpha: 0, display: "none" })
               .call(() => {
                 setAnchor(msg);
               })
@@ -163,11 +167,15 @@ export function useChatPlayback(opts: {
           } else if (role === "user") {
             const textEl = step.querySelector<HTMLElement>(".chat-user-text");
             const caret = step.querySelector<HTMLElement>(".chat-caret");
+            // kotwica PRZED reveal (jak bot/badge/divider): autoAlpha rezerwuje wysokość,
+            // więc pętla follow trzyma bąbel usera w widoku już od 1. klatki wjazdu.
+            // Anchor PO reveal zostawiał ~250 ms okno, w którym kotwica wskazywała
+            // poprzednią wiadomość, a nowy bąbel wpadał pod krawędź (ratio ~0,23).
             tl.set(step, { opacity: 1 }, "+=0.35")
-              .fromTo(msg, { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.25, ease: "power2.out" })
               .call(() => {
                 setAnchor(msg);
-              });
+              })
+              .fromTo(msg, { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.25, ease: "power2.out" });
             // pętla follow dowozi log, gdy bąbel usera rośnie przy zawijaniu tekstu
             typeIntoPunct(tl, textEl, { caret });
           } else {

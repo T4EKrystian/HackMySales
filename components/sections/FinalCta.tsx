@@ -8,20 +8,21 @@ import { Button } from "@/components/ui/Button";
 import { useReveal } from "@/lib/motion";
 
 type Status = "idle" | "sending" | "sent" | "error";
-type Errors = Partial<Record<"firstName" | "email" | "phone" | "url", string>>;
+type Errors = Partial<Record<"name" | "email" | "phone" | "url", string>>;
 
 // Klucz usługi formularza (Web3Forms). Brak klucza → fallback mailto (działa bez backendu).
 const ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
 const CONTACT = "kontakt@hackmysales.pl";
 
 /** S8 Action (docx) — pasmo LEŚNE pełnej szerokości (tentpole domknięcia), siatka line-dark
- *  + szum, jeden akcent kwasowy (submit). Formularz demo: 6 pól (imię, nazwisko, e-mail,
- *  telefon, strona, wiadomość) z realną wysyłką na e-mail. Bez klucza → mailto z pre-fill.
+ *  + szum, jeden akcent kwasowy (submit). Formularz demo: 5 pól (imię i nazwisko, e-mail,
+ *  telefon opcjonalny, strona, wiadomość) z realną wysyłką na e-mail. Bez klucza → mailto z pre-fill.
  *  Reduced-motion / no-JS: pełny formularz od razu (wszystkie pola widoczne). */
 export function FinalCta() {
   const t = pl.finalCta;
   const f = t.fields;
-  const ref = useReveal<HTMLElement>(0.08);
+  // ciemne pasmo (tentpole): wejście dalej (y:24) i wolniej — cięższy, domykający ruch
+  const ref = useReveal<HTMLElement>(0.08, { y: 24, duration: 0.9 });
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Errors>({});
 
@@ -32,7 +33,7 @@ export function FinalCta() {
   async function deliver(data: Record<string, string>) {
     if (!ACCESS_KEY) {
       const body = [
-        `Imię: ${data.firstName} ${data.lastName}`.trim(),
+        `Imię i nazwisko: ${data.name}`,
         `E-mail: ${data.email}`,
         `Telefon: ${data.phone}`,
         `Strona: ${data.url}`,
@@ -49,8 +50,7 @@ export function FinalCta() {
           access_key: ACCESS_KEY,
           subject: "Nowe zgłoszenie demo — HackMySales",
           from_name: "HackMySales — landing",
-          "Imię": data.firstName,
-          "Nazwisko": data.lastName,
+          "Imię i nazwisko": data.name,
           "E-mail": data.email,
           "Telefon": data.phone,
           "Strona": data.url,
@@ -70,8 +70,7 @@ export function FinalCta() {
     const fd = new FormData(e.currentTarget);
     const get = (k: string) => String(fd.get(k) ?? "").trim();
     const data = {
-      firstName: get("firstName"),
-      lastName: get("lastName"),
+      name: get("name"),
       email: get("email"),
       phone: get("phone"),
       url: get("url"),
@@ -81,9 +80,10 @@ export function FinalCta() {
     if (data.botcheck) return; // honeypot — cichy drop
 
     const next: Errors = {};
-    if (!data.firstName) next.firstName = t.errors.firstName;
+    if (!data.name) next.name = t.errors.name;
     if (!validEmail(data.email)) next.email = t.errors.email;
-    if (!validPhone(data.phone)) next.phone = t.errors.phone;
+    // telefon opcjonalny — walidacja tylko gdy pole wypełnione
+    if (data.phone && !validPhone(data.phone)) next.phone = t.errors.phone;
     if (!validUrl(data.url)) next.url = t.errors.url;
     setErrors(next);
     if (Object.keys(next).length) return;
@@ -119,7 +119,7 @@ export function FinalCta() {
         {status === "sent" ? (
           <p
             role="status"
-            className="mt-12 flex w-fit items-center gap-3 rounded-full border border-line-dark bg-forest-900 px-6 py-4 text-sm text-onforest"
+            className="status-pop relative mt-12 flex w-fit items-center gap-3 rounded-full border border-line-dark bg-forest-900 px-6 py-4 text-sm text-onforest"
           >
             <Glyph name="check" size={16} className="text-onforest" />
             {t.success}
@@ -129,10 +129,9 @@ export function FinalCta() {
             {/* honeypot — ukryty przed ludźmi */}
             <input type="text" name="botcheck" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
 
-            <Field id="cf-first" name="firstName" label={f.firstName.label} placeholder={f.firstName.placeholder} required error={errors.firstName} inputCls={inputCls} okBorder={okBorder} />
-            <Field id="cf-last" name="lastName" label={f.lastName.label} placeholder={f.lastName.placeholder} inputCls={inputCls} okBorder={okBorder} />
+            <Field id="cf-name" name="name" label={f.name.label} placeholder={f.name.placeholder} required error={errors.name} className="sm:col-span-2" inputCls={inputCls} okBorder={okBorder} />
             <Field id="cf-email" name="email" type="email" label={f.email.label} placeholder={f.email.placeholder} required error={errors.email} inputCls={inputCls} okBorder={okBorder} />
-            <Field id="cf-phone" name="phone" type="tel" label={f.phone.label} placeholder={f.phone.placeholder} required error={errors.phone} inputCls={inputCls} okBorder={okBorder} />
+            <Field id="cf-phone" name="phone" type="tel" label={f.phone.label} placeholder={f.phone.placeholder} error={errors.phone} inputCls={inputCls} okBorder={okBorder} />
             <Field id="cf-url" name="url" label={f.url.label} placeholder={f.url.placeholder} required error={errors.url} className="sm:col-span-2" inputCls={inputCls} okBorder={okBorder} />
 
             <div className="sm:col-span-2">

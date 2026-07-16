@@ -49,7 +49,8 @@ function LenisBridge() {
       const el = document.querySelector<HTMLElement>(id);
       if (!el) return;
       e.preventDefault();
-      lenis.scrollTo(el, { offset: -88 });
+      // kotwice: dłuższy, wyciszony dojazd (expo-out) zamiast szarpnięcia lerpem
+      lenis.scrollTo(el, { offset: -88, duration: 1.0, easing: (x: number) => (x >= 1 ? 1 : 1 - Math.pow(2, -10 * x)) });
       history.pushState(null, "", id);
     };
     document.addEventListener("click", onClick);
