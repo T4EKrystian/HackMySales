@@ -202,20 +202,7 @@
   pointer-events: none;
 }
 
-.text-gradient {
-  background: var(--gradient-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
 
-/* Siatka kropek pod hero — ledwo widoczna */
-.dot-grid {
-  background-image: radial-gradient(color-mix(in srgb, var(--text-muted) 18%, transparent) 1px, transparent 1px);
-  background-size: 28px 28px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 30%, transparent 75%);
-  pointer-events: none;
-}
 
 /* Skip link (a11y) */
 .skip-link {
@@ -253,11 +240,6 @@
 .js .chat-step[data-seed="1"] .chat-msg { opacity: 1; }
 .js .chat-step[data-seed="1"] .chat-typing { display: none; }
 
-/* Manifest: słowa startują przygaszone tylko przy działającym JS */
-.js .man-word { opacity: 0.12; }
-@media (prefers-reduced-motion: reduce) {
-  .js .man-word { opacity: 1; }
-}
 
 /* Ticker (Radar popytu) — czysty CSS marquee */
 @keyframes marquee { to { transform: translateX(-50%); } }
@@ -500,27 +482,6 @@
   .typing-caret { display: none; }
 }
 
-/* ---------- Warstwa filmowa: grain + vignette (motion.md v3 §2) ---------- */
-
-.grain {
-  position: fixed;
-  inset: -100%;
-  z-index: 80;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.025;
-  animation: grain-shift 1.2s steps(2) infinite;
-}
-@keyframes grain-shift {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-1.2%, 0.8%); }
-  50% { transform: translate(0.9%, -1.1%); }
-  75% { transform: translate(-0.6%, -0.7%); }
-  100% { transform: translate(0, 0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .grain { animation: none; }
-}
 
 /* Szum kafli ProductVisual — jedna rasteryzacja data-URI na stronę (DNA 4–6%) */
 .pv-noise {
@@ -530,30 +491,6 @@
   pointer-events: none;
 }
 
-/* Hero: siatka cienkich LINII (nie kropek) + radialna maska + powolny dryf 40s */
-.hero-grid {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(to right, var(--line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size: 38px 38px;
-  -webkit-mask-image: radial-gradient(ellipse 78% 66% at 50% 42%, #000 28%, transparent 80%);
-  mask-image: radial-gradient(ellipse 78% 66% at 50% 42%, #000 28%, transparent 80%);
-  animation: grid-drift 40s var(--ease-in-out) infinite alternate;
-}
-.hero-grid.on-forest {
-  background-image:
-    linear-gradient(to right, var(--line-dark) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line-dark) 1px, transparent 1px);
-}
-@keyframes grid-drift {
-  to { transform: translate(8px, 0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-grid { animation: none; }
-}
 
 /* Szum pasm leśnych — dark bands nigdy jako płaskie wypełnienie (CHECKLIST #18) */
 .noise-forest {
@@ -567,221 +504,10 @@
   mix-blend-mode: soft-light;
 }
 
-/* Hero: pływające chipy statystyk (ref-3) — powolny dryf, desynchronizowany delay */
-@keyframes chip-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-.hero-chip { animation: chip-float 6s var(--ease-in-out) infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .hero-chip { animation: none; }
-}
 
-/* ---------- Custom cursor (tylko pointer:fine, bez reduced-motion) ---------- */
 
-.has-cursor body,
-.has-cursor a,
-.has-cursor button,
-.has-cursor summary,
-.has-cursor label,
-.has-cursor [role="button"] {
-  cursor: none;
-}
-.has-cursor input,
-.has-cursor textarea,
-.has-cursor select {
-  cursor: auto;
-}
 
-.cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--text-primary);
-  mix-blend-mode: difference;
-  will-change: transform;
-}
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--text-primary) 55%, transparent);
-  mix-blend-mode: difference;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  will-change: transform;
-}
-.cursor-ring[data-mode="label"] {
-  background: color-mix(in srgb, var(--text-primary) 92%, transparent);
-  border-color: transparent;
-}
-.cursor-label {
-  font-family: var(--font-mono);
-  font-size: 4px; /* ring skalowany 2.6x -> ~10.5px optycznie */
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--bg-page);
-  opacity: 0;
-  white-space: nowrap;
-}
 
-/* ---------- Marquee wsteczne (Integracje) ---------- */
-@keyframes marquee-rev { to { transform: translateX(50%); } }
-.ticker-track-rev {
-  display: flex;
-  gap: 2.5rem;
-  width: max-content;
-  transform: translateX(-50%);
-  animation: marquee-rev 46s linear infinite;
-}
-.ticker:hover .ticker-track-rev { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce) {
-  .ticker-track-rev { animation: none; transform: none; }
-}
-
-/* ---------- Kalkulator: custom slidery z bąblem wartości (copy §6b) ---------- */
-
-.range-hms {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 100%;
-  height: 6px;
-  border-radius: 999px;
-  background: linear-gradient(
-    to right,
-    var(--blue-500) var(--fill, 50%),
-    var(--bg-elevated) var(--fill, 50%)
-  );
-}
-/* Mobile: hit-area 44 px (input wysoki), tor malowany jako CENTROWANY 6 px pasek */
-@media (max-width: 767px) {
-  .range-hms {
-    height: 44px;
-    background:
-      linear-gradient(to right, var(--blue-500) var(--fill, 50%), var(--bg-elevated) var(--fill, 50%))
-      center / 100% 6px no-repeat;
-  }
-}
-.range-hms::-webkit-slider-thumb {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 999px;
-  background: var(--bg-card);
-  border: 2px solid var(--blue-500);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-  transition: box-shadow 150ms var(--ease-out);
-  cursor: grab;
-}
-.range-hms::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  border-radius: 999px;
-  background: var(--bg-card);
-  border: 2px solid var(--blue-500);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-}
-.range-hms:focus-visible::-moz-range-thumb {
-  box-shadow: 0 0 0 6px var(--blue-tint);
-}
-.range-hms:hover::-webkit-slider-thumb,
-.range-hms:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 0 0 6px var(--blue-tint);
-}
-.range-wrap { position: relative; }
-.range-bubble {
-  position: absolute;
-  top: -30px;
-  left: var(--fill, 50%);
-  transform: translateX(-50%);
-  padding: 2px 8px;
-  border-radius: 8px;
-  border: 1px solid var(--border-hairline);
-  background: var(--bg-elevated);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-primary);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 150ms var(--ease-out);
-  pointer-events: none;
-}
-.range-wrap:hover .range-bubble,
-.range-wrap:focus-within .range-bubble,
-/* v5 (F5 pkt 13): bąbel widoczny także W TRAKCIE przeciągania (kursor może uciec z hoveru) */
-.range-wrap:has(.range-hms:active) .range-bubble {
-  opacity: 1;
-}
-
-/* ---------- Bento: spotlight-border + sweep radaru (features §L19) ---------- */
-
-.spot-card {
-  --spot-x: 50%;
-  --spot-y: 0%;
-  --spot-o: 0;
-  transform-style: preserve-3d;
-}
-.spot-card::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: radial-gradient(
-    240px circle at var(--spot-x) var(--spot-y),
-    color-mix(in srgb, var(--blue-400) 65%, transparent),
-    transparent 70%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  opacity: var(--spot-o);
-  transition: opacity 300ms var(--ease-out);
-  pointer-events: none;
-}
-
-/* Border-beam — świetlik biegnący po obrysie planu polecanego (copy §9b) */
-@property --beam-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-@keyframes beam-rotate {
-  to { --beam-angle: 360deg; }
-}
-.border-beam { position: relative; }
-.border-beam::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1.5px;
-  background: conic-gradient(
-    from var(--beam-angle),
-    transparent 0deg 300deg,
-    color-mix(in srgb, var(--blue-400) 80%, transparent) 340deg,
-    var(--blue-300) 358deg,
-    transparent 360deg
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  animation: beam-rotate 4.5s linear infinite;
-  pointer-events: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .border-beam::before { display: none; }
-}
 
 /* Wordmark w stopce — fill-wipe od lewej na hover */
 .wordmark-wipe {
@@ -805,29 +531,6 @@
   .wordmark-wipe .wipe-fill { display: none; }
 }
 
-/* Sweep radaru — obracający się „promień" nasłuchu */
-@keyframes radar-sweep { to { transform: rotate(1turn); } }
-.radar-sweep {
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  background: conic-gradient(
-    from 0deg,
-    color-mix(in srgb, var(--blue-400) 30%, transparent) 0deg,
-    transparent 70deg
-  );
-  animation: radar-sweep 6s linear infinite;
-}
-@keyframes radar-blip {
-  0%, 8% { opacity: 0; transform: scale(0.4); }
-  12%, 55% { opacity: 1; transform: scale(1); }
-  70%, 100% { opacity: 0.25; transform: scale(1); }
-}
-.radar-blip { animation: radar-blip 4.8s infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .radar-sweep { animation: none; opacity: 0.35; }
-  .radar-blip { animation: none; opacity: 1; }
-}
 
 /* Podkreślenie linków nav */
 .nav-link { position: relative; }
