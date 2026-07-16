@@ -26,6 +26,38 @@ export function SectionLabel({
   );
 }
 
+/** Linia księgowa (sygnatura redesignu): pełna linia 1px z trzema mono tab-stopami —
+ *  folio · eyebrow · prawy datum (prawdziwa liczba z truth-table). Datum znika <sm.
+ *  `inverted` = pasmo granatowe (Crescendo/FinalCta): hairline i tekst na ciemnym. */
+export function LedgerRule({
+  folio,
+  eyebrow,
+  datum,
+  inverted = false,
+  className = "",
+}: {
+  folio?: string;
+  eyebrow: ReactNode;
+  datum?: ReactNode;
+  inverted?: boolean;
+  className?: string;
+}) {
+  const muted = inverted ? "text-onforest/55" : "text-mute";
+  return (
+    <div
+      className={`js-reveal flex items-baseline gap-3 border-t pt-6 ${
+        inverted ? "border-line-dark" : "border-hairline"
+      } ${className}`}
+    >
+      {folio && <span className={`ledger ${muted}`}>{folio}</span>}
+      <span className={`ledger uppercase tracking-[0.1em] ${inverted ? "text-onforest/75" : "text-mute"}`}>
+        {eyebrow}
+      </span>
+      {datum && <span className={`ledger ml-auto hidden sm:inline ${muted}`}>{datum}</span>}
+    </div>
+  );
+}
+
 export function SectionH2({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
     <h2

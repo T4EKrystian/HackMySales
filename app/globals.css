@@ -46,6 +46,8 @@
   --color-forest-900: var(--forest-900);
   --color-forest-700: var(--forest-700);
   --color-sage: var(--sage-200);
+  --color-watermark: var(--watermark);
+  --color-brand-blue: var(--brand-blue);
   --color-line: var(--line);
   --color-line-dark: var(--line-dark);
   --font-sans: var(--font-body);
@@ -168,6 +170,28 @@
 .num {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+}
+
+/* Powierzchnie demo (czat/wyszukiwarka/reco/formularz): jedna drabina, koniec zupy px.
+   .t-ui = 15px (dymki, wiersze, nazwy, pola); .t-meta = 13px (meta, PODŁOGA — nic mniej);
+   .t-stat-sm = liczby sekcyjne mono ink. Mobile: --text-ui→1rem (tokens.css). */
+.t-ui { font-size: var(--text-ui); line-height: 1.5; }
+.t-meta { font-size: var(--text-meta); line-height: 1.4; color: var(--text-muted); }
+.t-stat-sm {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-stat-sm);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Linia księgowa (sygnatura): folio · eyebrow · datum na hairline.
+   BEZ koloru — kolor ustawia utility Tailwinda (text-mute / text-onforest) bez walki
+   o specyficzność; działa na bieli i na granacie. */
+.ledger {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  line-height: 1.3;
 }
 
 .shadow-card { box-shadow: var(--shadow-card); }

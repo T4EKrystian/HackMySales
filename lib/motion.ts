@@ -47,11 +47,11 @@ export function useReveal<T extends HTMLElement = HTMLElement>(stagger: number =
       mm.add(NO_REDUCE, () => {
         gsap.fromTo(
           targets,
-          { y: 32, opacity: 0 },
+          { y: 16, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            duration: 0.8,
+            duration: 0.7,
             ease: EASE.soft,
             stagger,
             // uwaga: NIE czyścimy opacity — CSS trzyma stan startowy 0 pod .js
