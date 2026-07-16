@@ -5,37 +5,16 @@ import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { Logo } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/Button";
-import { gsap, useGSAP, NO_REDUCE, FINE_POINTER, SCRAMBLE_CHARS, attachMagnet } from "@/lib/motion";
 
-/** Nav v3 (motion.md §3): glass po scrollu, chowa się w dół / wraca w górę,
- *  scramble-hover na linkach, magnetic CTA, scroll-progress hairline. */
+/** Nav (redesign): glass po scrollu, chowa się w dół / wraca w górę, aktywny link =
+ *  1px ink underline. Bez scramble/magnesu/paska-postępu (ciche chrome, anti-slop). */
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
-  const progressRef = useRef<HTMLDivElement>(null);
   const scopeRef = useRef<HTMLElement>(null);
-  const ctaWrapRef = useRef<HTMLSpanElement>(null);
   const t = pl.nav;
-
-  // Pasek postępu scrolla (features §L14) — scrub przez cały dokument
-  useGSAP(() => {
-    const bar = progressRef.current;
-    if (!bar) return;
-    const mm = gsap.matchMedia();
-    mm.add(NO_REDUCE, () => {
-      gsap.fromTo(
-        bar,
-        { scaleX: 0 },
-        {
-          scaleX: 1,
-          ease: "none",
-          scrollTrigger: { start: 0, end: "max", scrub: 0.3 },
-        }
-      );
-    });
-  }, []);
 
   // Active-section indicator (V6-F5.1): IO po sekcjach z id — podkreślenie linku
   const [activeId, setActiveId] = useState("");
@@ -57,39 +36,6 @@ export function Nav() {
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, [t.links]);
-
-  // Scramble-hover linków + magnetic CTA (tylko desktop z myszą)
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(FINE_POINTER, () => {
-        const cleanups: Array<() => void> = [];
-
-        gsap.utils.toArray<HTMLElement>(".nav-scramble", scopeRef.current!).forEach((el) => {
-          const original = el.textContent ?? "";
-          const enter = () => {
-            // szerokość zablokowana na czas tweenu — zero przesuwania sąsiadów
-            el.style.width = `${el.offsetWidth}px`;
-            el.style.display = "inline-block";
-            gsap.to(el, {
-              duration: 0.5,
-              scrambleText: { text: original, chars: SCRAMBLE_CHARS, speed: 1.4 },
-              onComplete: () => {
-                el.style.width = "";
-                el.style.display = "";
-              },
-            });
-          };
-          el.parentElement?.addEventListener("mouseenter", enter);
-          cleanups.push(() => el.parentElement?.removeEventListener("mouseenter", enter));
-        });
-
-        if (ctaWrapRef.current) cleanups.push(attachMagnet(ctaWrapRef.current, 8));
-        return () => cleanups.forEach((fn) => fn());
-      });
-    },
-    { scope: scopeRef }
-  );
 
   useEffect(() => {
     openRef.current = open;
@@ -143,15 +89,6 @@ export function Nav() {
       } ${hidden ? "-translate-y-full" : "translate-y-0"}`}
       style={{ transitionTimingFunction: "var(--ease-out)" }}
     >
-      {/* Postęp scrolla — widoczny dopiero po zescrollowaniu (razem z tłem nav) */}
-      <div
-        ref={progressRef}
-        aria-hidden="true"
-        className={`absolute inset-x-0 bottom-[-1px] h-[2px] origin-left bg-blue transition-opacity duration-300 ${
-          scrolled ? "opacity-100" : "opacity-0"
-        }`}
-        style={{ transform: "scaleX(0)" }}
-      />
       <div className="container-hms flex h-[72px] items-center justify-between">
         <a href="#top" aria-label="HackMySales — strona główna" className="inline-flex min-h-11 items-center rounded-md">
           <Logo status />
@@ -165,11 +102,11 @@ export function Nav() {
                 key={l.href}
                 href={l.href}
                 aria-current={isActive ? "true" : undefined}
-                className={`nav-link relative text-sm transition-colors duration-150 hover:text-ink after:absolute after:-bottom-1.5 after:left-0 after:h-px after:bg-blue after:transition-[width] after:duration-200 ${
+                className={`nav-link relative text-sm transition-colors duration-150 hover:text-ink after:absolute after:-bottom-1.5 after:left-0 after:h-px after:bg-ink after:transition-[width] after:duration-200 ${
                   isActive ? "text-ink after:w-full" : "text-sub after:w-0"
                 }`}
               >
-                <span className="nav-scramble">{l.label}</span>
+                {l.label}
               </a>
             );
           })}
@@ -179,12 +116,9 @@ export function Nav() {
           <Button href={t.loginHref} variant="ghost" size="md" rel="noopener">
             {t.login}
           </Button>
-          <span ref={ctaWrapRef} className="inline-block will-change-transform">
-            {/* forest (nie acid) — acid zarezerwowany dla CTA hero; zero duplikacji na 1. ekranie */}
-            <Button href="#demo" variant="dark" size="md">
-              {t.cta}
-            </Button>
-          </span>
+          <Button href="#demo" variant="dark" size="md">
+            {t.cta}
+          </Button>
         </div>
 
         <button

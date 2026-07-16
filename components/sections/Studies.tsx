@@ -29,13 +29,13 @@ export function Studies() {
         <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-10">
           {t.stats.map((s, i) => (
             <div key={i} className="js-reveal border-t border-hairline pt-6">
-              <p className="font-display text-forest-700">
+              <p className="text-ink">
                 <Counter
                   value={s.value}
                   decimals={s.decimals}
                   prefix={s.prefix}
                   suffix={s.suffix}
-                  className="text-[clamp(2.25rem,4.2vw,3.25rem)] font-semibold leading-none tracking-tight"
+                  className="t-stat-sm"
                 />
               </p>
               <p className="mt-3 max-w-[26ch] text-sm leading-relaxed text-sub">{s.label}</p>
@@ -56,7 +56,7 @@ export function Studies() {
                       key={s.id}
                       className="grid grid-cols-1 gap-x-6 gap-y-2 border-t border-hairline py-5 md:grid-cols-[9.5rem_1fr_auto] md:items-baseline"
                     >
-                      <span className="num text-sm font-medium text-forest-700">{s.metric ?? ""}</span>
+                      <span className="num text-sm font-medium text-ink">{s.metric ?? ""}</span>
                       <div className="min-w-0">
                         <p className="leading-snug text-ink">{s.finding}</p>
                         <p className="mt-1.5 text-xs leading-relaxed text-mute">{s.title}</p>

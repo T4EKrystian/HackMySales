@@ -26,7 +26,7 @@ export function Logo({ withWord = true, markSize = 30, className = "", status = 
             d="M22 8 H42 A14 14 0 0 1 56 22 V34 A14 14 0 0 1 42 48 H26 L13.2 58.6 C11.2 60.2 8 58.9 8 56.3 V22 A14 14 0 0 1 22 8 Z"
             fill="var(--ink)"
           />
-          <g stroke="var(--acid)" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round">
+          <g stroke="var(--blue-500)" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M20 35L42 20" />
             <path d="M34 20H42V28" />
           </g>
@@ -34,7 +34,7 @@ export function Logo({ withWord = true, markSize = 30, className = "", status = 
         {status && (
           <span
             aria-hidden="true"
-            className="logo-pulse absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-acid"
+            className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-blue"
           />
         )}
       </span>

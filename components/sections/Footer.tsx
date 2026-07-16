@@ -56,7 +56,7 @@ export function Footer() {
         </div>
       </Container>
 
-      {/* Wielki znak wodny — sage, zakotwiczony od lewej, świadomie schodzący za prawą krawędź. */}
+      {/* Wielki znak wodny — watermark, zakotwiczony od lewej, świadomie schodzący za prawą krawędź. */}
       <Container className="mt-16 md:mt-20">
         <div
           className="relative overflow-hidden"
@@ -68,7 +68,7 @@ export function Footer() {
           aria-hidden="true"
         >
           <p
-            className="absolute bottom-[-0.06em] left-0 select-none whitespace-nowrap text-left font-display font-semibold leading-[0.8] tracking-[-0.04em] text-sage"
+            className="absolute bottom-[-0.06em] left-0 select-none whitespace-nowrap text-left font-display font-semibold leading-[0.8] tracking-[-0.04em] text-watermark"
             style={{ fontSize: "clamp(4rem, 17vw, 15rem)" }}
           >
             HackMySales

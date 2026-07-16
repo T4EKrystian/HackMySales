@@ -320,18 +320,6 @@
 /* Kursor pisania klienta w czacie (na niebieskim bąblu) */
 .chat-caret { background: var(--text-on-blue); }
 
-/* Kropka statusu online przy znaku w nav (hms-design-dna „Znak") — puls 2 s, subtelny */
-@keyframes logo-pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.35); opacity: 0.55; }
-}
-.logo-pulse {
-  animation: logo-pulse 2s var(--ease-in-out) infinite;
-  box-shadow: 0 0 8px color-mix(in srgb, var(--blue-500) 55%, transparent);
-}
-@media (prefers-reduced-motion: reduce) {
-  .logo-pulse { animation: none; }
-}
 
 /* Skiny ChatShell (v5/v6 anti-kitsch): kanały bez cukierka — rozpoznawalność
    z GEOMETRII (pigułki, receipty, statusy), kolor wyciszony w naszej palecie */
@@ -490,16 +478,3 @@
 }
 
 
-/* Podkreślenie linków nav */
-.nav-link { position: relative; }
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: -4px;
-  height: 1.5px;
-  background: var(--blue-400);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 180ms var(--ease-out);
-}
-.nav-link:hover::after, .nav-link:focus-visible::after { transform: scaleX(1); }

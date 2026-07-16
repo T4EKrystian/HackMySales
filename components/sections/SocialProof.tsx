@@ -33,7 +33,7 @@ export function SocialProof() {
         <div className="mt-12 grid gap-6 md:grid-cols-2">
           {t.quotes.map((q, i) => (
             <figure key={i} className="js-reveal flex flex-col gap-4 rounded-lg border border-hairline bg-surface p-6">
-              <p className="num text-2xl font-semibold text-forest-700">{q.metric}</p>
+              <p className="num text-2xl font-semibold text-ink">{q.metric}</p>
               <blockquote className="leading-relaxed text-sub">{q.body}</blockquote>
               <figcaption className="mt-auto text-sm text-ink">
                 <span className="font-medium">{q.author}</span>

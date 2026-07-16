@@ -17,7 +17,7 @@ export function SectionLabel({
     <p className={`label js-reveal flex items-center gap-3 ${className}`}>
       {num && (
         <>
-          <span className="text-blue-soft">{num}</span>
+          <span className="text-mute">{num}</span>
           <span aria-hidden="true" className="inline-block h-px w-8 bg-strongline" />
         </>
       )}
