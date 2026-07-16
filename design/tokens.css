@@ -1,25 +1,25 @@
 /* ============================================================
    HackMySales — Design Tokens (jedyne źródło prawdy o kolorach)
-   MOTYW: Paper / Forest / Acid (redesign 2026-07, ref: design/AUDIT.md).
-   Ciepła biel-papier (#F7F5EF) + tekst zielono-czarny (#101613) + pasma
-   leśne (#0A1F16) + JEDEN akcent kwasowy (#D6F94B). Zero blue/fiolet.
-   Nazwy zmiennych zachowane (blue-* przemapowane na leśny interaktyw, do
-   podmiany per-sekcja w Fazie 3). Import w globals.css. Nigdy nie hardkoduj hexów.
+   MOTYW: kolorystyka właściciela (2026-07-16) — biel / chłodna biel (#F6F8FC)
+   + tekst granatowy (#0F1826) + granatowe pasma (#0B1533) + firmowy
+   NIEBIESKI akcent (#2858F0). Nazwy zmiennych zachowane (blue, acid, forest
+   przemapowane na markę niebieską — minimalny churn). Import w globals.css.
+   Nigdy nie hardkoduj hexów. Zakaz: fiolet/purpura.
    ============================================================ */
 
 :root {
-  /* --- Papier (baza, 85% każdego viewportu) --- */
-  --paper: #F7F5EF;          /* ciepła kość */
-  --paper-deep: #EFEBE0;     /* alternatywny tint sekcji / hover / bąbel bota */
+  /* --- Baza (biel / chłodna biel — marka właściciela, ~85% viewportu) --- */
+  --paper: #F7F8FA;          /* jasna biel (mniej lawendy niż #F6F8FC — audyt) */
+  --paper-deep: #EEF0F4;     /* alternatywny tint sekcji / hover / bąbel bota */
   --bg-page: var(--paper);
 
-  /* --- Powierzchnie (karty na papierze; głębia z hairline'ów, nie cieni) --- */
+  /* --- Powierzchnie (karty na jasnym; głębia z hairline'ów, nie cieni) --- */
   --surface-1: #FFFFFF;      /* poziom 1 — panele wyróżnione, nav po scrollu */
-  --surface-2: #FCFBF7;      /* poziom 2 — karty, okno czatu (ciepła biel) */
+  --surface-2: #FFFFFF;      /* poziom 2 — karty, okno czatu */
   --surface-3: var(--paper-deep); /* poziom 3 — hover, bąbel bota */
-  --stroke-1: rgb(16 22 19 / 0.10);   /* = --line */
-  --stroke-2: rgb(16 22 19 / 0.18);
-  --shadow-float: 0 1px 2px rgb(16 22 19 / 0.06), 0 12px 32px -12px rgb(16 22 19 / 0.18);
+  --stroke-1: rgb(15 24 38 / 0.09);   /* = --line */
+  --stroke-2: rgb(15 24 38 / 0.16);
+  --shadow-float: 0 1px 2px rgb(15 24 38 / 0.06), 0 14px 34px -14px rgb(15 24 38 / 0.20);
   --shadow-l2: var(--shadow-float);
 
   /* Aliasy (ścieżka deprecacji) */
@@ -28,48 +28,48 @@
   --bg-elevated: var(--surface-3);
   --bg-input: #FFFFFF;
 
-  /* --- Las (pasma pełnej szerokości — tentpole, oszczędnie) --- */
-  --forest-950: #0A1F16;     /* tło pasma ciemnego */
-  --forest-900: #0E2A1E;     /* elewacja na ciemnym */
-  --forest-700: #1C4632;     /* obrysy/hover na ciemnym + INTERAKTYW na papierze */
-  --sage-200: #D8DFD3;       /* miękkie wypełnienia na papierze, watermark */
+  /* --- Granat (ciemne pasma pełnej szerokości — tentpole) --- */
+  --forest-950: #0B1533;     /* tło pasma ciemnego (granat) */
+  --forest-900: #11214D;     /* elewacja na ciemnym */
+  --forest-700: #2858F0;     /* INTERAKTYW na jasnym (niebieski) + obrysy na ciemnym */
+  --sage-200: #DDE6FA;       /* miękkie wypełnienia na jasnym, watermark (błękit) */
 
-  /* --- Akcent = kwas (CTA + jeden mikroakcent / highlighter Magdy) --- */
-  --acid: #D6F94B;
-  --acid-press: #C4EB35;
-  --text-on-acid: #101613;   /* tekst na kwasie = atrament (kontrast OK) */
-  --text-on-forest: #F7F5EF; /* tekst na lesie = papier */
+  /* --- Akcent = firmowy niebieski (CTA + akcent marki) --- */
+  --acid: #2858F0;
+  --acid-press: #1E45C8;
+  --text-on-acid: #FFFFFF;   /* tekst na niebieskim = biały */
+  --text-on-forest: #F6F8FC; /* tekst na granacie = chłodna biel */
 
-  /* --- blue-* PRZEMAPOWANE na leśny interaktyw (zero blue; podmiana per-sekcja) --- */
-  --blue-300: #1C4632;       /* tekst na tincie / mały akcent */
-  --blue-400: #24593F;       /* hover */
-  --blue-500: #1C4632;       /* „primary" starych sekcji (leśny) — Faza 3 → acid/forest wg roli */
-  --blue-600: #0E2A1E;       /* active/pressed */
-  --blue-tint: rgb(28 70 50 / 0.10);
-  --blue-glow: rgb(28 70 50 / 0.18);
+  /* --- Firmowy niebieski (marka; blue-* = główny akcent) --- */
+  --blue-300: #6E8FF7;       /* tekst na tincie / mały akcent */
+  --blue-400: #4470F5;       /* hover */
+  --blue-500: #2858F0;       /* primary (brand) */
+  --blue-600: #1E45C8;       /* active/pressed */
+  --blue-tint: rgb(40 88 240 / 0.09);
+  --blue-glow: rgb(40 88 240 / 0.20);
 
-  /* --- Tekst (atrament zielono-czarny) --- */
-  --text-primary: #101613;   /* ink */
-  --text-secondary: #3D4640; /* ink-soft */
-  --text-muted: #656E67;     /* ink-mute (captions, meta) — AA ≥4.5:1 na papierze (~4.9:1) */
+  /* --- Tekst (granatowy atrament) --- */
+  --text-primary: #0F1826;   /* ink (granat-czerń) */
+  --text-secondary: #3E4A5F; /* ink-soft */
+  --text-muted: #667085;     /* ink-mute (captions, meta) — AA ≥4.5:1 na jasnym (~4.6:1) */
   --text-on-blue: var(--text-on-forest);
 
   /* --- Linie i obrysy --- */
-  --line: rgb(16 22 19 / 0.10);            /* hairline na papierze */
-  --line-dark: rgb(247 245 239 / 0.12);    /* hairline na lesie */
+  --line: rgb(15 24 38 / 0.09);            /* hairline na jasnym */
+  --line-dark: rgb(255 255 255 / 0.14);    /* hairline na granacie */
   --border-hairline: var(--line);
-  --border-strong: rgb(16 22 19 / 0.22);   /* mocniejsza linia + kolor watermarku */
-  --border-focus: var(--forest-700);       /* focus ring leśny (2px + offset 2px) */
+  --border-strong: rgb(15 24 38 / 0.20);   /* mocniejsza linia + kolor watermarku */
+  --border-focus: #2858F0;                 /* focus ring niebieski (2px + offset 2px) */
 
   /* --- Semantyczne (oszczędnie) --- */
-  --success: #1C7A4F;        /* „odzyskane/online" — zielony pogłębiony pod papier */
+  --success: #1C7A4F;        /* „online/odzyskane" — zielony */
   --warning: #9A6B12;
-  --danger: #B23A34;         /* strata w sekcji problemu (stonowana, nie czerwień SaaS) */
+  --danger: #C4362B;         /* strata w sekcji problemu (stonowana czerwień) */
 
   /* --- Gradienty (TYLKO dwa zatwierdzone) --- */
   --gradient-hero: linear-gradient(160deg, var(--forest-950) 0%, var(--forest-900) 100%);
-  --gradient-text: linear-gradient(100deg, #101613 30%, #1C4632 100%);
-  --gradient-glow: radial-gradient(ellipse 900px 520px at 68% -4%, rgb(239 235 224 / 0.9), transparent 66%);
+  --gradient-text: linear-gradient(100deg, #0F1826 30%, #2858F0 100%);
+  --gradient-glow: radial-gradient(ellipse 900px 520px at 68% -4%, rgb(40 88 240 / 0.08), transparent 66%);
 
   /* --- Typografia --- */
   --font-display: var(--font-general), "General Sans", system-ui, -apple-system, sans-serif;

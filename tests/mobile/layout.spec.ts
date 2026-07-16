@@ -50,14 +50,8 @@ test("typografia: proza ≥16 px, labelki ≥13 px", async ({ page }) => {
 });
 
 test("strona ≤22 ekranów", async ({ page }) => {
-  // Cel briefu ≤22 ekranów. V7 zbił 34,1 → ~24,9 (−27%) SAMĄ gęstością — Problem/
-  // Comparison/Pillars/Pricing → SnapRow, bento 2×2, section-pad max-md, typografia.
-  // Ostatnie ~2,9 ekranu dzieli treść (6 kopalni-dem, arena, kalkulator, FAQ) od celu —
-  // domknięcie wymaga USUNIĘCIA treści (zakaz briefu) albo ścisku łamiącego premium-
-  // whitespace (CLAUDE.md Apple/Hermès). Świadomy kompromis — do decyzji klienta.
-  // Marker known-fail: bramka NIE jest czerwona (oczekiwana), metryka w raporcie.
-  test.fail(true, "cel ≤22 vs zakaz usuwania treści: osiągnięto 24,9 (density-only sufit)");
-
+  // Cel briefu ≤22 ekranów. Lejek AIDA (cięcie sekcji) zbił stronę pod cel —
+  // marker known-fail zdjęty (rewizja AIDA 2026-07).
   await gotoAndSettle(page);
   const screens = await page.evaluate(() => document.documentElement.scrollHeight / innerHeight);
   test.info().annotations.push({ type: "metric", description: `ekranów: ${screens.toFixed(1)}` });

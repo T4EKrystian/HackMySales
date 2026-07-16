@@ -1,29 +1,50 @@
 import { pl } from "@/content/pl";
 import { Container } from "@/components/ui/Section";
 import { Logo } from "@/components/ui/Logo";
+import { Button } from "@/components/ui/Button";
+import { Glyph } from "@/components/ui/Glyph";
 
-/** Stopka v3: wielki wordmark z fill-wipe na hover, kolumny hairline,
- *  pas mono na dole. Krótko, pewnie. */
+/** Stopka v4: blok marki (logo + tagline + CTA + kontakt) · kolumny linków ·
+ *  wielki wordmark-znak wodny · pas prawny (© + polityka/regulamin). */
 export function Footer() {
   const t = pl.footer;
   const year = new Date().getFullYear();
 
   return (
     <footer className="relative z-[1] overflow-hidden border-t border-hairline bg-page">
-      <Container className="pt-16">
-        <div className="flex flex-col justify-between gap-12 md:flex-row">
-          <div className="max-w-[280px]">
+      <Container className="pt-16 md:pt-20">
+        <div className="grid gap-12 md:grid-cols-[1.15fr_2fr] md:gap-16">
+          {/* Blok marki */}
+          <div className="max-w-[360px]">
             <Logo />
-            <p className="label mt-4 leading-relaxed">{t.tagline}</p>
+            <p className="mt-5 text-sm leading-relaxed text-sub">{t.tagline}</p>
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <Button href={t.cta.href} variant="primary" size="md">
+                {t.cta.label}
+              </Button>
+              <a
+                href={`mailto:${t.email}`}
+                className="group inline-flex items-center gap-2 text-sm text-sub transition-colors duration-150 hover:text-ink"
+              >
+                <Glyph name="mail" size={16} className="text-mute transition-colors group-hover:text-blue-soft" />
+                <span className="num">{t.email}</span>
+              </a>
+            </div>
+            <p className="mt-6 text-xs leading-relaxed text-mute">{t.company}</p>
           </div>
-          <nav aria-label="Stopka" className="grid flex-1 grid-cols-2 gap-8 sm:grid-cols-3 md:max-w-[560px]">
+
+          {/* Kolumny linków */}
+          <nav aria-label="Stopka" className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             {t.columns.map((col) => (
               <div key={col.title}>
                 <p className="label mb-4">{col.title}</p>
                 <ul className="flex flex-col gap-2.5">
                   {col.links.map((l) => (
                     <li key={l.label}>
-                      <a href={l.href} className="inline-flex min-h-11 items-center text-sm text-sub hover:text-ink md:min-h-0">
+                      <a
+                        href={l.href}
+                        className="inline-flex min-h-11 items-center text-sm text-sub transition-colors duration-150 hover:text-ink md:min-h-0"
+                      >
                         {l.label}
                       </a>
                     </li>
@@ -35,15 +56,14 @@ export function Footer() {
         </div>
       </Container>
 
-      {/* Wielki znak wodny — sage, zakotwiczony od lewej, świadomie schodzący za prawą
-          krawędź (sygnatura premium). Kadr pionowo pełny (nie tnie liter w pół — kom. klienta). */}
-      <Container className="mt-20">
+      {/* Wielki znak wodny — sage, zakotwiczony od lewej, świadomie schodzący za prawą krawędź. */}
+      <Container className="mt-16 md:mt-20">
         <div
           className="relative overflow-hidden"
           style={{
             height: "clamp(3rem, 13vw, 11.5rem)",
-            maskImage: "linear-gradient(90deg, #000 0%, #000 80%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(90deg, #000 0%, #000 80%, transparent 100%)",
+            maskImage: "linear-gradient(90deg, transparent 0%, #000 7%, #000 82%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(90deg, transparent 0%, #000 7%, #000 82%, transparent 100%)",
           }}
           aria-hidden="true"
         >
@@ -56,12 +76,24 @@ export function Footer() {
         </div>
       </Container>
 
+      {/* Pas prawny */}
       <Container className="pb-8">
-        <p className="num mt-12 flex flex-wrap items-center justify-between gap-2 border-t border-hairline pt-6 text-xs text-mute">
-          <span>
+        <div className="mt-10 flex flex-col gap-3 border-t border-hairline pt-6 text-xs text-mute sm:flex-row sm:items-center sm:justify-between">
+          <span className="num">
             © {year} {t.copyright}
           </span>
-        </p>
+          <nav aria-label="Informacje prawne" className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {t.legal.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="inline-flex min-h-[28px] items-center transition-colors duration-150 hover:text-ink"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+        </div>
       </Container>
     </footer>
   );

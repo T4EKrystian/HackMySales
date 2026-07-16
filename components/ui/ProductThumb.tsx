@@ -12,13 +12,17 @@ export function ProductThumb({
   kind,
   size = 40,
   tint,
+  photo = true,
 }: {
   name: string;
   kind?: ProductKind;
   size?: number;
   tint?: "blue" | "graphite";
+  /** true (domyślnie) = realne zdjęcie produktu z /public/products; false = generatywny
+   *  ProductVisual (fallback tam, gdzie zdjęcie zbędne). Klient chce realne foto + nazwy. */
+  photo?: boolean;
 }) {
-  const slug = productSlug(name);
+  const slug = photo ? productSlug(name) : null;
   if (slug) {
     return (
       <Image

@@ -137,13 +137,13 @@
 .font-display { font-family: var(--font-display); }
 .font-serif { font-family: var(--font-serif); }
 
-/* Akcent kwasowy jako zakreślacz Magdy (NIE fill) — podpis marki na papierze */
+/* Akcent marki jako podkreślenie (niebieski) — sygnatura na jasnym tle */
 .acid-mark {
   background-image: linear-gradient(var(--acid), var(--acid));
   background-repeat: no-repeat;
-  background-position: 0 82%;
-  background-size: 100% 0.34em;
-  padding: 0 0.04em;
+  background-position: 0 100%;
+  background-size: 100% 0.12em;
+  padding-bottom: 0.04em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
@@ -283,12 +283,6 @@
   height: 7px;
   border-radius: 999px;
   background: var(--blue-500);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--blue-500) 55%, transparent);
-  animation: hero-livepulse 2.4s var(--ease-in-out) infinite;
-}
-@keyframes hero-livepulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.32); opacity: 0.6; }
 }
 .hero-floatchip {
   position: absolute;
@@ -333,8 +327,8 @@
 /* Skiny ChatShell (v5/v6 anti-kitsch): kanały bez cukierka — rozpoznawalność
    z GEOMETRII (pigułki, receipty, statusy), kolor wyciszony w naszej palecie */
 .chat-user-quiet {
-  /* messenger/IG: blue przygaszony ~18% ku szarości (oklch — bez zmiany jasności) */
-  background: color-mix(in oklch, var(--blue-500) 82%, var(--text-muted));
+  /* messenger/IG: pełny firmowy niebieski (bąbel użytkownika jak w znanych komunikatorach) */
+  background: var(--blue-500);
   color: var(--text-on-blue);
 }
 .chat-ig-ring {

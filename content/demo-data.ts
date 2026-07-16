@@ -54,13 +54,23 @@ export const demo = {
     kaskCore: 189,
   },
 
+  /** §4 Reco listing „Polecane" — neutralny zestaw (moda/odzież/obuwie/akcesoria): nowe + stare ceny */
+  recoPrices: {
+    sukienkaNew: 199,
+    sukienkaOld: 259,
+    kurtka3l: 449,
+    xTrail2New: 379,
+    xTrail2Old: 459,
+    plecakNew: 199,
+  },
+
   /** Chipy efektów branż §3c + rabaty w rozmowach */
   chips: { modaReturnsPct: 30, domBasketPct: 38, elektronikaCompatPct: 50 },
   b2bBulkDiscountPct: 12,
   bundleDiscountPct: 15,
 
   /** Budżety z pytań klientów w scenariuszach (§1/§3c) + oferta rat (§5b) */
-  queryBudgets: { heroShoes: 400, kidsSki: 200, dress: 300 },
+  queryBudgets: { heroShoes: 400, kidsSki: 200, dress: 300, heroTraining: 500 },
   installmentsRatePct: 0,
 } as const;
 

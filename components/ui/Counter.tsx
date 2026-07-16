@@ -11,6 +11,8 @@ type CounterProps = {
   className?: string;
   /** formatowanie pl-PL z separatorem tysięcy (spacja nierozdzielająca) */
   format?: boolean;
+  /** liczba miejsc po przecinku (pl-PL, przecinek dziesiętny). 0 = liczba całkowita. */
+  decimals?: number;
   /** once (default): dip 0.7×→1× odpalany IntersectionObserverem — bez ScrollTriggera.
    *  scrub: wartość bindowana do scrolla + snap (opcja dla pinów narracyjnych). */
   mode?: "once" | "scrub";
@@ -23,10 +25,18 @@ type CounterProps = {
  *  Teraz tween powstaje DOPIERO w callbacku IntersectionObservera (dip od −30%);
  *  jak IO nie strzeli (szybki/urwany scroll, tab w tle) — stoi finalna.
  *  Reduced-motion/no-JS: od razu final. */
-export function Counter({ value, prefix = "", suffix = "", className = "", format = true, mode = "once" }: CounterProps) {
+export function Counter({ value, prefix = "", suffix = "", className = "", format = true, decimals = 0, mode = "once" }: CounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const numRef = useRef<HTMLSpanElement>(null);
-  const fmt = useCallback((n: number) => (format ? fmtIntPl(Math.round(n)) : String(Math.round(n))), [format]);
+  const fmt = useCallback(
+    (n: number) =>
+      decimals > 0
+        ? n.toLocaleString("pl-PL", { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+        : format
+          ? fmtIntPl(Math.round(n))
+          : String(Math.round(n)),
+    [format, decimals]
+  );
 
   useEffect(() => {
     const el = numRef.current;
