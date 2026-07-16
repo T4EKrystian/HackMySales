@@ -4,7 +4,6 @@ import { Hero } from "@/components/sections/Hero";
 import { ProofTicker } from "@/components/sections/ProofTicker";
 import { Problem } from "@/components/sections/Problem";
 import { Pillars } from "@/components/sections/Pillars";
-import { Channels } from "@/components/sections/Channels";
 import { Crescendo } from "@/components/sections/Crescendo";
 import { Studies } from "@/components/sections/Studies";
 import { Results } from "@/components/sections/Results";
@@ -13,6 +12,8 @@ import { Steps } from "@/components/sections/Steps";
 import { Faq } from "@/components/sections/Faq";
 import { TeamNote } from "@/components/sections/TeamNote";
 import { FinalCta } from "@/components/sections/FinalCta";
+// Channels (#kanaly) — sekcja Kanały wycięta decyzją właściciela 2026-07-16; komponent zostaje w repo.
+// import { Channels } from "@/components/sections/Channels";
 // SocialProof (#referencje) chwilowo niewpięty — sekcja wraca z realnymi logami/cytatami klientów.
 // import { SocialProof } from "@/components/sections/SocialProof";
 import { Footer } from "@/components/sections/Footer";
@@ -54,7 +55,6 @@ export default function Home() {
         <ProofTicker />
         <Problem />
         <Pillars />
-        <Channels />
         <Crescendo />
         <Studies />
         <Results />
