@@ -13,9 +13,9 @@ const raw = {
       { label: "Badania", href: "#badania" },
       { label: "Wyniki", href: "#wyniki" },
     ],
+    // E4: „Zaloguj się" chwilowo out z Nav — klucze zostają, przywrócić po wystawieniu portal.hackmysales.pl
     login: "Zaloguj się",
-    // [PLACEHOLDER] docelowy adres portalu klienta
-    loginHref: "https://portal.185-238-74-109.nip.io/portal/login",
+    loginHref: "https://portal.hackmysales.pl/portal/login",
     cta: "Umów prezentację",
     menuOpen: "Otwórz menu",
     menuClose: "Zamknij menu",
@@ -740,6 +740,7 @@ const raw = {
 
   // Dowód społeczny — STRUKTURA do uzupełnienia realnymi danymi (loga/cytaty za zgodą klientów).
   // Placeholdery [...] podmienia właściciel; do tego czasu sekcja jasno sygnalizuje „w przygotowaniu".
+  // E4: blok zostaje w repo (SocialProof niewpięty w page.tsx) — sekcja wraca z realnymi logami/cytatami klientów.
   proof: {
     label: "ZAUFALI NAM",
     h2: "Sklepy, które liczą więcej z tego samego ruchu.",
@@ -818,11 +819,11 @@ const raw = {
       },
       {
         title: "Dowody",
+        // E4: „Portal klienta" (surowe IP) out do czasu wystawienia portal.hackmysales.pl
         links: [
           { label: "10 badań naukowych", href: "#badania" },
+          { label: "Kalkulator", href: "#wyniki" },
           { label: "Umów demo", href: "#demo" },
-          // [PLACEHOLDER] adres portalu
-          { label: "Portal klienta", href: "https://portal.185-238-74-109.nip.io/portal/login" },
         ],
       },
       {

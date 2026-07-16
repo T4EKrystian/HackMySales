@@ -113,9 +113,7 @@ export function Nav() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Button href={t.loginHref} variant="ghost" size="md" rel="noopener">
-            {t.login}
-          </Button>
+          {/* „Zaloguj się" out do czasu wystawienia portal.hackmysales.pl (klucze nav.login/loginHref zostają) */}
           <Button href="#demo" variant="dark" size="md">
             {t.cta}
           </Button>
@@ -149,11 +147,9 @@ export function Nav() {
             </a>
           ))}
           <div className="mt-8 flex flex-col gap-3">
+            {/* „Zaloguj się" out do czasu wystawienia portal.hackmysales.pl (klucze nav.login/loginHref zostają) */}
             <Button href="#demo" variant="primary" size="lg" onClick={() => setOpen(false)}>
               {t.cta}
-            </Button>
-            <Button href={t.loginHref} variant="ghost" size="lg" rel="noopener">
-              {t.login}
             </Button>
           </div>
         </nav>

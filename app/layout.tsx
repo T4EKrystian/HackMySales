@@ -6,7 +6,7 @@ import { fraunces, generalSans } from "./fonts";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 
 export const metadata: Metadata = {
-  // [PLACEHOLDER] docelowa domena produkcyjna
+  // domena produkcyjna
   metadataBase: new URL("https://hackmysales.pl"),
   title: "HackMySales — AI, które sprzedaje w Twoim sklepie internetowym",
   description:
