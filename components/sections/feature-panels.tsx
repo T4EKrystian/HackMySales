@@ -254,17 +254,13 @@ export function buildPanelTl(panel: HTMLElement, kind: "chat" | "search" | "reco
   return tl;
 }
 
-/** Ramka „urządzenia" — glass-head z 3 kropkami + etykieta (filary). */
-export function DeviceFrame({ label, children }: { label: string; children: React.ReactNode }) {
+/** Ramka „urządzenia" — glass-head bez mac-dots: etykieta panelu + opcjonalne folio (.ledger). */
+export function DeviceFrame({ label, folio, children }: { label: string; folio?: string; children: React.ReactNode }) {
   return (
     <div className="frame-l2 relative h-[300px] overflow-hidden sm:h-[360px]">
-      <div className="glass-head absolute inset-x-0 top-0 z-10 flex items-center gap-3 rounded-t-[19px] px-5 py-3.5">
-        <span className="flex gap-1.5" aria-hidden="true">
-          <span className="h-2.5 w-2.5 rounded-full bg-l3" />
-          <span className="h-2.5 w-2.5 rounded-full bg-l3" />
-          <span className="h-2.5 w-2.5 rounded-full bg-l3" />
-        </span>
+      <div className="glass-head absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-3 rounded-t-[19px] px-5 py-3.5">
         <span className="label">{label}</span>
+        {folio && <span className="ledger text-mute">{folio}</span>}
       </div>
       <div className="pillar-panel absolute inset-0 p-6 pt-[62px]">{children}</div>
     </div>

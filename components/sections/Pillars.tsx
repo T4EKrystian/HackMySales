@@ -81,7 +81,7 @@ export function Pillars() {
                   </ul>
                 </div>
                 <div className={reverse ? "lg:order-1" : ""} data-cursor-label={pl.ui.cursorDemo}>
-                  <DeviceFrame label={t.panelLabels[i]}>
+                  <DeviceFrame label={t.panelLabels[i]} folio={`0${i + 1}`}>
                     {KINDS[i] === "chat" ? (
                       <ChatPanelContent active={chatOn} />
                     ) : KINDS[i] === "reco" ? (
