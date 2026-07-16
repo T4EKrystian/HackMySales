@@ -3,11 +3,12 @@
 import { pl } from "@/content/pl";
 import { Container, SectionLabel, SectionH2 } from "@/components/ui/Section";
 import { Counter } from "@/components/ui/Counter";
+import { RoiCalculator } from "@/components/sections/RoiCalculator";
 import { useReveal } from "@/lib/motion";
 
-/** Wyniki (rewizja 2): bez interaktywnego kalkulatora — zostaje pas 4 twardych
- *  statystyk (spójna listwa danych z hairline-dzielnikami, nie 4 identyczne karty).
- *  Liczby count-up on-enter; „24/7" statyczne. */
+/** Wyniki v3 (E5): dowód rachunkowy zamiast generycznego stat-gridu.
+ *  Nagłówek → interaktywny kalkulator ROI → pas 4 liczników → JEDNA uczciwa nota.
+ *  Liczby count-up on-enter; „24/7” statyczne. Kalkulator liczy tylko client-side. */
 export function Results() {
   const t = pl.results;
   const ref = useReveal<HTMLElement>(0.08);
@@ -16,10 +17,16 @@ export function Results() {
     <section ref={ref} id="wyniki" className="section-pad">
       <Container>
         <SectionLabel>{t.label}</SectionLabel>
-        <SectionH2 className="max-w-[22ch]">{t.h2}</SectionH2>
+        <SectionH2 className="max-w-[18ch]">{t.h2}</SectionH2>
 
-        {/* Pas metryk (jeden panel, 4 kolumny z hairline-dzielnikami) */}
-        <div className="mt-10 grid grid-cols-2 overflow-hidden rounded-[var(--radius-lg)] border border-hairline bg-card md:mt-14 lg:grid-cols-4">
+        {/* Kalkulator ROI — sedno dowodu rachunkowego */}
+        <div className="mt-10 md:mt-14">
+          <RoiCalculator />
+        </div>
+
+        {/* Pas metryk (jeden panel, 4 kolumny z hairline-dzielnikami) — anti-slop:
+            NIE 4 identyczne karty z obrysem, tylko spójna listwa danych */}
+        <div className="mt-5 grid grid-cols-2 overflow-hidden rounded-[var(--radius-lg)] border border-hairline bg-card lg:grid-cols-4">
           {t.counters.map((c, i) => (
             <div
               key={i}
@@ -37,11 +44,13 @@ export function Results() {
                   />
                 )}
               </p>
-              <p className="mt-3 text-sm leading-relaxed text-sub">{c.label}</p>
+              <p className="mt-3 t-ui leading-relaxed text-sub">{c.label}</p>
             </div>
           ))}
         </div>
-        <p className="js-reveal mt-4 text-xs text-mute">{t.countersCaption}</p>
+
+        {/* JEDNA uczciwa nota zamykająca — koniec hedgingu rozsianego po sekcji */}
+        <p className="js-reveal mt-5 max-w-[62ch] t-meta text-mute">{t.note}</p>
       </Container>
     </section>
   );

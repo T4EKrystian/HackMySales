@@ -531,15 +531,15 @@ const raw = {
   },
 
   results: {
-    label: "WYNIKI",
-    h2: "Efekty, które widać w panelu.",
+    label: "POLICZALNOŚĆ",
+    h2: "Nie wierz nam. Policz.",
     counters: [
       { prefix: "+", value: demo.counters.conv, suffix: "%", label: "konwersji u klientów po 3 miesiącach" },
       { prefix: "+", value: demo.counters.aov, suffix: "%", label: "średniej wartości koszyka (AOV)" },
       { prefix: "−", value: demo.counters.wismo, suffix: "%", label: "zapytań „gdzie moja paczka” do obsługi" },
       { static: "24/7", label: "godziny pracy czatu, wyszukiwarki i rekomendacji" },
     ],
-    countersCaption: "Wartości poglądowe. Twoje liczby policzymy na demo.",
+    note: "Liczniki to wartości poglądowe — Twoje policzymy na prezentacji. Kalkulator liczy wyłącznie w Twojej przeglądarce, nic nie wysyłamy.",
     night: {
       title: "Kiedy spałeś, bot…",
       stats: [
@@ -559,18 +559,15 @@ const raw = {
       resultIntro:
         "Przy tych liczbach HackMySales musi podnieść konwersję tylko o 0,2 p.p., żeby zarobić na siebie. Do odzyskania przy Twoim ruchu:",
       resultSuffix: "miesięcznie",
-      assumptionsTitle: "Założenia szacunku",
-      assumptions:
-        "+0,5 p.p. konwersji i +10% AOV — wartości poglądowe dla makiety. Kalkulator liczy wyłącznie w Twojej przeglądarce, nic nie wysyłamy.",
       cta: "Sprawdź to na swoim sklepie",
-      // §6b — mnożnik ROI (dane demo: koszt = plan Growth, rejestr PLACEHOLDERS)
+      // §6b — mnożnik ROI (dane demo: koszt = HackMySales 1 299 zł/mc, rejestr PLACEHOLDERS)
       costMonthly: demo.calc.costMonthly,
-      roiCaption: "tyle razy zwraca się plan Growth przy tych liczbach",
-      costTick: "koszt planu Growth",
+      roiCaption: "tyle razy HackMySales zwraca się przy tych liczbach",
+      costTick: "koszt HackMySales",
       glowThreshold: demo.calc.glowThreshold,
       methodLabel: "jak to liczymy",
       methodText:
-        "Odzysk to różnica między przychodem dziś a przychodem przy +0,5 p.p. konwersji i +10% AOV — założenia poglądowe makiety. Mnożnik porównuje roczny odzysk z rocznym kosztem planu Growth; wszystko liczy się w Twojej przeglądarce, nic nie wysyłamy.",
+        "Odzysk to różnica między przychodem dziś a przychodem przy +0,5 p.p. konwersji i +10% AOV — założenia poglądowe. Mnożnik porównuje roczny odzysk z rocznym kosztem HackMySales (1 299 zł/mc); wszystko liczy się w Twojej przeglądarce, nic nie wysyłamy.",
     },
   },
 

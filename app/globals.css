@@ -422,6 +422,83 @@
 
 
 
+/* ---------- Kalkulator ROI — suwaki (E5) ---------- */
+/* Track hairline + niebieskie wypełnienie do kciuka (--fill ustawiane inline),
+   kciuk firmowy niebieski. Wysokość inputu 44 px = pełna hit-area (WCAG 2.5.5),
+   track wizualnie 4 px, centrowany. Stany hover/active/focus wg design-brief §6. */
+.range-hms {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 44px;
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+.range-hms:focus { outline: none; }
+
+/* WebKit / Blink */
+.range-hms::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    to right,
+    var(--blue-500) 0 var(--fill, 0%),
+    var(--border-hairline) var(--fill, 0%) 100%
+  );
+}
+.range-hms::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  margin-top: -9px; /* (22 − 4) / 2 → kciuk wyśrodkowany na 4 px tracku */
+  border-radius: var(--radius-pill);
+  background: var(--blue-500);
+  border: 3px solid var(--surface-2);
+  box-shadow: var(--shadow-float);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+.range-hms:hover::-webkit-slider-thumb { background: var(--blue-400); }
+.range-hms:active::-webkit-slider-thumb { transform: scale(0.94); background: var(--blue-600); }
+.range-hms:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 2px var(--surface-2), 0 0 0 4px var(--border-focus);
+}
+
+/* Firefox */
+.range-hms::-moz-range-track {
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--border-hairline);
+}
+.range-hms::-moz-range-progress {
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--blue-500);
+}
+.range-hms::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-pill);
+  background: var(--blue-500);
+  border: 3px solid var(--surface-2);
+  box-shadow: var(--shadow-float);
+  cursor: pointer;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+.range-hms:hover::-moz-range-thumb { background: var(--blue-400); }
+.range-hms:active::-moz-range-thumb { transform: scale(0.94); background: var(--blue-600); }
+.range-hms:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 2px var(--surface-2), 0 0 0 4px var(--border-focus);
+}
+@media (prefers-reduced-motion: reduce) {
+  .range-hms::-webkit-slider-thumb { transition: none; }
+  .range-hms::-moz-range-thumb { transition: none; }
+}
+
 /* Wordmark w stopce — fill-wipe od lewej na hover */
 .wordmark-wipe {
   position: relative;
