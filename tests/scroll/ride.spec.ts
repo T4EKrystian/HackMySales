@@ -24,7 +24,9 @@ for (const speed of [1200, 3000]) {
     if (speed === 1200 && isDesktop) {
       // [redesign] sekcje scrollytelling (Problem/Comparison/Pillars/HowItWorks) de-pinowane
       // do gęstych układów hairline — brak pinów dwellowanych. Asercja gra tylko, gdy pin istnieje.
-      const dwells = [dwell(samples, "pillarIdx"), dwell(samples, "howIdx")];
+      // [E9] Crescendo = JEDYNY scroll-pin strony: 3 fazy scrubu (cresIdx 0/1/2). Pin 280%
+      // @vh900 → 1050/525/525 ms @1200 px/s; każda faza pin-scene musi dwellować ≥500 ms.
+      const dwells = [dwell(samples, "pillarIdx"), dwell(samples, "howIdx"), dwell(samples, "cresIdx")];
       const values = dwells.flatMap((d) => Object.values(d)).filter((v) => v > 0);
       if (values.length) {
         const min = Math.min(...values);
