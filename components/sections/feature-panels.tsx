@@ -84,16 +84,17 @@ export function HeroChatShowcase() {
         </div>
         <div className="max-w-[95%] self-start rounded-2xl rounded-bl-md bg-elevated px-4 py-3">
           <p className="text-sm leading-relaxed text-ink">{s.botIntro}</p>
-          <div className="mt-3 grid grid-cols-3 gap-2">
+          <div className="mt-3 grid grid-cols-3 gap-2.5">
             {s.products.map((pr) => (
-              <div key={pr.name} className="flex flex-col gap-1.5 rounded-xl border border-hairline bg-card p-2">
-                <div className="flex justify-center">
-                  <ProductThumb name={pr.name} kind={"kind" in pr ? (pr.kind as ProductKind) : undefined} size={40} />
+              <div key={pr.name} className="flex flex-col overflow-hidden rounded-xl border border-hairline bg-surface">
+                {/* czysty instrument (spójny, bez tandetnych teł zdjęć) */}
+                <div className="flex items-center justify-center bg-elevated p-3">
+                  <ProductThumb name={pr.name} kind={pr.kind as ProductKind} size={56} photo={false} tint="graphite" />
                 </div>
-                <p className="truncate text-[13px] leading-tight text-sub" title={pr.name}>
-                  {pr.name}
-                </p>
-                <span className="num text-[13px] font-medium text-ink">{pr.price}</span>
+                <div className="flex items-center justify-between gap-1 border-t border-hairline px-2.5 py-2">
+                  <span className="num text-[13px] font-medium text-ink">{pr.price}</span>
+                  <span className="h-1 w-6 shrink-0 rounded-full bg-blue" aria-hidden="true" />
+                </div>
               </div>
             ))}
           </div>

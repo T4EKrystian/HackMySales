@@ -137,12 +137,12 @@ const raw = {
         "W wersji demo scenariusz jest oskryptowany — na Twoim sklepie bot odpowiada naprawdę. Umów demo.",
       // Hero (rewizja 3) — chat w stylu makiety: pytanie + odpowiedź z RZĘDEM 3 propozycji
       showcase: {
-        user: "Co polecasz na trening w terenie do 400 zł?",
-        botIntro: "Do 400 zł polecam te modele — łączą jakość i wygodę. Sprawdź moje propozycje:",
+        user: "Co polecasz na trening w terenie do 500 zł?",
+        botIntro: "Do 500 zł polecam te modele — łączą jakość i wygodę. Sprawdź moje propozycje:",
         products: [
-          { name: "X-Trail 2 GTX", price: "379 zł", kind: "but" as const },
-          { name: "Kask MTB Core", price: "189 zł", kind: "kask" as const },
-          { name: "Plecak trekkingowy", price: "199 zł" },
+          { name: "Buty trailowe X-Trail 2", price: "379 zł", kind: "but" as const },
+          { name: "Kask rowerowy Core", price: "189 zł", kind: "kask" as const },
+          { name: "Kurtka 3L Shell", price: "449 zł", kind: "kurtka" as const },
         ],
         input: "Napisz wiadomość…",
       },
