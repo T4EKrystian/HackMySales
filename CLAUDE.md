@@ -19,7 +19,9 @@ in PLAN.md and design/CHECKLIST.md — read both before touching UI.
   default shadows, no dot-grids, no 3D tilt, no custom cursor, no exclamation marks.
 - Fraunces italic accent words: max 3 per page. Font weights 400/500/600 only.
 - Every animation: transform/opacity only, respects prefers-reduced-motion,
-  pauses off-screen. One orchestrated moment per page (Home = hero load).
+  pauses off-screen. Max jeden moment orkiestrowany na etap podróży; Home ma
+  dokładnie dwa: wejście (hero load) i sedno (Crescendo scroll-pin) — nigdy
+  jednocześnie w viewporcie; reszta to reveals i mikro-momenty.
 - Polish typography: „" quotes, nbsp after i/w/z/a/o/u and inside "300 zł".
 - Atomic commits per section: feat(landing): <section> — <change>.
 - When context gets heavy, re-read PLAN.md + design/AUDIT.md instead of guessing.
