@@ -33,7 +33,9 @@ test("typografia: proza ≥16 px, labelki ≥13 px", async ({ page }) => {
       if (t.length < 40 || !vis(el)) return;
       if (el.closest(".chat-step, .chat-msg, [role='log'], .glass-head")) return;
       const cls = (el as HTMLElement).className;
-      if (/text-xs|text-\[\d|\bt-(meta|ui)\b/.test(cls)) return; // fine-print/UI (.t-meta/.t-ui) — reguła labelek
+      // Klasy-labelki (jawny kontrakt: druga kwerenda niżej sprawdza .label/.t-meta/.t-ui ≥13px)
+      // są wykluczone z progu prozy ≥16px — labelka bywa długa (eyebrow „A · B · C"), ale to nie proza.
+      if (/text-xs|text-\[\d|\blabel\b|\bt-(meta|ui)\b/.test(cls)) return;
       const size = parseFloat(getComputedStyle(el).fontSize);
       if (size < 16) out.push({ kind: "proza", size, text: t.slice(0, 40) });
     });

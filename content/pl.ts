@@ -22,29 +22,19 @@ const raw = {
   },
 
   hero: {
-    eyebrow: "WYSZUKIWARKA · REKOMENDACJE · CHATBOT AI",
-    h1Line1: "Zwiększ sprzedaż",
-    h1Line2: "bez zwiększania budżetu reklamowego",
-    // akcent serif (Fraunces italic) na całej frazie „bez zwiększania budżetu reklamowego"
-    // — spójny blok kursywy (bez powrotu do bold na „reklamowego"), hak ROAS
-    h1: { pre: "Zwiększ sprzedaż", accent: "bez zwiększania budżetu reklamowego", post: "" },
+    eyebrow: "Wyszukiwarka · Rekomendacje · Chatbot AI",
+    // H1 (wariant W1): pre + mid w sans (General Sans 600), akcent italic Fraunces = 2 słowa
+    // („budżetu reklamowego"). 3 osobne linie .hero-line pod mask-reveal SplitText;
+    // H1 = kandydat LCP — malowany od SSR (dyscyplina italic ≤3 słowa/stronę).
+    h1: { pre: "Zwiększ sprzedaż", mid: "bez zwiększania", accent: "budżetu reklamowego", post: "" },
     lead: "HackMySales zamienia więcej odwiedzających w klientów. Inteligentna wyszukiwarka, rekomendacje produktowe i chatbot AI skracają drogę do zakupu i pozwalają wykorzystać każdą złotówkę wydaną na reklamę.",
-    ctaPrimary: "Zwiększ konwersję w swoim sklepie",
-    ctaSecondary: "Zobacz, jak to działa",
-    scrollCue: "Przewiń",
-    proof: "Time4Ecommerce · w e-commerce od 2017 · ponad 40 sklepów · wdrożenie w 1 dzień",
+    ctaPrimary: "Umów prezentację na swoich produktach",
+    ctaSecondary: "Zobacz, jak sprzedaje",
+    proof: "Wdrożenie w 1 dzień · bez zmiany platformy · 14 dni testów za darmo",
     // Zakładki żywego artefaktu hero — 3 funkcje w jednym demie
     demoTabs: ["Wyszukiwarka", "Rekomendacje", "Chat"],
     // Hak do sekcji dowodów (S5) — mały dowód pod CTA
     studiesHook: { value: "10/10", label: "badań naukowych potwierdza skuteczność AI", href: "#badania" },
-    // 3 pływające chipy statystyk wokół artefaktu (ref-3) — liczby z truth-table (demo)
-    chips: [
-      { value: "+18%", label: "konwersji" },
-      { value: "< 3 s", label: "czas odpowiedzi" },
-      { value: "24/7", label: "bez przerw" },
-    ],
-    // §1c (V8 jasny motyw): żywa pastylka przychodu pod CTA (dowód, dane demo — kwota 1:1 z §4)
-    livePill: { amount: demo.revenueMonth, label: "z rozmów w tym miesiącu", tag: "demo" },
     chat: {
       title: "HackMySales — doradca",
       status: "online",

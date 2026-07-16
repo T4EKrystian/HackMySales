@@ -55,10 +55,14 @@ const strings = [...plSrc.matchAll(/"((?:[^"\\]|\\.)*)"/g)].map((m) => m[1]);
 
 const seen = new Map();
 for (const s of strings) {
-  for (const m of s.matchAll(/(\d[\d\s  ]*(?:,\d+)?)\s?(zł|%)/g)) {
+  // Edytorialne placeholdery [...] (konwencja pl.ts: „w decku nawiasy zostają jako
+  // oznaczenie edytorskie", podmiana wg PLACEHOLDERS.md) są ilustracyjne („np. 80% pytań"),
+  // nie roszczenia z truth-table — pomijamy liczby wewnątrz nawiasów.
+  const scanned = s.replace(/\[[^\]]*\]/g, "");
+  for (const m of scanned.matchAll(/(\d[\d\s  ]*(?:,\d+)?)\s?(zł|%)/g)) {
     const num = Number(m[1].replace(/[\s  ]/g, "").replace(",", "."));
     if (!known.has(num) && !seen.has(num)) {
-      seen.set(num, `…${s.slice(Math.max(0, m.index - 18), m.index + 16)}…`);
+      seen.set(num, `…${scanned.slice(Math.max(0, m.index - 18), m.index + 16)}…`);
     }
   }
 }

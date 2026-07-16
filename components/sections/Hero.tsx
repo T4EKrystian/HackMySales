@@ -91,9 +91,10 @@ export function Hero() {
             {t.eyebrow}
           </p>
           <h1 className="t-hero mt-5 font-display font-semibold text-ink">
-            {/* 3 linie: pre / akcent serif / post. H1 = kandydat LCP — malowany od SSR;
-                maska tylko dla mask-reveal (gdy FCP świeży). */}
+            {/* 3 linie (W1): pre + mid sans / akcent serif italic (2 słowa) / post.
+                H1 = kandydat LCP — malowany od SSR; maska tylko dla mask-reveal (gdy FCP świeży). */}
             <span className="hero-line block">{t.h1.pre}</span>
+            <span className="hero-line block">{t.h1.mid}</span>
             <span className="hero-line block">
               <em className="font-serif font-normal italic tracking-[-0.01em]">{t.h1.accent}</em>
             </span>
@@ -106,7 +107,7 @@ export function Hero() {
             </Button>
             <a
               href="#funkcje"
-              className="group inline-flex items-center gap-2 py-3 text-sm font-medium text-sub transition-colors duration-150 hover:text-ink"
+              className="group inline-flex items-center gap-2 py-3 t-ui font-medium text-sub transition-colors duration-150 hover:text-ink"
             >
               {t.ctaSecondary}
               <Glyph
@@ -119,13 +120,13 @@ export function Hero() {
           {/* Hak do dowodów — 10/10 badań jako inline text-link (nie trzeci przycisk) */}
           <a
             href={t.studiesHook.href}
-            className="mt-7 inline-flex items-center gap-2 text-sm text-sub transition-colors duration-150 hover:text-ink"
+            className="mt-7 inline-flex items-center gap-2 t-ui text-sub transition-colors duration-150 hover:text-ink"
           >
             <span className="num font-semibold text-ink">{t.studiesHook.value}</span>
             <span>{t.studiesHook.label}</span>
             <Glyph name="arrow-right" size={13} className="text-mute" />
           </a>
-          <p className="hero-proof mt-4 text-sm text-mute">{t.proof}</p>
+          <p className="hero-proof mt-4 t-meta text-mute">{t.proof}</p>
         </div>
 
         {/* PRAWA kolumna — żywy artefakt 3 funkcji (desktop + mobile) */}
@@ -135,18 +136,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-
-      {/* Wskaźnik przewijania — znika po ~180 px scrolla */}
-      <a
-        href="#funkcje"
-        className="hero-cue absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-mute transition-colors duration-150 hover:text-sub md:flex"
-        aria-label="Przewiń do sekcji Funkcje"
-      >
-        <span className="t-meta uppercase tracking-[0.14em]">{t.scrollCue}</span>
-        <span className="flex h-9 w-9 items-center justify-center rounded-full border border-hairline">
-          <Glyph name="chevron-down" size={16} />
-        </span>
-      </a>
     </section>
   );
 }
