@@ -19,7 +19,7 @@ export function Crescendo() {
       <div
         className="pointer-events-none absolute inset-0"
         aria-hidden="true"
-        style={{ background: "radial-gradient(70% 120% at 15% 0%, rgb(40 88 240 / 0.16), transparent 60%)" }}
+        style={{ background: "radial-gradient(70% 120% at 15% 0%, rgb(40 88 240 / 0.08), transparent 60%)" }}
       />
       <Container className="relative z-[1] max-w-[920px]">
         <p className="label js-reveal !text-onforest/55">{t.eyebrow}</p>

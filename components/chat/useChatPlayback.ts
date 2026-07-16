@@ -181,13 +181,6 @@ export function useChatPlayback(opts: {
                 { y: role === "divider" ? 0 : 16, autoAlpha: 0 },
                 { y: 0, autoAlpha: 1, duration: role === "divider" ? 0.25 : 0.45, ease: "back.out(1.4)" }
               );
-            if (role === "badge") {
-              tl.fromTo(
-                msg,
-                { boxShadow: "0 0 0 0 var(--blue-glow)" },
-                { boxShadow: "0 0 0 12px transparent", duration: 0.9, ease: "power2.out" }
-              );
-            }
           }
 
           const hold = Math.min(1.8, (msg.textContent?.length ?? 40) * 0.011);

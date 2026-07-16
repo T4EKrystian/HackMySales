@@ -70,7 +70,7 @@ export function HeroChatShowcase() {
         <div className="min-w-0">
           <p className="flex items-center gap-1.5 text-sm font-medium text-ink">
             {persona.name}
-            <span className="rounded bg-blue-tint px-1.5 py-0.5 text-[13px] font-medium leading-none text-blue-soft">
+            <span className="text-[11px] font-medium uppercase tracking-[0.12em] text-mute">
               {persona.aiBadge}
             </span>
           </p>
@@ -127,7 +127,7 @@ export function SearchPanelContent({ photo = USE_REAL_PHOTOS }: { photo?: boolea
   const d = pl.pillars.demo.search;
   return (
     <div className="flex h-full flex-col justify-center gap-3">
-      {/* pole wyszukiwania z sparkle AI po prawej (makieta) */}
+      {/* pole wyszukiwania — czyste, bez dekoracyjnych ikon AI */}
       <div className="flex items-center gap-3 rounded-full border border-strongline bg-field px-4 py-3">
         <Glyph name="search" size={16} className="shrink-0 text-mute" />
         <span className="num relative min-w-0 flex-1 truncate text-sm text-ink">
@@ -135,9 +135,7 @@ export function SearchPanelContent({ photo = USE_REAL_PHOTOS }: { photo?: boolea
             {d.query}
           </span>
           <span className="pp-caret typing-caret" aria-hidden="true" />
-          <span className="pp-sweep" aria-hidden="true" />
         </span>
-        <Glyph name="sparkle" size={16} className="shrink-0 text-blue-soft" />
       </div>
       <ul className="flex flex-wrap gap-2" aria-label="Rozpoznana intencja">
         {d.chips.map((c) => (
@@ -167,13 +165,6 @@ export function SearchPanelContent({ photo = USE_REAL_PHOTOS }: { photo?: boolea
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <span className="truncate text-sm text-ink">{r.name}</span>
-                    {top && (
-                      <span className="flex shrink-0 items-center gap-0.5 text-blue" aria-label="ocena 5 na 5">
-                        {Array.from({ length: 5 }).map((_, k) => (
-                          <Glyph key={k} name="star" size={11} />
-                        ))}
-                      </span>
-                    )}
                   </div>
                   <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-elevated" aria-hidden="true">
                     <div className="h-full rounded-full bg-blue" style={{ width: `${rel}%` }} />
@@ -207,7 +198,7 @@ type RecoProduct = (typeof pl.pillars.demo.reco.products)[number];
 /** RecoGrid — dynamiczny product grid: co ~2,8 s zmienia się SYGNAŁ klienta
  *  (dopasowanie / cena / marża) → grid re-rankuje się FLIP-em, top-produkt dostaje
  *  wyróżnienie „Polecane". Realne foto. Pauza off-screen; reduced-motion = statyczny. */
-export function RecoGrid({ photo = USE_REAL_PHOTOS }: { photo?: boolean }) {
+export function RecoGrid({ photo = USE_REAL_PHOTOS, compact = false }: { photo?: boolean; compact?: boolean }) {
   const d = pl.pillars.demo.reco;
   const sortFor = useCallback(
     (key: string): RecoProduct[] =>
@@ -253,55 +244,54 @@ export function RecoGrid({ photo = USE_REAL_PHOTOS }: { photo?: boolean }) {
     flipState.current = null;
   }, [order]);
 
-  const topName = order[0]?.name;
-
   return (
     <div className="flex h-full flex-col gap-3">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-baseline justify-between gap-3">
         <p className="text-sm font-medium text-ink">{d.title}</p>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-tint px-2.5 py-1 text-xs text-blue-soft">
-          <span className="h-1.5 w-1.5 rounded-full bg-blue" aria-hidden="true" />
-          {d.signalPrefix}: {d.signals[signalIdx].label}
+        {/* cichy podpis kryterium (zamiast krzykliwego chipu AI) — zmienia się z re-rankiem */}
+        <span className="text-xs text-mute">
+          {d.signalPrefix} {d.signals[signalIdx].label}
         </span>
       </div>
-      <div ref={gridRef} className="grid flex-1 content-start grid-cols-2 gap-2.5">
-        {order.map((p, idx) => {
-          const top = p.name === topName;
-          const fill = Math.max(35, 92 - idx * 18); // pasek trafności — top najpełniejszy
+      {/* rząd kart produktów jak listing sklepu (zdjęcie u góry · przecena · serce) */}
+      <div ref={gridRef} className="grid flex-1 content-center grid-cols-4 gap-2">
+        {order.map((p) => {
+          const slug = photo ? productSlug(p.name) : undefined;
           return (
-            <div
+            <article
               key={p.name}
               data-id={p.name}
-              className={`reco-card flex flex-col gap-2.5 rounded-xl border p-3 transition-colors duration-200 ${
-                top ? "border-blue bg-blue-tint" : "border-hairline bg-card"
-              }`}
+              className="reco-card flex flex-col overflow-hidden rounded-lg border border-hairline bg-surface"
             >
-              <div className="flex items-start justify-between gap-2">
-                <ProductThumb
-                  name={p.name}
-                  kind={"kind" in p ? (p.kind as ProductKind) : undefined}
-                  size={48}
-                  tint={top ? "blue" : undefined}
-                  photo={photo}
-                />
-                {top && (
-                  <span className="rounded-full bg-blue px-2 py-0.5 text-[13px] font-medium leading-tight text-onblue">
-                    {d.badge}
+              <div className={`relative w-full bg-elevated ${compact ? "aspect-[5/6]" : "aspect-[3/4]"}`}>
+                {slug ? (
+                  <Image src={`/products/${slug}.webp`} alt="" fill sizes="140px" unoptimized className="object-cover" />
+                ) : (
+                  <span className="flex h-full items-center justify-center">
+                    <ProductThumb name={p.name} kind={"kind" in p ? (p.kind as ProductKind) : undefined} size={44} photo={false} tint="graphite" />
                   </span>
                 )}
-              </div>
-              <p className="truncate text-[13px] font-medium text-ink">{p.name}</p>
-              {/* niebieski pasek trafności (makieta) */}
-              <div className="h-1.5 w-full overflow-hidden rounded-full bg-elevated" aria-hidden="true">
-                <div className="h-full rounded-full bg-blue transition-[width] duration-500" style={{ width: `${fill}%` }} />
-              </div>
-              <div className="mt-auto flex items-center justify-between gap-2 pt-0.5">
-                <span className="num text-sm font-medium text-ink">{p.price}</span>
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-hairline text-blue-soft">
-                  <Glyph name="cart" size={15} />
+                {p.oldPrice && (
+                  <span className="absolute left-1.5 top-1.5 rounded-md bg-danger px-1.5 py-0.5 text-[10px] font-medium leading-none text-onblue">
+                    {d.saleBadge}
+                  </span>
+                )}
+                <span
+                  className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full border border-hairline bg-surface text-mute"
+                  aria-hidden="true"
+                >
+                  <Glyph name="heart" size={13} />
                 </span>
               </div>
-            </div>
+              <div className="flex flex-col gap-0.5 px-2 py-2">
+                {p.cat && <p className="label text-[10px] text-mute">{p.cat}</p>}
+                <p className="truncate text-[12px] font-medium text-ink">{p.name}</p>
+                <div className="flex items-baseline gap-1.5">
+                  {p.oldPrice && <span className="num text-[11px] text-mute line-through">{p.oldPrice}</span>}
+                  <span className="num text-[13px] font-medium text-danger">{p.price}</span>
+                </div>
+              </div>
+            </article>
           );
         })}
       </div>

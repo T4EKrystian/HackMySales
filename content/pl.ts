@@ -264,19 +264,20 @@ const raw = {
       },
       reco: {
         title: "Polecane dla Ciebie",
-        signalPrefix: "Sygnał",
-        badge: "Polecane",
-        // Sygnały zmieniają się co ~2,8 s → grid re-rankuje się (FLIP)
+        // cichy podpis „wg czego" — nie krzykliwy chip AI; kryterium zmienia się → grid re-rankuje FLIP-em
+        signalPrefix: "wg",
+        saleBadge: "Przecena",
+        // Kryteria zmieniają się co ~2,8 s → grid re-rankuje się (FLIP)
         signals: [
-          { key: "fit", label: "dopasowanie do klienta" },
-          { key: "price", label: "wrażliwość na cenę" },
-          { key: "margin", label: "lepsza marża" },
+          { key: "fit", label: "dopasowania do klienta" },
+          { key: "price", label: "ceny" },
+          { key: "margin", label: "marży sklepu" },
         ],
         products: [
-          { name: "Kask MTB Ridge", price: "219 zł", kind: "kask" as const, fit: 5, priceVal: 219, margin: 3 },
-          { name: "Kask MTB Core", price: "189 zł", kind: "kask" as const, fit: 4, priceVal: 189, margin: 5 },
-          { name: "Zapięcie U-lock", price: "89 zł", kind: "kask" as const, fit: 3, priceVal: 89, margin: 4 },
-          { name: "Plecak trekkingowy", price: "199 zł", kind: "kask" as const, fit: 2, priceVal: 199, margin: 2 },
+          { name: "Kask MTB Ridge", cat: "Kaski", price: "219 zł", oldPrice: "279 zł", kind: "kask" as const, fit: 5, priceVal: 219, margin: 3 },
+          { name: "Kask MTB Core", cat: "Kaski", price: "189 zł", oldPrice: "239 zł", kind: "kask" as const, fit: 4, priceVal: 189, margin: 5 },
+          { name: "Zapięcie U-lock", cat: "Zapięcia", price: "89 zł", oldPrice: "119 zł", kind: "kask" as const, fit: 3, priceVal: 89, margin: 4 },
+          { name: "Plecak trekkingowy", cat: "Plecaki", price: "199 zł", oldPrice: "259 zł", kind: "kask" as const, fit: 2, priceVal: 199, margin: 2 },
         ],
       },
     },

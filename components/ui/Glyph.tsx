@@ -27,6 +27,7 @@ export type GlyphName =
   | "mic"
   | "send"
   | "cart"
+  | "heart"
   | "sparkle"
   | "star";
 
@@ -132,6 +133,7 @@ const PATHS: Record<GlyphName, React.ReactNode> = {
       <circle cx="15.4" cy="19.2" r="1.15" fill="currentColor" stroke="none" />
     </>
   ),
+  heart: <path d="M12 19.5 4.8 12.3a4.2 4.2 0 0 1 6-5.9l1.2 1.2 1.2-1.2a4.2 4.2 0 0 1 6 5.9Z" />,
   sparkle: <path d="M12 4c.5 3.4 1.6 4.5 5 5-3.4.5-4.5 1.6-5 5-.5-3.4-1.6-4.5-5-5 3.4-.5 4.5-1.6 5-5Z" fill="currentColor" stroke="none" />,
   star: <path d="m12 3.6 2.55 5.17 5.7.83-4.12 4.02.97 5.68L12 16.6l-5.1 2.68.97-5.68L3.75 9.6l5.7-.83L12 3.6Z" fill="currentColor" stroke="none" />,
 };

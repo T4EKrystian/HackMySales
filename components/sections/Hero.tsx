@@ -138,12 +138,6 @@ export function Hero() {
 
         {/* PRAWA kolumna — żywy artefakt 3 funkcji (desktop + mobile) */}
         <div className="relative min-w-0">
-          {/* miękka niebieska poświata pod artefaktem — głębia + oddzielenie od copy */}
-          <div
-            className="pointer-events-none absolute -inset-8 z-0"
-            aria-hidden="true"
-            style={{ background: "radial-gradient(62% 58% at 62% 42%, var(--blue-tint), transparent 72%)" }}
-          />
           <div className="hero-demo relative z-10">
             <HeroDemo />
           </div>

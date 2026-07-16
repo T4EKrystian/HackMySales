@@ -54,13 +54,25 @@ export const demo = {
     kaskCore: 189,
   },
 
+  /** §4 Reco listing „Polecane" — ceny nowe + stare (Przecena) w kartach sklepowych */
+  recoPrices: {
+    kaskRidgeNew: 219,
+    kaskRidgeOld: 279,
+    kaskCoreNew: 189,
+    kaskCoreOld: 239,
+    uLockNew: 89,
+    uLockOld: 119,
+    plecakNew: 199,
+    plecakOld: 259,
+  },
+
   /** Chipy efektów branż §3c + rabaty w rozmowach */
   chips: { modaReturnsPct: 30, domBasketPct: 38, elektronikaCompatPct: 50 },
   b2bBulkDiscountPct: 12,
   bundleDiscountPct: 15,
 
   /** Budżety z pytań klientów w scenariuszach (§1/§3c) + oferta rat (§5b) */
-  queryBudgets: { heroShoes: 400, kidsSki: 200, dress: 300 },
+  queryBudgets: { heroShoes: 400, kidsSki: 200, dress: 300, heroTraining: 500 },
   installmentsRatePct: 0,
 } as const;
 

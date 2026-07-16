@@ -283,12 +283,6 @@
   height: 7px;
   border-radius: 999px;
   background: var(--blue-500);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--blue-500) 55%, transparent);
-  animation: hero-livepulse 2.4s var(--ease-in-out) infinite;
-}
-@keyframes hero-livepulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.32); opacity: 0.6; }
 }
 .hero-floatchip {
   position: absolute;
