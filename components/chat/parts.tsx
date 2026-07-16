@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { pl } from "@/content/pl";
 import { Glyph } from "@/components/ui/Glyph";
-import { ProductVisual } from "@/components/ui/ProductVisual";
+import { ProductCard } from "@/components/ui/ProductCard";
 import type { ChatCard } from "./script";
 
 /** Klocki ChatShell (v5): avatar persony, plakietka AI, karta produktu ze ZDJĘCIEM,
@@ -20,7 +20,7 @@ export function PersonaAvatar({ size = 28, ring = false }: { size?: number; ring
       aria-hidden="true"
     >
       {/* fallback-inicjał pod spodem — obrazek przykrywa go po załadowaniu */}
-      <span className="num absolute text-[13px] md:text-[11px] text-blue-soft">{persona.name[0]}</span>
+      <span className="num absolute t-meta text-blue-soft">{persona.name[0]}</span>
       <Image
         src={persona.avatar}
         alt=""
@@ -46,7 +46,7 @@ export function AiBadge() {
     <span
       role="img"
       aria-label={ui.aiBadgeAria}
-      className="num rounded-[5px] border border-line-2 px-1.5 py-px text-[9px] uppercase tracking-[0.1em] text-mute"
+      className="num t-meta rounded-sm border border-line-1 px-1.5 py-px uppercase tracking-[0.1em] text-mute"
     >
       {persona.aiBadge}
     </span>
@@ -64,7 +64,7 @@ export function PersonaRow({ presence, clock, ring = false }: { presence?: strin
           <AiBadge />
         </p>
         {presence ? (
-          <p className="flex items-center gap-1.5 truncate text-xs text-mute">
+          <p className="flex items-center gap-1.5 truncate t-meta text-mute">
             <span className="chat-online-dot inline-block h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
             {presence}
             {clock && (
@@ -75,7 +75,7 @@ export function PersonaRow({ presence, clock, ring = false }: { presence?: strin
             )}
           </p>
         ) : (
-          <p className="truncate text-xs text-mute">{persona.role}</p>
+          <p className="truncate t-meta text-mute">{persona.role}</p>
         )}
       </div>
     </div>
@@ -96,7 +96,7 @@ export function TypingDots() {
 
 export function DayDivider() {
   return (
-    <p className="chat-step self-center text-[13px] md:text-[11px] uppercase tracking-[0.12em] text-mute" data-role="divider">
+    <p className="chat-step self-center label" data-role="divider">
       <span className="chat-msg">{ui.today}</span>
     </p>
   );
@@ -110,39 +110,18 @@ export function ReadReceipt({ seen = true }: { seen?: boolean }) {
   );
 }
 
-/** Karta produktu w bąblu bota — PRAWDZIWE zdjęcie (thumb 112 px), fallback ProductVisual. */
+/** Karta produktu w bąblu bota — adapter na wspólny ProductCard (wariant „chat"). */
 export function AttachmentProductCard({ card }: { card: ChatCard }) {
   return (
-    <div
-      className="mt-3 flex min-w-[240px] items-center gap-3 rounded-xl border border-hairline bg-card p-3 transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:[box-shadow:var(--shadow-l2)]"
-      style={{ transitionTimingFunction: "var(--ease-out)" }}
-    >
-      {card.slug ? (
-        <Image
-          src={`/products/${card.slug}-112.webp`}
-          alt=""
-          width={44}
-          height={44}
-          className="h-11 w-11 shrink-0 rounded-lg border border-line-1 object-cover"
-          unoptimized
-        />
-      ) : card.kind ? (
-        <ProductVisual kind={card.kind} size={44} />
-      ) : (
-        <div
-          aria-hidden="true"
-          className="num flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-blue-tint text-xs text-blue-soft"
-        >
-          {card.initials}
-        </div>
-      )}
-      <div className="min-w-0">
-        <p className="truncate text-sm font-medium text-ink">{card.name}</p>
-        {card.tags && <p className="truncate text-xs text-mute">{card.tags}</p>}
-        {(card.meta ?? card.note) && <p className="mt-1 text-xs text-sub">{card.meta ?? card.note}</p>}
-      </div>
-      {card.price && <span className="num ml-auto shrink-0 text-sm text-ink">{card.price}</span>}
-    </div>
+    <ProductCard
+      variant="chat"
+      name={card.name}
+      price={card.price}
+      meta={card.meta ?? card.note ?? card.tags}
+      slug={card.slug}
+      kind={card.kind}
+      initials={card.initials}
+    />
   );
 }
 

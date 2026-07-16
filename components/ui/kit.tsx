@@ -29,7 +29,7 @@ export function SectionShell({
 // Eyebrow / caption — sans, wersaliki, ink-mute (brief: +0.06–0.16em)
 export function Eyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <p className={`t-meta font-medium uppercase tracking-[0.14em] ${className}`}>
+    <p className={`t-meta font-medium uppercase tracking-[0.14em] text-mute ${className}`}>
       {children}
     </p>
   );

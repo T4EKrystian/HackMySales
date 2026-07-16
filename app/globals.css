@@ -177,7 +177,9 @@
    .t-stat-sm = liczby sekcyjne mono ink. Mobile: --text-ui→1rem (tokens.css). */
 .t-ui { font-size: var(--text-ui); line-height: 1.5; }
 .t-body { font-size: var(--text-body); line-height: 1.65; }
-.t-meta { font-size: var(--text-meta); line-height: 1.4; color: var(--text-muted); }
+/* .t-meta = tylko rozmiar/leading (BEZ koloru) — kolor ustawia text-mute/text-blue-soft
+   bez walki o specyficzność z klasą unlayered. */
+.t-meta { font-size: var(--text-meta); line-height: 1.4; }
 .t-stat-sm {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
