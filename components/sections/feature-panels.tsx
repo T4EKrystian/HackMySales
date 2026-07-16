@@ -272,23 +272,17 @@ export function RecoGrid({ photo = USE_REAL_PHOTOS, compact = false }: { photo?:
                   </span>
                 )}
                 {p.oldPrice && (
-                  <span className="absolute left-1.5 top-1.5 rounded-md bg-danger px-1.5 py-0.5 text-[10px] font-medium leading-none text-onblue">
+                  <span className="absolute left-1.5 top-1.5 rounded-md bg-blue-tint px-1.5 py-0.5 text-[10px] font-medium leading-none text-blue-soft">
                     {d.saleBadge}
                   </span>
                 )}
-                <span
-                  className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full border border-hairline bg-surface text-mute"
-                  aria-hidden="true"
-                >
-                  <Glyph name="heart" size={13} />
-                </span>
               </div>
               <div className="flex flex-col gap-0.5 px-2 py-2">
                 {p.cat && <p className="label text-[10px] text-mute">{p.cat}</p>}
-                <p className="truncate text-[12px] font-medium text-ink">{p.name}</p>
+                <p className="line-clamp-2 text-[12px] font-medium leading-tight text-ink">{p.name}</p>
                 <div className="flex items-baseline gap-1.5">
                   {p.oldPrice && <span className="num text-[11px] text-mute line-through">{p.oldPrice}</span>}
-                  <span className="num text-[13px] font-medium text-danger">{p.price}</span>
+                  <span className={`num text-[13px] font-medium ${p.oldPrice ? "text-danger" : "text-ink"}`}>{p.price}</span>
                 </div>
               </div>
             </article>

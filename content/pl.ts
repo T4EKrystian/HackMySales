@@ -274,10 +274,11 @@ const raw = {
           { key: "margin", label: "marży sklepu" },
         ],
         products: [
+          // Przecena tylko na części kart (realizm listingu, nie „wszystko na wyprzedaży")
           { name: "Kask MTB Ridge", cat: "Kaski", price: "219 zł", oldPrice: "279 zł", kind: "kask" as const, fit: 5, priceVal: 219, margin: 3 },
-          { name: "Kask MTB Core", cat: "Kaski", price: "189 zł", oldPrice: "239 zł", kind: "kask" as const, fit: 4, priceVal: 189, margin: 5 },
+          { name: "Kask MTB Core", cat: "Kaski", price: "189 zł", oldPrice: null, kind: "kask" as const, fit: 4, priceVal: 189, margin: 5 },
           { name: "Zapięcie U-lock", cat: "Zapięcia", price: "89 zł", oldPrice: "119 zł", kind: "kask" as const, fit: 3, priceVal: 89, margin: 4 },
-          { name: "Plecak trekkingowy", cat: "Plecaki", price: "199 zł", oldPrice: "259 zł", kind: "kask" as const, fit: 2, priceVal: 199, margin: 2 },
+          { name: "Plecak trekkingowy", cat: "Plecaki", price: "199 zł", oldPrice: null, kind: "kask" as const, fit: 2, priceVal: 199, margin: 2 },
         ],
       },
     },
