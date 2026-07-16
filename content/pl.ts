@@ -301,6 +301,8 @@ const raw = {
     disclaimer: "Wyniki pochodzą z cytowanych badań — efekt w Twoim sklepie zależy od wdrożenia i branży.",
     moreLabel: "Pokaż wszystkie 10 badań",
     lessLabel: "Zwiń",
+    // Mikro-CTA pod listą badań → kalkulator (#wyniki); tekstowy link, nie trzeci przycisk
+    calcHook: { label: "Policz, ile to znaczy w Twoim sklepie", href: "#wyniki" },
   },
 
   comparison: {
@@ -698,12 +700,20 @@ const raw = {
         a: "Nie. Odpowiada wyłącznie na podstawie Twojego katalogu, cennika i polityk. Kiedy nie zna odpowiedzi, mówi „nie wiem” i przekazuje rozmowę człowiekowi. Każdą odpowiedź możesz prześledzić do źródła w panelu.",
       },
       {
+        q: "Ile to kosztuje?",
+        a: "Plany zaczynają się od 499 zł/mc netto. Przez 14 dni testujesz za darmo, bez karty. Dokładną wycenę pod ruch Twojego sklepu podamy na prezentacji.",
+      },
+      {
         q: "Ile trwa wdrożenie?",
         a: "Wtyczka lub API: ok. 15 minut. Indeksacja katalogu: do kilku godzin. Realnie: rano podłączasz, po południu bot sprzedaje. Nie ruszamy kodu Twojego sklepu.",
       },
       {
         q: "Czy zadziała z moją platformą?",
         a: "Shoper, IdoSell, PrestaShop, WooCommerce, Shopify, Magento — natywnie. Sklep autorski — przez REST API. Jeśli masz katalog i koszyk, podłączymy.",
+      },
+      {
+        q: "Nie prowadzę sklepu z modą. Czy to zadziała w mojej branży?",
+        a: "Tak. AI uczy się wyłącznie Twojego katalogu, nie jednej branży: płytki, elektronika, meble czy B2B działają tak samo. Jeśli Twoi klienci pytają przed zakupem, jest z czego odzyskiwać sprzedaż.",
       },
       {
         q: "Co z RODO?",
@@ -719,7 +729,7 @@ const raw = {
       },
       {
         q: "Mam mały ruch. Czy to się opłaci?",
-        a: "Zasada kciuka: jeśli masz ponad 5 tys. wizyt miesięcznie albo choć jedną osobę odpisującą na maile klientów — tak. Konkretne liczby dla Twojego sklepu policzymy na demo.",
+        a: "Zasada kciuka: jeśli masz ponad 5 tys. wizyt miesięcznie albo choć jedną osobę odpisującą na maile klientów — tak. Konkretne liczby dla Twojego sklepu policzymy na demo. Policz w kalkulatorze wyżej.",
       },
       {
         q: "Czy mogę kontrolować, co bot mówi?",

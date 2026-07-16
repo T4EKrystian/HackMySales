@@ -89,6 +89,15 @@ export function Studies() {
             </button>
             <p className="max-w-[52ch] text-xs leading-relaxed text-mute">{t.disclaimer}</p>
           </div>
+
+          {/* Mikro-CTA do kalkulatora — tekstowy link ze strzałką (wzorzec studiesHook z hero) */}
+          <a
+            href={t.calcHook.href}
+            className="group js-reveal mt-10 inline-flex items-center gap-2 t-ui text-sub transition-colors duration-150 hover:text-ink"
+          >
+            <span>{t.calcHook.label}</span>
+            <Glyph name="arrow-right" size={14} className="text-mute transition-transform duration-150 group-hover:translate-x-0.5" />
+          </a>
         </div>
       </Container>
     </section>
