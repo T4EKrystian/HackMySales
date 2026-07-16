@@ -5,6 +5,7 @@ import { ProofTicker } from "@/components/sections/ProofTicker";
 import { Problem } from "@/components/sections/Problem";
 import { Pillars } from "@/components/sections/Pillars";
 import { Channels } from "@/components/sections/Channels";
+import { Crescendo } from "@/components/sections/Crescendo";
 import { Studies } from "@/components/sections/Studies";
 import { Trust } from "@/components/sections/Trust";
 import { Results } from "@/components/sections/Results";
@@ -38,6 +39,7 @@ export default function Home() {
         <Problem />
         <Pillars />
         <Channels />
+        <Crescendo />
         <Studies />
         <Trust />
         <Results />

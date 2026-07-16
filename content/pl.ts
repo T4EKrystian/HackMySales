@@ -270,6 +270,15 @@ const raw = {
     },
   },
 
+  // Crescendo — ciemne pasmo-kulminacja w środku (peak łuku + sygnatura serif)
+  crescendo: {
+    eyebrow: "SEDNO",
+    line1: "Płacisz za ruch,",
+    accent: "który płaci Tobie.",
+    sub: "AI Search, rekomendacje i chatbot wyciskają maksimum z każdego kliknięcia, za które już zapłaciłeś — pracują 24/7, w każdym kanale.",
+    cta: { label: "Zobacz dowody", href: "#badania" },
+  },
+
   // S5 Desire — 10 badań naukowych (dane w content/studies.ts; tu tylko copy sekcji)
   studies: {
     label: "DOWODY",

@@ -54,7 +54,7 @@ export function Pillars() {
     <section ref={scope} id="funkcje" className="section-pad bg-page">
       <Container>
         <div ref={headRef}>
-          <SectionLabel num="02">{t.label}</SectionLabel>
+          <SectionLabel>{t.label}</SectionLabel>
           <SectionH2 className="max-w-[22ch]">{t.h2}</SectionH2>
         </div>
 

@@ -9,8 +9,8 @@
 
 :root {
   /* --- Baza (biel / chłodna biel — marka właściciela, ~85% viewportu) --- */
-  --paper: #F6F8FC;          /* chłodna biel (tło strony) */
-  --paper-deep: #ECEFF8;     /* alternatywny tint sekcji / hover / bąbel bota */
+  --paper: #F7F8FA;          /* jasna biel (mniej lawendy niż #F6F8FC — audyt) */
+  --paper-deep: #EEF0F4;     /* alternatywny tint sekcji / hover / bąbel bota */
   --bg-page: var(--paper);
 
   /* --- Powierzchnie (karty na jasnym; głębia z hairline'ów, nie cieni) --- */

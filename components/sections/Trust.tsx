@@ -71,7 +71,7 @@ export function Trust() {
   return (
     <section ref={ref} data-ambient="kontrola" className="section-pad">
       <Container>
-        <SectionLabel num="10">{t.label}</SectionLabel>
+        <SectionLabel>{t.label}</SectionLabel>
         <SectionH2 className="max-w-[22ch]">{t.h2}</SectionH2>
 
         <div className="mt-14 grid items-start gap-8 lg:grid-cols-[1.05fr_1fr]">
