@@ -160,7 +160,7 @@ function BubbleShell({
       {script.steps.map((step, i) => {
         const prevUser = i > 0 && script.steps[i - 1].role === "user" ? script.steps[i - 1].text : null;
         const meta = stepMeta[i];
-        const tailCls = meta.runEnd && cfg.tail ? (step.role === "user" ? "rounded-br-md" : "rounded-bl-md") : "";
+        const tailCls = meta.runEnd && cfg.tail ? (step.role === "user" ? "rounded-br-sm" : "rounded-bl-sm") : "";
         return (
           <div
             key={`${script.key}-${i}`}
@@ -185,10 +185,10 @@ function BubbleShell({
               <div className={`chat-msg w-fit max-w-[78%] ${step.role === "user" ? "ml-auto" : ""}`}>
                 <div
                   data-flip-id={flipMsgs ? `ch-msg-${i}` : undefined}
-                  className={`px-4 py-3 text-sm leading-relaxed ${step.role === "user" ? cfg.bubbleUser : cfg.bubbleBot} ${tailCls}`}
+                  className={`px-4 py-3 t-ui leading-relaxed ${step.role === "user" ? cfg.bubbleUser : cfg.bubbleBot} ${tailCls}`}
                 >
                   {step.role === "bot" && cfg.replyQuote && prevUser && (
-                    <p className="mb-1.5 truncate border-l-2 border-line-2 pl-2 text-[13px] md:text-[11px] text-mute">
+                    <p className="mb-1.5 truncate border-l-2 border-line-2 pl-2 t-meta text-mute">
                       {ui.replyLabel}: {prevUser}
                     </p>
                   )}
@@ -207,7 +207,7 @@ function BubbleShell({
                 </div>
                 {(meta.time || (cfg.receipt && i === lastUserIdx)) && (
                   <div
-                    className={`chat-meta mt-1 flex items-center gap-1.5 text-[13px] leading-none text-mute md:text-[11px] ${
+                    className={`chat-meta mt-1 flex items-center gap-1.5 t-meta leading-none text-mute ${
                       step.role === "user" ? "justify-end" : "justify-start"
                     }`}
                   >
@@ -224,7 +224,7 @@ function BubbleShell({
 
       {script.badge && (
         <div data-role="badge" className="chat-step self-center">
-          <p className="chat-msg flex items-center gap-2 rounded-full border border-hairline bg-blue-tint px-4 py-2 text-xs text-blue-soft">
+          <p className="chat-msg flex items-center gap-2 rounded-full border border-hairline bg-blue-tint px-4 py-2 t-meta text-blue-deep">
             <Glyph name="check" size={14} />
             <span className="num">{script.badge}</span>
           </p>
@@ -237,7 +237,7 @@ function BubbleShell({
             <button
               key={q.key}
               onClick={q.onClick}
-              className="max-w-[260px] truncate rounded-full border border-strongline bg-transparent px-4 py-2 text-left text-xs text-sub transition-[color,border-color,transform] duration-150 hover:-translate-y-px hover:border-blue hover:text-ink"
+              className="min-h-11 max-w-[260px] truncate rounded-full border border-strongline bg-transparent px-4 py-2 text-left t-ui text-sub transition-[color,border-color,transform] duration-150 hover:-translate-y-px hover:border-strongline hover:text-ink"
             >
               {q.text}
             </button>
@@ -264,13 +264,13 @@ function BubbleShell({
 
   return (
     <div ref={scope} data-flip-id={flipId} className={`frame-l2 relative w-full ${className}`}>
-      <div data-flip-id={flipId ? "ch-head" : undefined} className="glass-head absolute inset-x-0 top-0 z-10 rounded-t-[19px]">
+      <div data-flip-id={flipId ? "ch-head" : undefined} className="glass-head absolute inset-x-0 top-0 z-10 rounded-t-[calc(var(--radius-lg)-1px)]">
         <div className="flex items-center justify-between gap-3 px-5 py-3.5">
           <div className="flex min-w-0 items-center gap-2.5">
             {/* wzorzec aplikacji telefonu (messenger/IG): back-chevron */}
             {cfg.inputTools && <Glyph name="chevron-left" size={18} className="shrink-0 text-mute" />}
             {skin === "legacy" ? (
-              <p className="chat-legacy-font text-sm text-sub">{ui.legacyName}</p>
+              <p className="chat-legacy-font t-ui text-sub">{ui.legacyName}</p>
             ) : (
               <PersonaRow presence={presence} clock={clock} ring={cfg.avatarRing} />
             )}
@@ -279,7 +279,7 @@ function BubbleShell({
             {replayable && done && (
               <button
                 onClick={replay}
-                className="flex shrink-0 items-center gap-1.5 rounded-full border border-line-2 px-3 py-1.5 text-xs text-sub hover:bg-l3"
+                className="flex shrink-0 items-center gap-1.5 rounded-full border border-line-2 px-3 py-1.5 t-meta text-sub hover:bg-l3"
               >
                 <Glyph name="replay" size={13} />
                 {pl.hero.chat.replay}
@@ -305,7 +305,7 @@ function BubbleShell({
       {!footer && cfg.inputTools && (
         <div className="flex items-center gap-2.5 border-t border-hairline p-3.5">
           <InputTools />
-          <span className="flex min-w-0 flex-1 items-center gap-2 rounded-full border border-hairline bg-field px-4 py-2.5 text-sm text-mute">
+          <span className="flex min-w-0 flex-1 items-center gap-2 rounded-full border border-hairline bg-field px-4 py-2.5 t-ui text-mute">
             <span className="min-w-0 flex-1 truncate">{ui.inputPlaceholder}</span>
             <Glyph name="smiley" size={17} className="shrink-0" />
           </span>
@@ -362,10 +362,10 @@ function EmailShell({
     <div ref={scope} data-flip-id={flipId} className={`rounded-[var(--radius-lg)] border border-hairline bg-surface ${className}`}>
       {emailMeta && (
         <div className="border-b border-hairline px-5 py-3">
-          <p className="text-xs text-mute">
+          <p className="t-meta text-mute">
             {emailMeta.fromLabel}: <span className="text-sub">{emailMeta.from}</span>
           </p>
-          <p className="mt-1 text-xs text-mute">
+          <p className="mt-1 t-meta text-mute">
             {emailMeta.subjectLabel}: <span className="font-medium text-ink">{emailMeta.subject}</span>
           </p>
         </div>
@@ -374,15 +374,14 @@ function EmailShell({
         {script.steps
           .filter((s) => s.role === "bot")
           .map((step, i) => (
-            <p key={i} className={`nm-line text-sm leading-relaxed ${i === 0 ? "text-ink" : "text-sub"}`}>
-              <span className="mr-2 inline-block h-1 w-1 translate-y-[-2px] rounded-full bg-blue" aria-hidden="true" />
+            <p key={i} className={`nm-line t-ui leading-relaxed ${i === 0 ? "text-ink" : "text-sub"}`}>
               <span className="nm-text" data-full={step.text}>
                 {step.text}
               </span>
             </p>
           ))}
         {emailLink && (
-          <p className="nm-link mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-blue-soft">
+          <p className="nm-link mt-1 inline-flex items-center gap-1.5 t-ui font-medium text-blue-deep">
             {emailLink}
             <Glyph name="arrow-right" size={14} />
           </p>

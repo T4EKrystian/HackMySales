@@ -33,8 +33,8 @@ export type ChatSkinConfig = {
 export const CHAT_SKINS: Record<Exclude<ChatSkinName, "email">, ChatSkinConfig> = {
   onsite: {
     // ogonek tylko na ostatnim bąblu ciągu (grupowanie) — nie na każdym
-    bubbleUser: "rounded-2xl bg-blue text-onblue",
-    bubbleBot: "rounded-2xl bg-elevated text-ink",
+    bubbleUser: "rounded-lg bg-blue text-onblue",
+    bubbleBot: "rounded-lg bg-elevated text-ink",
     avatar: true,
     dots: true,
     receipt: false,
@@ -47,8 +47,8 @@ export const CHAT_SKINS: Record<Exclude<ChatSkinName, "email">, ChatSkinConfig> 
   },
   messenger: {
     // pełne zaokrąglenia + ogonek na ostatnim bąblu ciągu (sylwetka Messenger)
-    bubbleUser: "rounded-3xl chat-user-quiet",
-    bubbleBot: "rounded-3xl bg-elevated text-ink",
+    bubbleUser: "rounded-lg chat-user-quiet",
+    bubbleBot: "rounded-lg bg-elevated text-ink",
     avatar: true,
     dots: true,
     receipt: true,
@@ -61,8 +61,8 @@ export const CHAT_SKINS: Record<Exclude<ChatSkinName, "email">, ChatSkinConfig> 
   },
   instagram: {
     // pigułki; gradient TYLKO jako ring avatara (V6) — bąbel wyciszony solid
-    bubbleUser: "rounded-[22px] chat-user-quiet",
-    bubbleBot: "rounded-[22px] border border-line-1 bg-l1 text-ink",
+    bubbleUser: "rounded-lg chat-user-quiet",
+    bubbleBot: "rounded-lg border border-line-1 bg-l1 text-ink",
     avatar: true,
     dots: true,
     receipt: false,
@@ -75,8 +75,8 @@ export const CHAT_SKINS: Record<Exclude<ChatSkinName, "email">, ChatSkinConfig> 
   },
   legacy: {
     // celowy anty-wzorzec: kanciasto, bez życia, systemowy font (Arena — lewa strona)
-    bubbleUser: "rounded-[4px] bg-elevated text-sub",
-    bubbleBot: "rounded-[4px] border border-line-1 bg-card text-sub",
+    bubbleUser: "rounded-sm bg-elevated text-sub",
+    bubbleBot: "rounded-sm border border-line-1 bg-card text-sub",
     avatar: false,
     dots: false,
     receipt: false,

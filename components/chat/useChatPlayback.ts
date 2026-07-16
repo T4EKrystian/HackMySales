@@ -152,7 +152,7 @@ export function useChatPlayback(opts: {
               .call(() => {
                 setAnchor(msg);
               })
-              .fromTo(msg, { y: 16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "back.out(1.4)" });
+              .fromTo(msg, { y: 10, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, ease: "power3.out" });
           } else if (role === "bot" && legacy) {
             // legacy: odpowiedź „wpada bez życia" — bez dots, bez springa
             tl.set(step, { opacity: 1 }, "+=0.5").fromTo(
@@ -179,7 +179,7 @@ export function useChatPlayback(opts: {
               .fromTo(
                 msg,
                 { y: role === "divider" ? 0 : 16, autoAlpha: 0 },
-                { y: 0, autoAlpha: 1, duration: role === "divider" ? 0.25 : 0.45, ease: "back.out(1.4)" }
+                { y: 0, autoAlpha: 1, duration: role === "divider" ? 0.25 : 0.45, ease: "power3.out" }
               );
           }
 
@@ -207,7 +207,7 @@ export function useChatPlayback(opts: {
             if (waitForIntro) {
               const dot = root.querySelector<HTMLElement>(".chat-online-dot");
               if (dot) {
-                gsap.fromTo(dot, { scale: 0.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.25, ease: "back.out(2)" });
+                gsap.fromTo(dot, { scale: 0.6, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.25, ease: "power2.out" });
               }
             }
             pendingRef.current = gsap.delayedCall(waitForIntro ? 0.4 : 1.0, () => tl.play());

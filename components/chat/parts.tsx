@@ -86,7 +86,7 @@ export function TypingDots() {
   // inline-flex + w-max + nowrap: bąbel pisania NIGDY się nie zawija (w-fit=fit-content
   // kurczył się pod min-w-0/max-w rodzica do 2 linii — V7 zgłoszony bug)
   return (
-    <div className="chat-typing mb-2 inline-flex w-max items-center gap-1 whitespace-nowrap rounded-2xl bg-elevated px-3.5 py-3">
+    <div className="chat-typing mb-2 inline-flex w-max items-center gap-1 whitespace-nowrap rounded-lg bg-elevated px-3.5 py-3">
       <span className="chat-dot" />
       <span className="chat-dot" />
       <span className="chat-dot" />
