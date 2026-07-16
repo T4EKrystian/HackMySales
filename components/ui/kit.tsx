@@ -29,7 +29,7 @@ export function SectionShell({
 // Eyebrow / caption — sans, wersaliki, ink-mute (brief: +0.06–0.16em)
 export function Eyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <p className={`text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-mute ${className}`}>
+    <p className={`t-meta font-medium uppercase tracking-[0.14em] ${className}`}>
       {children}
     </p>
   );
@@ -58,15 +58,4 @@ export function CheckGlyph({ className = "" }: { className?: string }) {
       />
     </svg>
   );
-}
-
-// Tekstura hero: siatka cienkich linii + radialna maska + dryf 40s (static w reduced-motion)
-export function HeroGridTexture({
-  onForest = false,
-  className = "",
-}: {
-  onForest?: boolean;
-  className?: string;
-}) {
-  return <div aria-hidden="true" className={`hero-grid ${onForest ? "on-forest" : ""} ${className}`} />;
 }

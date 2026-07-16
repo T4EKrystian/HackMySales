@@ -5,12 +5,12 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
-import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { Flip } from "gsap/Flip";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger, SplitText, ScrambleTextPlugin, DrawSVGPlugin, MotionPathPlugin, Flip, useGSAP);
+// Dieta pluginów (Krok 1): DrawSVG/MotionPath usunięte z martwym GoldMines.
+// ScrambleText zostaje do Kroku 6 (żywy Nav) — usunięty razem z rebuildem Nav.
+gsap.registerPlugin(ScrollTrigger, SplitText, ScrambleTextPlugin, Flip, useGSAP);
 
 export const REDUCE = "(prefers-reduced-motion: reduce)";
 export const NO_REDUCE = "(prefers-reduced-motion: no-preference)";
