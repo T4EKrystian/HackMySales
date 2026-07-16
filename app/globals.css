@@ -159,16 +159,21 @@
 .t-lead { font-size: var(--text-lead); line-height: 1.5; letter-spacing: 0; }
 .t-quote { font-size: clamp(1.7rem, 3.4vw, 3rem); line-height: 1.25; letter-spacing: -0.015em; }
 
+/* JEDYNY eyebrow na stronie: General Sans 500, 13px, wersaliki, ls +0.08em.
+   Koniec mnożenia rodzin i trackingów — każdy eyebrow (SectionLabel, kit.Eyebrow,
+   AiBadge, hero) używa tej klasy. Mono zarezerwowane dla .t-stat/.t-stat-sm/.ledger. */
 .label {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: var(--text-label);
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
 
+/* Liczby inline (ceny, timestampy, meta, „10/10"): tabular, NIE mono.
+   General Sans + tabular-nums. Mono TYLKO w .t-stat/.t-stat-sm/.ledger. */
 .num {
-  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
 }
 
@@ -267,51 +272,13 @@
   color: var(--blue-500); /* akcent hero = żywy Apple blue (duży tekst → kontrast OK) */
 }
 
-/* ── Hero V8 (jasny): żywa pastylka przychodu + pływająca pastylka zdarzenia
-   (życie w martwym dnie lewej kolumny + dowód na oknie czatu; dane demo) ── */
-.hero-livepill {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  max-width: 100%;
-  gap: 0.45rem 0.625rem;
-  padding: 0.5rem 0.9rem 0.5rem 0.75rem;
-  border-radius: 999px;
-  border: 1px solid var(--stroke-1);
-  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-}
-.hero-livepill-label {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-muted);
-}
+/* Kropka „na żywo" w headerze HeroDemo (jedyny ślad po Hero V8 — pastylki
+   przychodu/zdarzenia usunięte jako AI-tell). */
 .hero-livedot {
   width: 7px;
   height: 7px;
   border-radius: 999px;
   background: var(--blue-500);
-}
-.hero-floatchip {
-  position: absolute;
-  left: -1.25rem;
-  bottom: 6rem; /* nad stopką-composerem czatu — nie zasłania „Napisz wiadomość" */
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.8rem;
-  border-radius: 999px;
-  border: 1px solid var(--stroke-2);
-  background: color-mix(in srgb, var(--surface-1) 92%, transparent);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  box-shadow: var(--shadow-l2);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-secondary);
-  white-space: nowrap;
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-livedot { animation: none; }
@@ -386,7 +353,7 @@
   gap: 0.375rem;
   padding: 0.375rem 0.75rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: var(--text-meta);
   font-weight: 500;
   color: var(--text-on-blue);
   background: var(--blue-500);
