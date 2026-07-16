@@ -84,7 +84,11 @@ export function Footer() {
           </span>
           <nav aria-label="Informacje prawne" className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {t.legal.map((l) => (
-              <a key={l.href} href={l.href} className="transition-colors duration-150 hover:text-ink">
+              <a
+                key={l.href}
+                href={l.href}
+                className="inline-flex min-h-[28px] items-center transition-colors duration-150 hover:text-ink"
+              >
                 {l.label}
               </a>
             ))}

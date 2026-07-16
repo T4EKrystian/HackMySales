@@ -43,7 +43,8 @@ export function Channels() {
   const [activeCh, setActiveCh] = useState(0);
   // rozmowa gra RAZ — kolejne przełączenia niesie morph (Flip przez remount skina)
   const [seen, setSeen] = useState(false);
-  const scriptA = scenarioToScript(pl.hero.chat.scenarios[0]);
+  // scenariusz 1 (dobór rozmiaru — Kurtka 3L) — INNY niż hero (X-Trail), by nie powtarzać mocka
+  const scriptA = scenarioToScript(pl.hero.chat.scenarios[1]);
   const nightMail = pl.goldMines.nightMail;
   const switcherRef = useRef<HTMLDivElement>(null);
   const morphTl = useRef<gsap.core.Timeline | null>(null);

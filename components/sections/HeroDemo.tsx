@@ -103,7 +103,7 @@ export function HeroDemo() {
         </div>
         <span className="hidden items-center gap-1.5 sm:inline-flex" aria-hidden="true">
           <span className="hero-livedot" />
-          <span className="font-mono text-[11px] text-mute">na żywo</span>
+          <span className="font-mono text-[13px] text-mute">na żywo</span>
         </span>
       </div>
 

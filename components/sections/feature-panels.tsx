@@ -82,7 +82,7 @@ export function SearchPanelContent({ photo = true }: { photo?: boolean }) {
                 />
                 <div className="min-w-0 flex-1">
                   <span className="block truncate text-sm text-ink">{r.name}</span>
-                  {top && <span className="text-[11px] font-medium text-blue-soft">Najlepsze dopasowanie</span>}
+                  {top && <span className="text-[13px] font-medium leading-tight text-blue-soft">Najlepsze dopasowanie</span>}
                 </div>
                 <span className={`num shrink-0 text-sm ${top ? "font-medium text-ink" : "text-sub"}`}>{r.price}</span>
               </li>
@@ -189,7 +189,7 @@ export function RecoGrid({ photo = true }: { photo?: boolean }) {
                   photo={photo}
                 />
                 {top && (
-                  <span className="ml-auto rounded-full bg-blue px-2 py-0.5 text-[10px] font-medium text-onblue">
+                  <span className="ml-auto rounded-full bg-blue px-2 py-0.5 text-[13px] font-medium leading-tight text-onblue">
                     {d.badge}
                   </span>
                 )}

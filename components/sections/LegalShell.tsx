@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Container } from "@/components/ui/Section";
 import { Logo } from "@/components/ui/Logo";
 import { Glyph } from "@/components/ui/Glyph";
@@ -22,16 +23,16 @@ export function LegalShell({
     <>
       <header className="sticky top-0 z-50 border-b border-hairline bg-page/85 backdrop-blur-md">
         <Container className="flex h-[72px] items-center justify-between">
-          <a href="/" aria-label="HackMySales — strona główna" className="inline-flex min-h-11 items-center">
+          <Link href="/" aria-label="HackMySales — strona główna" className="inline-flex min-h-11 items-center">
             <Logo />
-          </a>
-          <a
+          </Link>
+          <Link
             href="/"
             className="group inline-flex min-h-11 items-center gap-2 text-sm text-sub transition-colors duration-150 hover:text-ink"
           >
             <Glyph name="chevron-left" size={16} className="transition-transform duration-150 group-hover:-translate-x-0.5" />
             Wróć na stronę główną
-          </a>
+          </Link>
         </Container>
       </header>
 
