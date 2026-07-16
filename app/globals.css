@@ -433,42 +433,6 @@
   .fade-in-panel, .fade-in-fast { animation: none; }
 }
 
-/* Highlight sweep korekty literówki (Trzy miejsca — wyszukiwarka) */
-.pp-sweep {
-  position: absolute;
-  inset: -2px -6px;
-  border-radius: 6px;
-  background: linear-gradient(
-    100deg,
-    transparent 20%,
-    color-mix(in srgb, var(--blue-400) 28%, transparent) 50%,
-    transparent 80%
-  );
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Skeleton shimmer wyników wyszukiwarki (v5, motion-craft „Kalibracja scrubów") —
-   placeholder na czas typingu, żeby rama nigdy nie stała pusta */
-@keyframes skel-sweep {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(100%); }
-}
-.pp-skel-block {
-  position: relative;
-  overflow: hidden;
-  background: var(--surface-2);
-}
-.pp-skel-block::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, var(--stroke-1), transparent);
-  animation: skel-sweep 1.2s var(--ease-in-out) infinite;
-}
-@media (prefers-reduced-motion: reduce) {
-  .pp-skel-block::after { animation: none; }
-}
 
 /* Kursor „pisania” w panelu wyszukiwarki */
 @keyframes caret-blink { 50% { opacity: 0; } }

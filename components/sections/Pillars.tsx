@@ -85,7 +85,7 @@ export function Pillars() {
                     {KINDS[i] === "chat" ? (
                       <ChatPanelContent active={chatOn} />
                     ) : KINDS[i] === "reco" ? (
-                      <RecoGrid compact />
+                      <RecoGrid />
                     ) : (
                       <Panel />
                     )}
