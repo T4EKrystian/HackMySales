@@ -6,8 +6,8 @@ import { Container } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/kit";
 import { gsap, useGSAP, NO_REDUCE, REDUCE } from "@/lib/motion";
 
-/** S3 Interest (AIDA, docx): persuazja jednozdaniowa (akcent kwasowy = zakreślacz Magdy)
- *  → pytanie „Klient trafia do sklepu…" → 4 bariery zakupowe (lista hairline, mono index)
+/** S3 Interest (AIDA, docx): One-Sentence-Persuasion (akcent kwasowy = zakreślacz Magdy)
+ *  → H2 „Twój sklep traci klientów po cichu." → 4 bariery zakupowe (lista hairline, mono index)
  *  → domknięcie „HackMySales usuwa te bariery". Papier-deep, layout 2-kolumnowy asymetryczny;
  *  reveal stagger on-enter, reduced-motion = treść od razu. */
 export function Problem() {

@@ -193,14 +193,14 @@ const raw = {
   },
 
   problem: {
-    label: "DLACZEGO TRACISZ SPRZEDAŻ",
-    // Interest — one-sentence persuasion (docx); akcent kwasowy na „za których już zapłaciłeś"
+    label: "CO CIĘ TO KOSZTUJE",
+    // Interest — One-Sentence-Persuasion (docx): jedno zdanie, akcent kwasowy na „za których już zapłaciłeś"
     persuasion: {
-      pre: "Nie musisz wydawać więcej na coraz droższe reklamy ani przebudowywać całego sklepu. Problem nie leży w Twojej ofercie, lecz w stronie, która traci klientów, ",
+      pre: "Nie musisz wydawać więcej na coraz droższe reklamy ani przebudowywać sklepu — problem nie leży w Twojej ofercie, lecz w stronie, która traci klientów, ",
       mark: "za których już zapłaciłeś",
       post: ". HackMySales odzyskuje te konwersje i zwiększa sprzedaż z obecnego ruchu.",
     },
-    h2: "Klient trafia do sklepu. Ale czy sklep pomaga mu podjąć decyzję?",
+    h2: "Twój sklep traci klientów po cichu.",
     barriersLead: "Użytkownicy opuszczają sklep, gdy:",
     barriers: [
       "nie potrafią znaleźć odpowiedniego produktu",
@@ -214,7 +214,7 @@ const raw = {
 
   pillars: {
     label: "SYSTEM",
-    h2: "Nie sprowadzamy więcej klientów. Sprawiamy, że więcej z nich kupuje.",
+    h2: "Jeden system. Trzy miejsca, w których zarabia.",
     items: [
       {
         title: "AI Search",
@@ -344,7 +344,7 @@ const raw = {
       { key: "instagram", name: "Instagram" },
       { key: "email", name: "E-mail — raport dla Ciebie" },
     ],
-    caption: "Messenger i Instagram — w planie Growth.",
+    caption: "Messenger i Instagram — w wyższych planach; włączasz bez drugiego wdrożenia.",
   },
 
   forWho: {
@@ -573,7 +573,7 @@ const raw = {
   integrations: {
     h2: "Twoja platforma jest na liście.",
     platforms: ["Shoper", "IdoSell", "PrestaShop", "WooCommerce", "Shopify", "Magento", "Sky-Shop", "REST API"],
-    note: "Sklep pisany na miarę? REST API i webhooki — podłączymy wszystko, co ma katalog i koszyk. Czat dogada się z klientem także na Messengerze i Instagramie (plan Growth).",
+    note: "Sklep pisany na miarę? REST API i webhooki — podłączymy wszystko, co ma katalog i koszyk. Czat dogada się z klientem także na Messengerze i Instagramie (w wyższych planach).",
     // §7c — finder platformy (odpowiedzi wyprowadzone z FAQ)
     finder: {
       placeholder: "Wpisz swoją platformę…",

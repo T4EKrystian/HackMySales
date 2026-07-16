@@ -26,7 +26,7 @@ const raw: Study[] = [
     metric: "+16,3% sprzedaży",
     title: "Generative AI and Sales Productivity: Field Experiments in Online Retail",
     finding:
-      "Przedsprzedażowy chatbot, ulepszanie zapytań i dopasowanie produktów — wzrost sprzedaży do 16,3%, głównie z wyższej konwersji.",
+      "Najszersze dopasowanie do HackMySales: przedsprzedażowy chatbot, ulepszanie zapytań i dopasowanie klientów do produktów. W siedmiu eksperymentach efekt sięgał 16,3% wzrostu sprzedaży — przede wszystkim z wyższej konwersji, nie z większych koszyków.",
     url: "https://arxiv.org/abs/2510.12049",
     urlType: "arXiv",
   },
@@ -36,7 +36,7 @@ const raw: Study[] = [
     metric: "+1–2% zakupów",
     title: "Recommending What to Search: Sales Volume and Consumption Diversity Effects of a Query Recommender System",
     finding:
-      "Rekomendacje zapytań podniosły liczbę zakupów o 1–2% w 30 dni; najlepiej z personalizowanym autouzupełnianiem.",
+      "System podpowiadał użytkownikowi, czego może szukać. Rekomendowane zapytania podniosły liczbę zakupów o około 1–2% w ciągu 30 dni — najmocniej w połączeniu z personalizowanym autouzupełnianiem.",
     url: "https://doi.org/10.1287/mksc.2024.1121",
     urlType: "DOI",
   },
@@ -47,7 +47,8 @@ const raw: Study[] = [
     featured: true,
     metric: "+12,4% zakupów",
     title: "How Do Recommender Systems Lead to Consumer Purchases? A Causal Mediation Analysis of a Field Experiment",
-    finding: "Personalizowane rekomendacje podniosły skłonność do zakupu o 12,4% i wartość koszyka o 1,7%.",
+    finding:
+      "Jedno z najmocniejszych badań dla ramek rekomendacji: w randomizowanym eksperymencie u sprzedawcy książek personalizowane rekomendacje podniosły skłonność do zakupu o 12,4%, a wartość koszyka o 1,7%.",
     url: "https://doi.org/10.1287/isre.2021.1074",
     urlType: "DOI",
   },
@@ -56,7 +57,8 @@ const raw: Study[] = [
     group: "reco",
     metric: "+11% sprzedaży",
     title: "Measuring the Value of Recommendation Links on Product Demand",
-    finding: "Linki rekomendacyjne: +7,5% odsłon produktów, +9% sprzedaży zamienników, +11% sprzedaży łącznej.",
+    finding:
+      "Randomizowany eksperyment w sklepie odzieżowym: linki rekomendacyjne podniosły odsłony produktów o 7,5%, sprzedaż polecanych zamienników o 9%, a łączną sprzedaż produktu i alternatyw średnio o 11%.",
     url: "https://doi.org/10.1287/isre.2018.0833",
     urlType: "DOI",
   },
@@ -65,7 +67,7 @@ const raw: Study[] = [
     group: "reco",
     title: "How Do Product Recommendations Help Consumers Search? Evidence from a Field Experiment",
     finding:
-      "Rekomendacje pomagały znaleźć lepiej dopasowany produkt — to trafniejsze dopasowanie podnosiło szansę zakupu, nie sama nawigacja.",
+      "Randomizowany eksperyment: rekomendacje uczące się z wyborów innych klientów pomagały znaleźć produkt lepiej dopasowany do gustu, o lepszej wartości lub niższej cenie. To trafniejsze dopasowanie, a nie sama nawigacja, podnosiło szansę zakupu.",
     url: "https://doi.org/10.1287/mnsc.2023.4951",
     urlType: "DOI",
   },
@@ -75,7 +77,8 @@ const raw: Study[] = [
     metric: "mocniej na mobile",
     title:
       "Different but Equal? A Field Experiment on the Impact of Recommendation Systems on Mobile and Personal Computer Channels in Retail",
-    finding: "Rekomendacje podniosły odsłony, CTR i konwersję — najmocniej na urządzeniach mobilnych.",
+    finding:
+      "Randomizowany eksperyment w sklepie internetowym: rekomendacje podniosły wyświetlenia produktów, CTR, sprzedaż i konwersję. Efekt był najmocniejszy na urządzeniach mobilnych, gdzie klient ma wyższe koszty wyszukiwania i mniej miejsca na ekranie.",
     url: "https://doi.org/10.1287/isre.2020.0922",
     urlType: "DOI",
   },
@@ -85,7 +88,7 @@ const raw: Study[] = [
     metric: "próg nasycenia",
     title: "The Choice Overload Effect in Online Recommender Systems",
     finding:
-      "Zbyt wiele rekomendacji zaczyna szkodzić — po pewnym progu prawdopodobieństwo zakupu spada (1,6 mln użytkowników).",
+      "Eksperyment terenowy na 1,6 mln użytkowników: prawdopodobieństwo zakupu najpierw rosło z liczbą rekomendacji, ale po pewnym progu zaczynało spadać. Zbyt wiele podpowiedzi zniechęcało klienta do rozpoczęcia przeglądania ofert.",
     url: "https://doi.org/10.1287/msom.2022.0659",
     urlType: "DOI",
   },
@@ -96,7 +99,8 @@ const raw: Study[] = [
     featured: true,
     metric: "−12,55% zwrotów",
     title: "Artificial Intelligence (AI) Assistant in Online Shopping: A Randomized Field Experiment on a Livestream Selling Platform",
-    finding: "Asystent AI odpowiadał na pytania klientów: sprzedaż +3%, zwroty −12,55%.",
+    finding:
+      "Randomizowany eksperyment terenowy: asystent AI odpowiadał na pytania i pomagał przetwarzać informacje o produktach. Sprzedaż wzrosła o 3%, a zwroty spadły o 12,55%.",
     url: "https://doi.org/10.1287/isre.2023.0103",
     urlType: "DOI",
   },
@@ -106,7 +110,7 @@ const raw: Study[] = [
     metric: "4× skuteczniej",
     title: "Machines vs. Humans: The Impact of Artificial Intelligence Chatbot Disclosure on Customer Purchases",
     finding:
-      "Nieujawnione chatboty dorównywały doświadczonym sprzedawcom i były 4× skuteczniejsze od niedoświadczonych pracowników.",
+      "Eksperyment terenowy na ponad 6200 klientach: nieujawnione chatboty dorównywały doświadczonym sprzedawcom i były 4× skuteczniejsze od niedoświadczonych pracowników. Zbyt wczesne ujawnienie, że rozmowę prowadzi bot, obniżało zakupy.",
     url: "https://doi.org/10.1287/mksc.2019.1192",
     urlType: "DOI",
   },
@@ -115,7 +119,8 @@ const raw: Study[] = [
     group: "chat",
     title:
       "How Chatbot Anthropomorphism Shapes Customer Purchase Decisions: Evidence from a Field Experiment on a Cosmetic E-Commerce Retailer",
-    finding: "Styl kompetentny lepiej wspierał zakup jednorazowy, a ciepły ton — zakupy subskrypcyjne.",
+    finding:
+      "Eksperyment w rzeczywistym sklepie kosmetycznym: kompetentny styl chatbota lepiej wspierał zakup jednorazowy, a ciepły ton komunikacji zwiększał zakupy subskrypcyjne.",
     url: "https://doi.org/10.1016/j.jretconser.2025.104721",
     urlType: "DOI",
   },
