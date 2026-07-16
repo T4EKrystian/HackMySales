@@ -25,7 +25,10 @@ export type GlyphName =
   | "more"
   | "smiley"
   | "mic"
-  | "send";
+  | "send"
+  | "cart"
+  | "sparkle"
+  | "star";
 
 const PATHS: Record<GlyphName, React.ReactNode> = {
   "arrow-right": <path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5" />,
@@ -122,6 +125,15 @@ const PATHS: Record<GlyphName, React.ReactNode> = {
       <path d="m20.5 3.5-10.4 9.8" />
     </>
   ),
+  cart: (
+    <>
+      <path d="M6 7h13l-1.4 7.2a1.8 1.8 0 0 1-1.8 1.5H9.1a1.8 1.8 0 0 1-1.8-1.4L5 4.5H3" />
+      <circle cx="9.5" cy="19.2" r="1.15" fill="currentColor" stroke="none" />
+      <circle cx="15.4" cy="19.2" r="1.15" fill="currentColor" stroke="none" />
+    </>
+  ),
+  sparkle: <path d="M12 4c.5 3.4 1.6 4.5 5 5-3.4.5-4.5 1.6-5 5-.5-3.4-1.6-4.5-5-5 3.4-.5 4.5-1.6 5-5Z" fill="currentColor" stroke="none" />,
+  star: <path d="m12 3.6 2.55 5.17 5.7.83-4.12 4.02.97 5.68L12 16.6l-5.1 2.68.97-5.68L3.75 9.6l5.7-.83L12 3.6Z" fill="currentColor" stroke="none" />,
 };
 
 export function Glyph({

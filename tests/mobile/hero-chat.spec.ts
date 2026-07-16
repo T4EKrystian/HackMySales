@@ -16,10 +16,7 @@ test("mobilny hero: artefakt 3 funkcji z zakładkami", async ({ page }) => {
     await expect(hero.getByRole("button", { name: label }).first(), `zakładka ${label}`).toBeVisible();
   }
 
-  // artefakt pokazuje treść (bąbel czatu / wynik) — okno nie jest puste
-  const hasContent = await page.evaluate(() => {
-    const root = document.querySelector("#top");
-    return !!root?.querySelector(".chat-msg, .pp-row, .reco-card");
-  });
-  expect(hasContent, "artefakt hero pokazuje treść (czat/wynik/rekomendacja)").toBe(true);
+  // artefakt pokazuje treść (foto produktu / awatar / wynik) — okno nie jest puste
+  const hasContent = await page.evaluate(() => !!document.querySelector("#top img"));
+  expect(hasContent, "artefakt hero pokazuje treść (foto/awatar/wynik)").toBe(true);
 });

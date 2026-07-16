@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { pl } from "@/content/pl";
 import {
-  HeroChatPanel,
+  HeroChatShowcase,
   SearchPanelContent,
   RecoGrid,
   buildPanelTl,
@@ -111,7 +111,7 @@ export function HeroDemo() {
         {/* Klucz = remount panelu przy zmianie zakładki → wejście gra od nowa */}
         <div ref={panelRef} key={tab} className="h-full">
           {kind === "chat" ? (
-            <HeroChatPanel active />
+            <HeroChatShowcase />
           ) : kind === "search" ? (
             <SearchPanelContent />
           ) : (

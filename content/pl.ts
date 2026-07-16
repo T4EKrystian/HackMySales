@@ -135,6 +135,17 @@ const raw = {
       inputPlaceholder: "Napisz wiadomość…",
       inputTooltip:
         "W wersji demo scenariusz jest oskryptowany — na Twoim sklepie bot odpowiada naprawdę. Umów demo.",
+      // Hero (rewizja 3) — chat w stylu makiety: pytanie + odpowiedź z RZĘDEM 3 propozycji
+      showcase: {
+        user: "Co polecasz na trening w terenie do 400 zł?",
+        botIntro: "Do 400 zł polecam te modele — łączą jakość i wygodę. Sprawdź moje propozycje:",
+        products: [
+          { name: "X-Trail 2 GTX", price: "379 zł", kind: "but" as const },
+          { name: "Kask MTB Core", price: "189 zł", kind: "kask" as const },
+          { name: "Plecak trekkingowy", price: "199 zł" },
+        ],
+        input: "Napisz wiadomość…",
+      },
     },
   },
 
@@ -243,6 +254,7 @@ const raw = {
       search: {
         query: "cos cieplego dla 5latka na narty do 200zl",
         chips: ["ciepłe", "dziecięce · ok. 5 lat", "narty", "do 200 zł"],
+        resultsLabel: "Znalezione wyniki",
         results: [
           { name: "Kurtka narciarska Kids 110–116", price: "189 zł", kind: "kurtka" as const },
           { name: "Spodnie ocieplane Junior", price: "159 zł", kind: "odziez" as const },

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { Glyph } from "@/components/ui/Glyph";
 import { pl } from "@/content/pl";
 import { type ProductKind } from "@/components/ui/ProductVisual";
@@ -43,31 +44,100 @@ export function HeroChatPanel({ active }: { active?: boolean }) {
   );
 }
 
+/** Chat hero w stylu makiety klienta: persona Magda + pytanie użytkownika + odpowiedź
+ *  bota z RZĘDEM 3 propozycji produktów (realne foto) + atrapa inputu. Statyczny —
+ *  czytelny od razu, przyjazny reduced-motion. */
+export function HeroChatShowcase() {
+  const t = pl.hero.chat;
+  const persona = t.persona;
+  const s = t.showcase;
+  return (
+    <div className="flex h-full flex-col">
+      {/* Header persony */}
+      <div className="flex items-center gap-2.5 border-b border-hairline pb-3">
+        <Image
+          src={persona.avatar}
+          alt=""
+          width={34}
+          height={34}
+          unoptimized
+          className="h-[34px] w-[34px] rounded-full object-cover"
+        />
+        <div className="min-w-0">
+          <p className="flex items-center gap-1.5 text-sm font-medium text-ink">
+            {persona.name}
+            <span className="rounded bg-blue-tint px-1.5 py-0.5 text-[13px] font-medium leading-none text-blue-soft">
+              {persona.aiBadge}
+            </span>
+          </p>
+          <p className="mt-0.5 flex items-center gap-1.5 text-[13px] text-mute">
+            <span className="h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
+            {persona.status}
+          </p>
+        </div>
+      </div>
+
+      {/* Rozmowa */}
+      <div className="flex flex-1 flex-col justify-center gap-3 py-4">
+        <div className="max-w-[80%] self-end rounded-2xl rounded-br-md bg-blue px-4 py-2.5 text-sm leading-relaxed text-onblue">
+          {s.user}
+        </div>
+        <div className="max-w-[95%] self-start rounded-2xl rounded-bl-md bg-elevated px-4 py-3">
+          <p className="text-sm leading-relaxed text-ink">{s.botIntro}</p>
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            {s.products.map((pr) => (
+              <div key={pr.name} className="flex flex-col gap-1.5 rounded-xl border border-hairline bg-card p-2">
+                <div className="flex justify-center">
+                  <ProductThumb name={pr.name} kind={"kind" in pr ? (pr.kind as ProductKind) : undefined} size={40} />
+                </div>
+                <p className="truncate text-[13px] leading-tight text-sub" title={pr.name}>
+                  {pr.name}
+                </p>
+                <span className="num text-[13px] font-medium text-ink">{pr.price}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Atrapa inputu */}
+      <div className="flex items-center gap-2 rounded-full border border-hairline bg-field px-4 py-2.5">
+        <span className="min-w-0 flex-1 truncate text-sm text-mute">{s.input}</span>
+        <Glyph name="send" size={18} className="shrink-0 text-blue-soft" />
+      </div>
+    </div>
+  );
+}
+
 export function SearchPanelContent({ photo = true }: { photo?: boolean }) {
   const d = pl.pillars.demo.search;
   return (
-    <div className="flex h-full flex-col justify-center gap-4">
+    <div className="flex h-full flex-col justify-center gap-3">
+      {/* pole wyszukiwania z sparkle AI po prawej (makieta) */}
       <div className="flex items-center gap-3 rounded-full border border-strongline bg-field px-4 py-3">
         <Glyph name="search" size={16} className="shrink-0 text-mute" />
-        <span className="num relative truncate text-sm text-ink">
+        <span className="num relative min-w-0 flex-1 truncate text-sm text-ink">
           <span className="pp-query" data-full={d.query}>
             {d.query}
           </span>
           <span className="pp-caret typing-caret" aria-hidden="true" />
           <span className="pp-sweep" aria-hidden="true" />
         </span>
+        <Glyph name="sparkle" size={16} className="shrink-0 text-blue-soft" />
       </div>
       <ul className="flex flex-wrap gap-2" aria-label="Rozpoznana intencja">
         {d.chips.map((c) => (
-          <li key={c} className="pp-chip rounded-full bg-blue-tint px-3 py-1 text-xs text-blue-soft">
+          <li key={c} className="pp-chip rounded-full bg-blue-tint px-3 py-1 text-[13px] text-blue-soft">
             {c}
           </li>
         ))}
       </ul>
+      <p className="text-[13px] font-medium text-sub">{d.resultsLabel}</p>
       <div className="relative">
         <ul className="pp-results divide-y divide-[var(--border-hairline)] overflow-hidden rounded-xl border border-hairline">
           {d.results.map((r, i) => {
             const top = i === 0;
+            const rel = Math.max(30, 90 - i * 24); // niebieski pasek trafności
             return (
               <li
                 key={r.name}
@@ -81,8 +151,19 @@ export function SearchPanelContent({ photo = true }: { photo?: boolean }) {
                   tint={top ? "blue" : undefined}
                 />
                 <div className="min-w-0 flex-1">
-                  <span className="block truncate text-sm text-ink">{r.name}</span>
-                  {top && <span className="text-[13px] font-medium leading-tight text-blue-soft">Najlepsze dopasowanie</span>}
+                  <div className="flex items-center gap-2">
+                    <span className="truncate text-sm text-ink">{r.name}</span>
+                    {top && (
+                      <span className="flex shrink-0 items-center gap-0.5 text-blue" aria-label="ocena 5 na 5">
+                        {Array.from({ length: 5 }).map((_, k) => (
+                          <Glyph key={k} name="star" size={11} />
+                        ))}
+                      </span>
+                    )}
+                  </div>
+                  <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-elevated" aria-hidden="true">
+                    <div className="h-full rounded-full bg-blue" style={{ width: `${rel}%` }} />
+                  </div>
                 </div>
                 <span className={`num shrink-0 text-sm ${top ? "font-medium text-ink" : "text-sub"}`}>{r.price}</span>
               </li>
@@ -99,7 +180,7 @@ export function SearchPanelContent({ photo = true }: { photo?: boolean }) {
           ))}
         </ul>
       </div>
-      <p className="pp-note flex items-center gap-2 text-xs text-mute">
+      <p className="pp-note flex items-center gap-2 text-[13px] text-mute">
         <Glyph name="check" size={13} className="text-ok" />
         {d.note}
       </p>
@@ -170,34 +251,41 @@ export function RecoGrid({ photo = true }: { photo?: boolean }) {
         </span>
       </div>
       <div ref={gridRef} className="grid flex-1 content-start grid-cols-2 gap-2.5">
-        {order.map((p) => {
+        {order.map((p, idx) => {
           const top = p.name === topName;
+          const fill = Math.max(35, 92 - idx * 18); // pasek trafności — top najpełniejszy
           return (
             <div
               key={p.name}
               data-id={p.name}
-              className={`reco-card flex flex-col gap-2 rounded-xl border p-3 transition-colors duration-200 ${
+              className={`reco-card flex flex-col gap-2.5 rounded-xl border p-3 transition-colors duration-200 ${
                 top ? "border-blue bg-blue-tint" : "border-hairline bg-card"
               }`}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-start justify-between gap-2">
                 <ProductThumb
                   name={p.name}
                   kind={"kind" in p ? (p.kind as ProductKind) : undefined}
-                  size={44}
+                  size={48}
                   tint={top ? "blue" : undefined}
                   photo={photo}
                 />
                 {top && (
-                  <span className="ml-auto rounded-full bg-blue px-2 py-0.5 text-[13px] font-medium leading-tight text-onblue">
+                  <span className="rounded-full bg-blue px-2 py-0.5 text-[13px] font-medium leading-tight text-onblue">
                     {d.badge}
                   </span>
                 )}
               </div>
-              <p className="truncate text-xs font-medium text-ink">{p.name}</p>
-              <div className="mt-auto flex items-center justify-between gap-2">
-                <span className="num text-xs text-sub">{p.price}</span>
-                <span className="h-1 w-8 shrink-0 rounded-full bg-blue-soft" aria-hidden="true" />
+              <p className="truncate text-[13px] font-medium text-ink">{p.name}</p>
+              {/* niebieski pasek trafności (makieta) */}
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-elevated" aria-hidden="true">
+                <div className="h-full rounded-full bg-blue transition-[width] duration-500" style={{ width: `${fill}%` }} />
+              </div>
+              <div className="mt-auto flex items-center justify-between gap-2 pt-0.5">
+                <span className="num text-sm font-medium text-ink">{p.price}</span>
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-hairline text-blue-soft">
+                  <Glyph name="cart" size={15} />
+                </span>
               </div>
             </div>
           );
