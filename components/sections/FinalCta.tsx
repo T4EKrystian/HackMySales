@@ -21,7 +21,8 @@ const CONTACT = "kontakt@hackmysales.pl";
 export function FinalCta() {
   const t = pl.finalCta;
   const f = t.fields;
-  const ref = useReveal<HTMLElement>(0.08);
+  // ciemne pasmo (tentpole): wejście dalej (y:24) i wolniej — cięższy, domykający ruch
+  const ref = useReveal<HTMLElement>(0.08, { y: 24, duration: 0.9 });
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Errors>({});
 
@@ -118,7 +119,7 @@ export function FinalCta() {
         {status === "sent" ? (
           <p
             role="status"
-            className="mt-12 flex w-fit items-center gap-3 rounded-full border border-line-dark bg-forest-900 px-6 py-4 text-sm text-onforest"
+            className="status-pop relative mt-12 flex w-fit items-center gap-3 rounded-full border border-line-dark bg-forest-900 px-6 py-4 text-sm text-onforest"
           >
             <Glyph name="check" size={16} className="text-onforest" />
             {t.success}

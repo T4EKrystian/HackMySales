@@ -11,7 +11,7 @@ import { useReveal } from "@/lib/motion";
  *  Liczby count-up on-enter; „24/7” statyczne. Kalkulator liczy tylko client-side. */
 export function Results() {
   const t = pl.results;
-  const ref = useReveal<HTMLElement>(0.08);
+  const ref = useReveal<HTMLElement>(0.08, { y: 12 });
 
   return (
     <section ref={ref} id="wyniki" className="section-pad">

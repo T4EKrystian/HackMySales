@@ -13,7 +13,7 @@ import { useReveal } from "@/lib/motion";
  *  flagowe (echo liczb); toggle odsłania pozostałe. Anti-choice-overload: nie wall-at-once. */
 export function Studies() {
   const t = pl.studies;
-  const ref = useReveal<HTMLElement>(0.06);
+  const ref = useReveal<HTMLElement>(0.06, { y: 12 });
   const [expanded, setExpanded] = useState(false);
 
   const byGroup = (key: StudyGroup) => studies.filter((s) => s.group === key);
