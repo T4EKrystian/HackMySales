@@ -31,7 +31,7 @@ export function ProductThumb({
         width={size}
         height={size}
         unoptimized
-        className="shrink-0 rounded-lg border border-line-1 object-cover"
+        className="shrink-0 rounded-sm border border-line-1 object-cover"
         style={{ width: size, height: size }}
       />
     );

@@ -44,7 +44,7 @@ export function ProductCard({
     return (
       <div
         className={`mt-3 flex min-w-[240px] items-center gap-3 rounded-md border bg-card p-3 frame-hover ${
-          featured ? "border-strongline bg-blue-tint" : "border-hairline"
+          featured ? "border-strongline" : "border-hairline"
         } ${className}`}
       >
         <span className="relative block h-11 w-11 shrink-0 overflow-hidden rounded-sm border border-line-1 bg-l3">
@@ -75,7 +75,7 @@ export function ProductCard({
         featured ? "border-strongline" : "border-hairline"
       } ${className}`}
     >
-      <div className="relative aspect-square w-full bg-l3">
+      <div className={`relative w-full bg-l3 ${variant === "grid" ? "aspect-[4/3]" : "aspect-square"}`}>
         {src ? (
           <Image
             src={src}
@@ -92,23 +92,24 @@ export function ProductCard({
         ) : null}
       </div>
       <div
-        className={`border-t border-hairline ${
-          variant === "grid"
-            ? "flex items-baseline justify-between px-2.5 py-2"
-            : "flex flex-col gap-0.5 px-3 py-2.5"
+        className={`flex flex-col gap-0.5 border-t border-hairline ${
+          variant === "grid" ? "px-2.5 py-1.5" : "px-3 py-2.5"
         }`}
       >
-        {variant === "reco" && category && (
-          <p className="t-meta uppercase tracking-[0.06em] text-mute">{category}</p>
-        )}
+        {variant === "reco" && category && <p className="t-meta text-mute">{category}</p>}
         {variant === "reco" && (
-          <p className="line-clamp-2 t-ui font-medium leading-snug text-ink">{name}</p>
+          <p className="line-clamp-2 min-h-[2lh] t-ui font-medium leading-snug text-ink">{name}</p>
         )}
-        <p className="flex items-baseline gap-1.5">
-          {oldPrice && <span className="num whitespace-nowrap t-meta text-mute line-through">{oldPrice}</span>}
-          {price && <span className="num whitespace-nowrap t-ui font-medium text-ink">{price}</span>}
-          {saleLabel && oldPrice && <span className="sr-only">{saleLabel}</span>}
-        </p>
+        {variant === "grid" && <p className="truncate t-meta font-medium text-ink">{name}</p>}
+        {variant === "grid" ? (
+          <p className="num t-meta font-medium text-ink">{price}</p>
+        ) : (
+          <p className="flex items-baseline gap-2">
+            {oldPrice && <span className="num whitespace-nowrap t-meta text-mute line-through">{oldPrice}</span>}
+            {price && <span className="num whitespace-nowrap t-ui font-medium text-ink">{price}</span>}
+            {saleLabel && oldPrice && <span className="sr-only">{saleLabel}</span>}
+          </p>
+        )}
       </div>
     </article>
   );

@@ -87,7 +87,7 @@ export function ProductVisual({
   return (
     <span
       aria-hidden="true"
-      className={`relative block shrink-0 select-none overflow-hidden rounded-[10px] ${className}`}
+      className={`relative block shrink-0 select-none overflow-hidden rounded-sm ${className}`}
       style={{ width: size, height: size }}
     >
       <svg viewBox="0 0 64 64" className="block h-full w-full">
