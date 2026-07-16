@@ -11,10 +11,8 @@ import {
   SplitText,
   NO_REDUCE,
   REDUCE,
-  FINE_POINTER,
   EASE,
   STAG,
-  attachMagnet,
 } from "@/lib/motion";
 import { armIntroGate, markIntroDone } from "@/lib/introGate";
 
@@ -25,7 +23,6 @@ import { armIntroGate, markIntroDone } from "@/lib/introGate";
 export function Hero() {
   const t = pl.hero;
   const scope = useRef<HTMLElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -65,8 +62,8 @@ export function Hero() {
         tl.fromTo(".hero-glow", { opacity: 0 }, { opacity: 1, duration: 1.1 }, 0);
         tl.fromTo(
           ".hero-demo",
-          { y: 14, opacity: 0, scale: 0.99 },
-          { y: 0, opacity: 1, scale: 1, duration: 0.6, clearProps: "transform" },
+          { y: 14, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, clearProps: "transform" },
           0.28
         );
         tl.play();
@@ -78,9 +75,6 @@ export function Hero() {
         gsap.set([".hero-demo", ".hero-line", ".hero-glow"], { clearProps: "all", opacity: 1 });
         markIntroDone();
       });
-
-      // Magnetic CTA (tylko desktop z myszą)
-      mm.add(FINE_POINTER, () => (ctaRef.current ? attachMagnet(ctaRef.current, 4) : undefined));
     },
     { scope }
   );
@@ -90,10 +84,10 @@ export function Hero() {
       {/* Ciepła poświata radialna (paper-deep → transparent) */}
       <div className="hero-glow glow-bg absolute inset-x-0 -top-24 h-[130%]" aria-hidden="true" />
 
-      <div className="container-hms relative grid w-full items-center gap-8 py-4 md:gap-12 md:py-8 lg:grid-cols-[56fr_44fr]">
+      <div className="container-hms relative grid w-full items-center gap-8 py-4 md:gap-12 md:py-8 lg:grid-cols-[55fr_45fr]">
         {/* LEWA kolumna — treść (statyczna, widoczna od SSR) */}
         <div className="min-w-0">
-          <p className="hero-eyebrow text-[0.8125rem] font-medium uppercase tracking-[0.14em] text-mute">
+          <p className="hero-eyebrow t-meta font-medium uppercase tracking-[0.14em] text-mute">
             {t.eyebrow}
           </p>
           <h1 className="t-hero mt-5 font-display font-semibold text-ink">
@@ -107,11 +101,9 @@ export function Hero() {
           </h1>
           <p className="hero-lead t-lead mt-6 max-w-[38rem] text-sub">{t.lead}</p>
           <div className="hero-cta mt-8 flex flex-wrap items-center gap-5">
-            <div ref={ctaRef} className="will-change-transform">
-              <Button href="#demo" size="lg">
-                {t.ctaPrimary}
-              </Button>
-            </div>
+            <Button href="#demo" size="lg">
+              {t.ctaPrimary}
+            </Button>
             <a
               href="#funkcje"
               className="group inline-flex items-center gap-2 py-3 text-sm font-medium text-sub transition-colors duration-150 hover:text-ink"
@@ -129,7 +121,7 @@ export function Hero() {
             href={t.studiesHook.href}
             className="mt-7 inline-flex items-center gap-2 text-sm text-sub transition-colors duration-150 hover:text-ink"
           >
-            <span className="num font-semibold text-blue-soft">{t.studiesHook.value}</span>
+            <span className="num font-semibold text-ink">{t.studiesHook.value}</span>
             <span>{t.studiesHook.label}</span>
             <Glyph name="arrow-right" size={13} className="text-mute" />
           </a>
@@ -150,8 +142,8 @@ export function Hero() {
         className="hero-cue absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-mute transition-colors duration-150 hover:text-sub md:flex"
         aria-label="Przewiń do sekcji Funkcje"
       >
-        <span className="text-[0.8125rem] uppercase tracking-[0.14em]">{t.scrollCue}</span>
-        <span className="cue-bob flex h-9 w-9 items-center justify-center rounded-full border border-hairline">
+        <span className="t-meta uppercase tracking-[0.14em]">{t.scrollCue}</span>
+        <span className="flex h-9 w-9 items-center justify-center rounded-full border border-hairline">
           <Glyph name="chevron-down" size={16} />
         </span>
       </a>

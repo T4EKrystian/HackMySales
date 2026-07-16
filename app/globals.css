@@ -412,15 +412,6 @@
 }
 @media (prefers-reduced-motion: reduce) { .chat-pill { animation: none; } }
 
-/* Wskaźnik przewijania w hero — delikatne bujanie */
-@keyframes cue-bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(5px); }
-}
-.cue-bob { animation: cue-bob 2.2s var(--ease-in-out) infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .cue-bob { animation: none; }
-}
 
 /* Fade-up treści przy zmianie zakładki (sekcja Branże) */
 @keyframes fade-up-in {
