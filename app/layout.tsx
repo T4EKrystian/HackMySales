@@ -12,14 +12,14 @@ export const metadata: Metadata = {
   description:
     "Czat AI, wyszukiwarka i rekomendacje podłączone do Twojego sklepu. Doradza klientom 24/7, ratuje koszyki i pokazuje przychód co do złotówki. Wdrożenie bez developera.",
   alternates: { canonical: "/" },
-  // ?v=3 — favicony cache'ują się agresywnie (hms-design-dna „Znak")
+  // ?v=4 — favicony cache'ują się agresywnie (hms-design-dna „Znak"); v4 = znak z makiety (E7b)
   icons: {
     icon: [
-      { url: "/icon.svg?v=3", type: "image/svg+xml" },
-      { url: "/favicon-32.png?v=3", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16.png?v=3", sizes: "16x16", type: "image/png" },
+      { url: "/icon.svg?v=4", type: "image/svg+xml" },
+      { url: "/favicon-32.png?v=4", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png?v=4", sizes: "16x16", type: "image/png" },
     ],
-    apple: [{ url: "/apple-icon.png?v=3", sizes: "180x180", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png?v=4", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
     type: "website",
