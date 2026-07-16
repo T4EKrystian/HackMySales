@@ -12,9 +12,13 @@ import { gsap, typeInto, Flip, EASE } from "@/lib/motion";
 
 /** Wspólne panele 3 funkcji (czat · wyszukiwarka · rekomendacje z re-rankiem).
  *  Wyodrębnione z Pillars, żeby ten sam żywy render napędzał artefakt hero
- *  (HeroDemo, 3 zakładki) i sekcję filarów. Karty pokazują REALNE zdjęcia i nazwy
- *  produktów (manifest public/products/products.json → productSlug); photo=false
- *  wymusza generatywny ProductVisual tylko tam, gdzie zdjęcie jest zbędne. */
+ *  (HeroDemo, 3 zakładki) i sekcję filarów.
+ *
+ *  ZDJĘCIA vs INSTRUMENTY: dopóki brak SPÓJNEGO zestawu packshotów (białe/neutralne tło,
+ *  jak w makiecie klienta) — cały hero używa czystych instrumentów ProductVisual (obecne
+ *  zdjęcia mają niespójne tła i logo marek → tandetnie). Gdy klient dostarczy jednolity
+ *  zestaw do public/products, wystarczy przełączyć FLAGĘ poniżej na true. */
+const USE_REAL_PHOTOS = false;
 
 export function ChatPanelContent({ active }: { active?: boolean }) {
   return (
@@ -89,7 +93,7 @@ export function HeroChatShowcase() {
               <div key={pr.name} className="flex flex-col overflow-hidden rounded-xl border border-hairline bg-surface">
                 {/* czysty instrument (spójny, bez tandetnych teł zdjęć) */}
                 <div className="flex items-center justify-center bg-elevated p-3">
-                  <ProductThumb name={pr.name} kind={pr.kind as ProductKind} size={56} photo={false} tint="graphite" />
+                  <ProductThumb name={pr.name} kind={pr.kind as ProductKind} size={56} photo={USE_REAL_PHOTOS} tint="graphite" />
                 </div>
                 <div className="flex items-center justify-between gap-1 border-t border-hairline px-2.5 py-2">
                   <span className="num text-[13px] font-medium text-ink">{pr.price}</span>
@@ -110,7 +114,7 @@ export function HeroChatShowcase() {
   );
 }
 
-export function SearchPanelContent({ photo = true }: { photo?: boolean }) {
+export function SearchPanelContent({ photo = USE_REAL_PHOTOS }: { photo?: boolean }) {
   const d = pl.pillars.demo.search;
   return (
     <div className="flex h-full flex-col justify-center gap-3">
@@ -194,7 +198,7 @@ type RecoProduct = (typeof pl.pillars.demo.reco.products)[number];
 /** RecoGrid — dynamiczny product grid: co ~2,8 s zmienia się SYGNAŁ klienta
  *  (dopasowanie / cena / marża) → grid re-rankuje się FLIP-em, top-produkt dostaje
  *  wyróżnienie „Polecane". Realne foto. Pauza off-screen; reduced-motion = statyczny. */
-export function RecoGrid({ photo = true }: { photo?: boolean }) {
+export function RecoGrid({ photo = USE_REAL_PHOTOS }: { photo?: boolean }) {
   const d = pl.pillars.demo.reco;
   const sortFor = useCallback(
     (key: string): RecoProduct[] =>
